@@ -3,7 +3,7 @@
     email = piotr.machura16@gmail.com
 [core]
     editor = nvim
-	excludesfile = ~/.config/git/ignore
+    excludesfile = ~/.config/git/ignore
 [pull]
     ff = only
 [alias]
