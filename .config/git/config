@@ -6,8 +6,10 @@
     excludesfile = ~/.config/git/ignore
 [pull]
     ff = only
-[alias]
+[alias]	
+	st = status
     hist = log --all --graph --decorate --oneline
+	dots = !git --git-dir=$HOME/.dots --work-tree=$HOME
 [diff]
     tool = vimdiff
 [diftool]
