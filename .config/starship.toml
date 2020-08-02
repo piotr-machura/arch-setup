@@ -1,0 +1,283 @@
+add_newline = false
+
+prompt_order = [
+    "username",
+    "hostname",
+    "directory",
+    "git_branch",
+    "git_status",
+    "git_commit",
+    "git_state",
+    "docker_context",
+    "python",
+    "rust",
+    "env_var",
+    "jobs",
+    "character",
+]
+
+[aws]
+symbol = " "
+displayed_items = "all"
+style = "bold yellow"
+disabled = true
+
+[battery]
+full_symbol = ""
+charging_symbol = ""
+discharging_symbol = ""
+style = "bold yellow"
+disabled = true
+
+[character]
+symbol = "❯ "
+error_symbol = "❯ "
+use_symbol_for_status = false
+vicmd_symbol = "❮"
+style_success = "bold green"
+style_failure = "bold red"
+disabled = false
+
+[cmd_duration]
+min_time = 2_000
+show_milisecond = false
+prefix = "underwent "
+style = "bold yellow"
+disabled = true
+
+[conda]
+symbol = " "
+truncation_length = 1
+style = "bold green"
+disabled = true
+
+[crystal]
+symbol = " "
+style = "bold red"
+disabled = true
+
+[directory]
+truncation_length = 1
+truncate_to_repo = true
+prefix = "in "
+style = "bold cyan"
+fish_style_pwd_dir_length = 1
+use_logical_path = true
+disabled = false
+
+[docker]
+symbol = " "
+only_with_files = true
+style = "bold blue"
+disabled = false
+
+[dotnet]
+symbol = "•NET "
+heuristic = true
+style = "bold blue"
+disabled = true
+
+[elixir]
+symbol = " "
+style = "bold purple"
+disabled = true
+
+[elm]
+symbol = " "
+style = "bold cyan"
+disabled = true
+
+[erlang]
+symbol = " "
+style = "bold red"
+disabled = false
+
+[git_branch]
+symbol = " "
+truncation_symbol = "..."
+style = "bold purple"
+disabled = false
+
+[git_commit]
+commit_hash_length = 8
+prefix = "("
+suffix = ")"
+style = "bold green"
+only_detached = true
+disabled = false
+
+[git_state]
+rebase = "REBASING"
+merge = "MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+progress_divider = "/"
+style = "bold yellow"
+disabled = false
+
+[git_status]
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = ""
+modified = "*"
+staged = "+"
+renamed = ""
+deleted = ""
+show_sync_count = false 
+prefix = "["
+suffix = "] "
+style = "bold purple"
+disabled = false
+
+[golang]
+symbol = " "
+style = "bold cyan"
+disabled = true
+
+[haskell]
+symbol = " "
+style = "bold green"
+disabled = true
+
+[hg_branch]
+symbol = " "
+truncation_symbol = "…"
+style = "bold purple"
+disabled = true
+
+[hostname]
+ssh_only = true
+prefix = ""
+suffix = ""
+trim_at = ""
+style = "bold dimmed green"
+disabled = false
+
+[java]
+symbol = ""
+style = "dimmed red"
+disabled = true
+
+[jobs]
+symbol = " "
+threshold = 1
+style = "bold blue"
+disabled = false
+
+[julia]
+symbol = " "
+style = "bold purple"
+disabled = true
+
+[kubernetes]
+symbol = "☸ "
+style = "bold blue"
+disabled = true
+
+[line_break]
+disabled = true
+
+[memory_usage]
+symbol = " "
+show_percentage = false
+show_swap = true
+threshold = 80
+separator = " | "
+style = "bold dimmed white"
+disabled = true
+
+[nim]
+symbol = " "
+style = "bold yellow"
+disabled = true
+
+[nix_shell]
+symbol = " "
+use_name = false
+impure_msg = "impure"
+pure_msg = "pure"
+style = "bold blue"
+disabled = true
+
+[nodejs]
+symbol = " "
+style = "bold green"
+disabled = true
+
+[package]
+symbol = " "
+style = "bold 208"
+display_private = false
+disabled = true
+
+[ocaml]
+symbol = " "
+style = "bold yellow"
+disabled = true
+
+[php]
+symbol = " "
+style = "bold 147"
+disabled = true
+
+[purescript]
+symbol = " "
+style = "bold white"
+disabled = true
+
+[python]
+symbol = " "
+pyenv_version_name = false
+pyenv_prefix = "env: "
+scan_for_pyfiles = true
+style = "bold cyan"
+disabled = false
+
+[ruby]
+symbol = " "
+style = "bold red"
+disabled = true
+
+[rust]
+symbol = " "
+style = "bold yellow"
+disabled = false
+
+[singularity]
+symbol = " "
+label = ""
+prefix = "["
+suffix = "]"
+style = "bold dimmed blue"
+disabled = true
+
+[terraform]
+symbol = "行 "
+show_version = false
+style = "bold 105"
+disabled = true
+
+[time]
+use_12hr = false
+format = " %T"
+style = "bold yellow"
+utc_time_offset = "local"
+time_range = "-"
+disabled = true
+
+[username]
+style_root = "bold red"
+style_user = "bold yellow"
+show_always = false
+disabled = false
+
+[zig]
+symbol = " "
+style = "bold yellow"
+disabled = true

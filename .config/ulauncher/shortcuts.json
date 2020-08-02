@@ -1,0 +1,52 @@
+{
+    "5cdd7445-b7b9-4e79-a574-8567acb759e6": {
+        "id": "5cdd7445-b7b9-4e79-a574-8567acb759e6",
+        "name": "Google Search",
+        "keyword": "g",
+        "cmd": "https://google.com/search?q=%s",
+        "icon": "/usr/share/icons/Papirus/64x64/apps/google.svg",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1596103548.965418
+    },
+    "ae2dfe6d-ab9c-4485-8633-8f8574fe1262": {
+        "id": "ae2dfe6d-ab9c-4485-8633-8f8574fe1262",
+        "name": "Stack Overflow",
+        "keyword": "so",
+        "cmd": "http://stackoverflow.com/search?q=%s",
+        "icon": "/usr/share/ulauncher/media/stackoverflow-icon.svg",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1596103548.965458
+    },
+    "83309dc1-1b03-4f3d-8828-8b4210a5b502": {
+        "id": "83309dc1-1b03-4f3d-8828-8b4210a5b502",
+        "name": "Wikipedia",
+        "keyword": "wi",
+        "cmd": "https://en.wikipedia.org/wiki/%s",
+        "icon": "/usr/share/ulauncher/media/wikipedia-icon.png",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1596103548.9654837
+    },
+    "7ef880f8-423a-422a-9ed0-96d6bf2602fe": {
+        "id": "7ef880f8-423a-422a-9ed0-96d6bf2602fe",
+        "name": "Arch Wiki",
+        "keyword": "aw",
+        "cmd": "https://wiki.archlinux.org/index.php?search=%s",
+        "icon": "/usr/share/icons/Papirus/64x64/apps/distributor-logo-archlinux.svg",
+        "is_default_search": false,
+        "run_without_argument": false,
+        "added": 1596184081.3145351
+    },
+    "919884b7-29e4-4e30-b931-f53d75f4c7a8": {
+        "id": "919884b7-29e4-4e30-b931-f53d75f4c7a8",
+        "name": "Github",
+        "keyword": "github",
+        "cmd": "https://github.com/",
+        "icon": "/usr/share/icons/Papirus/64x64/apps/appimagekit-github-desktop.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1596220569.2780235
+    }
+}

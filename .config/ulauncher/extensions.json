@@ -1,0 +1,16 @@
+{
+    "com.github.isacikgoz.ukill": {
+        "id": "com.github.isacikgoz.ukill",
+        "url": "https://github.com/isacikgoz/ukill",
+        "updated_at": "2020-07-30T10:06:23.970861",
+        "last_commit": "bc50d9f41d46b6813a5aeebddd15734dcdb9d8db",
+        "last_commit_time": "2019-05-28T18:30:00"
+    },
+    "com.github.brpaz.ulauncher-file-search": {
+        "id": "com.github.brpaz.ulauncher-file-search",
+        "url": "https://github.com/brpaz/ulauncher-file-search",
+        "updated_at": "2020-07-31T08:32:37.893832",
+        "last_commit": "0ea61c2049b27f1ddfa81d1844876f21dd9d6e7b",
+        "last_commit_time": "2020-07-03T13:30:16"
+    }
+}
