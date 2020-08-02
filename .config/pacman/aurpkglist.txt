@@ -1,9 +1,0 @@
-bitwarden-bin
-neovim-symlinks
-pinta
-spotify
-spotify-tray-git
-starship-bin
-timeshift
-ulauncher
-yay
