@@ -1,0 +1,4 @@
+# The dotfiles directory
+.dots
+# The vim plugins directory
+/.config/nvim/autoload/plugged

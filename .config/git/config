@@ -1,0 +1,18 @@
+[user]
+    name = Piotr Machura
+    email = piotr.machura16@gmail.com
+[core]
+    editor = nvim
+	excludesfile = ~/.config/git/ignore
+[pull]
+    ff = only
+[alias]
+    hist = log --all --graph --decorate --oneline
+[diff]
+    tool = vimdiff
+[diftool]
+    prompt = false
+[merge]
+    tool = vimdiff
+[mergetool]
+    prompt = true
