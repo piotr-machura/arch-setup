@@ -13,7 +13,11 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 source $HOME/.config/nvim/plug-config/coc.vim
 source $HOME/.config/nvim/plug-config/nord.vim
 source $HOME/.config/nvim/plug-config/lightline.vim
+source $HOME/.config/nvim/plug-config/nerdtree.vim
+source $HOME/.config/nvim/plug-config/nerdtree-git-plugin.vim
 
-" MAPS
-map <C-n> :NERDTreeToggle<CR>
-
+"Switch between different windows by their direction`
+no <C-j> <C-w>j| "switching to below window 
+no <C-k> <C-w>k| "switching to above window
+no <C-l> <C-w>l| "switching to right window 
+no <C-h> <C-w>h| "switching to left window
