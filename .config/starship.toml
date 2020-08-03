@@ -30,8 +30,8 @@ style = "bold yellow"
 disabled = true
 
 [character]
-symbol = "❯ "
-error_symbol = "❯ "
+symbol = " "
+error_symbol = " "
 use_symbol_for_status = false
 vicmd_symbol = "❮"
 style_success = "bold green"
@@ -124,7 +124,7 @@ ahead = "⇡"
 behind = "⇣"
 diverged = "⇕"
 untracked = "?"
-stashed = ""
+stashed = ""
 modified = "*"
 staged = "+"
 renamed = ""
