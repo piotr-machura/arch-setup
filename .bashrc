@@ -5,13 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias cd..='cd ..'
-alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+shopt -s autocd
 
 alias ls='ls --color=auto'
-alias ll='ls -la --color=auto'
+alias la='ls -A --color=auto'
+alias ll='ls -lA --color=auto'
 alias lh='ls -d .* --color=auto'
 
 alias c='clear'
