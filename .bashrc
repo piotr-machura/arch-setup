@@ -12,10 +12,12 @@ shopt -s autocd
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
-alias lh='ls -d .* --color=auto'
 
+alias rm='rm -i'
+alias mv='mv -i'
 alias c='clear'
 alias y=yay
+
 # Change window title to PWD only
 PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
 
