@@ -30,10 +30,10 @@ style = "bold yellow"
 disabled = true
 
 [character]
-symbol = "$ "
-error_symbol = "$ "
-use_symbol_for_status = false
-vicmd_symbol = "❮"
+symbol = "$"
+error_symbol = "$"
+use_symbol_for_status = true
+vicmd_symbol = "❯"
 style_success = "bold green"
 style_failure = "bold red"
 disabled = false

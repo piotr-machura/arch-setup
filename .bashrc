@@ -21,5 +21,11 @@ alias y=yay
 # Change window title to PWD only
 PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
 
+# Vi keybindings
+set -o vi
+bind 'set show-mode-in-prompt on'
+bind 'set vi-cmd-mode-string "\1\e[2 q\2"'
+bind 'set vi-ins-mode-string "\1\e[6 q\2"'
+
 # Starship prompt
 eval "$(starship init bash)"
