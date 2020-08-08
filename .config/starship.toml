@@ -61,7 +61,7 @@ truncation_length = 1
 truncate_to_repo = true
 prefix = "in "
 style = "bold cyan"
-fish_style_pwd_dir_length = 1
+fish_style_pwd_dir_length = 0 
 use_logical_path = true
 disabled = false
 
@@ -235,7 +235,7 @@ disabled = true
 symbol = " "
 pyenv_version_name = false
 pyenv_prefix = "env: "
-scan_for_pyfiles = true
+scan_for_pyfiles = false
 style = "bold cyan"
 disabled = false
 
