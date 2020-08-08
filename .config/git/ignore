@@ -2,3 +2,5 @@
 .dots
 # The vim plugins directory
 /.config/nvim/autoload/plugged
+# Python garbage
+__pycache__
