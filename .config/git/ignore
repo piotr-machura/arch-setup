@@ -1,6 +1,7 @@
 # The dotfiles directory
 .dots
-# The vim plugins directory
+# The vim directories
 /.config/nvim/autoload/plugged
+.vim
 # Python garbage
 __pycache__
