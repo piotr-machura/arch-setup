@@ -1,0 +1,7 @@
+/* Xfce terminal padding */
+VteTerminal, vte-terminal {
+	padding-top: 2px;
+	padding-right: 8px;
+	padding-bottom: 2px;
+	padding-left: 8px;
+}
