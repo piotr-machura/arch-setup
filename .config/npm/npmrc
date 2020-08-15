@@ -1,4 +1,4 @@
 prefix=/home/piotr/.local/share/npm
 cache=/home/piotr/.cache/npm
 tmp=/run/user/1000/npm
-init-module=/home/piotr/.config/npm/config/npm-init.js
+init-module=/home/piotr/.config/npm/npm-init.js
