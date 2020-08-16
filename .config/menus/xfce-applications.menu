@@ -119,16 +119,16 @@
 	<Layout>
 		<Merge type="menus"/>
 		<Separator/>
+		<Filename>exo-web-browser.desktop</Filename>
 		<Filename>exo-terminal-emulator.desktop</Filename>
 		<Filename>exo-file-manager.desktop</Filename>
-		<Filename>exo-web-browser.desktop</Filename>
 		<Separator/>
-		<Menuname>Development</Menuname>
-		<Menuname>Games</Menuname>
-		<Menuname>Graphics</Menuname>
 		<Menuname>Network</Menuname>
-		<Menuname>Multimedia</Menuname>
+		<Menuname>Development</Menuname>
 		<Menuname>Office</Menuname>
+		<Menuname>Graphics</Menuname>
+		<Menuname>Multimedia</Menuname>
+		<Menuname>Games</Menuname>
 		<Menuname>Accessories</Menuname>
 		<Separator/>
 		<Menuname>Settings</Menuname>
