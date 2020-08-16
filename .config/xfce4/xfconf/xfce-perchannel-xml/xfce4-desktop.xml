@@ -48,5 +48,6 @@
   </property>
   <property name="windowlist-menu" type="empty">
     <property name="show-add-remove-workspaces" type="bool" value="false"/>
+    <property name="show-workspace-names" type="bool" value="false"/>
   </property>
 </channel>

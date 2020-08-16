@@ -27,13 +27,12 @@
       <property name="&lt;Alt&gt;F2" type="empty">
         <property name="startup-notify" type="bool" value="true"/>
       </property>
-      <property name="&lt;Super&gt;p" type="string" value="xfce4-display-settings --minimal"/>
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Super&gt;Return" type="string" value="exo-open --launch TerminalEmulator"/>
       <property name="&lt;Super&gt;f" type="string" value="exo-open --launch FileManager"/>
       <property name="&lt;Super&gt;w" type="string" value="exo-open --launch WebBrowser"/>
       <property name="Print" type="string" value="xfce4-screenshooter -ro ristretto"/>
-      <property name="&lt;Primary&gt;period" type="string" value="htop"/>
+      <property name="&lt;Super&gt;s" type="string" value="spotify-tray -t"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
@@ -93,19 +92,22 @@
     </property>
     <property name="custom" type="empty">
       <property name="&lt;Primary&gt;&lt;Shift&gt;&lt;Alt&gt;Left" type="string" value="move_window_left_key"/>
-      <property name="Right" type="string" value="right_key"/>
-      <property name="Down" type="string" value="down_key"/>
       <property name="&lt;Primary&gt;&lt;Shift&gt;&lt;Alt&gt;Right" type="string" value="move_window_right_key"/>
-      <property name="Up" type="string" value="up_key"/>
-      <property name="&lt;Alt&gt;space" type="string" value="popup_menu_key"/>
       <property name="Escape" type="string" value="cancel_key"/>
       <property name="&lt;Primary&gt;&lt;Shift&gt;&lt;Alt&gt;Up" type="string" value="move_window_up_key"/>
-      <property name="Left" type="string" value="left_key"/>
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Super&gt;Tab" type="string" value="cycle_windows_key"/>
       <property name="&lt;Super&gt;q" type="string" value="close_window_key"/>
       <property name="&lt;Super&gt;F11" type="string" value="fullscreen_key"/>
-      <property name="&lt;Super&gt;d" type="string" value="show_desktop_key"/>
+      <property name="&lt;Super&gt;grave" type="string" value="popup_menu_key"/>
+      <property name="&lt;Super&gt;o" type="string" value="maximize_window_key"/>
+      <property name="&lt;Super&gt;i" type="string" value="hide_window_key"/>
+      <property name="&lt;Super&gt;p" type="string" value="raiselower_window_key"/>
+      <property name="Up" type="string" value="up_key"/>
+      <property name="Down" type="string" value="down_key"/>
+      <property name="Left" type="string" value="left_key"/>
+      <property name="Right" type="string" value="right_key"/>
+      <property name="&lt;Super&gt;u" type="string" value="show_desktop_key"/>
     </property>
   </property>
   <property name="providers" type="array">
