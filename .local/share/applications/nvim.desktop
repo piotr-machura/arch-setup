@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Neovim
 GenericName=Text Editor
-Comment=Moder vi-style editor
+Comment=Modern vi-style editor
 TryExec=nvim
 Exec=nvim %F
 Terminal=true
