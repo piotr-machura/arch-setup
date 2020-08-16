@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Singular
+Comment=run Singular 4.1.3 in a terminal
+Type=Application
+Exec=Singular
+Terminal=true
+Categories=Development;
+Icon=/usr/share/icons/Singular.png
+

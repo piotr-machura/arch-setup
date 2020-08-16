@@ -1,8 +1,8 @@
-app=ristretto
+app=none
 last_user=
 screenshot_dir=file:/home/piotr
 action=4
 delay=0
-region=2
+region=3
 show_mouse=1
 

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Bulk Rename
+Comment=Rename Multiple Files
+GenericName=Bulk Rename
+Exec=/usr/lib/Thunar/ThunarBulkRename %F
+Icon=Thunar
+Terminal=false
+StartupNotify=true
+Type=Application
+Categories=Utility;Filesystem;
