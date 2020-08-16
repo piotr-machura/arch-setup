@@ -11,6 +11,7 @@
     hist = log --all --graph --decorate --oneline
     dots = !git --git-dir=$HOME/.dots --work-tree=$HOME
 	unstage = reset HEAD --
+	list = ls-tree -r --name-only
 [diff]
     tool = vimdiff
 [diftool]
