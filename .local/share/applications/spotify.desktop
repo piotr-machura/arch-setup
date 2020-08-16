@@ -2,6 +2,7 @@
 Type=Application
 Name=Spotify
 GenericName=Music Player
+Comment=Start Spotifyclient without tray icon
 Icon=spotify-client
 TryExec=spotify
 Exec=spotify %U

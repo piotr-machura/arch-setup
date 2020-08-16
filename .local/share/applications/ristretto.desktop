@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=Ristretto Image Viewer
+Name=Ristretto
 Comment=Look at your images easily
 GenericName=Image Viewer
 Exec=ristretto %F

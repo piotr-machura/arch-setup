@@ -7,4 +7,4 @@ Icon=bitwarden
 StartupWMClass=Bitwarden
 GenericName=Password Manager
 Comment=A secure and free password manager for all of your devices.
-Categories=Utility;
+Categories=Network;
