@@ -6,7 +6,7 @@ set noshowmode
 set laststatus=2
 set numberwidth=1
 set title
-set titlestring=NVIM:\ %-25.55F\ %a%r%m titlelen=70
+set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=70
 
 " Load plugins
 source $HOME/.config/nvim/vim-plug/plugins.vim

@@ -1,8 +1,8 @@
 ; xfce4-terminal GtkAccelMap rc-file
 ;
 (gtk_accel_path "<Actions>/terminal-window/new-window" "<Primary>Return")
-(gtk_accel_path "<Actions>/terminal-window/close-window" "<Primary>q")
-(gtk_accel_path "<Actions>/terminal-window/zoom-in" "<Primary>plus")
+; (gtk_accel_path "<Actions>/terminal-window/close-window" "")
+(gtk_accel_path "<Actions>/terminal-window/zoom-in" "<Primary>equal")
 (gtk_accel_path "<Actions>/terminal-window/zoom-out" "<Primary>minus")
 (gtk_accel_path "<Actions>/terminal-window/zoom-reset" "<Primary>0")
 (gtk_accel_path "<Actions>/terminal-window/copy" "<Primary><Shift>c")
