@@ -101,13 +101,12 @@
       <property name="&lt;Super&gt;F11" type="string" value="fullscreen_key"/>
       <property name="&lt;Super&gt;grave" type="string" value="popup_menu_key"/>
       <property name="&lt;Super&gt;o" type="string" value="maximize_window_key"/>
-      <property name="&lt;Super&gt;i" type="string" value="hide_window_key"/>
       <property name="&lt;Super&gt;p" type="string" value="raiselower_window_key"/>
       <property name="Up" type="string" value="up_key"/>
       <property name="Down" type="string" value="down_key"/>
       <property name="Left" type="string" value="left_key"/>
       <property name="Right" type="string" value="right_key"/>
-      <property name="&lt;Super&gt;u" type="string" value="show_desktop_key"/>
+      <property name="&lt;Super&gt;i" type="string" value="hide_window_key"/>
     </property>
   </property>
   <property name="providers" type="array">
