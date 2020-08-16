@@ -1,6 +1,7 @@
 ; Thunar GtkAccelMap rc-file         -*- scheme -*-
 ; this file is an automated accelerator map dump
 ;
+; (gtk_accel_path "<Actions>/ThunarBookmarks/36b6ac2b8cc5b6541dc0ae74b8778718" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/invert-selection" "")
 (gtk_accel_path "<Actions>/ThunarWindow/reload" "F5")
 (gtk_accel_path "<Actions>/ThunarLauncher/open-in-new-tab" "")
@@ -24,6 +25,7 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/sendto-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/delete" "")
 (gtk_accel_path "<Actions>/ThunarStandardView/select-by-pattern" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/d7968bee14ac87ead7cf6b4d5eead3b9" "")
 ; (gtk_accel_path "<Actions>/ThunarShortcutsPane/sendto-shortcuts" "")
 (gtk_accel_path "<Actions>/ThunarWindow/view-side-pane-tree" "")
 (gtk_accel_path "<Actions>/ThunarWindow/close-tab" "")
@@ -49,8 +51,10 @@
 ; (gtk_accel_path "<Actions>/ThunarStandardView/cut" "<Primary>x")
 (gtk_accel_path "<Actions>/ThunarWindow/switch-previous-tab" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/sort-by-type" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/17658803b6531f7e3e7b239b5927eb7f" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-trash" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-statusbar" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/97cc62f25e5c4fa71816f8debaffd2e3" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-location-selector-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/copy" "<Primary>c")
 (gtk_accel_path "<Actions>/ThunarWindow/close-all-windows" "<Primary>q")
