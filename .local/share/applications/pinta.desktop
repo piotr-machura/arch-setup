@@ -2,8 +2,8 @@
 Version=1.0
 Name=Pinta
 GenericName=Image Editor
-X-GNOME-FullName=Pinta Image Editor
 TryExec=pinta
+Comment=Edit images easily
 Exec=pinta %F
 Icon=pinta
 StartupNotify=false
@@ -13,4 +13,3 @@ Type=Application
 Categories=Graphics;
 Keywords=draw;drawing;paint;painting;graphics;raster;2d;
 MimeType=image/bmp;image/gif;image/jpeg;image/jpg;image/pjpeg;image/png;image/svg+xml;image/tiff;image/x-bmp;image/x-gray;image/x-icb;image/x-ico;image/x-png;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/x-pcx;image/x-targa;image/x-tga;image/openraster;
-Hidden=false
