@@ -2,7 +2,6 @@
 set ts=4 sw=4
 set number
 set cursorline
-set noshowmode
 set laststatus=2
 set numberwidth=1
 set title
@@ -22,3 +21,8 @@ no <C-j> <C-w>j| "switching to below window
 no <C-k> <C-w>k| "switching to above window
 no <C-l> <C-w>l| "switching to right window 
 no <C-h> <C-w>h| "switching to left window
+" use the leader key to delete insted of cut 
+nnoremap <leader>x "_x
+nnoremap <leader>d "_d
+nnoremap <leader>D "_D
+vnoremap <leader>d "_d
