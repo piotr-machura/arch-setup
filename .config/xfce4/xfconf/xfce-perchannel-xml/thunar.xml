@@ -11,6 +11,8 @@
   </property>
   <property name="hidden-bookmarks" type="array">
     <value type="string" value="network://"/>
+    <value type="string" value="network:///"/>
+    <value type="string" value="file:///home/piotr"/>
   </property>
   <property name="last-window-width" type="int" value="750"/>
   <property name="last-window-height" type="int" value="480"/>

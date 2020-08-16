@@ -48,6 +48,7 @@
 ; (gtk_accel_path "<Actions>/ThunarStandardView/cut" "<Primary>x")
 ; (gtk_accel_path "<Actions>/ThunarWindow/preferences" "")
 (gtk_accel_path "<Actions>/ThunarWindow/switch-previous-tab" "")
+; (gtk_accel_path "<Actions>/ThunarWindow/open-trash" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/sort-by-type" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/copy" "<Primary>c")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-statusbar" "")
