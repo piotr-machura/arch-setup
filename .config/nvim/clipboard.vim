@@ -1,5 +1,5 @@
 let g:clipboard = {
-  \   'name': 'xclip-xfce4-clipman',
+  \   'name': 'xclip',
   \   'copy': {
   \      '+': 'xclip -selection clipboard',
   \      '*': 'xclip -selection clipboard',
