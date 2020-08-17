@@ -87,6 +87,7 @@ xfconf
 xfdesktop
 xfwm4
 xorg-server
+yarn
 yay-bin
 zathura
 zathura-djvu
