@@ -18,6 +18,7 @@ flex
 galculator
 garcon
 gcc
+gist
 git
 gnumeric
 groff
@@ -43,8 +44,10 @@ pinta
 pkgconf
 pulseaudio
 pulseaudio-alsa
+python-pip
 python-pylint
 python-pynvim
+python-pyqt5
 ristretto
 rust-analyzer
 sagemath

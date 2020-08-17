@@ -8,18 +8,22 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-    " File Explorer
+    " File Explorer and git wrapper
     Plug 'scrooloose/NERDTree' |
 		\ Plug 'Xuyuanp/nerdtree-git-plugin'
-	" Auto pairs for '(' '[' '{'
-    Plug 'jiangmiao/auto-pairs'
-    " Theme 
-    Plug 'arcticicestudio/nord-vim'
-    " Lightline status bar
-	Plug 'itchyny/lightline.vim'
-	" Language server
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	" Git wrapper
 	Plug 'tpope/vim-fugitive'
-
+	" Auto pairs for '(' '[' '{' and surroundings
+    Plug 'jiangmiao/auto-pairs'
+	Plug 'tpope/vim-surround'
+	" Easy repeats with .
+	Plug 'tpope/vim-repeat'
+    " Theme  and status bar
+    Plug 'arcticicestudio/nord-vim'
+	Plug 'itchyny/lightline.vim'
+	" Language server, syntax highlighting and testing
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'sheerun/vim-polyglot'
+	Plug 'janko-m/vim-test'
+	" Indentation lines
+	Plug 'Yggdroot/indentLine'
 	call plug#end()
