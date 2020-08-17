@@ -1,7 +1,11 @@
 abiword
 arc-gtk-theme
+aspell
+aspell-en
+aspell-pl
 autoconf
 automake
+autopep8
 base
 bash-completion
 binutils
