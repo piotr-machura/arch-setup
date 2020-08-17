@@ -30,7 +30,6 @@ linux
 linux-firmware
 m4
 make
-materia-gtk-theme
 neovim
 neovim-symlinks
 nerd-fonts-fira-code
@@ -66,11 +65,9 @@ timeshift
 tumbler
 ulauncher
 unrar
-virtualbox-guest-utils
 which
 xarchiver
 xclip
-xfce4-mount-plugin
 xfce4-notifyd
 xfce4-panel
 xfce4-power-manager
