@@ -1,13 +1,3 @@
-" Basic settings
-set ts=4 sw=4
-set number
-set cursorline
-set laststatus=2
-set numberwidth=1
-set title
-set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=70
-set noshowmode
-
 " Load plugins
 source $HOME/.config/nvim/vim-plug/plugins.vim
 
@@ -22,6 +12,22 @@ source $HOME/.config/nvim/plug-config/indentline.vim
 
 " Load clipboard provider script
 source $HOME/.config/nvim/clipboard.vim
+
+" Basic settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set number
+set cursorline
+set laststatus=2
+set numberwidth=1
+set title
+set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=70
+set noshowmode
+set splitbelow
+set splitright
+
 
 "Switch between different windows by their direction`
 no <C-j> <C-w>j| "switching to below window 
