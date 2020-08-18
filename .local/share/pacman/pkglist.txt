@@ -14,7 +14,6 @@ bitwarden-bin
 clang
 dhcp
 dhcpcd
-dropbox
 exo
 fakeroot
 firefox
