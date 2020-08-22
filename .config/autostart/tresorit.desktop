@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Tresorit
-Exec=/home/piotr/.local/share/tresorit/tresorit --hidden
-Terminal=false
-Type=Application
-Icon=/home/piotr/.local/share/tresorit/tresorit.png
