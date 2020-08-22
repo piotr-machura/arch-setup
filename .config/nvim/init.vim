@@ -66,3 +66,4 @@ autocmd BufRead,BufNewFile *.txt setlocal formatoptions=awt
 autocmd BufRead,BufNewFile *.txt setlocal noautoindent
 autocmd BufRead,BufNewFile *.txt setlocal nosmartindent
 autocmd BufRead,BufNewFile *.txt setlocal nocindent
+autocmd BufRead,BufNewFile *.txt let indentLine_enabled=0 
