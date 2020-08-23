@@ -48,6 +48,7 @@ pkgconf
 pulseaudio
 pulseaudio-alsa
 python-pip
+python-pygithub
 python-pylint
 python-pynvim
 python-pyqt5

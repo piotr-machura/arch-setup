@@ -38,15 +38,5 @@
         "is_default_search": false,
         "run_without_argument": false,
         "added": 1596184081.3145351
-    },
-    "919884b7-29e4-4e30-b931-f53d75f4c7a8": {
-        "id": "919884b7-29e4-4e30-b931-f53d75f4c7a8",
-        "name": "Github",
-        "keyword": "github",
-        "cmd": "https://github.com/",
-        "icon": "/usr/share/icons/Papirus/64x64/apps/appimagekit-github-desktop.svg",
-        "is_default_search": false,
-        "run_without_argument": true,
-        "added": 1596220569.2780235
     }
 }

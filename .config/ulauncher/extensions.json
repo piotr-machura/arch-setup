@@ -12,5 +12,19 @@
         "updated_at": "2020-08-14T19:22:40.393285",
         "last_commit": "0ea61c2049b27f1ddfa81d1844876f21dd9d6e7b",
         "last_commit_time": "2020-07-03T13:30:16"
+    },
+    "com.github.elken.terminal-runner": {
+        "id": "com.github.elken.terminal-runner",
+        "url": "https://github.com/elken/Terminal-Runner",
+        "updated_at": "2020-08-23T10:41:16.698994",
+        "last_commit": "6807ebe6047462bcce6063c63228eddcb8c6b481",
+        "last_commit_time": "2020-02-22T23:04:04"
+    },
+    "com.github.brpaz.ulauncher-github": {
+        "id": "com.github.brpaz.ulauncher-github",
+        "url": "https://github.com/brpaz/ulauncher-github",
+        "updated_at": "2020-08-23T10:48:43.756477",
+        "last_commit": "cf75ed7bc1071eb5c12376b66a25ba6c47fcffad",
+        "last_commit_time": "2020-05-31T16:20:09"
     }
 }
