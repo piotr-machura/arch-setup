@@ -4,12 +4,13 @@
 # Export path
 export PATH=$HOME/.local/bin:$PATH
 
-# Histfile settings
+# History/suggestion settings
 setopt hist_ignore_dups
 export HISTFILE="$HOME"/.cache/zsh_hist
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_STRATEGY=(completion)
 HISTSIZE=1000
 SAVEHIST=1000
+HISTORY_IGNORE="c|clear"
 
 # Compinit
 zstyle :compinstall filename '$HOME/.config/zsh/.zshrc'
@@ -22,12 +23,18 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
-# Locale, title and vi-mode
+# Locale, title, cursor and vi-mode
 export LANG=en_US.UTF-8
-echo -en "\e]0;$PWD\a" 
+case $TERM in
+  xterm*)
+    precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
+    ;;
+esac
+_set_cursor() {echo -ne '\e[4 q'}
+precmd_functions+=(_set_cursor)
 bindkey -v
 
-# Pip requires virtual environment
+# Require virtual environment for pip install
 export PIP_REQUIRE_VIRTUALENV=true
 
 # Exports to match XDG base directory specification
@@ -38,7 +45,6 @@ export XDG_DATA_HOME="$HOME"/.local/share
 export ERRFILE="$XDG_CACHE_HOME"/xsession-errors
 export PYLINTHOME="$XDG_DATA_HOME"/pylint
 export ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf; personal $XDG_CONFIG_HOME/aspell/en.pws; repl $XDG_CONFIG_HOME/aspell/en.prepl;"
-export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_completion
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
@@ -51,47 +57,49 @@ export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
-export STARSHIP_CONFIG="$XDG_CONFIG_HOME"/starship.toml
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export MACHINE_STORAGE_PATH="$XDG_DATA_HOME"/docker-machine
 export GOPATH="$XDG_DATA_HOME"/go
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-export ZSH="$XDG_CONFIG_HOME"/zsh/oh-my-zsh
 
-
-# Manual plugin load
+# Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Spaceship prompt
-SPACESHIP_CHAR_SYMBOL="$ "
-SPACESHIP_CHAR_SYMBOL_ROOT="# "
 SPACESHIP_PROMPT_DEFAULT_PREFIX=" "
 SPACESHIP_PROMPT_DEFAULT_SUFFIX=""
 
 SPACESHIP_PROMPT_ORDER=(
-  dir           # Current directory section
-  char          # Prompt character
+    dir           # Current directory section
+    vi_mode       # Insert/normal vi mode
 )
 SPACESHIP_RPROMPT_ORDER=(
-    vi_mode       # Insert/normal vi mode
     git           # Git section (git_branch + git_status)
     docker        # Docker section
-    venv          # virtualenv section
-    rust          # Rust section
+    venv          # Python virtual environment
+    package       # Cargo/npm package
+    #go            # Go version
     )
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_DIR_TRUNC=1
-SPACESHIP_DIR_SUFFIX=" "
+SPACESHIP_DIR_LOCK_SYMBOL=" "
+SPACESHIP_DIR_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
+
+SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_VI_MODE_INSERT=" "
+SPACESHIP_VI_MODE_NORMAL=" "
+SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=" "
 SPACESHIP_GIT_SYMBOL=" " 
 SPACESHIP_GIT_BRANCH_COLOR="magenta"
 SPACESHIP_GIT_STATUS_COLOR="magenta"
-SPACESHIP_GIT_STATUS_PREFIX=" {"
-SPACESHIP_GIT_STATUS_SUFFIX="}"
+SPACESHIP_GIT_STATUS_PREFIX=" ["
+SPACESHIP_GIT_STATUS_SUFFIX="]"
 SPACESHIP_GIT_STATUS_UNTRACKED="?"
 SPACESHIP_GIT_STATUS_ADDED="+"
 SPACESHIP_GIT_STATUS_MODIFIED="*"
@@ -103,15 +111,21 @@ SPACESHIP_GIT_STATUS_AHEAD="⇡"
 SPACESHIP_GIT_STATUS_BEHIND="⇣"
 SPACESHIP_GIT_STATUS_DIVERGED="⇕"
 
-SPACESHIP_DOCKER_PREFIX=$SPACESHIP_DEFAULT_PREFIX
+SPACESHIP_DOCKER_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_DOCKER_SYMBOL=" "
 SPACESHIP_DOCKER_COLOR="cyan"
 SPACESHIP_DOCKER_CONTEXT_PREFIX=" ("
 SPACESHIP_DOCKER_CONTEXT_SUFFIX=") "
+
 SPACESHIP_VENV_SYMBOL=" "
 SPACESHIP_VENV_COLOR="blue"
-SPACESHIP_RUST_SYMBOL=" "
-SPACESHIP_RUST_COLOR="yellow"
+
+SPACESHIP_GOLANG_SYMBOL="ﳑ "
+SPACESHIP_GOLANG_COLOR="green"
+
+SPACESHIP_PACKAGE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_PACKAGE_SYMBOL="ﰩ "
+SPACESHIP_PACKAGE_COLOR="yellow"
 
 autoload -U promptinit; promptinit
 prompt spaceship

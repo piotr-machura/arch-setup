@@ -69,7 +69,6 @@ signal-desktop
 spaceship-prompt-git
 spotify
 spotify-tray-git
-starship-bin
 steam
 sudo
 texinfo
