@@ -22,11 +22,13 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
-# Locale and vi-mode
+# Locale, title and vi-mode
 export LANG=en_US.UTF-8
-echo -en "\e]0;$PWD\a" #-- Set icon name and window title to string
-# Change cursor shape for different vi modes.
+echo -en "\e]0;$PWD\a" 
 bindkey -v
+
+# Pip requires virtual environment
+export PIP_REQUIRE_VIRTUALENV=true
 
 # Exports to match XDG base directory specification
 export XDG_CONFIG_HOME="$HOME"/.config
@@ -62,8 +64,6 @@ export ZSH="$XDG_CONFIG_HOME"/zsh/oh-my-zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-autoload -U promptinit; promptinit
-prompt spaceship
 
 # Spaceship prompt
 SPACESHIP_CHAR_SYMBOL="$ "
@@ -76,12 +76,12 @@ SPACESHIP_PROMPT_ORDER=(
   char          # Prompt character
 )
 SPACESHIP_RPROMPT_ORDER=(
-  vi_mode       # Insert/normal vi mode
-  git           # Git section (git_branch + git_status)
-  docker        # Docker section
-  venv          # virtualenv section
-  rust          # Rust section
-  )
+    vi_mode       # Insert/normal vi mode
+    git           # Git section (git_branch + git_status)
+    docker        # Docker section
+    venv          # virtualenv section
+    rust          # Rust section
+    )
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_DIR_TRUNC=1
 SPACESHIP_DIR_SUFFIX=" "
@@ -113,6 +113,8 @@ SPACESHIP_VENV_COLOR="blue"
 SPACESHIP_RUST_SYMBOL=" "
 SPACESHIP_RUST_COLOR="yellow"
 
+autoload -U promptinit; promptinit
+prompt spaceship
 eval spaceship_vi_mode_enable
 
 # ALiases
