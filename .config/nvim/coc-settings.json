@@ -5,5 +5,6 @@
     "prettier.proseWrap": "always",
     "prettier.printWidth": 80,
     "python.formatting.provider": "autopep8",
-    "coc.preferences.formatOnSaveFiletypes": ["*"]
+    "coc.preferences.formatOnSaveFiletypes": ["*"],
+    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer"
 }

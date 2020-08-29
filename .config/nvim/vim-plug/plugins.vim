@@ -10,15 +10,16 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " File Explorer and git wrapper
     Plug 'scrooloose/NERDTree' |
-		\ Plug 'Xuyuanp/nerdtree-git-plugin'
+        \ Plug 'Xuyuanp/nerdtree-git-plugin'
 	Plug 'tpope/vim-fugitive'
 	" Auto pairs for '(' '[' '{' and surroundings
     Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-surround'
 	" Easy repeats with .
 	Plug 'tpope/vim-repeat'
-    " Theme  and status bar
+    " Theme, icons  and status bar
     Plug 'arcticicestudio/nord-vim'
+    Plug 'ryanoasis/vim-devicons'
 	Plug 'itchyny/lightline.vim'
 	" Language server, syntax highlighting and testing
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}

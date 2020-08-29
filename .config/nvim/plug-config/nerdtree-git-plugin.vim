@@ -10,4 +10,4 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Clean'     :'',
                 \ 'Unknown'   :'',
                 \ }
-let g:NERDTreeGitStatusConcealBrackets = 0 
+let g:NERDTreeGitStatusConcealBrackets = 0
