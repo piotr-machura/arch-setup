@@ -35,35 +35,9 @@ set backupdir=~/.cache/nvim
 set dir=~/.cache/nvim
 
 " Load plugins
-source $HOME/.config/nvim/vim-plug/plugins.vim
-" Load plugin configuration
-source $HOME/.config/nvim/plug-config/coc.vim
-source $HOME/.config/nvim/plug-config/nord.vim
-source $HOME/.config/nvim/plug-config/lightline.vim
-source $HOME/.config/nvim/plug-config/nerdtree.vim
-source $HOME/.config/nvim/plug-config/nerdtree-git-plugin.vim
-source $HOME/.config/nvim/plug-config/polyglot.vim
-source $HOME/.config/nvim/plug-config/indentline.vim
-
-" Clipboard provider
-let g:clipboard = {
-  \   'name': 'xclip',
-  \   'copy': {
-  \      '+': 'xclip -selection clipboard',
-  \      '*': 'xclip -selection clipboard',
-  \    },
-  \   'paste': {
-  \      '+': 'xclip -selection clipboard -o',
-  \      '*': 'xclip -selection clipboard -o',
-  \   },
-  \   'cache_enabled': 1,
-  \ }
-set clipboard+=unnamedplus
-
-" .txt file formatting
-autocmd BufRead,BufNewFile *.txt setlocal textwidth=80
-autocmd BufRead,BufNewFile *.txt setlocal formatoptions=awt
-autocmd BufRead,BufNewFile *.txt setlocal noautoindent
-autocmd BufRead,BufNewFile *.txt setlocal nosmartindent
-autocmd BufRead,BufNewFile *.txt setlocal nocindent
-autocmd BufRead,BufNewFile *.txt setlocal conceallevel=0
+source $HOME/.config/nvim/configs/plugins.vim
+source $HOME/.config/nvim/configs/theme.vim
+source $HOME/.config/nvim/configs/filetree.vim
+source $HOME/.config/nvim/configs/coc.vim
+source $HOME/.config/nvim/configs/clipboard.vim
+source $HOME/.config/nvim/configs/txtformat.vim

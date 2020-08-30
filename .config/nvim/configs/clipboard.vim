@@ -1,3 +1,4 @@
+" Clipboard provider
 let g:clipboard = {
   \   'name': 'xclip',
   \   'copy': {
@@ -10,5 +11,5 @@ let g:clipboard = {
   \   },
   \   'cache_enabled': 1,
   \ }
-
 set clipboard+=unnamedplus
+
