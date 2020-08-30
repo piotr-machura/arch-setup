@@ -33,11 +33,12 @@ set encoding=utf-8
 set sidescrolloff=6
 set backupdir=~/.cache/nvim
 set dir=~/.cache/nvim
+let g:python3_host_prog = '/usr/bin/python3'
 
 " Load plugins
 source $HOME/.config/nvim/configs/plugins.vim
+source $HOME/.config/nvim/configs/coc.vim
 source $HOME/.config/nvim/configs/theme.vim
 source $HOME/.config/nvim/configs/filetree.vim
-source $HOME/.config/nvim/configs/coc.vim
 source $HOME/.config/nvim/configs/clipboard.vim
 source $HOME/.config/nvim/configs/txtformat.vim
