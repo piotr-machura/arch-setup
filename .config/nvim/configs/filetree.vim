@@ -7,7 +7,7 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:plug_window = 'noautocmd vertical topleft new'
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-let NERDTreeShowHidden=1
+let NERDTreeShowHidden = 0
 map <C-n> :NERDTreeToggle<CR>
 " Fix borked colors in nerdtree
 autocmd BufEnter * highlight! link NERDTreeFlags NERDTreeDir
