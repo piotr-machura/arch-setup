@@ -14,11 +14,11 @@ autocmd BufEnter * highlight! link NERDTreeFlags NERDTreeDir
 " Git status symbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Modified'  :'*',
-                \ 'Staged'    :'+',
+                \ 'Staged'    :'',
                 \ 'Untracked' :'?',
                 \ 'Renamed'   :'',
                 \ 'Unmerged'  :'═',
-                \ 'Deleted'   :'',
+                \ 'Deleted'   :'',
                 \ 'Dirty'     :'',
                 \ 'Ignored'   :'',
                 \ 'Clean'     :'',

@@ -1,8 +1,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Export path
+# Export path and locale
 export PATH=$HOME/.local/bin:$PATH
+export LANG=en_US.UTF-8
 
 # History/suggestion settings
 setopt hist_ignore_dups
@@ -23,8 +24,7 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
-# Locale, title, cursor and vi-mode
-export LANG=en_US.UTF-8
+#Title, cursor
 case $TERM in
   xterm*)
     precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
@@ -32,7 +32,6 @@ case $TERM in
 esac
 _set_cursor() {echo -ne '\e[4 q'}
 precmd_functions+=(_set_cursor)
-bindkey -v
 
 # Require virtual environment for pip install
 export PIP_REQUIRE_VIRTUALENV=true
@@ -97,7 +96,6 @@ export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export MACHINE_STORAGE_PATH="$XDG_DATA_HOME"/docker-machine
-export GOPATH="$XDG_DATA_HOME"/go
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 
 # Load plugins
@@ -118,7 +116,6 @@ SPACESHIP_RPROMPT_ORDER=(
     docker        # Docker section
     venv          # Python virtual environment
     package       # Cargo/npm package
-    #go            # Go version
     )
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_DIR_TRUNC=1
@@ -141,7 +138,7 @@ SPACESHIP_GIT_STATUS_UNTRACKED="?"
 SPACESHIP_GIT_STATUS_ADDED="+"
 SPACESHIP_GIT_STATUS_MODIFIED="*"
 SPACESHIP_GIT_STATUS_RENAMED=""
-SPACESHIP_GIT_STATUS_DELETED=""
+SPACESHIP_GIT_STATUS_DELETED=""
 SPACESHIP_GIT_STATUS_STASHED=""
 SPACESHIP_GIT_STATUS_UNMERGED="="
 SPACESHIP_GIT_STATUS_AHEAD="⇡"
@@ -157,18 +154,18 @@ SPACESHIP_DOCKER_CONTEXT_SUFFIX=") "
 SPACESHIP_VENV_SYMBOL=" "
 SPACESHIP_VENV_COLOR="blue"
 
-SPACESHIP_GOLANG_SYMBOL="ﳑ "
-SPACESHIP_GOLANG_COLOR="green"
-
 SPACESHIP_PACKAGE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_PACKAGE_SYMBOL="ﰩ "
 SPACESHIP_PACKAGE_COLOR="yellow"
 
 autoload -U promptinit; promptinit
 prompt spaceship
+
+# Vi-mode
+bindkey -v
 eval spaceship_vi_mode_enable
 
-# ALiases
+# Aliases
 setopt autocd
 alias ..='cd ..'
 alias ...='cd ../..'
