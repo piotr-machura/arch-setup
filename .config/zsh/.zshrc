@@ -7,10 +7,11 @@ autoload -Uz compinit
 compinit
 
 # Load configuration
-source $HOME/.config/zsh/exports.zsh
-source $HOME/.config/zsh/extract.zsh
-source $HOME/.config/zsh/aliases.zsh
-source $HOME/.config/zsh/theme.zsh
+source $ZDOTDIR/exports.zsh
+source $ZDOTDIR/extract.zsh
+source $ZDOTDIR/aliases.zsh
+source $ZDOTDIR/theme.zsh
+source $ZDOTDIR/history.zsh
 
 # Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
