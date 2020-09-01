@@ -1,0 +1,15 @@
+# Aliases
+setopt autocd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ls='ls --color=auto'
+alias la='ls -A --color=auto'
+alias ll='ls -lA --color=auto'
+alias rm='rm -i'
+alias mv='mv -i'
+alias c='clear'
+alias :wq='exit'
+alias activate='source env/bin/activate'
+alias source_zshrc='source "$XDG_CONFIG_HOME"/zsh/.zshrc; echo "Sourced."'
+alias clean_pkgdata='yay -Rns $(yay -Qdtq); yay -Scc'

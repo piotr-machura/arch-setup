@@ -3,5 +3,6 @@
 # The vim directories
 /.config/nvim/autoload/plugged
 .vim
-# Python garbage
+# Python cache and virtual environment
 __pycache__
+env
