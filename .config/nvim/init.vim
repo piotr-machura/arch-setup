@@ -28,12 +28,11 @@ call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
     Plug 'Yggdroot/indentLine'
     call plug#end()
 
-" Editor functions perforimng a full plugin installation & upgrade
+" Editor functions performing a full plugin installation & upgrade
 function! FullPluginInstall()
     " Install vim-plug extensions
     PlugInstall
-    " Install the coc extensions listed in
-    " $HOME/.config/coc/extensions/package.json and press space to continue
+    " Install the coc extensions listed in package.json
     !cd $XDG_CONFIG_HOME/coc/extensions; npm install;
 endfunction
 
@@ -141,7 +140,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Show documentation
+" Show documentation with K
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
