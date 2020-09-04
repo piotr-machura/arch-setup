@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "coc-clangd": ">=0.4.13",
+    "coc-clangd": ">=0.4.14",
     "coc-json": ">=1.2.6",
     "coc-prettier": ">=1.1.17",
     "coc-python": ">=1.2.12",
-    "coc-rust-analyzer": ">=0.7.14",
+    "coc-rust-analyzer": ">=0.7.16",
     "coc-snippets": ">=2.1.28"
   }
 }

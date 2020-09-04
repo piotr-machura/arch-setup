@@ -1,9 +1,7 @@
-" auto-install vim-plug
+" Auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "autocmd VimEnter * PlugInstall
-    "autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
@@ -28,3 +26,23 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Indentation lines
     Plug 'Yggdroot/indentLine'
     call plug#end()
+
+" Editor functions perforimng a full plugin installation & upgrade
+function! FullPluginInstall()
+    " Install vim-plug extensions
+    PlugInstall
+    " Install the coc extensions listed in
+    " $HOME/.config/coc/extensions/package.json and press space to continue
+    !cd $HOME/.config/coc/extensions; npm install;
+endfunction
+
+function! FullPluginUpgrade() 
+    " Update vim-plug extensions
+    PlugUpdate
+    PlugUpgrade
+    " Update Coc Extensions
+    CocUpdate
+endfunction
+
+command! -nargs=0 Install :call FullPluginInstall()
+command! -nargs=0 Upgrade :call FullPluginUpgrade()
