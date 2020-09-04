@@ -10,6 +10,7 @@ base
 binutils
 bison
 bitwarden-bin
+catfish
 clang
 dhcp
 dhcpcd

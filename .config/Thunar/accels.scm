@@ -2,6 +2,7 @@
 ; this file is an automated accelerator map dump
 ;
 ; (gtk_accel_path "<Actions>/ThunarBookmarks/36b6ac2b8cc5b6541dc0ae74b8778718" "")
+(gtk_accel_path "<Actions>/ThunarActions/uca-action-1599248795981500-1" "<Primary><Shift>f")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/invert-selection" "")
 (gtk_accel_path "<Actions>/ThunarWindow/reload" "F5")
 (gtk_accel_path "<Actions>/ThunarLauncher/open-in-new-tab" "")

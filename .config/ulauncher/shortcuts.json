@@ -38,5 +38,55 @@
         "is_default_search": false,
         "run_without_argument": false,
         "added": 1596184081.3145351
+    },
+    "4e39b2fe-b353-4740-a77d-ebe68e975bd0": {
+        "id": "4e39b2fe-b353-4740-a77d-ebe68e975bd0",
+        "name": "E-mail",
+        "keyword": "ml",
+        "cmd": "https://www.fastmail.com/mail/Inbox/",
+        "icon": "/usr/share/icons/ePapirus/128x128/apps/email.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1599247048.1359675
+    },
+    "44a2de55-9e92-4d06-8963-6d0f969ec3e5": {
+        "id": "44a2de55-9e92-4d06-8963-6d0f969ec3e5",
+        "name": "Contacts",
+        "keyword": "cont",
+        "cmd": "https://www.fastmail.com/contacts/",
+        "icon": "/usr/share/icons/ePapirus/128x128/apps/gnome-contacts.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1599247341.715882
+    },
+    "dc0067f0-e10c-4d1f-ac7d-5f378d29441b": {
+        "id": "dc0067f0-e10c-4d1f-ac7d-5f378d29441b",
+        "name": "Calendar",
+        "keyword": "cal",
+        "cmd": "https://www.fastmail.com/calendar/",
+        "icon": "/usr/share/icons/ePapirus/128x128/apps/calendar.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1599247428.6260092
+    },
+    "bdefe288-599f-4f92-b24d-b196ce709788": {
+        "id": "bdefe288-599f-4f92-b24d-b196ce709788",
+        "name": "Notes",
+        "keyword": "not",
+        "cmd": "https://www.fastmail.com/notes/",
+        "icon": "/usr/share/icons/ePapirus/128x128/apps/notes.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1599247472.8606608
+    },
+    "65cf42fc-d269-422a-9da9-27da14d4e9f7": {
+        "id": "65cf42fc-d269-422a-9da9-27da14d4e9f7",
+        "name": "Cloud",
+        "keyword": "cld",
+        "cmd": "https://www.fastmail.com/files/",
+        "icon": "/usr/share/icons/ePapirus/128x128/places/folder-blue-meocloud.svg",
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1599248719.788929
     }
 }
