@@ -1,10 +1,10 @@
-" Map the leader key to .
+" Map the leader key to ','
 let mapleader=','
 "Switch between splits using hjkl
-no <C-j> <C-w>j| "switching to below window 
-no <C-k> <C-w>k| "switching to above window
-no <C-l> <C-w>l| "switching to right window 
-no <C-h> <C-w>h| "switching to left window
+nnoremap <C-j> <C-w>j 
+nnoremap <C-k> <C-w>k 
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
 " Use the leader key to delete insted of cut 
 nnoremap <leader>x "_x
 nnoremap <leader>d "_d
@@ -31,14 +31,14 @@ set autowrite
 set scrolloff=6
 set encoding=utf-8
 set sidescrolloff=6
-set backupdir=~/.cache/nvim
-set dir=~/.cache/nvim
+set backupdir=$XDG_CACHE_HOME/nvim/backup
+set dir=$XDG_CACHE_HOME/nvim
 let g:python3_host_prog = '/usr/bin/python3'
 
 " Load plugins
-source $HOME/.config/nvim/configs/plugins.vim
-source $HOME/.config/nvim/configs/coc.vim
-source $HOME/.config/nvim/configs/theme.vim
-source $HOME/.config/nvim/configs/filetree.vim
-source $HOME/.config/nvim/configs/clipboard.vim
-source $HOME/.config/nvim/configs/txtformat.vim
+source $XDG_CONFIG_HOME/nvim/plugins.vim
+source $XDG_CONFIG_HOME/nvim/coc.vim
+source $XDG_CONFIG_HOME/nvim/theme.vim
+source $XDG_CONFIG_HOME/nvim/clipboard.vim
+source $XDG_CONFIG_HOME/nvim/nerdtree.vim
+source $XDG_CONFIG_HOME/nvim/txtformat.vim

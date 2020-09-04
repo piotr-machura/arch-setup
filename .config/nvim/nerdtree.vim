@@ -7,10 +7,12 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:plug_window = 'noautocmd vertical topleft new'
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 0
+let NERDTreeShowHidden = 1
 map <C-n> :NERDTreeToggle<CR>
 " Fix borked colors in nerdtree
 autocmd BufEnter * highlight! link NERDTreeFlags NERDTreeDir
+" Set bookmark file
+let g:NERDTreeBookmarksFile=$XDG_CONFIG_HOME."/nvim/NERDTreeBookmarks"
 " Git status symbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Modified'  :'*',

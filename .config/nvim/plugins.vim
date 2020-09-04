@@ -1,10 +1,10 @@
 " Auto-install vim-plug
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim'))
+    silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-call plug#begin('~/.config/nvim/autoload/plugged')
+call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
 
     " File Explorer and git wrapper
     Plug 'scrooloose/NERDTree' |
@@ -33,7 +33,7 @@ function! FullPluginInstall()
     PlugInstall
     " Install the coc extensions listed in
     " $HOME/.config/coc/extensions/package.json and press space to continue
-    !cd $HOME/.config/coc/extensions; npm install;
+    !cd $XDG_CONFIG_HOME/coc/extensions; npm install;
 endfunction
 
 function! FullPluginUpgrade() 
