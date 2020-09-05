@@ -106,7 +106,7 @@
 				<Filename>xfce4-session-logout.desktop</Filename>
 			</Or>
 		</Exclude>
-		<AppDir>~/.local/share/applications</AppDir>
+		<AppDir>/home/piotr/.local/share/applications</AppDir>
 	</Menu>
 	<Menu>
 		<Name>Other</Name>
