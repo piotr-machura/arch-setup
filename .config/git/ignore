@@ -1,8 +1,3 @@
-# The dotfiles directory
-.dots
-# The vim directories
-/.config/nvim/autoload/plugged
-.vim
 # Python cache and virtual environment
 __pycache__
 env
