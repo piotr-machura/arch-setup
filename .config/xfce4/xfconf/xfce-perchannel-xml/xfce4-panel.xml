@@ -8,9 +8,10 @@
       <property name="position" type="string" value="p=8;x=680;y=751"/>
       <property name="length" type="uint" value="100"/>
       <property name="position-locked" type="bool" value="true"/>
-      <property name="icon-size" type="uint" value="0"/>
+      <property name="icon-size" type="uint" value="16"/>
       <property name="size" type="uint" value="32"/>
       <property name="plugin-ids" type="array">
+        <value type="int" value="8"/>
         <value type="int" value="1"/>
         <value type="int" value="9"/>
         <value type="int" value="2"/>
@@ -22,6 +23,11 @@
         <value type="int" value="12"/>
         <value type="int" value="13"/>
       </property>
+      <property name="length-adjust" type="bool" value="false"/>
+      <property name="enter-opacity" type="uint" value="100"/>
+      <property name="disable-struts" type="bool" value="false"/>
+      <property name="nrows" type="uint" value="1"/>
+      <property name="mode" type="uint" value="0"/>
     </property>
   </property>
   <property name="plugins" type="empty">
@@ -29,7 +35,7 @@
       <property name="show-button-title" type="bool" value="false"/>
       <property name="button-icon" type="string" value="view-list-details"/>
       <property name="custom-menu" type="bool" value="true"/>
-      <property name="custom-menu-file" type="string" value="~/.config/menus/xfce-applications.menu"/>
+      <property name="custom-menu-file" type="string" value=".config/menus/xfce-applications.menu"/>
       <property name="show-generic-names" type="bool" value="false"/>
       <property name="show-tooltips" type="bool" value="true"/>
     </property>
@@ -42,6 +48,7 @@
       <property name="sort-order" type="uint" value="2"/>
       <property name="show-only-minimized" type="bool" value="false"/>
       <property name="include-all-monitors" type="bool" value="true"/>
+      <property name="show-wireframes" type="bool" value="false"/>
     </property>
     <property name="plugin-3" type="string" value="separator">
       <property name="expand" type="bool" value="true"/>
@@ -66,6 +73,7 @@
       <property name="digital-format" type="string" value="%R"/>
       <property name="tooltip-format" type="string" value="%A %Y-%m-%d "/>
       <property name="timezone" type="string" value="Poland"/>
+      <property name="mode" type="uint" value="2"/>
     </property>
     <property name="plugin-13" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
@@ -88,6 +96,11 @@
     <property name="plugin-5" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
       <property name="mpris-players" type="string" value="spotify"/>
+      <property name="blacklisted-players" type="string" value="spotify"/>
+    </property>
+    <property name="plugin-8" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+      <property name="expand" type="bool" value="false"/>
     </property>
   </property>
 </channel>

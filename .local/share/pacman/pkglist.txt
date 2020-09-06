@@ -31,6 +31,7 @@ gnumeric
 grep
 groff
 grub
+gtk-engine-murrine
 gvfs
 gzip
 htop
@@ -60,6 +61,7 @@ python-pygithub
 python-pylint
 python-pynvim
 python-pyqt5
+python-rope
 ristretto
 rust-analyzer
 sagemath

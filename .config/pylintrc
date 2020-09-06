@@ -61,6 +61,8 @@ confidence=
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
 disable=print-statement,
+        no-else-raise,
+        global-statement,
         import-error,
         parameter-unpacking,
         unpacking-in-except,
@@ -449,7 +451,7 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=80
 
 # Maximum number of lines in a module.
 max-module-lines=1000
