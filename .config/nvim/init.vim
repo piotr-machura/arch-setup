@@ -16,10 +16,6 @@ call plug#begin($HOME.'/.config/nvim/autoload/plugged')
     Plug 'tpope/vim-surround'
     " Easy repeats with .
     Plug 'tpope/vim-repeat'
-    " Theme, icons  and status bar
-    Plug 'arcticicestudio/nord-vim'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'itchyny/lightline.vim'
     " Language server, syntax highlighting and testing
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'sheerun/vim-polyglot'
@@ -28,6 +24,10 @@ call plug#begin($HOME.'/.config/nvim/autoload/plugged')
     Plug 'Yggdroot/indentLine'
     " Distraction-free mode
     Plug 'junegunn/goyo.vim'
+    " Theme, icons  and status bar
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'itchyny/lightline.vim'
     call plug#end()
 
 " Editor functions performing a full plugin installation & upgrade
@@ -87,7 +87,16 @@ set backupdir=$HOME/.cache/nvim/backup
 set dir=$HOME/.cache/nvim
 set nobackup
 set nowritebackup
+autocmd VimEnter * if &diff | cmap q qa| endif
 let g:python3_host_prog = '/usr/bin/python3'
+
+" Nord theme
+let g:nord_uniform_diff_background = 1
+let g:nord_bold = 1
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+colorscheme nord
 
 " Coc Settings
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -213,15 +222,6 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
-" Nord theme
-colorscheme nord
-let g:nord_uniform_diff_background = 1
-let g:nord_bold = 0
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
-let g:nord_underline = 1
-let g:nord_cursor_line_number_background = 1
-
 "Get diagnostics string for lightline
 function! StatusDiagnostic() abort
     let info = get(b:, 'coc_diagnostic_info', {})
@@ -310,30 +310,33 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 
 " .txt file formatting
 function TxtFormat()
-    " Enable spelling
+    " Spellfile in the main file's dir
+    let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
-    let &spellfile=expand('%:p:h').'/pl.add' " in the file dir
     setlocal spell
+    setlocal spellsuggest+=5
+    iabbrev <buffer> -- —
     " Disable all automatic indentation
     setlocal noautoindent
     setlocal nobreakindent
     setlocal nosmartindent
     setlocal nocindent
     setlocal noexpandtab
-    " Visuall wrap lines at 85 cahracters
-    nnoremap <buffer> j gj
-    nnoremap <buffer> k gk
+    " Soft line wrap
     setlocal wrap linebreak
     setlocal scrolloff=1
+    nnoremap <buffer> j gj
+    nnoremap <buffer> k gk
     " Make the window distraction-free
     setlocal conceallevel=0
     setlocal nocursorline
-    ab -- —
-    Goyo
-    " :q to quit both Goyo and file 
-    cmap <buffer> q qa
+    if !&diff && !exists('#goyo')
+        call lightline#init() " Without this there will be errors
+        Goyo
+        cmap q qa
+    endif
 endfunction
 
-" Without this there will be errors
-autocmd VimEnter *.txt call lightline#init()
-autocmd VimEnter *.txt call TxtFormat()
+autocmd BufEnter,VimEnter *.txt call TxtFormat()
+" Resize goyo automatically after resizing vim
+autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
