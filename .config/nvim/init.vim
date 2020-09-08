@@ -312,7 +312,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 function TxtFormat()
     " Enable spelling
     setlocal spelllang=pl,en_us
-    setlocal spellfile=$PWD/pl.add
+    let &spellfile=expand('%:p:h').'/pl.add' " in the file dir
     setlocal spell
     " Disable all automatic indentation
     setlocal noautoindent
