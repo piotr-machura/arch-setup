@@ -1,11 +1,11 @@
 " Load plugins
 " Auto-install vim-plug
-if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim'))
+if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
+call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 
     " File Explorer and git wrapper
     Plug 'scrooloose/NERDTree' |
@@ -26,6 +26,8 @@ call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
     Plug 'janko-m/vim-test'
     " Indentation lines
     Plug 'Yggdroot/indentLine'
+    " Distraction-free mode
+    Plug 'junegunn/goyo.vim'
     call plug#end()
 
 " Editor functions performing a full plugin installation & upgrade
@@ -33,7 +35,7 @@ function! FullPluginInstall()
     " Install vim-plug extensions
     PlugInstall
     " Install the coc extensions listed in package.json
-    !cd $XDG_CONFIG_HOME/coc/extensions; npm install;
+    !cd $HOME/.config/coc/extensions; npm install;
 endfunction
 
 function! FullPluginUpgrade() 
@@ -81,8 +83,8 @@ set autowrite
 set scrolloff=6
 set encoding=utf-8
 set sidescrolloff=6
-set backupdir=$XDG_CACHE_HOME/nvim/backup
-set dir=$XDG_CACHE_HOME/nvim
+set backupdir=$HOME/.cache/nvim/backup
+set dir=$HOME/.cache/nvim
 set nobackup
 set nowritebackup
 let g:python3_host_prog = '/usr/bin/python3'
@@ -291,7 +293,7 @@ map <C-n> :NERDTreeToggle<CR>
 " Fix borked colors
 autocmd BufEnter * highlight! link NERDTreeFlags NERDTreeDir
 " Set bookmark file
-let g:NERDTreeBookmarksFile=$XDG_CONFIG_HOME."/nvim/NERDTreeBookmarks"
+let g:NERDTreeBookmarksFile=$HOME."/.config/nvim/NERDTreeBookmarks"
 " Git status symbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Modified'  :'*',
@@ -307,9 +309,29 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ }
 
 " .txt file formatting
-autocmd BufRead,BufNewFile *.txt setlocal textwidth=80
-autocmd BufRead,BufNewFile *.txt setlocal formatoptions=awt
-autocmd BufRead,BufNewFile *.txt setlocal noautoindent
-autocmd BufRead,BufNewFile *.txt setlocal nosmartindent
-autocmd BufRead,BufNewFile *.txt setlocal nocindent
-autocmd BufRead,BufNewFile *.txt setlocal conceallevel=0
+function TxtFormat()
+    " Enable spelling
+    setlocal spelllang=pl,en_us
+    setlocal spellfile=$PWD/pl.add
+    setlocal spell
+    " Disable all automatic indentation
+    setlocal noautoindent
+    setlocal nobreakindent
+    setlocal nosmartindent
+    setlocal nocindent
+    setlocal noexpandtab
+    " Visuall wrap lines at 85 cahracters
+    nnoremap <buffer> j gj
+    nnoremap <buffer> k gk
+    setlocal wrap linebreak
+    " Make the window distraction-free
+    setlocal conceallevel=0
+    setlocal nocursorline
+    Goyo
+    " :q to quit both Goyo and file 
+    cmap <buffer> q qa
+endfunction
+
+" Without this there will be errors
+autocmd VimEnter *.txt call lightline#init()
+autocmd VimEnter *.txt call TxtFormat()
