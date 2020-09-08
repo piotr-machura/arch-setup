@@ -324,9 +324,11 @@ function TxtFormat()
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
     setlocal wrap linebreak
+    setlocal scrolloff=1
     " Make the window distraction-free
     setlocal conceallevel=0
     setlocal nocursorline
+    ab -- —
     Goyo
     " :q to quit both Goyo and file 
     cmap <buffer> q qa
