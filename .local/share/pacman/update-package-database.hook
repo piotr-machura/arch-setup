@@ -7,4 +7,4 @@ Target = *
 [Action]
 Description = Updating package database... 
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/pacman -Qqe > /home/piotr/.local/share/pacman/pkglist.txt'
+Exec = /bin/sh -c '/usr/bin/pacman -Qqe > /home/piotr/.local/share/pacman/PKGLIST'

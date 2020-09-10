@@ -68,6 +68,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set shiftround
+set signcolumn=yes
 set number
 set cursorline
 set laststatus=2
@@ -79,10 +80,12 @@ set nowrap
 set splitbelow
 set splitright
 set hidden
+set shortmess+=c
 set autowrite
 set scrolloff=6
 set encoding=utf-8
 set sidescrolloff=6
+set updatetime=300
 set backupdir=$HOME/.cache/nvim/backup
 set dir=$HOME/.cache/nvim
 set nobackup
@@ -99,23 +102,8 @@ let g:nord_underline = 1
 colorscheme nord
 
 " Coc Settings
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
-" Use tab for trigger completion with characters ahead and navigate.
+" Use <TAB> and <c-space> for completion
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -126,13 +114,7 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -165,57 +147,22 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming.
+" Symbol renaming. and quick fix
 nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Applying codeAction to the selected region.
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
-" Use CTRL-S for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the server
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Editor commands for formatting, folding and imports
 command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 Imports :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Mappings for CoCList
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>n
+nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
 
 " Polyglot
 let g:vim_json_syntax_conceal = 0
@@ -309,14 +256,36 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ }
 
 " .txt file formatting
+function CheckFilename()
+    " Check for some commonly used programming .txt files
+    let names = [
+                \ "pkg",
+                \ "PKG",
+                \ "README",
+                \ "readme",
+                \ "license",
+                \ "LICENSE",
+                \ "requirements",
+                \ "REQUIREMENTS"
+                \ ]
+    for str in names
+        if stridx(bufname(), str)!=-1
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
 function TxtFormat()
+    " Is called on BufEnter, but only on non-programming files
+    if CheckFilename() | return | endif
     " Spellfile in the main file's dir
     let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
     setlocal spell
     setlocal spellsuggest+=5
     iabbrev <buffer> -- —
-    " Disable all automatic indentation
+    " Disable all automatic indentation and use tabs, not spaces
     setlocal noautoindent
     setlocal nobreakindent
     setlocal nosmartindent
@@ -324,19 +293,26 @@ function TxtFormat()
     setlocal noexpandtab
     " Soft line wrap
     setlocal wrap linebreak
-    setlocal scrolloff=1
+    setlocal scrolloff=0
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
-    " Make the window distraction-free
+    " Change some visuals
     setlocal conceallevel=0
     setlocal nocursorline
-    if !&diff && !exists('#goyo')
-        call lightline#init() " Without this there will be errors
+    setlocal nonumber
+endfunction
+
+function! StartGoyo()
+    " Is called on VimEnter, but only on non-programming files
+    if CheckFilename() | return | endif
+    if !&diff
+        call lightline#init()
         Goyo
         cmap q qa
     endif
 endfunction
 
-autocmd BufEnter,VimEnter *.txt call TxtFormat()
+autocmd BufEnter *.txt call TxtFormat()
+autocmd VimEnter *.txt call StartGoyo()
 " Resize goyo automatically after resizing vim
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif

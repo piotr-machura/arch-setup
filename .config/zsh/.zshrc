@@ -113,13 +113,22 @@ alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
+
+alias abiword='devour abiword'
+alias parole='devour parole'
+alias ristretto='devour ristretto'
+alias thunar='devour thunar'
+alias zathura='devour zathura'
+
 alias c='clear'
 alias :wq='exit'
 alias :q='exit'
+alias -g %='$ZDOTDIR/.zshrc'
+
 alias venv='python -m venv .venv; echo "Created a new virtual environment at ./.venv"'
 alias activate='source .venv/bin/activate'
-alias source_zshrc='source "$XDG_CONFIG_HOME"/zsh/.zshrc; echo "Sourced."'
-alias clean_pkgdata='yay -Rns $(yay -Qdtq); yay -Scc'
+
+alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 
 # Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

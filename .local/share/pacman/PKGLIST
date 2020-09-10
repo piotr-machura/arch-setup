@@ -12,6 +12,7 @@ bison
 bitwarden-bin
 catfish
 clang
+devour
 dhcp
 dhcpcd
 exo
@@ -31,7 +32,6 @@ gnumeric
 grep
 groff
 grub
-gtk-engine-murrine
 gvfs
 gzip
 htop
