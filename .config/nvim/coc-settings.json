@@ -4,18 +4,17 @@
     "python.linting.pylintPath": "/usr/bin/pylint",
     "python.formatting.autopep8Path": "/usr/bin/autopep8",
     "python.jediPath": "/usr/lib/python3.8/site-packages",
-    "prettier.tabWidth": 4,
     "coc.source.around.enable": false,
     "coc.source.buffer.enable": false,
     "coc.preferences.currentFunctionSymbolAutoUpdate": true,
     "diagnostic.checkCurrentLine": true,
-    "prettier.proseWrap": "always",
-    "prettier.printWidth": 80,
     "python.formatting.provider": "autopep8",
     "python.formatting.autopep8Args": [
         "--in-place",
         "--aggresive",
         "--aggresive"
     ],
-    "coc.preferences.formatOnSaveFiletypes": ["*"]
+    "coc.preferences.formatOnSaveFiletypes": [
+        "*"
+    ]
 }

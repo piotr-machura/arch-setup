@@ -1,55 +1,45 @@
-" Load plugins
-" Auto-install vim-plug
-if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
+" PLUGINS
+if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
-
-    " File Explorer and git wrapper
-    Plug 'scrooloose/NERDTree' |
-        \ Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'tpope/vim-fugitive'
-    " Auto pairs for '(' '[' '{' and surroundings
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'tpope/vim-surround'
-    " Easy repeats with .
-    Plug 'tpope/vim-repeat'
-    " Language server, syntax highlighting and testing
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'sheerun/vim-polyglot'
-    Plug 'janko-m/vim-test'
-    " Indentation lines
-    Plug 'Yggdroot/indentLine'
-    " Distraction-free mode
-    Plug 'junegunn/goyo.vim'
-    " Theme, icons  and status bar
-    Plug 'arcticicestudio/nord-vim'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'itchyny/lightline.vim'
-    call plug#end()
-
-" Editor functions performing a full plugin installation & upgrade
-function! FullPluginInstall()
-    " Install vim-plug extensions
-    PlugInstall
-    " Install the coc extensions listed in package.json
-    !cd $HOME/.config/coc/extensions; npm install;
-endfunction
+Plug 'scrooloose/NERDTree' " File Explorer 
+Plug 'Xuyuanp/nerdtree-git-plugin' " Git status symbols in filetree
+Plug 'ryanoasis/vim-devicons' " Pretty file icons in filetree
+Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
+Plug 'tpope/vim-surround' " Change surrounding braces/quotes
+Plug 'tpope/vim-repeat' " Easy repeats on custom commands
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
+Plug 'sheerun/vim-polyglot' " Syntax highlighting
+Plug 'janko-m/vim-test' " Testing suite
+Plug 'lervag/vimtex' " LaTex suite
+Plug 'junegunn/goyo.vim' " Distraction-free mode
+Plug 'arcticicestudio/nord-vim' " Theme
+Plug 'itchyny/lightline.vim' " Status bar
+Plug 'Yggdroot/indentLine' " Indentation line indicators
+call plug#end()
+" Language server extensions
+let g:coc_global_extensions = [ 
+            \ 'coc-vimtex',
+            \ 'coc-snippets',
+            \ 'coc-python',
+            \ 'coc-clangd',
+            \ 'coc-rust-analyzer',
+            \ 'coc-json',
+            \ 'coc-markdownlint'
+            \ ]
 
 function! FullPluginUpgrade() 
-    " Update vim-plug extensions
-    PlugUpdate
-    PlugUpgrade
-    " Update Coc Extensions
-    CocUpdate
+    PlugUpgrade " Update vim-plug
+    PlugUpdate " Update vim-plug extensions
+    CocUpdate " Update Coc Extensions
 endfunction
 
-command! -nargs=0 Install :call FullPluginInstall()
 command! -nargs=0 Upgrade :call FullPluginUpgrade()
 
-" Map the leader key to ','
+" MAPS
 let mapleader=','
 "Switch between splits using hjkl
 nnoremap <C-j> <C-w>j 
@@ -62,7 +52,7 @@ nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
 
-" Basic settings
+" PREFERENCES
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -74,7 +64,7 @@ set cursorline
 set laststatus=2
 set numberwidth=1
 set title
-set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=70
+set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=120
 set noshowmode
 set nowrap
 set splitbelow
@@ -82,6 +72,7 @@ set splitright
 set hidden
 set shortmess+=c
 set autowrite
+filetype plugin on
 set scrolloff=6
 set encoding=utf-8
 set sidescrolloff=6
@@ -91,18 +82,62 @@ set dir=$HOME/.cache/nvim
 set nobackup
 set nowritebackup
 autocmd VimEnter * if &diff | cmap q qa| endif
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog='/usr/bin/python3'
 
-" Nord theme
+" THEME
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
+let g:indentLine_color_term = 0
+let g:indentLine_char = '|'
 colorscheme nord
+" Get diagnostics string for lightline
+function! StatusDiagnostic() abort 
+    let info = get(b:, 'coc_diagnostic_info', {})
+    if empty(info) | return '' | endif
+    let msgs = []
+    if get(info, 'error', 0)
+        call add(msgs, ' ' . info['error'])
+    endif
+    if get(info, 'warning', 0)
+        call add(msgs, ' ' . info['warning'])
+    endif
+    if get(info, 'information', 0)
+        call add(msgs, ' ' . info['information'])
+    endif
+    if get(info, 'hint', 0)
+        call add(msgs, ' ' . info['hint'])
+    endif
+    return join(msgs, ' ')
+endfunction
+" Get current git branch for lightline
+function! GitBranch() abort
+    let branch_name = trim(system('git branch --show-current'))
+    if stridx(branch_name, 'fatal: not a git repository')!=-1
+        return ''
+    else
+        return ' ' . branch_name
+    endif
+endfunction
+let g:lightline = {
+        \ 'colorscheme': 'nord',
+        \ 'active': {
+        \       'left': [ [ 'mode', 'paste' ],
+        \                 [ 'readonly', 'filename', 'modified'] ],
+        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo'] ]
+        \ },
+        \ 'inactive': {
+        \       'right': [ [ 'filetype', 'lineinfo'] ]
+        \ },
+        \ 'component_function': {
+        \   'gitbranch': 'GitBranch',
+        \   'cocstatus': 'StatusDiagnostic',
+        \ },
+        \ }
 
-" Coc Settings
-
+" LANGUAGE SERVER
 " Use <TAB> and <c-space> for completion
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -164,53 +199,23 @@ nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
 
-" Polyglot
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
-"Get diagnostics string for lightline
-function! StatusDiagnostic() abort
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, 'error', 0)
-        call add(msgs, ' ' . info['error'])
-    endif
-    if get(info, 'warning', 0)
-        call add(msgs, ' ' . info['warning'])
-    endif
-    if get(info, 'information', 0)
-        call add(msgs, ' ' . info['information'])
-    endif
-    if get(info, 'hint', 0)
-        call add(msgs, ' ' . info['hint'])
-    endif
-    return join(msgs, ' ')
-endfunction
+" LATEX
+if empty(v:servername) && exists('*remote_startserver')
+    call remote_startserver('VIM')
+endif
+let g:tex_flavor = 'latex'
+let g:vimtex_complete_close_braces = 1
+let g:vimtex_view_method = 'zathura'
+let $VIMTEX_OUTPUT_DIRECTORY=expand('%:p:h').'/out' " Latex outputs in <file dir>/out
+autocmd BufEnter *.tex setlocal conceallevel=0
+autocmd BufWritePost *.tex silent VimtexCompileSS " Compile on write
+autocmd User VimtexEventQuit call vimtex#compiler#clean(0) " Clear latex trash after exiting
 
-"Lightline status bar configuration
-let g:lightline = {
-        \ 'colorscheme': 'nord',
-        \ 'active': {
-        \       'left': [ [ 'mode', 'paste' ],
-        \                 [ 'readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo'] ]
-        \ },
-        \ 'inactive': {
-        \       'right': [ [ 'filetype', 'lineinfo'] ]
-        \ },
-        \ 'component_function': {
-        \   'gitbranch': 'FugitiveHead',
-        \   'cocstatus': 'StatusDiagnostic',
-        \ },
-        \ }
-
-"Indentline configuration
-let g:indentLine_color_term = 0
-let g:indentLine_char = '|'
-
-" Clipboard provider
+" CLIPBOARD PROVIDER
 let g:clipboard = {
   \   'name': 'xclip',
   \   'copy': {
@@ -300,6 +305,7 @@ function TxtFormat()
     setlocal conceallevel=0
     setlocal nocursorline
     setlocal nonumber
+    setlocal display=lastline
 endfunction
 
 function! StartGoyo()

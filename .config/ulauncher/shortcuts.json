@@ -11,7 +11,7 @@
     },
     "ae2dfe6d-ab9c-4485-8633-8f8574fe1262": {
         "id": "ae2dfe6d-ab9c-4485-8633-8f8574fe1262",
-        "name": "Stack Overflow",
+        "name": "Stack Overflow Search",
         "keyword": "so",
         "cmd": "http://stackoverflow.com/search?q=%s",
         "icon": "/usr/share/ulauncher/media/stackoverflow-icon.svg",
@@ -21,7 +21,7 @@
     },
     "83309dc1-1b03-4f3d-8828-8b4210a5b502": {
         "id": "83309dc1-1b03-4f3d-8828-8b4210a5b502",
-        "name": "Wikipedia",
+        "name": "Wikipedia Search",
         "keyword": "wi",
         "cmd": "https://en.wikipedia.org/wiki/%s",
         "icon": "/usr/share/ulauncher/media/wikipedia-icon.png",
@@ -31,11 +31,11 @@
     },
     "7ef880f8-423a-422a-9ed0-96d6bf2602fe": {
         "id": "7ef880f8-423a-422a-9ed0-96d6bf2602fe",
-        "name": "Arch Wiki",
+        "name": "Arch Wiki Search",
         "keyword": "aw",
         "cmd": "https://wiki.archlinux.org/index.php?search=%s",
         "icon": "/usr/share/icons/Papirus/64x64/apps/distributor-logo-archlinux.svg",
-        "is_default_search": false,
+        "is_default_search": true,
         "run_without_argument": false,
         "added": 1596184081.3145351
     },

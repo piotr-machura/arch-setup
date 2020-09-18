@@ -114,12 +114,6 @@ alias ll='ls -lA --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 
-alias abiword='devour abiword'
-alias parole='devour parole'
-alias ristretto='devour ristretto'
-alias thunar='devour thunar'
-alias zathura='devour zathura'
-
 alias c='clear'
 alias :wq='exit'
 alias :q='exit'
