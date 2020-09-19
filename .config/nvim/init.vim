@@ -66,7 +66,7 @@ set numberwidth=1
 set title
 set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=120
 set noshowmode
-set nowrap
+set wrap linebreak
 set splitbelow
 set splitright
 set hidden
@@ -113,7 +113,7 @@ function! StatusDiagnostic() abort
     return join(msgs, ' ')
 endfunction
 " Get current git branch for lightline
-function! GitBranch() abort
+function! GetGitBranch() abort
     let branch_name = trim(system('git branch --show-current'))
     if stridx(branch_name, 'fatal: not a git repository')!=-1
         return ''
@@ -132,7 +132,7 @@ let g:lightline = {
         \       'right': [ [ 'filetype', 'lineinfo'] ]
         \ },
         \ 'component_function': {
-        \   'gitbranch': 'GitBranch',
+        \   'gitbranch': 'GetGitBranch',
         \   'cocstatus': 'StatusDiagnostic',
         \ },
         \ }
@@ -230,7 +230,7 @@ let g:clipboard = {
   \ }
 set clipboard+=unnamedplus
 
-" NERDtree 
+" FILETREE
 " If more than one window and previous buffer was NERDTree, go back to it.
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 " Close when there is only nerdtree open
@@ -260,7 +260,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Unknown'   :'',
                 \ }
 
-" .txt file formatting
+" PROSE FORMATTING
 function CheckFilename()
     " Check for some commonly used programming .txt files
     let names = [
@@ -280,37 +280,29 @@ function CheckFilename()
     endfor
     return 0
 endfunction
-
-function TxtFormat()
-    " Is called on BufEnter, but only on non-programming files
-    if CheckFilename() | return | endif
+function ApplyProseFormatting()
     " Spellfile in the main file's dir
     let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
     setlocal spell
     setlocal spellsuggest+=5
+    " Put dialogue dash instead of --
     iabbrev <buffer> -- —
-    " Disable all automatic indentation and use tabs, not spaces
+    " Disable all automatic indentation 
     setlocal noautoindent
     setlocal nobreakindent
     setlocal nosmartindent
     setlocal nocindent
+    " Use tabs, not spaces
     setlocal noexpandtab
-    " Soft line wrap
-    setlocal wrap linebreak
+    " Line wrap modifications
     setlocal scrolloff=0
+    setlocal display=lastline
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
-    " Change some visuals
-    setlocal conceallevel=0
     setlocal nocursorline
-    setlocal nonumber
-    setlocal display=lastline
 endfunction
-
 function! StartGoyo()
-    " Is called on VimEnter, but only on non-programming files
-    if CheckFilename() | return | endif
     if !&diff
         call lightline#init()
         Goyo
@@ -318,7 +310,7 @@ function! StartGoyo()
     endif
 endfunction
 
-autocmd BufEnter *.txt call TxtFormat()
-autocmd VimEnter *.txt call StartGoyo()
+autocmd BufEnter *.txt if !CheckFilename() | call ApplyProseFormatting() | endif
+autocmd VimEnter *.txt if !CheckFilename() | call StartGoyo() | endif
 " Resize goyo automatically after resizing vim
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif

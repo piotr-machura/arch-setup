@@ -58,6 +58,9 @@ else
   export EDITOR='nvim'
 fi
 
+# Preffered pager
+export PAGER='less'
+
 # Extract function for common compression formats
 function extract {
  if [ -z "$1" ]; then
