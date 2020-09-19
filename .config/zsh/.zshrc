@@ -133,11 +133,7 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #Title, cursor
-case $TERM in
-  xterm*)
-    precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
-    ;;
-esac
+precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
 _set_cursor() {echo -ne '\e[4 q'}
 precmd_functions+=(_set_cursor)
 

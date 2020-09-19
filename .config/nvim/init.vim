@@ -71,6 +71,7 @@ set splitbelow
 set splitright
 set hidden
 set shortmess+=c
+set mouse+=ar
 set autowrite
 filetype plugin on
 set scrolloff=6
