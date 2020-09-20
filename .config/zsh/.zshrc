@@ -100,7 +100,6 @@ fi
 # History/suggestion settings
 setopt hist_ignore_dups
 export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
-ZSH_AUTOSUGGEST_STRATEGY=(completion)
 HISTSIZE=1000
 SAVEHIST=1000
 HISTORY_IGNORE="c|clear"
@@ -121,15 +120,17 @@ alias :wq='exit'
 alias :q='exit'
 alias -g %='$ZDOTDIR/.zshrc'
 
-alias venv='python -m venv .venv; echo "Created a new virtual environment at ./.venv"'
+alias py='python3'
+alias venv='python3 -m venv .venv; echo "Created a new virtual environment at ./.venv"'
 alias activate='source .venv/bin/activate'
 
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 
-# Load plugins
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Autosuggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_STRATEGY=(completion)
+ZSH_AUTOSUGGEST_MANUAL_REBIND=true
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 #Title, cursor
 precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
@@ -155,6 +156,7 @@ SPACESHIP_DIR_TRUNC=1
 SPACESHIP_DIR_LOCK_SYMBOL=" "
 SPACESHIP_DIR_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
+SPACESHIP_DIR_TRUNC_REPO=false
 
 SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_VI_MODE_INSERT=" "
@@ -197,3 +199,9 @@ prompt spaceship
 # Vi-mode
 bindkey -v
 eval spaceship_vi_mode_enable
+
+# Syntax highlighting
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
