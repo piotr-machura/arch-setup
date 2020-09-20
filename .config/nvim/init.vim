@@ -11,6 +11,8 @@ Plug 'ryanoasis/vim-devicons' " Pretty file icons in filetree
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
+Plug 'tpope/vim-commentary' " Comment automation
+Plug 'jbgutierrez/vim-better-comments' " Highlight comments with keywords
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
 Plug 'sheerun/vim-polyglot' " Syntax highlighting
 Plug 'janko-m/vim-test' " Testing suite
@@ -80,22 +82,36 @@ set sidescrolloff=6
 set updatetime=300
 set backupdir=$HOME/.cache/nvim/backup
 set dir=$HOME/.cache/nvim
+set listchars=tab:-,trail:·
+set list
 set nobackup
 set nowritebackup
 autocmd VimEnter * if &diff | cmap q qa| endif
+autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
 let g:python3_host_prog='/usr/bin/python3'
 
 " THEME
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
-let g:nord_italic_comments = 1
 let g:nord_underline = 1
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
 let g:current_branch_name = ''
 
 colorscheme nord
+
+" Comment highlighting
+highlight ErrorBetterComments ctermfg=1 cterm=bold
+highlight TodoBetterComments ctermfg=3 cterm=underline
+highlight QuestionBetterComments ctermfg=4 cterm=undercurl
+highlight HighlightBetterComments ctermfg=8 ctermbg=NONE cterm=NONE
+highlight StrikeoutBetterComments ctermfg=8 ctermbg=NONE cterm=NONE
+let g:bettercomments_language_aliases = { 
+            \ 'javascript': 'js',
+            \ 'python': 'py',
+            \ 'rust': 'rs'
+            \ }
 " Get diagnostics string for lightline
 function! StatusDiagnostic() abort 
     let info = get(b:, 'coc_diagnostic_info', {})
@@ -116,6 +132,7 @@ function! StatusDiagnostic() abort
     return join(msgs, ' ')
 endfunction
 " Get current git branch for lightline
+let g:current_branch_name = ''
 function! SetGitBranch() abort
     let branch_name = trim(system('git branch --show-current'))
     if stridx(branch_name, 'fatal: not a git repository')!=-1
@@ -133,6 +150,20 @@ function! FileTypeWithIcon()
   return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
 endfunction
 
+function! CurrentAndTotalLines()
+    let current_line = line('.')
+    let current_v_line = line('v')
+    let total_lines = line('$')
+    let current_mode = mode()
+    if current_mode!= "v" && current_mode != "V" && current_mode != "\<C-V>"
+        return ' ' . current_line . ':' . total_lines
+    elseif current_line > current_v_line
+        return 'ﬕ ' . current_v_line . '-' . current_line
+    else
+        return 'ﬕ ' . current_line . '-' . current_v_line
+    endif
+endfunction
+
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
@@ -147,6 +178,7 @@ let g:lightline = {
         \   'cocstatus': 'StatusDiagnostic',
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
+        \   'lineinfo': 'CurrentAndTotalLines'
         \ },
         \ }
 
@@ -314,6 +346,7 @@ function ApplyProseFormatting()
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
     setlocal nocursorline
+    setlocal nolist
 endfunction
 function! StartGoyo()
     if !&diff
