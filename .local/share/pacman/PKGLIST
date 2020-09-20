@@ -23,7 +23,6 @@ gst-libav
 gst-plugins-ugly
 gvfs
 htop
-lightdm
 lightdm-gtk-greeter
 linux
 linux-firmware
