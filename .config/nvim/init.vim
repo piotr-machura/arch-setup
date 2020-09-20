@@ -12,7 +12,6 @@ Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
-Plug 'jbgutierrez/vim-better-comments' " Highlight comments with keywords
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
 Plug 'sheerun/vim-polyglot' " Syntax highlighting
 Plug 'janko-m/vim-test' " Testing suite
@@ -48,12 +47,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k 
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
-" Use the leader key to delete insted of cut 
+" Use the leader key to delete insted of cut
 nnoremap <leader>x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
- 
+
 " PREFERENCES
 set tabstop=4
 set softtabstop=4
@@ -62,7 +61,6 @@ set expandtab
 set shiftround
 set signcolumn=yes
 set number
-set cursorline
 set laststatus=2
 set numberwidth=1
 set title
@@ -94,6 +92,7 @@ let g:python3_host_prog='/usr/bin/python3'
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
+let g:nord_italic_comments = 1
 let g:nord_underline = 1
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
@@ -102,16 +101,8 @@ let g:current_branch_name = ''
 colorscheme nord
 
 " Comment highlighting
-highlight ErrorBetterComments ctermfg=1 cterm=bold
-highlight TodoBetterComments ctermfg=3 cterm=underline
-highlight QuestionBetterComments ctermfg=4 cterm=undercurl
-highlight HighlightBetterComments ctermfg=8 ctermbg=NONE cterm=NONE
-highlight StrikeoutBetterComments ctermfg=8 ctermbg=NONE cterm=NONE
-let g:bettercomments_language_aliases = { 
-            \ 'javascript': 'js',
-            \ 'python': 'py',
-            \ 'rust': 'rs'
-            \ }
+highlight Todo ctermfg=yellow cterm=underline,italic
+" TODO This is a todo comment
 " Get diagnostics string for lightline
 function! StatusDiagnostic() abort 
     let info = get(b:, 'coc_diagnostic_info', {})
@@ -333,7 +324,7 @@ function ApplyProseFormatting()
     setlocal spellsuggest+=5
     " Put dialogue dash instead of --
     iabbrev <buffer> -- —
-    " Disable all automatic indentation 
+    " Disable all automatic indentation
     setlocal noautoindent
     setlocal nobreakindent
     setlocal nosmartindent
@@ -345,7 +336,6 @@ function ApplyProseFormatting()
     setlocal display=lastline
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
-    setlocal nocursorline
     setlocal nolist
 endfunction
 function! StartGoyo()

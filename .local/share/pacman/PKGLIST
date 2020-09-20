@@ -31,7 +31,8 @@ meta-group-base-devel
 meta-group-texlive-most
 neovim
 neovim-symlinks
-nerd-fonts-fira-code
+nerd-fonts-fira-mono
+nerd-fonts-noto-sans-regular-complete
 network-manager-applet
 noto-fonts-emoji
 npm
