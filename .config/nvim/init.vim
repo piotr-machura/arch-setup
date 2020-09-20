@@ -3,7 +3,7 @@ if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-
+ 
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 Plug 'scrooloose/NERDTree' " File Explorer 
 Plug 'Xuyuanp/nerdtree-git-plugin' " Git status symbols in filetree
@@ -36,7 +36,7 @@ function! FullPluginUpgrade()
     PlugUpdate " Update vim-plug extensions
     CocUpdate " Update Coc Extensions
 endfunction
-
+ 
 command! -nargs=0 Upgrade :call FullPluginUpgrade()
 
 " MAPS
@@ -51,7 +51,7 @@ nnoremap <leader>x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
-
+ 
 " PREFERENCES
 set tabstop=4
 set softtabstop=4
@@ -93,6 +93,8 @@ let g:nord_italic_comments = 1
 let g:nord_underline = 1
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
+let g:current_branch_name = ''
+
 colorscheme nord
 " Get diagnostics string for lightline
 function! StatusDiagnostic() abort 
@@ -114,14 +116,23 @@ function! StatusDiagnostic() abort
     return join(msgs, ' ')
 endfunction
 " Get current git branch for lightline
-function! GetGitBranch() abort
+function! SetGitBranch() abort
     let branch_name = trim(system('git branch --show-current'))
     if stridx(branch_name, 'fatal: not a git repository')!=-1
-        return ''
+        let g:current_branch_name = ''
     else
-        return ' ' . branch_name
+        let g:current_branch_name = ' ' . branch_name
     endif
 endfunction
+function! GetGitBranch() abort
+    return g:current_branch_name
+endfunction
+autocmd BufEnter * call SetGitBranch()
+
+function! FileTypeWithIcon()
+  return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
+endfunction
+
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
@@ -130,11 +141,12 @@ let g:lightline = {
         \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo'] ]
         \ },
         \ 'inactive': {
-        \       'right': [ [ 'filetype', 'lineinfo'] ]
+        \       'right': [ [ 'filetype' ] ]
         \ },
         \ 'component_function': {
-        \   'gitbranch': 'GetGitBranch',
         \   'cocstatus': 'StatusDiagnostic',
+        \   'gitbranch': 'GetGitBranch',
+        \   'filetype': 'FileTypeWithIcon',
         \ },
         \ }
 

@@ -46,7 +46,6 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
-export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 
 # Require virtual environment for pip install
 export PIP_REQUIRE_VIRTUALENV=true
