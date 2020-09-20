@@ -42,7 +42,7 @@
 	box-shadow: 0 0 5px @window_shadow;
 	background-color: @window_bg;
 	border: 1px solid @window_border_color;
-	border-radius: 4px;
+	border-radius: 0px;
 }
 
 .input {
