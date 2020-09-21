@@ -105,7 +105,6 @@ SAVEHIST=1000
 HISTORY_IGNORE="c|clear"
 
 # Aliases
-setopt autocd
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
