@@ -198,6 +198,8 @@ prompt spaceship
 # Vi-mode
 bindkey -v
 eval spaceship_vi_mode_enable
+bindkey -a '^[[3~' delete-char # Make delete key do the thing
+bindkey '^[[3~' delete-char
 
 # Syntax highlighting
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES

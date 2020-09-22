@@ -1,4 +1,5 @@
 abiword
+alacritty
 arc-gtk-theme
 aspell
 aspell-en
@@ -47,6 +48,7 @@ python-pylint
 python-pynvim
 python-pyqt5
 python-rope
+ranger
 ristretto
 rust-analyzer
 sagemath
@@ -74,7 +76,6 @@ xfce4-pulseaudio-plugin
 xfce4-screenshooter
 xfce4-session
 xfce4-settings
-xfce4-terminal
 xfconf
 xfdesktop
 xfwm4
