@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Ranger
+GenericName=File Manager
+Comment=Launches the ranger file manager
+Icon=Thunar
+Terminal=true
+Exec=ranger
+Categories=Utility;FileTools;FileManager
+MimeType=inode/directory;
+Keywords=File;Manager;Browser;Explorer;Launcher;Vi;Vim;Python

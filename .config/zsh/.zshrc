@@ -50,15 +50,11 @@ export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 # Require virtual environment for pip install
 export PIP_REQUIRE_VIRTUALENV=true
 
-# Preffered editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
-# Preffered pager
+# Preffered applications
+export EDITOR='vim'
 export PAGER='less'
+export TERMINAL='alacritty -e'
+export BROWSER='firefox'
 
 # Extract function for common compression formats
 function extract {
@@ -123,6 +119,13 @@ alias venv='python3 -m venv .venv; echo "Created a new virtual environment at ./
 alias activate='source .venv/bin/activate'
 
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
+
+alias abiword='devour abiword'
+alias parole='devour parole'
+alias ristretto='devour ristretto'
+alias firefox='devour firefox'
+alias zathura='devour zathura'
+alias jpnb='devour jupyter notebook'
 
 # Autosuggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

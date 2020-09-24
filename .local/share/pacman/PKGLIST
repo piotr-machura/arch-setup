@@ -9,6 +9,7 @@ base
 bitwarden-bin
 brightnessctl
 clang
+devour
 dhcp
 dhcpcd
 exo
@@ -40,6 +41,7 @@ npm
 papirus-icon-theme
 parole
 pavucontrol
+perl-file-mimeinfo
 pulseaudio
 pulseaudio-alsa
 python-pip
@@ -66,7 +68,6 @@ thunar-archive-plugin
 thunar-volman
 timeshift
 tumbler
-ulauncher
 unrar
 virtualbox-guest-utils
 xcb-util-cursor

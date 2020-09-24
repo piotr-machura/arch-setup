@@ -43,8 +43,6 @@ def autostart():
     ]
     for process in processes:
         subprocess.Popen(process)
-    sleep(0.1)
-    lazy.refresh()
 
 terminal = guess_terminal()
 
@@ -185,18 +183,23 @@ wmname = "LG3D"
 
 class NERDLayout(widget.CurrentLayout):
     """CurrentLayout widget with NERD font icons instead of names"""
+    def _configure(self, *args, **kwargs):
+        super()._configure(*args, **kwargs)
+        self._name_to_icon(self.bar.screen.group.layouts[0].name)
+
+    def _name_to_icon(self, name):
+        if name == 'monadtall':
+            self.text = " "
+        elif name == 'max':
+            self.text = " "
+        elif name == 'floating':
+            self.text = " "
+
     def setup_hooks(self):
         def hook_response(layout, group):
             if group.screen is not None \
                     and group.screen == self.bar.screen:
-                if layout.name == 'monadtall':
-                    self.text = " "
-                elif layout.name == 'max':
-                    self.text = " "
-                elif layout.name == 'floating':
-                    self.text = " "
-                else:
-                    self.text = layout.name
+                self._name_to_icon(layout.name)
                 self.bar.draw()
         hook.subscribe.layout_change(hook_response)
 
