@@ -8,7 +8,6 @@ autopep8
 base
 bitwarden-bin
 brightnessctl
-catfish
 clang
 dhcp
 dhcpcd
@@ -70,7 +69,7 @@ tumbler
 ulauncher
 unrar
 virtualbox-guest-utils
-xarchiver
+xcb-util-cursor
 xclip
 xfce4-notifyd
 xfce4-panel
