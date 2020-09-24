@@ -3,7 +3,7 @@ if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
- 
+
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 Plug 'scrooloose/NERDTree' " File Explorer 
 Plug 'Xuyuanp/nerdtree-git-plugin' " Git status symbols in filetree
@@ -52,6 +52,15 @@ nnoremap <leader>x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
+map <MiddleMouse> <Nop>
+map <2-MiddleMouse> <Nop>
+map <3-MiddleMouse> <Nop>
+map <4-MiddleMouse> <Nop>
+imap <MiddleMouse> <Nop>
+imap <2-MiddleMouse> <Nop>
+imap <3-MiddleMouse> <Nop>
+imap <4-MiddleMouse> <Nop>
+
 
 " PREFERENCES
 set tabstop=4
@@ -64,7 +73,7 @@ set number
 set laststatus=2
 set numberwidth=1
 set title
-set titlestring=Neovim:\ %-25.55F\ %a%r%m titlelen=120
+set titlestring=\ %-25.55F\ %a%r%m titlelen=120
 set noshowmode
 set wrap linebreak
 set splitbelow

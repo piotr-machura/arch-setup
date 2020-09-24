@@ -105,9 +105,8 @@ SAVEHIST=1000
 HISTORY_IGNORE="c|clear"
 
 # Aliases
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
+alias -g ...='../..'
+alias -g ....='../../..'
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
@@ -132,7 +131,7 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=true
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 #Title, cursor
-precmd () {print -Pn "\e]0;$USER@$HOST: ${PWD/#$HOME/~}\a"}
+precmd () {print -Pn "\e]0;${PWD/#$HOME/~} \a"}
 _set_cursor() {echo -ne '\e[4 q'}
 precmd_functions+=(_set_cursor)
 

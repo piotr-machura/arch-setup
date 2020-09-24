@@ -7,6 +7,7 @@ aspell-pl
 autopep8
 base
 bitwarden-bin
+brightnessctl
 catfish
 clang
 dhcp
@@ -48,8 +49,10 @@ python-pylint
 python-pynvim
 python-pyqt5
 python-rope
+qtile
 ranger
 ristretto
+rofi
 rust-analyzer
 sagemath
 sagemath-doc
