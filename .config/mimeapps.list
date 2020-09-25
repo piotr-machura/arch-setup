@@ -1,0 +1,21 @@
+[Added Associations]
+text/plain=org.xfce.Parole.desktop;io.github.celluloid_player.Celluloid.desktop;nvim.desktop;abiword.desktop;
+application/zip=xarchiver.desktop;
+image/svg+xml=ristretto.desktop;
+application/octet-stream=nvim.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
+inode/chardevice=nvim.desktop;
+text/html=firefox.desktop;
+video/mp4=org.xfce.Parole.desktop;snappy.desktop;io.elementary.videos.desktop;gnome-mplayer.desktop;mplayer.desktop;smplayer.desktop;
+application/x-desktop=nvim.desktop;
+application/json=nvim.desktop;
+
+[Default Applications]
+application/zip=xarchiver.desktop
+image/svg+xml=ristretto.desktop
+text/plain=nvim.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop
+text/html=firefox.desktop
+application/x-ipynb+json=jupyter-usercreated-1.desktop;
+application/xml=nvim.desktop;
+inode/directory=ranger.desktop;

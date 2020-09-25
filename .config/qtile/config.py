@@ -40,6 +40,8 @@ def autostart():
     """List of lists with commands to be executed on startup and their args"""
     processes = [
         ['xrandr', '--size', '1360x768'],
+        ['dunst', '&'],
+        ['picom', '&']
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -157,6 +159,7 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run `xprop` to see the wm class and name of an X client.
         {'wmclass': 'confirm'},
+        {'wmclass': 'spotify'},
         {'wmclass': 'dialog'},
         {'wmclass': 'download'},
         {'wmclass': 'error'},
@@ -194,6 +197,8 @@ class NERDLayout(widget.CurrentLayout):
             self.text = " "
         elif name == 'floating':
             self.text = " "
+        else:
+            self.text = name
 
     def setup_hooks(self):
         def hook_response(layout, group):
@@ -209,7 +214,6 @@ theme_widget = {
     "padding" : 5,
     "foreground" : nord_colors[6],
     "markup": True,
-    "fmt" : '<b> {} </b>'
 }
 
 screens = [
@@ -236,7 +240,11 @@ screens = [
                     rounded = False,
                     **theme_widget
                 ),
-                widget.WindowName(**theme_widget),
+                widget.WindowName(
+                    show_state = False,
+                    fmt='<b> {} </b>',
+                    **theme_widget
+                ),
                 NERDLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
             ],

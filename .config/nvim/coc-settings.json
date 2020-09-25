@@ -1,6 +1,5 @@
 {
     "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
-    "clangd.path": "/usr/bin/clangd",
     "python.linting.pylintPath": "/usr/bin/pylint",
     "python.formatting.autopep8Path": "/usr/bin/autopep8",
     "python.jediPath": "/usr/lib/python3.8/site-packages",

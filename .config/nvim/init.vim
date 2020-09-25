@@ -15,7 +15,6 @@ Plug 'tpope/vim-commentary' " Comment automation
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
 Plug 'sheerun/vim-polyglot' " Syntax highlighting
 Plug 'janko-m/vim-test' " Testing suite
-Plug 'lervag/vimtex' " LaTex suite
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
@@ -23,13 +22,10 @@ Plug 'Yggdroot/indentLine' " Indentation line indicators
 call plug#end()
 " Language server extensions
 let g:coc_global_extensions = [ 
-            \ 'coc-vimtex',
             \ 'coc-snippets',
             \ 'coc-python',
-            \ 'coc-clangd',
             \ 'coc-rust-analyzer',
             \ 'coc-json',
-            \ 'coc-markdownlint'
             \ ]
 
 function! FullPluginUpgrade() 
@@ -60,7 +56,6 @@ imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 imap <3-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
-
 
 " PREFERENCES
 set tabstop=4
@@ -247,18 +242,6 @@ nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
-
-" LATEX
-if empty(v:servername) && exists('*remote_startserver')
-    call remote_startserver('VIM')
-endif
-let g:tex_flavor = 'latex'
-let g:vimtex_complete_close_braces = 1
-let g:vimtex_view_method = 'zathura'
-let $VIMTEX_OUTPUT_DIRECTORY=expand('%:p:h').'/out' " Latex outputs in <file dir>/out
-autocmd BufEnter *.tex setlocal conceallevel=0
-autocmd BufWritePost *.tex silent VimtexCompileSS " Compile on write
-autocmd User VimtexEventQuit call vimtex#compiler#clean(0) " Clear latex trash after exiting
 
 " CLIPBOARD PROVIDER
 let g:clipboard = {

@@ -6,4 +6,4 @@ Target = *
 [Action]
 Description = Adding local desktop entries... 
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/cp -rn /usr/share/applications/* $HOME/.local/share/applications/.; /usr/bin/chown -R $(cut -d'/' -f3 <<<$HOME) $HOME/.local/share/applications'
+Exec = /bin/sh -c '/usr/bin/cp -rn /usr/share/applications/*.desktop $HOME/.local/share/applications/.; /usr/bin/chown -R $(cut -d'/' -f3 <<<$HOME) $HOME/.local/share/applications'
