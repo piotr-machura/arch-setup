@@ -26,7 +26,7 @@
 
 import subprocess
 from typing import List  # noqa: F401
-from time import sleep
+import re
 
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
@@ -208,9 +208,71 @@ class NERDLayout(widget.CurrentLayout):
                 self.bar.draw()
         hook.subscribe.layout_change(hook_response)
 
+class PamixerVolume(widget.base._TextBox):
+    orientations = widget.base.ORIENTATION_HORIZONTAL
+    defaults = [
+        ("padding", 3, "Padding left and right. Calculated if None."),
+        ("update_interval", 0.2, "Update time in seconds."),
+        ]
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.add_defaults(PamixerVolume.defaults)
+        self.surfaces = {}
+        self.volume = None
+        self.mouse_callbacks = {
+            'Button1': self.cmd_mute,
+            'Button3': self.cmd_app,
+        }
+
+    def timer_setup(self):
+        self.timeout_add(self.update_interval, self.update)
+
+    def button_press(self, x, y, button):
+        name = 'Button{0}'.format(button)
+        if name in self.mouse_callbacks:
+            self.mouse_callbacks[name]()
+        self.draw()
+        self._update_drawer()
+
+    def get_volume(self):
+        p = subprocess.Popen(["pamixer","--get-volume"], stdout=subprocess.PIPE)
+        volume, _= p.communicate()
+        p = subprocess.Popen(["pamixer","--get-mute"], stdout=subprocess.PIPE)
+        muted, _ = p.communicate()
+        if "true" in str(muted):
+            return -1
+        else:
+            volume = re.sub(r"[b'\\n]", "", str(volume))
+            return int(volume)
+
+    def _update_drawer(self):
+        if 0 < self.volume < 30:
+            self.text = '奄 '
+        elif 30 < self.volume <= 70:
+            self.text = '奔 '
+        elif self.volume > 70:
+            self.text = '墳 '
+        else:
+            self.text = ' ﱝ  '
+
+    def update(self):
+        vol = self.get_volume()
+        if vol != self.volume:
+            self.volume = vol
+            # Update the underlying canvas size before actually attempting
+            # to figure out how big it is and draw it.
+            self._update_drawer()
+            self.bar.draw()
+        self.timeout_add(self.update_interval, self.update)
+
+    def cmd_mute(self):
+        subprocess.Popen(["pamixer", "--toggle-mute"])
+
+    def cmd_app(self):
+        subprocess.Popen(["pavucontrol"])
+
 theme_widget = {
     "font" : 'NotoSans Nerd Font',
-    "fontsize" : 12,
     "padding" : 5,
     "foreground" : nord_colors[6],
     "markup": True,
@@ -224,6 +286,7 @@ screens = [
             [
                 widget.GroupBox(
                     active = nord_colors[6],
+                    fontsize = 12,
                     borderwidth = 2,
                     center_aligned = True,
                     disable_drag = True,
@@ -241,12 +304,17 @@ screens = [
                     **theme_widget
                 ),
                 widget.WindowName(
+                    fontsize=12,
                     show_state = False,
                     fmt='<b> {} </b>',
                     **theme_widget
                 ),
-                NERDLayout(**theme_widget),
-                widget.Clock(format='%H:%M', **theme_widget),
+                PamixerVolume(
+                    fontsize=14,
+                    **theme_widget,
+                ),
+                NERDLayout(fontsize=12,**theme_widget),
+                widget.Clock(fontzise=12, format='%H:%M', **theme_widget),
             ],
             30,
             background = nord_colors[0]

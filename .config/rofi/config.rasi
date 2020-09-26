@@ -1,15 +1,15 @@
 configuration {
 	modi: "run";
-	width: 50;
-	lines: 5;
+	width: 40;
+	lines: 8;
 	columns: 1;
 	font: "NotoSans Nerd Font 12";
-	bw: 1;
+	bw: 2;
 	location: 0;
-	padding: 5;
-	yoffset: 0;
+	padding: 15;
+	yoffset: -150;
 	xoffset: 0;
-	fixed-num-lines: true;
+	fixed-num-lines: false;
 	show-icons: true;
 	terminal: "alacritty";
 	ssh-client: "ssh";
@@ -22,9 +22,9 @@ configuration {
 	icon-theme: "Papirus Dark";
 	drun-match-fields: "name,generic,exec,categories,keywords";
 	drun-show-actions: false;
-	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";
+	drun-display-format: "{name}    [<span weight='light'><i>({generic})</i></span>]";
 	drun-url-launcher: "mimeopen";
-	disable-history: false;
+	disable-history: true;
 	ignored-prefixes: "";
 	sort: false;
 	sorting-method: "normal";
@@ -39,8 +39,8 @@ configuration {
 	matching: "normal";
 	tokenize: true;
 	m: "-5";
-	line-margin: 2;
-	line-padding: 1;
+	line-margin: 10;
+	line-padding: 10;
 	separator-style: "dash";
 	hide-scrollbar: false;
 	fullscreen: false;

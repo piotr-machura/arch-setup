@@ -36,6 +36,7 @@ networkmanager
 nm-connection-editor
 noto-fonts-emoji
 npm
+pamixer
 papirus-icon-theme
 parole
 pavucontrol
@@ -43,6 +44,7 @@ perl-file-mimeinfo
 picom
 pulseaudio
 pulseaudio-alsa
+python-iwlib
 python-pip
 python-pylint
 python-pynvim
