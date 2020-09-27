@@ -84,7 +84,7 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=true
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 #Title, cursor
-precmd () {print -Pn "\e]0;${PWD/#$HOME/~} \a"}
+precmd () {print -Pn "\e]0; ${PWD/#$HOME/~}\a"}
 _set_cursor() {echo -ne '\e[4 q'}
 precmd_functions+=(_set_cursor)
 
@@ -138,8 +138,6 @@ prompt spaceship
 # Vi-mode
 bindkey -v
 eval spaceship_vi_mode_enable
-bindkey -a '^[[3~' delete-char # Make delete key do the thing
-bindkey '^[[3~' delete-char
 
 # Syntax highlighting
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
