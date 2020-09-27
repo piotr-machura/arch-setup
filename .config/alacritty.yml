@@ -11,7 +11,7 @@ window:
     y: 3
   dynamic_padding: false
   startup_mode: Windowed
-  title: Terminal
+  title: ---
   dynamic_title: true
   class:
     instance: Alacritty

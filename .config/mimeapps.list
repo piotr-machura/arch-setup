@@ -6,7 +6,6 @@ application/octet-stream=nvim.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
 inode/chardevice=nvim.desktop;
 text/html=firefox.desktop;
-video/mp4=org.xfce.Parole.desktop;snappy.desktop;io.elementary.videos.desktop;gnome-mplayer.desktop;mplayer.desktop;smplayer.desktop;
 application/x-desktop=nvim.desktop;
 application/json=nvim.desktop;
 
@@ -21,3 +20,5 @@ application/xml=nvim.desktop;
 inode/directory=ranger.desktop;
 application/x-shellscript=nvim.desktop;
 image/png=ristretto.desktop;
+video/mp4=org.xfce.Parole.desktop;
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;

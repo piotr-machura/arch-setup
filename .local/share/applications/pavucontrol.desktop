@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=PulseAudio
+Name=Pulse Audio
 GenericName=Volume Control
 Comment=Adjust the volume level
 Exec=pavucontrol

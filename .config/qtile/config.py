@@ -159,7 +159,6 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run `xprop` to see the wm class and name of an X client.
         {'wmclass': 'confirm'},
-        {'wmclass': 'spotify'},
         {'wmclass': 'dialog'},
         {'wmclass': 'download'},
         {'wmclass': 'error'},
@@ -173,6 +172,11 @@ floating_layout = layout.Floating(
         {'wname': 'branchdialog'},  # gitk
         {'wname': 'pinentry'},  # GPG key password entry
         {'wmclass': 'ssh-askpass'},  # ssh-askpass
+        # User-created floating windows
+        {'wmclass': 'galculator'},
+        {'wmclass': 'pavucontrol'},
+        {'wmclass': 'nm-connection-editor'},
+        {'wmclass': 'spotify'},
     ],
     **theme_layout
 )
