@@ -1,5 +1,6 @@
 [Desktop Entry]
-Name=Advanced Network Configuration
+Name=Network Manager
+GenericName=Internet Connection Utility
 Comment=Manage and change your network connection settings
 Icon=preferences-system-network
 Exec=nm-connection-editor

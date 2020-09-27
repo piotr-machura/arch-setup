@@ -9,3 +9,4 @@ Type=Application
 Terminal=false
 Categories=Development;
 Keywords=maths;cas;algebra;education;engineering;physics;
+Hidden=true

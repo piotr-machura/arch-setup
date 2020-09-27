@@ -33,7 +33,7 @@ font:
   bold_italic:
     family: FiraMono Nerd Font
     style: Bold Italic
-  size: 10.0
+  size: 11.0
 
 # Nord Theme
 colors:

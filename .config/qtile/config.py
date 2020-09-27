@@ -73,7 +73,7 @@ keys = [
 
     Key([mod], "Return", lazy.spawn(terminal)),
     Key([mod], "w", lazy.spawn("firefox")),
-    Key([mod], "f", lazy.spawn("thunar")),
+    Key([mod], "f", lazy.spawn("alacritty -e ranger")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
 
@@ -235,15 +235,18 @@ class PamixerVolume(widget.base._TextBox):
         self._update_drawer()
 
     def get_volume(self):
-        p = subprocess.Popen(["pamixer","--get-volume"], stdout=subprocess.PIPE)
-        volume, _= p.communicate()
-        p = subprocess.Popen(["pamixer","--get-mute"], stdout=subprocess.PIPE)
-        muted, _ = p.communicate()
+        p_outcome = subprocess.Popen(
+            ["pamixer","--get-volume"],
+            stdout=subprocess.PIPE)
+        volume, _= p_outcome.communicate()
+        p_outcome = subprocess.Popen(
+            ["pamixer","--get-mute"],
+            stdout=subprocess.PIPE)
+        muted, _ = p_outcome.communicate()
         if "true" in str(muted):
             return -1
-        else:
-            volume = re.sub(r"[b'\\n]", "", str(volume))
-            return int(volume)
+        volume = re.sub(r"[b'\\n]", "", str(volume))
+        return int(volume)
 
     def _update_drawer(self):
         if 0 < self.volume < 30:
@@ -285,8 +288,9 @@ screens = [
         bottom=bar.Bar(
             [
                 widget.GroupBox(
+                    highlight_method='block',
                     active = nord_colors[6],
-                    fontsize = 12,
+                    fontsize = 14,
                     borderwidth = 2,
                     center_aligned = True,
                     disable_drag = True,
@@ -304,19 +308,18 @@ screens = [
                     **theme_widget
                 ),
                 widget.WindowName(
-                    fontsize=12,
+                    fontsize=14,
                     show_state = False,
-                    fmt='<b> {} </b>',
                     **theme_widget
                 ),
                 PamixerVolume(
-                    fontsize=14,
+                    fontsize=19,
                     **theme_widget,
                 ),
-                NERDLayout(fontsize=12,**theme_widget),
-                widget.Clock(fontzise=12, format='%H:%M', **theme_widget),
+                NERDLayout(fontsize=14,**theme_widget),
+                widget.Clock(fontzise=14, format='%H:%M', **theme_widget),
             ],
-            30,
+            34,
             background = nord_colors[0]
         ),
     ),

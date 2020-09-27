@@ -8,3 +8,4 @@ Categories=Development;
 StartupNotify=false
 Terminal=true
 Type=Application
+Hidden=true

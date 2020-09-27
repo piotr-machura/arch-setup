@@ -7,4 +7,4 @@ Exec=Singular
 Terminal=true
 Categories=Development;
 Icon=/usr/share/icons/Singular.png
-
+Hidden=true

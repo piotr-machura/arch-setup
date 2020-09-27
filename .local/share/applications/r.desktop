@@ -9,3 +9,4 @@ StartupNotify=true
 Terminal=true
 Type=Application
 Categories=Development;
+Hidden=true

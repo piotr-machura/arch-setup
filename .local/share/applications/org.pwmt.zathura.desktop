@@ -2,6 +2,7 @@
 Version=1.0
 Type=Application
 Name=Zathura
+GenericName=Document viewer
 Comment=A minimalistic document viewer
 Exec=zathura %U
 Icon=org.pwmt.zathura

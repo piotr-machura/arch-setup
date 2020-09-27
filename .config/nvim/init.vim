@@ -104,10 +104,6 @@ let g:current_branch_name = ''
 
 colorscheme nord
 
-" Comment highlighting
-highlight Todo ctermfg=yellow cterm=underline,italic
-" TODO This is a todo comment
-" Get diagnostics string for lightline
 function! StatusDiagnostic() abort 
     let info = get(b:, 'coc_diagnostic_info', {})
     if empty(info) | return '' | endif
@@ -149,13 +145,15 @@ function! CurrentAndTotalLines()
     let current_line = line('.')
     let current_v_line = line('v')
     let total_lines = line('$')
+    let column  = virtcol('.')
+    let column = 'ﲒ ' . column . ' ' 
     let current_mode = mode()
     if current_mode!= "v" && current_mode != "V" && current_mode != "\<C-V>"
-        return ' ' . current_line . ':' . total_lines
+        return column . ' ' . current_line . ':' . total_lines
     elseif current_line > current_v_line
-        return 'ﬕ ' . current_v_line . '-' . current_line
+        return column . 'ﬕ ' . current_v_line . '-' . current_line
     else
-        return 'ﬕ ' . current_line . '-' . current_v_line
+        return column . 'ﬕ ' . current_line . '-' . current_v_line
     endif
 endfunction
 
