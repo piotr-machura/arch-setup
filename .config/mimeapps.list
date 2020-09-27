@@ -22,3 +22,4 @@ application/x-shellscript=nvim.desktop;
 image/png=ristretto.desktop;
 video/mp4=org.xfce.Parole.desktop;
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
+image/jpeg=ristretto.desktop;
