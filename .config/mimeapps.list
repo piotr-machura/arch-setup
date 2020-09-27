@@ -20,3 +20,4 @@ application/x-ipynb+json=jupyter-usercreated-1.desktop;
 application/xml=nvim.desktop;
 inode/directory=ranger.desktop;
 application/x-shellscript=nvim.desktop;
+image/png=ristretto.desktop;
