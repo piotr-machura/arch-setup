@@ -53,6 +53,7 @@ terminal = guess_terminal()
 # -----------
 
 mod = "mod4"
+scrot = "scrot --select --freeze --line style=solid,width=3,color=#a3be8"
 keys = [
     # Switch between windows in current stack pane
     Key([mod], "h", lazy.layout.left()),
@@ -76,7 +77,7 @@ keys = [
     Key([mod], "f", lazy.spawn("alacritty -e ranger")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
-
+    Key([], "Print", lazy.spawn(scrot)),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
