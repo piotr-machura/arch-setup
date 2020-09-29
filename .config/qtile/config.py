@@ -93,7 +93,7 @@ mouse = [
 
 follow_mouse_focus = True
 bring_front_click = False
-cursor_warp = False
+cursor_warp = True
 
 # GROUPS
 # ------
@@ -137,7 +137,7 @@ nord_colors = [
 
 theme_layout = {
     "border_width" : 2,
-    "margin" : 10,
+    "margin" : 12,
     "border_focus" : nord_colors[9],
     "border_normal" : nord_colors[3]
 }
@@ -151,14 +151,17 @@ layouts = [
         max_ratio = 0.75,
         min_ratio = 0.25,
         change_ratio = 0.05,
+        name = ' ',
         **theme_layout
     ),
-    layout.Max(**theme_layout),
+    layout.Max(
+        name = ' ',
+        **theme_layout
+    ),
 ]
 
 floating_layout = layout.Floating(
     float_rules=[
-        # Run `xprop` to see the wm class and name of an X client.
         {'wmclass': 'confirm'},
         {'wmclass': 'dialog'},
         {'wmclass': 'download'},
@@ -173,7 +176,8 @@ floating_layout = layout.Floating(
         {'wname': 'branchdialog'},  # gitk
         {'wname': 'pinentry'},  # GPG key password entry
         {'wmclass': 'ssh-askpass'},  # ssh-askpass
-        # User-created floating windows
+        # User-created floating window rules
+        # Run `xprop` to see the wm class
         {'wmclass': 'galculator'},
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
@@ -188,30 +192,6 @@ wmname = "LG3D"
 
 # SCREENS & WIDGETS
 # -----------------
-
-class NERDLayout(widget.CurrentLayout):
-    """CurrentLayout widget with NERD font icons instead of names"""
-    def _configure(self, *args, **kwargs):
-        super()._configure(*args, **kwargs)
-        self._name_to_icon(self.bar.screen.group.layouts[0].name)
-
-    def _name_to_icon(self, name):
-        if name == 'monadtall':
-            self.text = " "
-        elif name == 'max':
-            self.text = " "
-        elif name == 'floating':
-            self.text = " "
-        else:
-            self.text = name
-
-    def setup_hooks(self):
-        def hook_response(layout, group):
-            if group.screen is not None \
-                    and group.screen == self.bar.screen:
-                self._name_to_icon(layout.name)
-                self.bar.draw()
-        hook.subscribe.layout_change(hook_response)
 
 class PamixerVolume(widget.base._TextBox):
     orientations = widget.base.ORIENTATION_HORIZONTAL
@@ -284,6 +264,7 @@ theme_widget = {
     "padding" : 5,
     "foreground" : nord_colors[6],
     "markup": True,
+    "fontsize": 14
 }
 
 screens = [
@@ -295,7 +276,6 @@ screens = [
                 widget.GroupBox(
                     highlight_method='block',
                     active = nord_colors[6],
-                    fontsize = 14,
                     borderwidth = 2,
                     center_aligned = True,
                     disable_drag = True,
@@ -313,16 +293,17 @@ screens = [
                     **theme_widget
                 ),
                 widget.WindowName(
-                    fontsize=14,
                     show_state = False,
                     **theme_widget
                 ),
                 PamixerVolume(
-                    fontsize=19,
-                    **theme_widget,
+                    fontsize=18,
+                    font=theme_widget['font'],
+                    foreground=theme_widget['foreground'],
+                    padding=theme_widget['padding'] - 4,
                 ),
-                NERDLayout(fontsize=14,**theme_widget),
-                widget.Clock(fontzise=14, format='%H:%M', **theme_widget),
+                widget.CurrentLayout(**theme_widget),
+                widget.Clock(format='%H:%M', **theme_widget),
             ],
             34,
             background = nord_colors[0]
