@@ -81,6 +81,7 @@ function open-disowned-xdg(){
         done
     fi
 }
+
 # Extract function for common compression formats
 function extract {
     if [ -z "$1" ]; then
@@ -116,4 +117,14 @@ function extract {
         fi
         done
     fi
+}
+
+# Whenever ranger is closed autocd into it's last open directory
+ranger_cd() {
+    temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+    ranger --choosedir="$temp_file" -- "${@:-$PWD}"
+    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
+        cd -- "$chosen_dir"
+    fi
+    rm -f -- "$temp_file"
 }

@@ -27,12 +27,12 @@ alias c='clear'
 alias opn='open-disowned-xdg'
 alias :wq='exit'
 alias :q='exit'
-alias -g %='$ZDOTDIR/.zshrc'
+alias -g %zsh='$ZDOTDIR/.zshrc'
 
 alias py='python3'
-alias venv='python3 -m venv .venv; echo "Created a new virtual environment at ./.venv"'
+alias venv='python3 -m venv .venv && echo "Created a new virtual environment at ./.venv"'
 alias activate='source .venv/bin/activate'
-
+alias ranger='ranger_cd'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 
 
