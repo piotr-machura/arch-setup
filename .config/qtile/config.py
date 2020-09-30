@@ -41,7 +41,7 @@ def autostart():
     processes = [
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
-        ['picom', '&']
+        ['picom', '-d']
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -92,7 +92,7 @@ mouse = [
 ]
 
 follow_mouse_focus = True
-bring_front_click = False
+bring_front_click = True
 cursor_warp = True
 
 # GROUPS
@@ -145,12 +145,12 @@ theme_layout = {
 layouts = [
     layout.MonadTall(
         align = layout.MonadTall._left,
-        single_border_width = theme_layout["border_width"],
-        single_margin = theme_layout["margin"],
         ratio = 0.5,
         max_ratio = 0.75,
         min_ratio = 0.25,
         change_ratio = 0.05,
+        single_border_width = theme_layout["border_width"],
+        single_margin = theme_layout["margin"],
         name = ' ',
         **theme_layout
     ),
@@ -193,33 +193,37 @@ wmname = "LG3D"
 # SCREENS & WIDGETS
 # -----------------
 
-class PamixerVolume(widget.base._TextBox):
+class PamixerVolume(widget.base._TextBox): # pylint: disable=protected-access
+    """Volume widget using the pamixer cli tool"""
     orientations = widget.base.ORIENTATION_HORIZONTAL
     defaults = [
         ("padding", 3, "Padding left and right. Calculated if None."),
         ("update_interval", 0.2, "Update time in seconds."),
         ]
+
     def __init__(self, **config):
         super().__init__(**config)
         self.add_defaults(PamixerVolume.defaults)
         self.surfaces = {}
         self.volume = None
         self.mouse_callbacks = {
-            'Button1': self.cmd_mute,
-            'Button3': self.cmd_app,
+            'Button1': lambda: subprocess.Popen(["pamixer", "--toggle-mute"]),
+            'Button3': lambda: subprocess.Popen(["pavucontrol"]),
         }
 
     def timer_setup(self):
         self.timeout_add(self.update_interval, self.update)
 
     def button_press(self, x, y, button):
-        name = 'Button{0}'.format(button)
+        name = f'Button{button}'
         if name in self.mouse_callbacks:
             self.mouse_callbacks[name]()
-        self.draw()
         self._update_drawer()
+        self.draw()
 
-    def get_volume(self):
+    @staticmethod
+    def get_volume():
+        """Use pamixer to find current volume"""
         p_outcome = subprocess.Popen(
             ["pamixer","--get-volume"],
             stdout=subprocess.PIPE)
@@ -244,24 +248,17 @@ class PamixerVolume(widget.base._TextBox):
             self.text = ' ﱝ  '
 
     def update(self):
+        """Called every update_interval"""
         vol = self.get_volume()
         if vol != self.volume:
             self.volume = vol
-            # Update the underlying canvas size before actually attempting
-            # to figure out how big it is and draw it.
             self._update_drawer()
             self.bar.draw()
         self.timeout_add(self.update_interval, self.update)
 
-    def cmd_mute(self):
-        subprocess.Popen(["pamixer", "--toggle-mute"])
-
-    def cmd_app(self):
-        subprocess.Popen(["pavucontrol"])
-
 theme_widget = {
     "font" : 'NotoSans Nerd Font',
-    "padding" : 5,
+    "padding" : 4,
     "foreground" : nord_colors[6],
     "markup": True,
     "fontsize": 14
@@ -273,39 +270,38 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
+                widget.Spacer(length = 5), # pylint: disable=no-member
                 widget.GroupBox(
-                    highlight_method='block',
+                    highlight_method ='block',
                     active = nord_colors[6],
-                    borderwidth = 2,
                     center_aligned = True,
                     disable_drag = True,
                     inactive = nord_colors[3],
-                    margin_y = 3,
-                    margin_x = 5,
-                    padding_x = theme_widget["padding"],
-                    padding_y = 1,
                     this_screen_border = nord_colors[0],
                     this_current_screen_border = nord_colors[10],
-                    urgent_border = nord_colors[11],
-                    urgent_text = nord_colors[11],
+                    urgent_border = nord_colors[12],
                     use_mouse_wheel = False,
                     rounded = False,
+                    margin_y = 4,
+                    padding_y = 10,
                     **theme_widget
                 ),
+                widget.Spacer(length=5), # pylint: disable=no-member
                 widget.WindowName(
                     show_state = False,
                     **theme_widget
                 ),
                 PamixerVolume(
-                    fontsize=18,
+                    fontsize=19,
                     font=theme_widget['font'],
                     foreground=theme_widget['foreground'],
-                    padding=theme_widget['padding'] - 4,
+                    padding=theme_widget['padding'],
                 ),
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
+                widget.Spacer(length=5), # pylint: disable=no-member
             ],
-            34,
+            36,
             background = nord_colors[0]
         ),
     ),

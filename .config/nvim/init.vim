@@ -48,6 +48,8 @@ nnoremap <leader>x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
+
+" Disable middle mouse click actions
 map <MiddleMouse> <Nop>
 map <2-MiddleMouse> <Nop>
 map <3-MiddleMouse> <Nop>
