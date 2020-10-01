@@ -1,13 +1,16 @@
+# ---------------------
+# ZSH SHELL ENVIRONMENT
+# ---------------------
 
-# PATH
-# ----
 
 export PATH=$HOME/.local/bin:$PATH
-
-# LOCALE
-# ------
-
 export LANG=en_US.UTF-8
+
+export EDITOR='vim'
+export PAGER='less'
+export TERMINAL='alacritty -e'
+export BROWSER='firefox'
+
 
 # XDG BASE DIRECTORY SPECIFICATION
 # --------------------------------
@@ -58,18 +61,10 @@ export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
-# PYTHON VIRTUALENV
-# -----------------
+# VIRTUALENV
+# ----------
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"
 fi
 export PIP_REQUIRE_VIRTUALENV=true
-
-# PREFFERED PROGRAMS
-# ------------------
-
-export EDITOR='vim'
-export PAGER='less'
-export TERMINAL='alacritty -e'
-export BROWSER='firefox'

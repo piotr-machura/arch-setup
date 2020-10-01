@@ -1,16 +1,18 @@
 """Most of this is copied from
 /usr/lib/python3.8/site-packages/ranger/gui/widgets/statusbar.py
-and changed wherever a #! is present.
+
+Some things were removed to declutter the ranger status bar
 """
 import os
 from os import getuid, readlink
 from ranger.gui.widgets.statusbar import StatusBar, get_free_space
 from ranger.ext.human_readable import human_readable
+#pylint: disable=blacklisted-name,protected-access,too-many-branches,too-many-statements
 
-def _get_left_part(self, bar):  # pylint: disable=too-many-branches,too-many-statements
+def _get_left_part(self, bar):
     left = bar.left
 
-    if self.column is not None and self.column.target is not None\
+    if self.column is not None and self.column.target is not None \
             and self.column.target.is_directory:
         target = self.column.target.pointed_obj
     else:
@@ -52,7 +54,6 @@ def _get_left_part(self, bar):  # pylint: disable=too-many-branches,too-many-sta
 
     #! removed last time edited
 
-
     directory = target if target.is_directory else \
         target.fm.get_directory(os.path.dirname(target.path))
     if directory.vcs and directory.vcs.track:
@@ -74,7 +75,7 @@ def _get_left_part(self, bar):  # pylint: disable=too-many-branches,too-many-sta
             left.add(vcsstr.strip(), 'vcsfile', *vcscol)
 
 
-def _get_right_part(self, bar):  # pylint: disable=too-many-branches,too-many-statements
+def _get_right_part(self, bar):
     right = bar.right
     if self.column is None:
         return
@@ -110,7 +111,8 @@ def _get_right_part(self, bar):  # pylint: disable=too-many-branches,too-many-st
             right.add(human_readable(target.disk_usage, separator=''))
         else:
             sumsize = sum(f.size for f in target.marked_items
-                            if not f.is_directory or f.cumulative_size_calculated)
+                            if not f.is_directory
+                            or f.cumulative_size_calculated)
             right.add(human_readable(sumsize, separator=''))
         right.add(" in " + str(len(target.marked_items)) + " files")
     else:

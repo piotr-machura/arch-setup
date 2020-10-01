@@ -1,3 +1,7 @@
+// ----------------------------
+// ROFI PROGRAM LAUNCHER CONFIG
+// ----------------------------
+
 configuration {
 	modi: "drun";
 	width: 30;

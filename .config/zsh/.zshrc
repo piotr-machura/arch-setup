@@ -1,21 +1,9 @@
+# ------------------------
+# ZSH SHELL RUNTIME CONFIG
+# ------------------------
+# Note: this is only sourced in interactive sessions
+
 [[ $- != *i* ]] && return
-
-# COMPINIT
-# --------
-
-zstyle :compinstall filename '$HOME/.config/zsh/.zshrc'
-autoload -Uz compinit
-compinit
-
-
-# HISTORY
-# -------
-
-setopt hist_ignore_dups
-export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
-HISTSIZE=1000
-SAVEHIST=1000
-HISTORY_IGNORE="c|clear"
 
 # ALIASES
 # -------
@@ -42,10 +30,23 @@ alias ranger='ranger_cd'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 alias jpnb='jupyter notebook'
 
+# HISTORY
+# -------
 
-# AUTOSUGGESTIONS
-# ---------------
+setopt hist_ignore_dups
+export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
+HISTSIZE=1000
+SAVEHIST=1000
+HISTORY_IGNORE="c|clear"
 
+# COMPLETION
+# ----------
+
+zstyle :compinstall filename '$ZDOTDIR/.zshrc'
+autoload -Uz compinit
+compinit
+
+# Autosuggestions plugin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(completion)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=true
@@ -110,6 +111,7 @@ prompt spaceship
 
 # VI MODE
 # -------
+
 bindkey -v
 eval spaceship_vi_mode_enable
 

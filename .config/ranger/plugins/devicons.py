@@ -1,7 +1,4 @@
-#!/usr/bin/python
-# coding=UTF-8
-"""Custom line style including custom icons
-"""
+"""Custom line style including devicons"""
 import os
 import ranger.api
 from ranger.core.linemode import LinemodeBase
@@ -323,6 +320,7 @@ file_node_exact_matches = {
 }
 
 def devicon(file):
+    """Get the coressponding devicon from file"""
     if file.is_directory:
         return dir_node_exact_matches.get(file.relative_path, ' ')
     return (

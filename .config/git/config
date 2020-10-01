@@ -1,8 +1,12 @@
+# ----------------------------------
+# GIT VERSION CONTROLL SYSTEM CONFIG
+# ----------------------------------
+
 [user]
     name = Piotr Machura
     email = piotr.machura16@gmail.com
 [core]
-    editor = nvim
+    editor = vim
     excludesfile = ~/.config/git/ignore
 [pull]
     ff = only

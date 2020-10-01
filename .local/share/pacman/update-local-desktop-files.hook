@@ -1,3 +1,7 @@
+# Update desktop files at 
+# ~/.local/share/applications
+# Note: sudo has to preserve $HOME
+
 [Trigger]
 Type = Package 
 Operation = Install

@@ -1,8 +1,7 @@
-#!/usr/bin/python
-# coding=UTF-8
 """Custom VCS NERD font status icons. Refer to a dictionary in
 /usr/lib/python3.8/site-packages/ranger/gui/widgets
-for any future changes."""
+for any future changes.
+"""
 
 from ranger.gui.widgets import Widget
 
