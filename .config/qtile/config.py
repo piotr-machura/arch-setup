@@ -1,3 +1,4 @@
+"""Qtile config file"""
 # Copyright (c) 2010 Aldo Cortesi
 # Copyright (c) 2010, 2014 dequis
 # Copyright (c) 2012 Randall Ma
@@ -24,6 +25,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+#pylint: disable=invalid-name
+
 import subprocess
 from typing import List  # noqa: F401
 import re
@@ -41,7 +44,7 @@ def autostart():
     processes = [
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
-        ['picom', '-d']
+        ['picom', '-b']
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -137,14 +140,14 @@ nord_colors = [
 
 theme_layout = {
     "border_width" : 2,
-    "margin" : 12,
+    "margin" : 15,
     "border_focus" : nord_colors[9],
     "border_normal" : nord_colors[3]
 }
 
 layouts = [
     layout.MonadTall(
-        align = layout.MonadTall._left,
+        align = layout.MonadTall._left, #pylint: disable=protected-access
         ratio = 0.5,
         max_ratio = 0.75,
         min_ratio = 0.25,

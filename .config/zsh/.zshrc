@@ -1,20 +1,25 @@
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Compinit
+# COMPINIT
+# --------
+
 zstyle :compinstall filename '$HOME/.config/zsh/.zshrc'
 autoload -Uz compinit
 compinit
 
 
-# History/suggestion settings
+# HISTORY
+# -------
+
 setopt hist_ignore_dups
 export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
 HISTSIZE=1000
 SAVEHIST=1000
 HISTORY_IGNORE="c|clear"
 
-# Aliases
+# ALIASES
+# -------
+
 alias -g ...='../..'
 alias -g ....='../../..'
 alias ls='ls --color=auto'
@@ -27,7 +32,8 @@ alias c='clear'
 alias opn='open-disowned-xdg'
 alias :wq='exit'
 alias :q='exit'
-alias -g %zsh='$ZDOTDIR/.zshrc'
+alias -g %rc='$ZDOTDIR/.zshrc'
+alias -g %env='$ZDOTDIR/.zshenv'
 
 alias py='python3'
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at ./.venv"'
@@ -37,14 +43,21 @@ alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 alias jpnb='jupyter notebook'
 
 
-# Autosuggestions
+# AUTOSUGGESTIONS
+# ---------------
+
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(completion)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=true
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
-#Title, cursor
+# THEME
+# -----
+
+#Title
 precmd () {print -Pn "\e]0; ${PWD/#$HOME/~}\a"}
+
+#Cursor
 _set_cursor() {echo -ne '\e[4 q'}
 precmd_functions+=(_set_cursor)
 
@@ -95,11 +108,14 @@ SPACESHIP_PACKAGE_COLOR="yellow"
 autoload -U promptinit; promptinit
 prompt spaceship
 
-# Vi-mode
+# VI MODE
+# -------
 bindkey -v
 eval spaceship_vi_mode_enable
 
-# Syntax highlighting
+# SYNTAX HIGHLIGHTING
+# -------------------
+
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none

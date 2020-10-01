@@ -1,9 +1,10 @@
 " PLUGINS
+" -------
+
 if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 Plug 'scrooloose/NERDTree' " File Explorer 
 Plug 'Xuyuanp/nerdtree-git-plugin' " Git status symbols in filetree
@@ -14,6 +15,7 @@ Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
 Plug 'sheerun/vim-polyglot' " Syntax highlighting
+Plug 'honza/vim-snippets' " Snippets library
 Plug 'janko-m/vim-test' " Testing suite
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -25,6 +27,8 @@ let g:coc_global_extensions = [
             \ 'coc-snippets',
             \ 'coc-python',
             \ 'coc-rust-analyzer',
+            \ 'coc-html',
+            \ 'coc-css',
             \ 'coc-json',
             \ ]
 
@@ -37,7 +41,11 @@ endfunction
 command! -nargs=0 Upgrade :call FullPluginUpgrade()
 
 " MAPS
-let mapleader=','
+" ----
+
+let mapleader=' '
+nnoremap <CR> o<Esc>
+
 "Switch between splits using hjkl
 nnoremap <C-j> <C-w>j 
 nnoremap <C-k> <C-w>k 
@@ -60,6 +68,8 @@ imap <3-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
 
 " PREFERENCES
+" -----------
+
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -77,7 +87,9 @@ set splitbelow
 set splitright
 set hidden
 set shortmess+=c
+
 set mouse+=ar
+set shellcmdflag=-ic
 set autowrite
 filetype plugin on
 set scrolloff=6
@@ -93,8 +105,11 @@ set nowritebackup
 autocmd VimEnter * if &diff | cmap q qa| endif
 autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
 let g:python3_host_prog='/usr/bin/python3'
+let g:AutoPairsShortcutToggle = ''
 
 " THEME
+" -----
+
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
@@ -105,6 +120,9 @@ let g:indentLine_char = '|'
 let g:current_branch_name = ''
 
 colorscheme nord
+
+" STATUSLINE
+" ----------
 
 function! StatusDiagnostic() abort 
     let info = get(b:, 'coc_diagnostic_info', {})
@@ -178,6 +196,8 @@ let g:lightline = {
         \ }
 
 " LANGUAGE SERVER
+" ---------------
+
 " Use <TAB> and <c-space> for completion
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -189,7 +209,8 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-inoremap <silent><expr> <c-space> coc#refresh()
+
+let g:coc_snippet_next = '<tab>'
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -244,6 +265,8 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
 " CLIPBOARD PROVIDER
+" ------------------
+
 let g:clipboard = {
   \   'name': 'xclip',
   \   'copy': {
@@ -259,6 +282,8 @@ let g:clipboard = {
 set clipboard+=unnamedplus
 
 " FILETREE
+" --------
+
 " If more than one window and previous buffer was NERDTree, go back to it.
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 " Close when there is only nerdtree open
@@ -289,6 +314,8 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ }
 
 " PROSE FORMATTING
+" ----------------
+
 function CheckFilename()
     " Check for some commonly used programming .txt files
     let names = [

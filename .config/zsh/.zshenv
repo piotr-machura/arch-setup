@@ -1,13 +1,17 @@
-# Activate the virtualenv for neovim integrated shell
-if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
-  source "${VIRTUAL_ENV}/bin/activate"
-fi
 
-# Path and locale
+# PATH
+# ----
+
 export PATH=$HOME/.local/bin:$PATH
+
+# LOCALE
+# ------
+
 export LANG=en_US.UTF-8
 
-# Exports to match XDG base direcotry specification
+# XDG BASE DIRECTORY SPECIFICATION
+# --------------------------------
+
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -15,6 +19,7 @@ export XDG_DATA_HOME="$HOME"/.local/share
 export ERRFILE="$XDG_CACHE_HOME"/xsession-errors
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
 
 export PYLINTHOME="$XDG_DATA_HOME"/pylint
 export GRIPHOME="$XDG_CONFIG_HOME"/grip
@@ -53,78 +58,18 @@ export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
-# Require virtual environment for pip install
+# PYTHON VIRTUALENV
+# -----------------
+
+if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
+  source "${VIRTUAL_ENV}/bin/activate"
+fi
 export PIP_REQUIRE_VIRTUALENV=true
 
-# Preffered applications
+# PREFFERED PROGRAMS
+# ------------------
+
 export EDITOR='vim'
 export PAGER='less'
 export TERMINAL='alacritty -e'
 export BROWSER='firefox'
-
-# Open files with mimeopen in a new, disowned thread
-function open-disowned-xdg(){
-    if [ -z "$1" ]; then
-        # display usage if no parameters given
-        echo "    Open file with default mimetype association in a new, disowned thread."
-        echo "    Usage: open <path/file_name> | open <path/file_1> <path/file_2> ..."
-        return 1
-    else
-        for n in $@
-        do
-        if [ -f "$n" ] ; then
-            mimeopen -n "$n" &>/dev/null &!
-        else
-            echo "'$n' - file does not exist"
-            return 1
-        fi
-        done
-    fi
-}
-
-# Extract function for common compression formats
-function extract {
-    if [ -z "$1" ]; then
-        # display usage if no parameters given
-        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-        echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
-        return 1
-    else
-        for n in $@
-        do
-        if [ -f "$n" ] ; then
-            case "${n%,}" in
-                *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar) 
-                            tar xvf "$n"       ;;
-                *.lzma)      unlzma ./"$n"      ;;
-                *.bz2)       bunzip2 ./"$n"     ;;
-                *.rar)       unrar x -ad ./"$n" ;;
-                *.gz)        gunzip ./"$n"      ;;
-                *.zip)       unzip ./"$n"       ;;
-                *.z)         uncompress ./"$n"  ;;
-                *.7z|*.arj|*.cab|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.rpm|*.udf|*.wim|*.xar)
-                            7z x ./"$n"        ;;
-                *.xz)        unxz ./"$n"        ;;
-                *.exe)       cabextract ./"$n"  ;;
-                *)
-                            echo "extract: '$n' - unknown archive method"
-                            return 1
-                            ;;
-            esac
-        else
-            echo "'$n' - file does not exist"
-            return 1
-        fi
-        done
-    fi
-}
-
-# Whenever ranger is closed autocd into it's last open directory
-ranger_cd() {
-    temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
-    ranger --choosedir="$temp_file" -- "${@:-$PWD}"
-    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
-        cd -- "$chosen_dir"
-    fi
-    rm -f -- "$temp_file"
-}

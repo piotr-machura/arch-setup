@@ -1,19 +1,19 @@
 {
-    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
+    "coc.source.around.enable": false,
+    "coc.source.buffer.enable": false,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "*"
+    ],
+    "diagnostic.checkCurrentLine": true,
     "python.linting.pylintPath": "/usr/bin/pylint",
     "python.formatting.autopep8Path": "/usr/bin/autopep8",
     "python.jediPath": "/usr/lib/python3.8/site-packages",
-    "coc.source.around.enable": false,
-    "coc.source.buffer.enable": false,
-    "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-    "diagnostic.checkCurrentLine": true,
     "python.formatting.provider": "autopep8",
     "python.formatting.autopep8Args": [
         "--in-place",
         "--aggresive",
         "--aggresive"
     ],
-    "coc.preferences.formatOnSaveFiletypes": [
-        "*"
-    ]
+    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
+    "html.format.wrapLineLength": 80
 }
