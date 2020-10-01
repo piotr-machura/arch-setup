@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Email
+Comment=Shortcut to the Fastmail inbox
+Exec=firefox "https://www.fastmail.com/mail/"
+Icon=claws-mail
+Terminal=false

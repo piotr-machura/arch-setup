@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Cloud
+Comment=Shortcut to the Fastmail cloud
+Exec=firefox "https://www.fastmail.com/files/"
+Icon=folder-blue-mail-cloud
+Terminal=false

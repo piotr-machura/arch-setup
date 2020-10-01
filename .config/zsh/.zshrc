@@ -34,6 +34,7 @@ alias venv='python3 -m venv .venv && echo "Created a new virtual environment at 
 alias activate='source .venv/bin/activate'
 alias ranger='ranger_cd'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
+alias jpnb='jupyter notebook'
 
 
 # Autosuggestions

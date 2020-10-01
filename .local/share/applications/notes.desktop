@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Notes
+Comment=Shortcut to the Fastmail notes
+Exec=firefox "https://www.fastmail.com/notes/"
+Icon=notes
+Terminal=false

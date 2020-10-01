@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Calendar
+Comment=Shortcut to the Fastmail calendar
+Exec=firefox "https://www.fastmail.com/calendar/"
+Icon=calendar
+Terminal=false

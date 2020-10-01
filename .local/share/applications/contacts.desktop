@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Contacts
+Comment=Shortcut to the Fastmail contacts
+Exec=firefox "https://www.fastmail.com/contacts/"
+Icon=gnome-contacts
+Terminal=false
