@@ -1,13 +1,12 @@
-/*
-
-Modified Quietfox for Firefox
-
-Originally by https://github.com/coekuss/quietfox
-
- */
+/* --------------------------
+   FIREFOX CUSTOM STYLE SHEET
+   -------------------------- */
+/* Note: Quitefox by https://github.com/coekuss/quietfox */
+/* Note: enable toolkit.legacyUserProfileCustomizations.stylesheets in about:config */
 
 * {
-    /* -------------------- 🎨 Customization 🎨 -------------------- */
+    /* CUSTOMIZATION
+       ------------- */
     --tab-corner-rounding: 3px;
     --menu-corner-rounding: 3px;
     --menu-item-height: 30px;
