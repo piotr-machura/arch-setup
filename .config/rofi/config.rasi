@@ -87,7 +87,7 @@ configuration {
 	kb-row-left: "";
 	kb-row-right: "";
 	kb-row-up: "Control+k,Up";
-	kb-row-down: "Control+j,,Down";
+	kb-row-down: "Control+j,Down";
 	kb-row-tab: "";
 	kb-page-prev: "";
 	kb-page-next: "";
@@ -98,7 +98,7 @@ configuration {
 	kb-ellipsize: "";
 	kb-toggle-case-sensitivity: "";
 	kb-toggle-sort: "";
-	kb-cancel: "Escape,Super+space,Super+q";
+	kb-cancel: "Escape,Super+space,Super+q,Super+Control+q";
 	kb-custom-1: "";
 	kb-custom-2: "";
 	kb-custom-3: "";

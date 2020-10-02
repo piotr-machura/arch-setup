@@ -7,7 +7,6 @@ autopep8
 base
 bitwarden-bin
 brightnessctl
-cowsay
 dhcpcd
 dunst
 firefox

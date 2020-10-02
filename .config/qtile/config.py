@@ -31,7 +31,12 @@ terminal = guess_terminal()
 # -----------
 
 mod = "mod4"
+
+# Custom commands
 scrot = "scrot --select --freeze --line style=solid,width=3,color=#a3be8"
+power_menu = "zsh -c"
+power_menu += " 'rofi -no-show-icons -show menu -modi"
+power_menu += ' "menu:rofi-power-menu --choices=shutdown/reboot/logout"\' '
 keys = [
     # Switch between windows in current stack pane
     Key([mod], "h", lazy.layout.left()),
@@ -58,7 +63,7 @@ keys = [
     Key([], "Print", lazy.spawn(scrot)),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),
+    Key([mod, "control"], "q", lazy.spawn(power_menu)),
 ]
 
 mouse = [
