@@ -7,9 +7,10 @@ from typing import List  # noqa: F401
 import re
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
+from libqtile.widget.battery import BatteryState, BatteryStatus
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-#pylint: disable=invalid-name
+#pylint: disable=invalid-name,protected-access
 
 # AUTOSTART
 # ---------
@@ -19,7 +20,7 @@ def autostart():
     processes = [
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
-        ['picom', '-b']
+        ['picom', '-b'],
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -127,7 +128,7 @@ theme_layout = {
 
 layouts = [
     layout.MonadTall(
-        align = layout.MonadTall._left, #pylint: disable=protected-access
+        align = layout.MonadTall._left,
         ratio = 0.5,
         max_ratio = 0.75,
         min_ratio = 0.25,
@@ -176,8 +177,8 @@ wmname = "LG3D"
 # SCREENS & WIDGETS
 # -----------------
 
-class PamixerVolume(widget.base._TextBox): # pylint: disable=protected-access
-    """Volume widget using the pamixer cli tool"""
+class PamixerVolume(widget.base._TextBox):
+    """Volume widget using the pamixer tool"""
     orientations = widget.base.ORIENTATION_HORIZONTAL
     defaults = [
         ("padding", 3, "Padding left and right. Calculated if None."),
@@ -239,6 +240,43 @@ class PamixerVolume(widget.base._TextBox): # pylint: disable=protected-access
             self.bar.draw()
         self.timeout_add(self.update_interval, self.update)
 
+class Battery(widget.battery.Battery):
+    def build_string(self, status: BatteryStatus) -> str:
+        if self.layout is not None:
+            if status.state == BatteryState.DISCHARGING and status.percent < self.low_percentage:
+                self.layout.colour = self.low_foreground
+            else:
+                self.layout.colour = self.foreground
+        percent = int(status.percent * 100);
+        if status.state == BatteryState.CHARGING and percent < 100:
+            return f" {percent}%"
+        elif status.state == BatteryState.FULL:
+            return f" {percent}%"
+        if 90<percent <=100:
+            return f" {percent}%"
+        elif 80<percent<=90:
+            return f" {percent}%"
+        elif 70<percent<=80:
+            return f" {percent}%"
+        elif 60<percent<=70:
+            return f" {percent}%"
+        elif 50<percent<=60:
+            return f" {percent}%"
+        elif 40<percent<=50:
+            return f" {percent}%"
+        elif 30<percent<=40:
+            return f" {percent}%"
+        elif 20<percent<=30:
+            return f" {percent}%"
+        elif 10<percent<=20:
+            return f" {percent}%"
+        elif 5<percent<=10:
+            return f" {percent}%"
+        elif 0<=percent<=5:
+            return f" {percent}%"
+        else:
+            return " ???"
+
 theme_widget = {
     "font" : 'NotoSans Nerd Font',
     "padding" : 4,
@@ -280,6 +318,8 @@ screens = [
                     foreground=theme_widget['foreground'],
                     padding=theme_widget['padding'],
                 ),
+                Battery(**theme_widget), # pylint: disable=no-member
+                widget.Spacer(length=5), # pylint: disable=no-member
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
                 widget.Spacer(length=5), # pylint: disable=no-member
