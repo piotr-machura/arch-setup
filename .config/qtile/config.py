@@ -121,7 +121,7 @@ nord_colors = [
 
 theme_layout = {
     "border_width" : 2,
-    "margin" : 15,
+    "margin" : 12,
     "border_focus" : nord_colors[9],
     "border_normal" : nord_colors[3]
 }

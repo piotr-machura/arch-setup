@@ -1,7 +1,10 @@
 # ------------------------
 # ZSH SHELL RUNTIME CONFIG
 # ------------------------
-# Note: this is only sourced in interactive sessions
+# Note: this is only sourced if the global env file
+# /etc/zsh/zshenv
+# contains the line
+# export ZDOTDIR=$HOME/.config/zsh
 
 [[ $- != *i* ]] && return
 
@@ -17,7 +20,6 @@ alias rm='rm -i'
 alias mv='mv -i'
 
 alias c='clear'
-alias opn='mimeopen-many'
 alias :wq='exit'
 alias :q='exit'
 alias -g %rc='$ZDOTDIR/.zshrc'
@@ -27,8 +29,9 @@ alias py='python3'
 alias pg='less'
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at ./.venv"'
 alias activate='source .venv/bin/activate'
-alias ranger='ranger_cd'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
+alias ranger='ranger-cd'
+alias opn='mimeopen-many'
 alias jpnb='jupyter notebook'
 
 # HISTORY
@@ -57,7 +60,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 # -----
 
 #Title
-precmd () {print -Pn "\e]0; ${PWD/#$HOME/~}\a"}
+precmd () {print -Pn "\e]0; ${PWD/#$HOME/~}\a"}
 
 #Cursor
 _set_cursor() {echo -ne '\e[4 q'}
@@ -85,8 +88,8 @@ SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_DIR_TRUNC_REPO=false
 
 SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
-SPACESHIP_VI_MODE_INSERT=" "
-SPACESHIP_VI_MODE_NORMAL=" "
+SPACESHIP_VI_MODE_INSERT=" "
+SPACESHIP_VI_MODE_NORMAL=" "
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
@@ -113,8 +116,9 @@ prompt spaceship
 # VI MODE
 # -------
 
-bindkey -v
 eval spaceship_vi_mode_enable
+bindkey "^?" backward-delete-char
+bindkey -a '^[[3~' delete-char
 
 # SYNTAX HIGHLIGHTING
 # -------------------
@@ -123,3 +127,15 @@ eval spaceship_vi_mode_enable
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# AUTOMATIC CD WITH RANGER
+# ------------------------
+
+ranger-cd() {
+    temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+    \ranger --choosedir="$temp_file" -- "${@:-$PWD}"
+    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
+        cd -- "$chosen_dir"
+    fi
+    rm -f -- "$temp_file"
+}

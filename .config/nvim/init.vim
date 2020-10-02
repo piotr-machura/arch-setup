@@ -48,13 +48,16 @@ command! -nargs=0 Upgrade :call FullPluginUpgrade()
 " ----
 
 let mapleader=' '
+
+" Enter for new line below
 nnoremap <CR> o<Esc>
 
-"Switch between splits using hjkl
+" Switch between splits using hjkl
 nnoremap <C-j> <C-w>j 
 nnoremap <C-k> <C-w>k 
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
+
 " Use the leader key to delete insted of cut
 nnoremap <leader>x "_x
 nnoremap <leader>d "_d

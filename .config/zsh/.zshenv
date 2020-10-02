@@ -1,6 +1,10 @@
 # ---------------------
 # ZSH SHELL ENVIRONMENT
 # ---------------------
+# Note: this is only sourced if the global env file
+# /etc/zsh/zshenv
+# contains the line
+# export ZDOTDIR=$HOME/.config/zsh
 
 
 export PATH=$HOME/.local/bin:$PATH
