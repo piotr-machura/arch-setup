@@ -55,7 +55,7 @@ export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME"/bundle
 export BUNDLE_USER_CACHE="$XDG_CACHE_HOME"/bundle 
 export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
 
-export ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf; personal $XDG_CONFIG_HOME/aspell/pl.pws; repl $XDG_CONFIG_HOME/aspell/pl.prepl;"
+export ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf;"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
