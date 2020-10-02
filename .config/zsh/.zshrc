@@ -116,9 +116,9 @@ prompt spaceship
 # VI MODE
 # -------
 
-eval spaceship_vi_mode_enable
 bindkey "^?" backward-delete-char
-bindkey -a '^[[3~' delete-char
+bindkey '^[[3~' delete-char
+eval spaceship_vi_mode_enable
 
 # SYNTAX HIGHLIGHTING
 # -------------------
