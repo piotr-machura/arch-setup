@@ -8,3 +8,4 @@ Exec=htop
 Icon=htop
 Categories=Utility;
 GenericName=Process Viewer
+Hidden=true

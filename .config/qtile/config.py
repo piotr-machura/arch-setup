@@ -247,7 +247,7 @@ class Battery(widget.battery.Battery):
                 self.layout.colour = self.low_foreground
             else:
                 self.layout.colour = self.foreground
-        percent = int(status.percent * 100);
+        percent = int(status.percent * 100)
         if status.state == BatteryState.CHARGING and percent < 100:
             return f" {percent}%"
         elif status.state == BatteryState.FULL:

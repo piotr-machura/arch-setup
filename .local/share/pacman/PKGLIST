@@ -53,6 +53,7 @@ ristretto
 rofi
 rsnapshot
 rust-analyzer
+s-tui
 sagemath
 sagemath-doc
 sagemath-jupyter
@@ -61,6 +62,7 @@ signal-desktop
 spaceship-prompt-git
 spotify
 spotifywm-git
+tlp
 unrar
 unzip
 virtualbox-guest-utils
