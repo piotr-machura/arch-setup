@@ -37,7 +37,7 @@ alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
 # --------------------
 
 clear-on-empty() {
-    if [[ -z $BUFFER ]] # -z: empty buffer
+    if [[ -z $BUFFER ]]
     then
         zle clear-screen
     else
@@ -45,9 +45,9 @@ clear-on-empty() {
     fi
 }
 
-zle -N clear-on-empty # declare as a new widget
+zle -N clear-on-empty
 bindkey "^M" clear-on-empty # ^M: enter keycode
-bindkey -a "^M" clear-on-empty # -a: vi normal mode
+bindkey -a "^M" clear-on-empty # vi normal mode
 
 # HISTORY
 # -------
