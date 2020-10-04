@@ -19,29 +19,43 @@ alias ll='ls -lA --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 
-alias c='clear'
 alias :wq='exit'
 alias :q='exit'
 alias -g %rc='$ZDOTDIR/.zshrc'
 alias -g %env='$ZDOTDIR/.zshenv'
 
+alias ranger='ranger-cd'
 alias py='python3'
-alias pg='less'
-alias venv='python3 -m venv .venv && echo "Created a new virtual environment at ./.venv"'
+alias open='mimeopen-many'
+alias jpnb='jupyter notebook'
+
+alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
-alias ranger='ranger-cd'
-alias opn='mimeopen-many'
-alias jpnb='jupyter notebook'
+
+# CLEAR ON EMPTY INPUT
+# --------------------
+
+clear-on-empty() {
+    if [[ -z $BUFFER ]] # -z: empty buffer
+    then
+        zle clear-screen
+    else
+        zle accept-line
+    fi
+}
+
+zle -N clear-on-empty # declare as a new widget
+bindkey "^M" clear-on-empty # ^M: enter keycode
+bindkey -a "^M" clear-on-empty # -a: vi normal mode
 
 # HISTORY
 # -------
 
 setopt hist_ignore_dups
-export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
+setopt share_history
 HISTSIZE=1000
 SAVEHIST=1000
-HISTORY_IGNORE="c|clear"
 
 # COMPLETION
 # ----------
@@ -71,53 +85,56 @@ SPACESHIP_PROMPT_DEFAULT_PREFIX=" "
 SPACESHIP_PROMPT_DEFAULT_SUFFIX=""
 
 SPACESHIP_PROMPT_ORDER=(
-    dir           # Current directory section
-    vi_mode       # Insert/normal vi mode
+    dir         # Current directory
+    vi_mode     # Vi mode prompt
 )
 SPACESHIP_RPROMPT_ORDER=(
-    git           # Git section (git_branch + git_status)
-    docker        # Docker section
-    venv          # Python virtual environment
-    package       # Cargo/npm package
+    git         # Git branch
+    venv        # Python virtual environment
+    package     # Cargo/npm package
     )
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_DIR_TRUNC=1
-SPACESHIP_DIR_LOCK_SYMBOL="  "
+
 SPACESHIP_DIR_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_DIR_LOCK_SYMBOL="  "
+SPACESHIP_DIR_TRUNC=1
 SPACESHIP_DIR_TRUNC_REPO=false
+SPACESHIP_DIR_COLOR="cyan"
 
 SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_VI_MODE_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VI_MODE_INSERT=" "
 SPACESHIP_VI_MODE_NORMAL=" "
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_GIT_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_GIT_SYMBOL=" " 
-SPACESHIP_GIT_BRANCH_COLOR="white"
 SPACESHIP_GIT_STATUS_SHOW=false
+SPACESHIP_GIT_BRANCH_COLOR="white"
 
-SPACESHIP_DOCKER_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
-SPACESHIP_DOCKER_SYMBOL=" "
-SPACESHIP_DOCKER_COLOR="cyan"
-SPACESHIP_DOCKER_CONTEXT_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
-SPACESHIP_DOCKER_CONTEXT_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
-
+SPACESHIP_VENV_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_VENV_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VENV_SYMBOL=" "
 SPACESHIP_VENV_COLOR="blue"
 
 SPACESHIP_PACKAGE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_PACKAGE_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_PACKAGE_SYMBOL="ﰩ "
 SPACESHIP_PACKAGE_COLOR="yellow"
 
-autoload -U promptinit; promptinit
+autoload -U promptinit
+promptinit
 prompt spaceship
 
 # VI MODE
 # -------
 
-bindkey "^?" backward-delete-char
-bindkey '^[[3~' delete-char
+bindkey "^?" backward-delete-char # ^?: backspace keycode
+bindkey '^[[3~' delete-char # ^[[3: delete keycode
+bindkey -a '^[[3~' delete-char # -a: vi normal mode
+
 eval spaceship_vi_mode_enable
 
 # SYNTAX HIGHLIGHTING

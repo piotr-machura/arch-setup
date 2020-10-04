@@ -21,8 +21,9 @@ window:
     instance: Alacritty
 
 scrolling:
-  history: 100000
-  multiplier: 3
+  # Disable scrolling
+  history: 0
+  multiplier: 0
 
 font:
   normal:

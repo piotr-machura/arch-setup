@@ -23,10 +23,11 @@ export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
 
+export HISTFILE="$XDG_CACHE_HOME"/zsh_hist
+export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
 export ERRFILE="$XDG_CACHE_HOME"/xsession-errors
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
-export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
 
 export PYLINTHOME="$XDG_DATA_HOME"/pylint
 export GRIPHOME="$XDG_CONFIG_HOME"/grip

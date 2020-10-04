@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     # display usage if no parameters given
     echo "    Open file with default mimetype association in a new, disowned thread."
     echo "    Usage: open <path/file_name> | open <path/file_1> <path/file_2> ..."
-    return 1
+    exit 1
 else
     for n in $@
     do
@@ -13,7 +13,6 @@ else
         mimeopen -n "$n" &>/dev/null &!
     else
         echo "'$n' - file does not exist"
-        return 1
     fi
     done
 fi
