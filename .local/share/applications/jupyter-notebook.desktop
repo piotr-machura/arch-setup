@@ -2,6 +2,6 @@
 Version=1.0
 Encoding=UTF-8
 Type=Application
-Name=jupyter
-NoDisplay=true
+Name=Jupyter Notebook
 Exec=jupyter notebook
+Hidden=true

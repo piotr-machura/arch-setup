@@ -76,7 +76,7 @@ mouse = [
     Click([mod],"Button2", lazy.window.toggle_floating())
 ]
 
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = True
 cursor_warp = True
 
@@ -224,13 +224,13 @@ class PamixerVolume(widget.base._TextBox):
 
     def _update_drawer(self):
         if 0 < self.volume < 30:
-            self.text = '奄 '
+            self.text = '奄'
         elif 30 < self.volume <= 70:
-            self.text = '奔 '
+            self.text = '奔'
         elif self.volume > 70:
-            self.text = '墳 '
+            self.text = '墳'
         else:
-            self.text = ' ﱝ  '
+            self.text = '婢'
 
     def update(self):
         """Called every update_interval"""
@@ -314,13 +314,12 @@ screens = [
                     **theme_widget
                 ),
                 PamixerVolume(
-                    fontsize=19,
+                    fontsize=18,
                     font=theme_widget['font'],
                     foreground=theme_widget['foreground'],
                     padding=theme_widget['padding'],
                 ),
                 Battery(**theme_widget), # pylint: disable=no-member
-                widget.Spacer(length=5), # pylint: disable=no-member
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
                 widget.Spacer(length=5), # pylint: disable=no-member
