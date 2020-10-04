@@ -13,21 +13,19 @@
 
 alias -g ...='../..'
 alias -g ....='../../..'
+alias -g %rc='$ZDOTDIR/.zshrc'
+alias -g %env='$ZDOTDIR/.zshenv'
+
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 
-alias :wq='exit'
-alias :q='exit'
-alias -g %rc='$ZDOTDIR/.zshrc'
-alias -g %env='$ZDOTDIR/.zshenv'
-
-alias ranger='ranger-cd'
 alias py='python3'
 alias open='mimeopen-many'
 alias jpnb='jupyter notebook'
+alias ranger='ranger-cd'
 
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
@@ -69,6 +67,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(completion)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=true
 ZSH_AUTOSUGGEST_USE_ASYNC=true
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=clear-on-empty
 
 # THEME
 # -----
@@ -97,7 +96,7 @@ SPACESHIP_RPROMPT_ORDER=(
 SPACESHIP_DIR_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_DIR_LOCK_SYMBOL="  "
+SPACESHIP_DIR_LOCK_SYMBOL=" "
 SPACESHIP_DIR_TRUNC=1
 SPACESHIP_DIR_TRUNC_REPO=false
 SPACESHIP_DIR_COLOR="cyan"
@@ -133,7 +132,7 @@ prompt spaceship
 
 bindkey "^?" backward-delete-char # ^?: backspace keycode
 bindkey '^[[3~' delete-char # ^[[3: delete keycode
-bindkey -a '^[[3~' delete-char # -a: vi normal mode
+bindkey -a '^[[3~' delete-char # vi normal mode
 
 eval spaceship_vi_mode_enable
 
@@ -156,3 +155,4 @@ ranger-cd() {
     fi
     rm -f -- "$temp_file"
 }
+
