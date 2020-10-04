@@ -21,6 +21,7 @@ def autostart():
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
         ['picom', '-b'],
+        ['spacefm', '-d']
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -58,7 +59,7 @@ keys = [
 
     Key([mod], "Return", lazy.spawn(terminal)),
     Key([mod], "w", lazy.spawn("firefox")),
-    Key([mod], "f", lazy.spawn("alacritty -e ranger")),
+    Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
     Key([], "Print", lazy.spawn(scrot)),

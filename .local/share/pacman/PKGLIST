@@ -48,7 +48,6 @@ python-pynvim
 python-pyqt5
 python-rope
 qtile
-ranger
 ristretto
 rofi
 rsnapshot
@@ -59,10 +58,12 @@ sagemath-doc
 sagemath-jupyter
 scrot
 signal-desktop
+spacefm
 spaceship-prompt-git
 spotify
 spotifywm-git
 tlp
+udevil
 unrar
 unzip
 virtualbox-guest-utils

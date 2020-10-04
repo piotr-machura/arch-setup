@@ -8,6 +8,7 @@ inode/chardevice=nvim.desktop;
 text/html=firefox.desktop;
 application/x-desktop=nvim.desktop;
 application/json=nvim.desktop;
+inode/directory=spacefm.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
@@ -17,7 +18,7 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.
 text/html=firefox.desktop
 application/x-ipynb+json=jupyter-usercreated-1.desktop;
 application/xml=nvim.desktop;
-inode/directory=ranger.desktop;
+inode/directory=spacefm.desktop;
 application/x-shellscript=nvim.desktop;
 image/png=ristretto.desktop;
 video/mp4=org.xfce.Parole.desktop;
