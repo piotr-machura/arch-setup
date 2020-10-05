@@ -164,7 +164,25 @@ colorscheme nord
 " STATUSLINE
 " ----------
 
+function! BadBuffer()
+    " Disable lightline elements for theeses buffer types
+    let names = [
+                \ "netrw",
+                \ "undotree",
+                \ "diff",
+                \ ]
+    for str in names
+        if stridx(&filetype, str)!=-1
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
 function! StatusDiagnostic() abort 
+    if BadBuffer()
+        return ''
+    endif
     let info = get(b:, 'coc_diagnostic_info', {})
     if empty(info) | return '' | endif
     let msgs = []
@@ -182,9 +200,13 @@ function! StatusDiagnostic() abort
     endif
     return join(msgs, ' ')
 endfunction
+
 " Get current git branch for lightline
 let g:current_branch_name = ''
 function! SetGitBranch() abort
+    if BadBuffer()
+        return ''
+    endif
     let branch_name = trim(system('git branch --show-current'))
     if stridx(branch_name, 'fatal: not a git repository')!=-1
         let g:current_branch_name = ''
@@ -198,18 +220,22 @@ endfunction
 autocmd BufEnter * call SetGitBranch()
 
 function! FileTypeWithIcon()
-  return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
+    if BadBuffer()
+        return ''
+    endif
+    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
 endfunction
 
-function! FileNameNetrw()
-    if &filetype =='netrw' || &filetype == 'undotree'
+
+function! FileName()
+    if BadBuffer()
         return ''
     endif
     return bufname()
 endfunction
 
 function! CurrentAndTotalLines()
-    if &filetype == 'netrw' || &filetype == 'undotree'
+    if BadBuffer()
         return ''
     endif
     let current_line = line('.')
@@ -242,7 +268,7 @@ let g:lightline = {
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
         \   'lineinfo': 'CurrentAndTotalLines',
-        \   'filename': 'FileNameNetrw'
+        \   'filename': 'FileName'
         \ },
         \ }
 
