@@ -5,21 +5,18 @@
 " PLUGINS
 " -------
 
-if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
+if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim')) " Auto-install vim-plug
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
-Plug 'scrooloose/NERDTree' " File Explorer 
-Plug 'Xuyuanp/nerdtree-git-plugin' " Git status symbols in filetree
-Plug 'ryanoasis/vim-devicons' " Pretty file icons in filetree
+Plug 'ryanoasis/vim-devicons' " Pretty file icons
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
 Plug 'sheerun/vim-polyglot' " Syntax highlighting
-Plug 'honza/vim-snippets' " Snippets library
 Plug 'janko-m/vim-test' " Testing suite
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -113,6 +110,11 @@ autocmd VimEnter * if &diff | cmap q qa| endif
 autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
 let g:python3_host_prog='/usr/bin/python3'
 let g:AutoPairsShortcutToggle = ''
+let g:netrw_browse_split = 4
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_altv = 1
+let g:netrw_winsize = 30
 
 " THEME
 " -----
@@ -205,7 +207,7 @@ let g:lightline = {
 " LANGUAGE SERVER
 " ---------------
 
-" Use <TAB> and <c-space> for completion
+" Use <TAB> for completion
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -288,37 +290,6 @@ let g:clipboard = {
   \ }
 set clipboard+=unnamedplus
 
-" FILETREE
-" --------
-
-" If more than one window and previous buffer was NERDTree, go back to it.
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
-" Close when there is only nerdtree open
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Avoid problems with vim-plug opening the window on a nerdtree
-let g:plug_window = 'noautocmd vertical topleft new'
-" Change the UI of the tree
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1
-map <C-n> :NERDTreeToggle<CR>
-" Fix borked colors
-autocmd BufEnter * highlight! link NERDTreeFlags NERDTreeDir
-" Set bookmark file
-let g:NERDTreeBookmarksFile=$HOME."/.config/nvim/NERDTreeBookmarks"
-" Git status symbols
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-                \ 'Modified'  :'*',
-                \ 'Staged'    :'',
-                \ 'Untracked' :'?',
-                \ 'Renamed'   :'',
-                \ 'Unmerged'  :'═',
-                \ 'Deleted'   :'',
-                \ 'Dirty'     :'',
-                \ 'Ignored'   :'',
-                \ 'Clean'     :'',
-                \ 'Unknown'   :'',
-                \ }
 
 " PROSE FORMATTING
 " ----------------
