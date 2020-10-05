@@ -10,19 +10,27 @@ if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim')) " Auto-install vim-pl
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 call plug#begin($HOME.'/.config/nvim/autoload/plugged')
-Plug 'ryanoasis/vim-devicons' " Pretty file icons
+" Quality of life plugins
+Plug 'mbbill/undotree' " Undo tree visualized
+Plug 'junegunn/vim-peekaboo' " Registers visualized
+Plug 'tpope/vim-vinegar' " netrw enchancments
+Plug 'tpope/vim-unimpaired' " [ - style shortucts
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " Language server
-Plug 'sheerun/vim-polyglot' " Syntax highlighting
+" IDE features
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
+Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'janko-m/vim-test' " Testing suite
+" Visual enchancments
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
+Plug 'ryanoasis/vim-devicons' " Pretty file icons
 call plug#end()
+
 " Language server extensions
 let g:coc_global_extensions = [ 
             \ 'coc-snippets',
@@ -37,6 +45,7 @@ function! FullPluginUpgrade()
     PlugUpgrade " Update vim-plug
     PlugUpdate " Update vim-plug extensions
     CocUpdate " Update Coc Extensions
+    UpdateRemotePlugins " Neovim-specific handler update
 endfunction
  
 command! -nargs=0 Upgrade :call FullPluginUpgrade()
@@ -45,9 +54,6 @@ command! -nargs=0 Upgrade :call FullPluginUpgrade()
 " ----
 
 let mapleader=' '
-
-" Enter for new line below
-nnoremap <CR> o<Esc>
 
 " Switch between splits using hjkl
 nnoremap <C-j> <C-w>j 
@@ -60,6 +66,11 @@ nnoremap <leader>x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>d "_d
+
+" Tool maps
+nmap <silent> <leader>f :call ToggleNetrw()<CR>
+nmap <unique> <Nop> <Plug>NetrwRefresh
+map <silent> <leader>u :UndotreeToggle<CR>
 
 " Disable middle mouse click actions
 map <MiddleMouse> <Nop>
@@ -108,13 +119,33 @@ set nobackup
 set nowritebackup
 autocmd VimEnter * if &diff | cmap q qa| endif
 autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
+
 let g:python3_host_prog='/usr/bin/python3'
 let g:AutoPairsShortcutToggle = ''
-let g:netrw_browse_split = 4
+
+" Make netrw more berable
+let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
 let g:netrw_winsize = 30
+let g:NetrwIsOpen=0
+
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i 
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
 
 " THEME
 " -----
@@ -170,7 +201,17 @@ function! FileTypeWithIcon()
   return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
 endfunction
 
+function! FileNameNetrw()
+    if &filetype =='netrw' || &filetype == 'undotree'
+        return ''
+    endif
+    return bufname()
+endfunction
+
 function! CurrentAndTotalLines()
+    if &filetype == 'netrw' || &filetype == 'undotree'
+        return ''
+    endif
     let current_line = line('.')
     let current_v_line = line('v')
     let total_lines = line('$')
@@ -200,7 +241,8 @@ let g:lightline = {
         \   'cocstatus': 'StatusDiagnostic',
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
-        \   'lineinfo': 'CurrentAndTotalLines'
+        \   'lineinfo': 'CurrentAndTotalLines',
+        \   'filename': 'FileNameNetrw'
         \ },
         \ }
 

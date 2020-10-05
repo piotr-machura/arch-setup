@@ -49,6 +49,7 @@ python-pyqt5
 python-rope
 qtile
 ristretto
+rmtrash
 rofi
 rsnapshot
 rust-analyzer
