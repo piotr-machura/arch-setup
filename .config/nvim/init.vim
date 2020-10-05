@@ -69,7 +69,7 @@ vnoremap <leader>d "_d
 
 " Tool maps
 nmap <unique> <Nop> <Plug>NetrwRefresh
-map <silent> <leader>- :UndotreeToggle<CR>
+map <silent> <C-u> :UndotreeToggle<CR>
 
 " Disable middle mouse click actions
 map <MiddleMouse> <Nop>
@@ -101,7 +101,6 @@ set splitbelow
 set splitright
 set hidden
 set shortmess+=c
-
 set mouse+=ar
 set shellcmdflag=-ic
 set autowrite
@@ -116,11 +115,14 @@ set listchars=tab:-,trail:·
 set list
 set nobackup
 set nowritebackup
+let g:python3_host_prog='/usr/bin/python3'
 autocmd VimEnter * if &diff | cmap q qa| endif
 autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
 
-let g:python3_host_prog='/usr/bin/python3'
 let g:AutoPairsShortcutToggle = ''
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_WindowLayout = 2
+
 
 " Make netrw more berable
 let g:netrw_browse_split = 0
