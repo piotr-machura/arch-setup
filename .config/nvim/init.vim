@@ -118,22 +118,24 @@ set nobackup
 set nowritebackup
 let g:python3_host_prog='/usr/bin/python3'
 autocmd VimEnter * if &diff | cmap q qa| endif
-autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 
 let g:AutoPairsShortcutToggle = ''
+
+" Netrw configuration
+let g:netrw_browse_split = 0
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_altv = 1
+let g:netrw_winsize = 50
+
+" Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 map <silent> <C-u> :UndotreeToggle<CR>
 
-
-" Make netrw more berable
-let g:netrw_browse_split = 0
-let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_altv = 1
-let g:netrw_winsize = 50
 
 " THEME
 " -----
