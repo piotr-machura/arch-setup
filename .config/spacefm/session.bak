@@ -2,7 +2,9 @@
 # SPACEFM FILE MANAGER CONFIG
 # ---------------------------
 # Note: this is a backup of the session file.
-# Copy the approprieate sections to session.
+# Use
+# cp session.bak session
+# to apply changes
 
 
 [General]
