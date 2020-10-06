@@ -22,6 +22,7 @@ Plug 'tpope/vim-commentary' " Comment automation
 " IDE features
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
 Plug 'sheerun/vim-polyglot' " Multi-language pack
+Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
 " Visual enchancments
 Plug 'junegunn/goyo.vim' " Distraction-free mode
@@ -63,13 +64,13 @@ nnoremap <C-h> <C-w>h
 
 " Use the leader key to delete insted of cut
 nnoremap <leader>x "_x
+nnoremap <leader>s "_s
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
-vnoremap <leader>d "_d
 
-" Tool maps
-nmap <unique> <Nop> <Plug>NetrwRefresh
-map <silent> <C-u> :UndotreeToggle<CR>
+vnoremap <leader>x "_x
+vnoremap <leader>s "_s
+vnoremap <leader>d "_d
 
 " Disable middle mouse click actions
 map <MiddleMouse> <Nop>
@@ -122,6 +123,9 @@ autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o
 let g:AutoPairsShortcutToggle = ''
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
+let g:undotree_HelpLine = 0
+let g:undotree_ShortIndicators = 1
+map <silent> <C-u> :UndotreeToggle<CR>
 
 
 " Make netrw more berable
@@ -184,7 +188,7 @@ function! StatusDiagnostic() abort
     return join(msgs, ' ')
 endfunction
 
-" Get current git branch for lightline
+" Git branch lightline element
 let g:current_branch_name = ''
 function! SetGitBranch() abort
     if BadBuffer()
@@ -202,21 +206,19 @@ function! GetGitBranch() abort
 endfunction
 autocmd BufEnter * call SetGitBranch()
 
+" Other lightline elements
 function! FileTypeWithIcon()
     if BadBuffer()
         return ''
     endif
-    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft'
+    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
 endfunction
-
-
 function! FileName()
     if BadBuffer()
         return ''
     endif
     return bufname()
 endfunction
-
 function! CurrentAndTotalLines()
     if BadBuffer()
         return ''
@@ -270,7 +272,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_next = '<TAB>'
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -303,22 +305,21 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming. and quick fix
-nmap <leader>rn <Plug>(coc-rename)
-nmap <leader>qf  <Plug>(coc-fix-current)
+
+" CoC mappings
+nmap <leader>r <Plug>(coc-rename)
+nmap <leader>f  <Plug>(coc-fix-current)
+nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader>m  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
 
 " Editor commands for formatting, folding and imports
 command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 Imports :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Mappings for CoCList
-nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<cr>
-nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
-nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<cr>
-nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
-nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
-nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
 
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
