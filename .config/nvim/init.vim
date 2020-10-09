@@ -5,12 +5,12 @@
 " PLUGINS
 " -------
 
-if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim')) " Auto-install vim-plug
-    silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
+if empty(glob($HOME.'/.config/nvim/autoload/plug.vim')) " Auto-install vim-plug
+    silent !curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
+call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 
 " Quality of life plugins
 Plug 'mbbill/undotree' " Undo tree visualized
@@ -126,7 +126,7 @@ set splitbelow
 set splitright
 
 set title
-set titlestring=\ %-25.55F\ %a%r%m titlelen=120
+let &titlestring=" " . expand("%:p:~") . " %a%r%m"
 
 set noshowmode
 set laststatus=2
@@ -142,9 +142,9 @@ set nobackup
 set autowrite
 set nowritebackup
 
-set dir=$XDG_CACHE_HOME/nvim
-set backupdir=$XDG_CACHE_HOME/nvim/backup
-set undodir=$XDG_CACHE_HOME/nvim/undo
+set dir=$HOME/.cache/nvim
+set backupdir=$HOME/.cache/nvim/backup
+set undodir=$HOME/.cache/nvim/undo
 
 set list
 set listchars=tab:-,trail:░
@@ -282,7 +282,7 @@ function! FileName() abort
     if <SID>bad_buffer()
         return ''
     endif
-    return bufname()
+    return expand('%:t')
 endfunction
 
 function! CurrentAndTotalLines() abort
