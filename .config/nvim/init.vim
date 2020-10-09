@@ -9,7 +9,9 @@ if empty(glob($XDG_CONFIG_HOME.'/nvim/autoload/plug.vim')) " Auto-install vim-pl
     silent !curl -fLo $XDG_CONFIG_HOME/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-call plug#begin($HOME.'/.config/nvim/autoload/plugged')
+
+call plug#begin($XDG_CONFIG_HOME.'/nvim/autoload/plugged')
+
 " Quality of life plugins
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
@@ -19,11 +21,13 @@ Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
+
 " IDE features
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
 Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
+
 " Visual enchancments
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -33,7 +37,7 @@ Plug 'ryanoasis/vim-devicons' " Pretty file icons
 call plug#end()
 
 " Language server extensions
-let g:coc_global_extensions = [ 
+let g:coc_global_extensions = [
             \ 'coc-snippets',
             \ 'coc-python',
             \ 'coc-rust-analyzer',
@@ -42,27 +46,18 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ ]
 
-function! FullPluginUpgrade() 
-    PlugUpgrade " Update vim-plug
-    PlugUpdate " Update vim-plug extensions
-    CocUpdate " Update Coc Extensions
-    UpdateRemotePlugins " Neovim-specific handler update
-endfunction
- 
-command! -nargs=0 Upgrade :call FullPluginUpgrade()
-
 " MAPS
 " ----
 
 let mapleader=' '
 
-" Switch between splits using hjkl
-nnoremap <C-j> <C-w>j 
-nnoremap <C-k> <C-w>k 
+" Switch between splits using <C-hjkl>
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-" Use the leader key to delete insted of cut
+" Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
 nnoremap <leader>s "_s
 nnoremap <leader>d "_d
@@ -71,6 +66,30 @@ nnoremap <leader>D "_D
 vnoremap <leader>x "_x
 vnoremap <leader>s "_s
 vnoremap <leader>d "_d
+
+nnoremap <silent> <C-u> :UndotreeToggle<CR>
+
+" <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
+inoremap <silent><expr> <C-space> pumvisible() ? "\<C-e>" : coc#refresh()
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_snippet_next = '<TAB>'
+
+" Code actions
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <leader>r <Plug>(coc-rename)
+nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
+nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader>f  :<C-u>call CocAction('format')<CR>
+
+" Code navigation
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Disable middle mouse click actions
 map <MiddleMouse> <Nop>
@@ -82,59 +101,73 @@ imap <2-MiddleMouse> <Nop>
 imap <3-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
 
+let g:AutoPairsShortcutToggle = ''
+
 " PREFERENCES
 " -----------
+
+let g:python3_host_prog='/bin/python3'
 
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
 set shiftround
+set wrap linebreak
+
+set scrolloff=4
+set sidescrolloff=8
+
 set signcolumn=yes
 set number
-set laststatus=2
 set numberwidth=1
-set title
-set titlestring=\ %-25.55F\ %a%r%m titlelen=120
-set noshowmode
-set wrap linebreak
+
 set splitbelow
 set splitright
+
+set title
+set titlestring=\ %-25.55F\ %a%r%m titlelen=120
+
+set noshowmode
+set laststatus=2
 set hidden
 set shortmess+=c
+
 set mouse+=ar
 set shellcmdflag=-ic
-set autowrite
-filetype plugin on
-set scrolloff=6
-set encoding=utf-8
-set sidescrolloff=6
 set updatetime=300
-set backupdir=$HOME/.cache/nvim/backup
-set dir=$HOME/.cache/nvim
-set listchars=tab:-,trail:·
-set list
-set nobackup
-set nowritebackup
-let g:python3_host_prog='/usr/bin/python3'
-autocmd VimEnter * if &diff | cmap q qa| endif
-autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 
-let g:AutoPairsShortcutToggle = ''
+set undofile
+set nobackup
+set autowrite
+set nowritebackup
+
+set dir=$XDG_CACHE_HOME/nvim
+set backupdir=$XDG_CACHE_HOME/nvim/backup
+set undodir=$XDG_CACHE_HOME/nvim/undo
+
+set list
+set listchars=tab:-,trail:░
 
 " Netrw configuration
 let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
-let g:netrw_winsize = 50
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
-map <silent> <C-u> :UndotreeToggle<CR>
+
+" Git branch name
+let g:current_branch_name = ''
+
+" Conceal settings
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 
 " THEME
@@ -145,100 +178,7 @@ let g:nord_bold = 1
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
-let g:indentLine_color_term = 0
-let g:indentLine_char = '|'
-let g:current_branch_name = ''
-
 colorscheme nord
-
-" STATUSLINE
-" ----------
-
-function! BadBuffer()
-    " Disable lightline elements for theeses buffer types
-    let names = [
-                \ "undotree",
-                \ "diff",
-                \ ]
-    for str in names
-        if stridx(&filetype, str)!=-1
-            return 1
-        endif
-    endfor
-    return 0
-endfunction
-
-function! StatusDiagnostic() abort 
-    if BadBuffer()
-        return ''
-    endif
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, 'error', 0)
-        call add(msgs, ' ' . info['error'])
-    endif
-    if get(info, 'warning', 0)
-        call add(msgs, ' ' . info['warning'])
-    endif
-    if get(info, 'information', 0)
-        call add(msgs, ' ' . info['information'])
-    endif
-    if get(info, 'hint', 0)
-        call add(msgs, ' ' . info['hint'])
-    endif
-    return join(msgs, ' ')
-endfunction
-
-" Git branch lightline element
-let g:current_branch_name = ''
-function! SetGitBranch() abort
-    if BadBuffer()
-        return ''
-    endif
-    let branch_name = trim(system('git branch --show-current'))
-    if stridx(branch_name, 'fatal: not a git repository')!=-1
-        let g:current_branch_name = ''
-    else
-        let g:current_branch_name = ' ' . branch_name
-    endif
-endfunction
-function! GetGitBranch() abort
-    return g:current_branch_name
-endfunction
-autocmd BufEnter * call SetGitBranch()
-
-" Other lightline elements
-function! FileTypeWithIcon()
-    if BadBuffer()
-        return ''
-    endif
-    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
-endfunction
-function! FileName()
-    if BadBuffer()
-        return ''
-    endif
-    return bufname()
-endfunction
-function! CurrentAndTotalLines()
-    if BadBuffer()
-        return ''
-    endif
-    let current_line = line('.')
-    let current_v_line = line('v')
-    let total_lines = line('$')
-    let column  = virtcol('.')
-    let column = 'ﲒ ' . column . ' ' 
-    let current_mode = mode()
-    if current_mode!= "v" && current_mode != "V" && current_mode != "\<C-V>"
-        return column . ' ' . current_line . ':' . total_lines
-    elseif current_line > current_v_line
-        return column . 'ﬕ ' . current_v_line . '-' . current_line
-    else
-        return column . 'ﬕ ' . current_line . '-' . current_v_line
-    endif
-endfunction
 
 let g:lightline = {
         \ 'colorscheme': 'nord',
@@ -259,76 +199,11 @@ let g:lightline = {
         \ },
         \ }
 
-" LANGUAGE SERVER
-" ---------------
+let g:indentLine_color_term = 0
+let g:indentLine_char = '|'
 
-" Use <TAB> for completion
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<TAB>'
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Code navigation
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Show documentation with K
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
-" CoC mappings
-nmap <leader>r <Plug>(coc-rename)
-nmap <leader>f  <Plug>(coc-fix-current)
-nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<cr>
-nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
-nnoremap <silent><nowait> <leader>m  :<C-u>CocList -I symbols<cr>
-nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
-nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
-nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>n
-
-" Editor commands for formatting, folding and imports
-command! -nargs=0 Format :call CocAction('format')
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-command! -nargs=0 Imports :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-let g:vim_json_syntax_conceal = 0
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
-
-" CLIPBOARD PROVIDER
-" ------------------
+" CLIPBOARD
+" ---------
 
 let g:clipboard = {
   \   'name': 'xclip',
@@ -344,30 +219,139 @@ let g:clipboard = {
   \ }
 set clipboard+=unnamedplus
 
+" COMMANDS
+" --------
 
-" PROSE FORMATTING
-" ----------------
+command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 
-function CheckFilename()
-    " Check for some commonly used programming .txt files
+" AUTOCMDS
+" --------
+
+autocmd VimEnter,ShellCmdPost * call <SID>set_git_branch()
+autocmd VimEnter * if &diff | cmap q qa| endif
+autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+
+augroup prosewriting
+    autocmd!
+    autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
+    autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
+    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+augroup END
+
+" FUNCTIONS
+" ---------
+
+function! s:upgrade_everything() abort
+    PlugUpgrade " Update vim-plug
+    PlugUpdate " Update vim-plug extensions
+    CocUpdate " Update Coc Extensions
+    UpdateRemotePlugins " Neovim-specific handler update
+endfunction
+
+function! s:show_documentation() abort
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
+" Lightline elements
+function! s:bad_buffer() abort
+    " Disable lightline elements for theeses buffer types
     let names = [
-                \ "pkg",
-                \ "PKG",
-                \ "README",
-                \ "readme",
-                \ "license",
-                \ "LICENSE",
-                \ "requirements",
-                \ "REQUIREMENTS"
+                \ "undotree",
+                \ "diff",
                 \ ]
     for str in names
-        if stridx(bufname(), str)!=-1
+        if stridx(&filetype, str)!=-1
             return 1
         endif
     endfor
     return 0
 endfunction
-function ApplyProseFormatting()
+
+function! FileTypeWithIcon() abort
+    if <SID>bad_buffer()
+        return ''
+    endif
+    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
+endfunction
+
+function! FileName() abort
+    if <SID>bad_buffer()
+        return ''
+    endif
+    return bufname()
+endfunction
+
+function! CurrentAndTotalLines() abort
+    if <SID>bad_buffer()
+        return ''
+    endif
+    let current_line = line('.')
+    let current_v_line = line('v')
+    let total_lines = line('$')
+    let column  = virtcol('.')
+    let column = 'ﲒ ' . column . ' ' 
+    let current_mode = mode()
+    if current_mode!= "v" && current_mode != "V" && current_mode != "\<C-V>"
+        return column . ' ' . current_line . ':' . total_lines
+    elseif current_line > current_v_line
+        return column . 'ﬕ ' . current_v_line . '-' . current_line
+    else
+        return column . 'ﬕ ' . current_line . '-' . current_v_line
+    endif
+endfunction
+
+function! StatusDiagnostic() abort 
+    if <SID>bad_buffer()
+        return ''
+    endif
+    let info = get(b:, 'coc_diagnostic_info', {})
+    if empty(info) | return '' | endif
+    let msgs = []
+    if get(info, 'error', 0)
+        call add(msgs, ' ' . info['error'])
+    endif
+    if get(info, 'warning', 0)
+        call add(msgs, ' ' . info['warning'])
+    endif
+    if get(info, 'information', 0)
+        call add(msgs, ' ' . info['information'])
+    endif
+    if get(info, 'hint', 0)
+        call add(msgs, ' ' . info['hint'])
+    endif
+    return join(msgs, ' ')
+endfunction
+
+function! s:set_git_branch() abort
+    if <SID>bad_buffer()
+        return ''
+    endif
+    let branch_name = trim(system('git branch --show-current'))
+    if stridx(branch_name, 'fatal: not a git repository')!=-1
+        let g:current_branch_name = ''
+    else
+        let g:current_branch_name = ' ' . branch_name
+    endif
+endfunction
+
+function! GetGitBranch() abort
+    return g:current_branch_name
+endfunction
+
+" Prose formatting
+function! StartGoyo()
+    if !&diff
+        call lightline#init()
+        Goyo
+        cmap q qa
+    endif
+endfunction
+
+function! ApplyProseFormatting() abort
     " Spellfile in the main file's dir
     let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
@@ -389,15 +373,23 @@ function ApplyProseFormatting()
     nnoremap <buffer> k gk
     setlocal nolist
 endfunction
-function! StartGoyo()
-    if !&diff
-        call lightline#init()
-        Goyo
-        cmap q qa
-    endif
-endfunction
 
-autocmd BufEnter *.txt if !CheckFilename() | call ApplyProseFormatting() | endif
-autocmd VimEnter *.txt if !CheckFilename() | call StartGoyo() | endif
-" Resize goyo automatically after resizing vim
-autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+function! s:check_programming_filename() abort
+    " Check for some commonly used programming .txt files
+    let names = [
+                \ "pkg",
+                \ "PKG",
+                \ "README",
+                \ "readme",
+                \ "license",
+                \ "LICENSE",
+                \ "requirements",
+                \ "REQUIREMENTS"
+                \ ]
+    for str in names
+        if stridx(bufname(), str)!=-1
+            return 1
+        endif
+    endfor
+    return 0
+endfunction

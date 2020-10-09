@@ -9,7 +9,6 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
 from libqtile.widget.battery import BatteryState, BatteryStatus
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 #pylint: disable=invalid-name,protected-access
 
 # AUTOSTART
@@ -25,8 +24,6 @@ def autostart():
     ]
     for process in processes:
         subprocess.Popen(process)
-
-terminal = guess_terminal()
 
 
 # KEYBINDINGS
@@ -57,7 +54,7 @@ keys = [
     Key([mod], "0", lazy.layout.normalize()),
     Key([mod], "p", lazy.next_layout()),
 
-    Key([mod], "Return", lazy.spawn(terminal)),
+    Key([mod], "Return", lazy.spawn("alacritty")),
     Key([mod], "w", lazy.spawn("firefox")),
     Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
