@@ -16,7 +16,6 @@ call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
 Plug 'tpope/vim-vinegar' " netrw enchancments
-Plug 'tpope/vim-unimpaired' " [ - style shortucts
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
@@ -51,11 +50,22 @@ let g:coc_global_extensions = [
 
 let mapleader=' '
 
-" Switch between splits using <C-hjkl>
+" Navigation
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
+
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -68,6 +78,11 @@ vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
 nnoremap <silent> <C-u> :UndotreeToggle<CR>
+nnoremap <silent> <leader>l :ls<CR>:buffer<space>
+
+" Insert blank lines from normal mode
+nnoremap <silent> [<space> O<ESC>
+nnoremap <silent> ]<space> o<ESC>
 
 " <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
 inoremap <silent><expr> <C-space> pumvisible() ? "\<C-e>" : coc#refresh()
@@ -83,13 +98,6 @@ nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
 nnoremap <silent><nowait> <leader>f  :<C-u>call CocAction('format')<CR>
 
-" Code navigation
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Disable middle mouse click actions
 map <MiddleMouse> <Nop>
@@ -126,7 +134,7 @@ set splitbelow
 set splitright
 
 set title
-let &titlestring=" " . expand("%:p:~") . " %a%r%m"
+let &titlestring="  %-25.55F %a%r%m"
 
 set noshowmode
 set laststatus=2
@@ -169,7 +177,6 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
-
 " THEME
 " -----
 
@@ -185,19 +192,25 @@ let g:lightline = {
         \ 'active': {
         \       'left': [ [ 'mode', 'paste' ],
         \                 [ 'readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo'] ]
+        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'buffer', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
-        \       'right': [ [ 'filetype' ] ]
+        \       'left': [ [ 'filename' ] ],
+        \       'right': [ [ 'filetype', 'buffer' ] ]
         \ },
         \ 'component_function': {
         \   'cocstatus': 'StatusDiagnostic',
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
         \   'lineinfo': 'CurrentAndTotalLines',
-        \   'filename': 'FileName'
+        \   'filename': 'FileName',
+        \   'buffer': 'BuffNumber',
         \ },
         \ }
+
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
 
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
@@ -262,6 +275,7 @@ function! s:bad_buffer() abort
     let names = [
                 \ "undotree",
                 \ "diff",
+                \ "netrw"
                 \ ]
     for str in names
         if stridx(&filetype, str)!=-1
@@ -324,6 +338,10 @@ function! StatusDiagnostic() abort
         call add(msgs, ' ' . info['hint'])
     endif
     return join(msgs, ' ')
+endfunction
+
+function! BuffNumber() abort
+    return '﬒ ' . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
 
 function! s:set_git_branch() abort
