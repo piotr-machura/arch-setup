@@ -28,11 +28,12 @@ Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
 
 " Visual enchancments
-Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
+Plug 'zefei/vim-wintabs' " Open buffers at the top, scoped tabs
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'ryanoasis/vim-devicons' " Pretty file icons
+Plug 'junegunn/goyo.vim' " Distraction-free mode
 call plug#end()
 
 " Language server extensions
@@ -56,8 +57,9 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
+nmap <silent> [b <Plug>(wintabs_previous)
+nmap <silent> ]b <Plug>(wintabs_next)
+noremap <silent><expr> <leader>q &modified ? ':w\|WintabsClose<CR>' : ':WintabsClose<CR>'
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -78,7 +80,6 @@ vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
 nnoremap <silent> <C-u> :UndotreeToggle<CR>
-nnoremap <silent> <leader>l :ls<CR>:buffer<space>
 
 " Insert blank lines from normal mode
 nnoremap <silent> [<space> O<ESC>
@@ -134,7 +135,6 @@ set splitbelow
 set splitright
 
 set title
-let &titlestring="  %-25.55F %a%r%m"
 
 set noshowmode
 set laststatus=2
@@ -169,6 +169,10 @@ let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 
+" Wintabs configuration
+let g:wintabs_ui_sep_inbetween = ''
+let g:wintabs_ui_sep_rightmost = ''
+
 " Git branch name
 let g:current_branch_name = ''
 
@@ -190,27 +194,22 @@ colorscheme nord
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
-        \       'left': [ [ 'mode', 'paste' ],
-        \                 [ 'readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'buffer', 'lineinfo' ] ]
+        \       'left': [ [ 'mode' ], ['relative'] ],
+        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
         \       'left': [ [ 'filename' ] ],
-        \       'right': [ [ 'filetype', 'buffer' ] ]
+        \       'right': [ [ 'filetype' ] ]
         \ },
         \ 'component_function': {
         \   'cocstatus': 'StatusDiagnostic',
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
         \   'lineinfo': 'CurrentAndTotalLines',
+        \   'relative': 'RelativePath',
         \   'filename': 'FileName',
-        \   'buffer': 'BuffNumber',
         \ },
         \ }
-
-let g:lightline#bufferline#show_number  = 1
-let g:lightline#bufferline#shorten_path = 0
-let g:lightline#bufferline#unnamed      = '[No Name]'
 
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
@@ -231,25 +230,6 @@ let g:clipboard = {
   \   'cache_enabled': 1,
   \ }
 set clipboard+=unnamedplus
-
-" COMMANDS
-" --------
-
-command! -nargs=0 Upgrade :call <SID>upgrade_everything()
-
-" AUTOCMDS
-" --------
-
-autocmd VimEnter,ShellCmdPost * call <SID>set_git_branch()
-autocmd VimEnter * if &diff | cmap q qa| endif
-autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
-
-augroup prosewriting
-    autocmd!
-    autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
-    autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
-    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-augroup END
 
 " FUNCTIONS
 " ---------
@@ -296,32 +276,34 @@ function! FileName() abort
     if <SID>bad_buffer()
         return ''
     endif
-    return expand('%:t')
+    return expand("%:t")
 endfunction
 
-function! CurrentAndTotalLines() abort
+function! RelativePath() abort
     if <SID>bad_buffer()
         return ''
     endif
-    let current_line = line('.')
-    let current_v_line = line('v')
+    return fnamemodify(expand("%"), ":~:.")
+endfunction
+
+
+
+function! CurrentAndTotalLines() abort
+    if <SID>bad_buffer() || winwidth(0) < 35
+        return ''
+    endif
+    let current_line = line('v')
     let total_lines = line('$')
     let column  = virtcol('.')
     let column = 'ﲒ ' . column . ' ' 
-    let current_mode = mode()
-    if current_mode!= "v" && current_mode != "V" && current_mode != "\<C-V>"
-        return column . ' ' . current_line . ':' . total_lines
-    elseif current_line > current_v_line
-        return column . 'ﬕ ' . current_v_line . '-' . current_line
-    else
-        return column . 'ﬕ ' . current_line . '-' . current_v_line
-    endif
+    return column . ' ' . current_line . ':' . total_lines
 endfunction
 
-function! StatusDiagnostic() abort 
-    if <SID>bad_buffer()
+function! StatusDiagnostic() abort
+    if <SID>bad_buffer() || winwidth(0) < 70
         return ''
     endif
+
     let info = get(b:, 'coc_diagnostic_info', {})
     if empty(info) | return '' | endif
     let msgs = []
@@ -338,10 +320,6 @@ function! StatusDiagnostic() abort
         call add(msgs, ' ' . info['hint'])
     endif
     return join(msgs, ' ')
-endfunction
-
-function! BuffNumber() abort
-    return '﬒ ' . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
 
 function! s:set_git_branch() abort
@@ -411,3 +389,38 @@ function! s:check_programming_filename() abort
     endfor
     return 0
 endfunction
+
+function! s:get_title_string() abort
+    let title = " "
+    let title = title . substitute(getcwd(), $HOME, "~", "")
+    let title = title . "  "
+    if stridx(&filetype, "netrw") != -1
+        return title . " netrw"
+    endif
+
+    let title = title . fnamemodify(expand("%"), ":~:.")
+    return title
+endfunction
+
+" COMMANDS
+" --------
+
+command! -nargs=0 Upgrade :call <SID>upgrade_everything()
+
+" AUTOCMDS
+" --------
+augroup userdefined
+    autocmd!
+    autocmd BufEnter * call <SID>set_git_branch()
+    autocmd VimEnter * if &diff | cmap q qa| endif
+    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd BufEnter,FileType * let &titlestring=<SID>get_title_string()
+augroup END
+
+augroup prosewriting
+    autocmd!
+    autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
+    autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
+    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+augroup END
+

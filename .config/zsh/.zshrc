@@ -74,7 +74,7 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=clear-on-empty
 # -----
 
 #Title
-precmd () {print -Pn "\e]0; ${PWD/#$HOME/~}\a"}
+precmd () {print -Pn "\e]0; ${PWD/$HOME/~}\a"}
 
 #Cursor
 _set_cursor() {echo -ne '\e[4 q'}
@@ -144,16 +144,4 @@ eval spaceship_vi_mode_enable
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# AUTOMATIC CD WITH RANGER
-# ------------------------
-
-ranger-cd() {
-    temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
-    \ranger --choosedir="$temp_file" -- "${@:-$PWD}"
-    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
-        cd -- "$chosen_dir"
-    fi
-    rm -f -- "$temp_file"
-}
 
