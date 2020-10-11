@@ -59,8 +59,8 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-nmap <silent> [b :bprev<CR>
-nmap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprev<CR>
+nnoremap <silent> ]b :bnext<CR>
 
 nmap <leader>1 <Plug>BufTabLine.Go(1)
 nmap <leader>2 <Plug>BufTabLine.Go(2)
@@ -93,8 +93,8 @@ vnoremap <leader>x "_x
 vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
-nnoremap <silent> <C-u> :UndotreeToggle<CR>
-nmap <silent><nowait> - :Explore<CR>
+nnoremap <silent> <C-u> :UndotreeToggle<CR>:call buftabline#update(0)<CR>
+nnoremap <silent><nowait> - :Explore<CR>
 
 " Insert blank lines from normal mode
 nnoremap <silent> [<space> O<ESC>
@@ -409,6 +409,14 @@ function! s:get_title_string() abort
     return title
 endfunction
 
+" netrw specific mappings
+function! s:netrw_remap()
+    nmap <buffer> l <CR>
+    nmap <buffer> L gn
+    nmap <buffer> h <Plug>NetrwBrowseUpDir
+    noremap <silent><buffer> - :bd<CR>
+endfunction
+
 " COMMANDS
 " --------
 
@@ -416,15 +424,34 @@ command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 
 " AUTOCMDS
 " --------
-augroup userdefined
+
+augroup git_branch
     autocmd!
     autocmd BufEnter * call <SID>set_git_branch()
+augroup END
+
+augroup diff_close
+    autocmd!
     autocmd VimEnter * if &diff | cmap q qa| endif
+augroup END
+
+augroup format_options
+    autocmd!
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
+
+augroup title_string
+    autocmd!
     autocmd BufEnter,FileType * let &titlestring=<SID>get_title_string()
 augroup END
 
-augroup prosewriting
+augroup netrw_mapping
+    autocmd!
+    autocmd filetype netrw call <SID>netrw_remap()
+augroup END
+
+
+augroup prose_writing
     autocmd!
     autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
     autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
