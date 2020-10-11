@@ -59,8 +59,8 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-nnoremap <silent> [b :bprev<CR>
-nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> gb :bnext<CR>
+nnoremap <silent> gB :bprev<CR>
 
 nmap <leader>1 <Plug>BufTabLine.Go(1)
 nmap <leader>2 <Plug>BufTabLine.Go(2)
@@ -219,11 +219,13 @@ let g:lightline = {
         \       'right': [ [ 'filetype' ] ]
         \ },
         \ 'component_function': {
-        \   'cocstatus': 'StatusDiagnostic',
-        \   'gitbranch': 'GetGitBranch',
-        \   'filetype': 'FileTypeWithIcon',
-        \   'lineinfo': 'CurrentAndTotalLines',
-        \   'filename': 'FileName',
+        \   'cocstatus': 'LightlineDiagnostic',
+        \   'gitbranch': 'LightlineGitBranch',
+        \   'filetype': 'LightlineFiletype',
+        \   'lineinfo': 'LigtlineLineinfo',
+        \   'filename': 'LightlineFilename',
+        \   'readonly': 'LightlineReadonly',
+        \   'modified': 'LightlineModified'
         \ },
         \ }
 
@@ -281,21 +283,21 @@ function! s:bad_buffer() abort
     return 0
 endfunction
 
-function! FileTypeWithIcon() abort
+function! LightlineFiletype() abort
     if <SID>bad_buffer()
         return ''
     endif
     return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
 endfunction
 
-function! FileName() abort
+function! LightlineFilename() abort
     if <SID>bad_buffer()
         return ''
     endif
     return expand("%:t")
 endfunction
 
-function! CurrentAndTotalLines() abort
+function! LightlineLineinfo() abort
     if <SID>bad_buffer() || winwidth(0) < 35
         return ''
     endif
@@ -306,7 +308,7 @@ function! CurrentAndTotalLines() abort
     return column . ' ' . current_line . ':' . total_lines
 endfunction
 
-function! StatusDiagnostic() abort
+function! LightlineDiagnostics() abort
     if <SID>bad_buffer() || winwidth(0) < 70
         return ''
     endif
@@ -337,12 +339,32 @@ function! s:set_git_branch() abort
     if stridx(branch_name, 'fatal: not a git repository')!=-1
         let g:current_branch_name = ''
     else
-        let g:current_branch_name = ' ' . branch_name
+        let g:current_branch_name = branch_name
     endif
 endfunction
 
-function! GetGitBranch() abort
-    return g:current_branch_name
+function! LightlineGitBranch() abort
+    if len(g:current_branch_name)
+        return ' ' . g:current_branch_name
+    else
+        return ''
+    endif
+endfunction
+
+function! LightlineReadonly() abort
+    if &readonly
+        return ' Read-only'
+    else
+        return ''
+    endif
+endfunction
+
+function! LightlineModified() abort
+    if &modified
+        return '烙'
+    else
+        return ''
+    endif
 endfunction
 
 " Prose formatting
@@ -409,14 +431,6 @@ function! s:get_title_string() abort
     return title
 endfunction
 
-" netrw specific mappings
-function! s:netrw_remap()
-    nmap <buffer> l <CR>
-    nmap <buffer> L gn
-    nmap <buffer> h <Plug>NetrwBrowseUpDir
-    noremap <silent><buffer> - :bd<CR>
-endfunction
-
 " COMMANDS
 " --------
 
@@ -447,7 +461,10 @@ augroup END
 
 augroup netrw_mapping
     autocmd!
-    autocmd filetype netrw call <SID>netrw_remap()
+    autocmd filetype netrw nmap <buffer> l <CR>
+    autocmd filetype netrw nmap <buffer> L gn
+    autocmd filetype netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
+    autocmd filetype netrw noremap <silent><buffer> - :bd<CR>
 augroup END
 
 
