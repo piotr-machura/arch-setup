@@ -15,7 +15,6 @@ call plug#begin($HOME.'/.config/nvim/autoload/plugged')
 " Quality of life plugins
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'tpope/vim-vinegar' " netrw enchancments
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-repeat' " Easy repeats on custom commands
@@ -23,14 +22,17 @@ Plug 'tpope/vim-commentary' " Comment automation
 
 " IDE features
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
-Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
+
+" Language packs
+Plug 'elzr/vim-json'
+Plug 'plasticboy/vim-markdown'
 
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
-Plug 'zefei/vim-wintabs' " Open buffers at the top, scoped tabs
+Plug 'ap/vim-buftabline' " Buffers displayed in tabline
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'ryanoasis/vim-devicons' " Pretty file icons
 Plug 'junegunn/goyo.vim' " Distraction-free mode
@@ -57,9 +59,21 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-nmap <silent> [b <Plug>(wintabs_previous)
-nmap <silent> ]b <Plug>(wintabs_next)
-noremap <silent><expr> <leader>q &modified ? ':w\|WintabsClose<CR>' : ':WintabsClose<CR>'
+nmap <silent> [b :bprev<CR>
+nmap <silent> ]b :bnext<CR>
+
+nmap <leader>1 <Plug>BufTabLine.Go(1)
+nmap <leader>2 <Plug>BufTabLine.Go(2)
+nmap <leader>3 <Plug>BufTabLine.Go(3)
+nmap <leader>4 <Plug>BufTabLine.Go(4)
+nmap <leader>5 <Plug>BufTabLine.Go(5)
+nmap <leader>6 <Plug>BufTabLine.Go(6)
+nmap <leader>7 <Plug>BufTabLine.Go(7)
+nmap <leader>8 <Plug>BufTabLine.Go(8)
+nmap <leader>9 <Plug>BufTabLine.Go(9)
+nmap <leader>0 <Plug>BufTabLine.Go(10)
+
+noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd<CR>'
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -80,6 +94,7 @@ vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
 nnoremap <silent> <C-u> :UndotreeToggle<CR>
+nmap <silent><nowait> - :Explore<CR>
 
 " Insert blank lines from normal mode
 nnoremap <silent> [<space> O<ESC>
@@ -138,8 +153,10 @@ set title
 
 set noshowmode
 set laststatus=2
-set hidden
 set shortmess+=c
+
+set hidden
+set switchbuf=usetab
 
 set mouse+=ar
 set shellcmdflag=-ic
@@ -163,15 +180,15 @@ let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
 
+" Bufftabline options
+let g:buftabline_show = 1
+let g:buftabline_numbers = 2
+
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
-
-" Wintabs configuration
-let g:wintabs_ui_sep_inbetween = ''
-let g:wintabs_ui_sep_rightmost = ''
 
 " Git branch name
 let g:current_branch_name = ''
@@ -194,7 +211,7 @@ colorscheme nord
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
-        \       'left': [ [ 'mode' ], ['relative'] ],
+        \       'left': [ [ 'mode' ], ['readonly', 'filename', 'modified'] ],
         \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
@@ -206,7 +223,6 @@ let g:lightline = {
         \   'gitbranch': 'GetGitBranch',
         \   'filetype': 'FileTypeWithIcon',
         \   'lineinfo': 'CurrentAndTotalLines',
-        \   'relative': 'RelativePath',
         \   'filename': 'FileName',
         \ },
         \ }
@@ -278,15 +294,6 @@ function! FileName() abort
     endif
     return expand("%:t")
 endfunction
-
-function! RelativePath() abort
-    if <SID>bad_buffer()
-        return ''
-    endif
-    return fnamemodify(expand("%"), ":~:.")
-endfunction
-
-
 
 function! CurrentAndTotalLines() abort
     if <SID>bad_buffer() || winwidth(0) < 35
