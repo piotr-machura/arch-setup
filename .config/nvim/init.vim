@@ -410,7 +410,9 @@ function! s:check_programming_filename() abort
                 \ "license",
                 \ "LICENSE",
                 \ "requirements",
-                \ "REQUIREMENTS"
+                \ "REQUIREMENTS",
+                \ "Make",
+                \ "make",
                 \ ]
     for str in names
         if stridx(bufname(), str)!=-1
