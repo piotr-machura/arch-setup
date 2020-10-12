@@ -12,7 +12,6 @@ dhcpcd
 dunst
 firefox
 galculator
-gimp
 git
 github-cli
 gnumeric
@@ -40,6 +39,7 @@ parole
 pavucontrol
 perl-file-mimeinfo
 picom
+pinta
 pulseaudio
 pulseaudio-alsa
 python-iwlib

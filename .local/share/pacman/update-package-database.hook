@@ -1,6 +1,9 @@
 # Dump all explicitly installed packages to
-# $HOME/.local/share/pacman/PKGLIST
-# Note: sudo has to preserve $HOME
+# ~/.local/share/pacman/PKGLIST
+# -----------------------------------------
+# Note: this file needs to be hard linked to
+# /usr/share/libalpm/hooks/.
+# AND sudo has to preserve $HOME
 
 [Trigger]
 Type = Package 

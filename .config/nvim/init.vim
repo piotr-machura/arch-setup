@@ -179,6 +179,7 @@ let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
+let g:home = $HOME
 
 " Bufftabline options
 let g:buftabline_show = 1
@@ -222,7 +223,7 @@ let g:lightline = {
         \   'cocstatus': 'LightlineDiagnostic',
         \   'gitbranch': 'LightlineGitBranch',
         \   'filetype': 'LightlineFiletype',
-        \   'lineinfo': 'LigtlineLineinfo',
+        \   'lineinfo': 'LightlineLineinfo',
         \   'filename': 'LightlineFilename',
         \   'readonly': 'LightlineReadonly',
         \   'modified': 'LightlineModified'
@@ -301,7 +302,7 @@ function! LightlineLineinfo() abort
     if <SID>bad_buffer() || winwidth(0) < 35
         return ''
     endif
-    let current_line = line('v')
+    let current_line = line('.')
     let total_lines = line('$')
     let column  = virtcol('.')
     let column = 'ﲒ ' . column . ' ' 
@@ -421,12 +422,8 @@ endfunction
 
 function! s:get_title_string() abort
     let title = " "
-    let title = title . substitute(getcwd(), $HOME, "~", "")
+    let title = title . substitute(getcwd(), g:home, "~", "")
     let title = title . "  "
-    if stridx(&filetype, "netrw") != -1
-        return title . " netrw"
-    endif
-
     let title = title . fnamemodify(expand("%"), ":~:.")
     return title
 endfunction
@@ -456,15 +453,15 @@ augroup END
 
 augroup title_string
     autocmd!
-    autocmd BufEnter,FileType * let &titlestring=<SID>get_title_string()
+    autocmd BufEnter * let &titlestring=<SID>get_title_string()
 augroup END
 
 augroup netrw_mapping
     autocmd!
-    autocmd filetype netrw nmap <buffer> l <CR>
-    autocmd filetype netrw nmap <buffer> L gn
-    autocmd filetype netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
-    autocmd filetype netrw noremap <silent><buffer> - :bd<CR>
+    autocmd FileType netrw nmap <buffer> l <CR>
+    autocmd FileType netrw nmap <buffer> L gn
+    autocmd FileType netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
+    autocmd FileType netrw noremap <silent><buffer> - :bd<CR>
 augroup END
 
 

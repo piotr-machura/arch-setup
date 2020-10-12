@@ -1,6 +1,9 @@
-# Update desktop files at 
+# Update desktop files at
 # ~/.local/share/applications
-# Note: sudo has to preserve $HOME
+# ---------------------------
+# Note: this file needs to be hard linked to
+# /usr/share/libalpm/hooks/.
+# AND sudo has to preserve $HOME
 
 [Trigger]
 Type = Package 

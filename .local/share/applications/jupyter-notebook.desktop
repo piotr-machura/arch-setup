@@ -3,5 +3,5 @@ Version=1.0
 Encoding=UTF-8
 Type=Application
 Name=Jupyter Notebook
-Exec=zsh -c "jupyter notebook %F"
+Exec=jupyter notebook %F
 Hidden=true
