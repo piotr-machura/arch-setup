@@ -1,49 +1,10 @@
-# --------------------------
-# GLOBAL ENVIRONMENT PROFILE
-# --------------------------
-# Note: this file need to be hard linked to
-# /etc/profile
-
-# DEFAULT CONTENTS
-# ----------------
-
-umask 022
-append_path () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH="${PATH:+$PATH:}$1"
-    esac
-}
-append_path '/usr/local/sbin'
-append_path '/usr/local/bin'
-append_path '/usr/bin'
-export PATH
-if test -d /etc/profile.d/; then
-	for profile in /etc/profile.d/*.sh; do
-		test -r "$profile" && . "$profile"
-	done
-	unset profile
-fi
-unset -f append_path
-
-if test "$BASH" &&\
-   test "$PS1" &&\
-   test -z "$POSIXLY_CORRECT" &&\
-   test "${0#-}" != sh &&\
-   test -r /etc/bash.bashrc
-then
-	. /etc/bash.bashrc
-fi
-
-unset TERMCAP
-unset MANPATH
-
-# PREFERENCES
-# -----------
+# -----------------------------------
+# GLOBAL ENVIRONMENT VARIABLE PROFILE
+# -----------------------------------
 
 export LANG=en_US.UTF-8
+export PATH=$HOME/.local/bin:$PATH
+
 export EDITOR='vim'
 export PAGER='less'
 export TERMINAL='alacritty -e'
@@ -51,8 +12,6 @@ export BROWSER='firefox'
 
 # XDG BASE DIRECTORY SPECIFICATION
 # --------------------------------
-
-export PATH=$HOME/.local/bin:$PATH
 
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
@@ -101,4 +60,6 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+
+export HAS_PROFILE_LOADED="Yes it has!"
 

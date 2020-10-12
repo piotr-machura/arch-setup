@@ -1,10 +1,6 @@
 # ------------------------
 # ZSH SHELL RUNTIME CONFIG
 # ------------------------
-# Note: this is only sourced if the global env file
-# /etc/zsh/zshenv
-# contains the line
-# export ZDOTDIR=$HOME/.config/zsh
 
 [[ $- != *i* ]] && return
 
