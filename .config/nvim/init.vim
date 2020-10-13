@@ -80,6 +80,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
 
+" Easy buffer switching
 nmap <leader>1 <Plug>BufTabLine.Go(1)
 nmap <leader>2 <Plug>BufTabLine.Go(2)
 nmap <leader>3 <Plug>BufTabLine.Go(3)
@@ -91,15 +92,8 @@ nmap <leader>8 <Plug>BufTabLine.Go(8)
 nmap <leader>9 <Plug>BufTabLine.Go(9)
 nmap <leader>0 <Plug>BufTabLine.Go(10)
 
+" Easy buffer closing
 noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd<CR>'
-
-nmap <silent> [g :PrevDiagnosticCycle<CR>
-nmap <silent> ]g :NextDiagnosticCycle<CR>
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -111,27 +105,36 @@ vnoremap <leader>x "_x
 vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
+" Undo tree and netrw shortcuts
 nnoremap <silent> <C-u> :UndotreeToggle<CR>:call buftabline#update(0)<CR>
 nnoremap <silent><nowait> - :Explore<CR>
 
-" Insert blank lines from normal mode
+" Insert blank lines above or below from normal mode
 nnoremap <silent> [<space> O<ESC>
 nnoremap <silent> ]<space> o<ESC>
+
+" Resotre hlsearch wneh n or N is pressed
+nnoremap <silent> n n:set hlsearch<CR>
+nnoremap <silent> N N:set hlsearch<CR>
 
 " <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
 imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
-nnoremap <silent> n n:set hlsearch<CR>
 
 " Code actions
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>a <cmd>lua vim.lsp.buf.definition()<CR>
 
+nmap <silent> [g :PrevDiagnosticCycle<CR>
+nmap <silent> ]g :NextDiagnosticCycle<CR>
 
-" Disable middle mouse click actions
+nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gs :lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gr :lua vim.lsp.buf.references()<CR>
+
+" Disable middle mouse click
 map <MiddleMouse> <Nop>
 map <2-MiddleMouse> <Nop>
 map <3-MiddleMouse> <Nop>
@@ -141,12 +144,11 @@ imap <2-MiddleMouse> <Nop>
 imap <3-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
 
+" Disable autopair toggling
 let g:AutoPairsShortcutToggle = ''
 
 " PREFERENCES
 " -----------
-
-let g:python3_host_prog='/bin/python3'
 
 set tabstop=4
 set softtabstop=4
@@ -210,15 +212,23 @@ let g:undotree_ShortIndicators = 1
 " Git branch name
 let g:current_branch_name = ''
 
-" Conceal settings
+" Language pack settings
 let g:vim_json_syntax_conceal = 0
+
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
+let g:python_highlight_space_errors = 0
+let g:python_highlight_indent_errors = 1
+let g:python_highlight_class_vars = 1
+let g:python_highlight_exceptions = 1
+
 " Completion settings
 set completeopt=menuone,noinsert,noselect
-let g:completion_enable_auto_signature = 0
-let g:completion_enable_auto_hover = 0
+let g:completion_enable_auto_signature = 1
+let g:completion_matching_ignore_case = 1
+let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_paren = 1
 
 " Diagnostic settings
 let g:diagnostic_enable_virtual_text = 1
@@ -244,7 +254,7 @@ let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
         \       'left': [ [ 'mode' ], ['readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'diagnostics', 'function', 'gitbranch', 'filetype', 'lineinfo' ] ]
+        \       'right': [ [ 'diagnostics', 'gitbranch', 'filetype', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
         \       'left': [ [ 'filename' ] ],
@@ -252,7 +262,6 @@ let g:lightline = {
         \ },
         \ 'component_function': {
         \   'diagnostics': 'LightlineDiagnostics',
-        \   'function': 'LightlineFunction',
         \   'gitbranch': 'LightlineGitBranch',
         \   'filetype': 'LightlineFiletype',
         \   'lineinfo': 'LightlineLineinfo',
@@ -292,15 +301,19 @@ function! s:upgrade_everything() abort
     UpdateRemotePlugins " Neovim-specific handler update
 endfunction
 
-function! s:show_documentation() abort
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
+" Lightline elements
+function! s:set_git_branch() abort
+    if <SID>bad_buffer()
+        return ''
+    endif
+    let branch_name = trim(system('git branch --show-current'))
+    if stridx(branch_name, 'fatal: not a git repository')!=-1
+        let g:current_branch_name = ''
+    else
+        let g:current_branch_name = branch_name
+    endif
 endfunction
 
-" Lightline elements
 function! s:bad_buffer() abort
     " Disable lightline elements for theeses buffer types
     let names = [
@@ -365,28 +378,6 @@ function! LightlineDiagnostics() abort
     return join(msgs, ' ')
 endfunction
 
-function! LightlineFunction() abort
-    if <SID>bad_buffer() || winwidth(0) < 90
-        return ''
-    endif
-    lua require('lsp-status').update_current_function()
-    if strlen(b:lsp_current_function) !=0
-        return ' ' . b:lsp_current_function
-    endif
-    return ''
-endfunction
-
-function! s:set_git_branch() abort
-    if <SID>bad_buffer()
-        return ''
-    endif
-    let branch_name = trim(system('git branch --show-current'))
-    if stridx(branch_name, 'fatal: not a git repository')!=-1
-        let g:current_branch_name = ''
-    else
-        let g:current_branch_name = branch_name
-    endif
-endfunction
 
 function! LightlineGitBranch() abort
     if len(g:current_branch_name)
@@ -413,6 +404,28 @@ function! LightlineModified() abort
 endfunction
 
 " Prose formatting
+function! s:check_programming_filename() abort
+    " Check for some commonly used programming .txt files
+    let names = [
+                \ "pkg",
+                \ "PKG",
+                \ "README",
+                \ "readme",
+                \ "license",
+                \ "LICENSE",
+                \ "requirements",
+                \ "REQUIREMENTS",
+                \ "Make",
+                \ "make",
+                \ ]
+    for str in names
+        if stridx(bufname(), str)!=-1
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
 function! StartGoyo()
     if !&diff
         call lightline#init()
@@ -444,39 +457,12 @@ function! ApplyProseFormatting() abort
     setlocal nolist
 endfunction
 
-function! s:check_programming_filename() abort
-    " Check for some commonly used programming .txt files
-    let names = [
-                \ "pkg",
-                \ "PKG",
-                \ "README",
-                \ "readme",
-                \ "license",
-                \ "LICENSE",
-                \ "requirements",
-                \ "REQUIREMENTS",
-                \ "Make",
-                \ "make",
-                \ ]
-    for str in names
-        if stridx(bufname(), str)!=-1
-            return 1
-        endif
-    endfor
-    return 0
-endfunction
-
 function! s:get_title_string() abort
     let title = " "
     let title = title . substitute(getcwd(), g:home, "~", "")
     let title = title . "  "
     let title = title . fnamemodify(expand("%"), ":~:.")
     return title
-endfunction
-
-function! <SID>lsp_diagnostics() abort
-
-  return ''
 endfunction
 
 " COMMANDS
@@ -489,7 +475,7 @@ command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 
 augroup git_branch
     autocmd!
-    autocmd BufEnter * call <SID>set_git_branch()
+    autocmd BufReadPost * call <SID>set_git_branch()
 augroup END
 
 augroup diff_close
@@ -504,7 +490,7 @@ augroup END
 
 augroup title_string
     autocmd!
-    autocmd BufEnter * let &titlestring=<SID>get_title_string()
+    autocmd BufReadPost * let &titlestring=<SID>get_title_string()
 augroup END
 
 augroup clear_search
@@ -526,10 +512,4 @@ augroup prose_writing
     autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
     autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-augroup END
-
-
-augroup lsp_implementation
-    autocmd!
-    autocmd BufEnter * let b:lsp_current_function = ''
 augroup END

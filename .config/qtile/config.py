@@ -13,6 +13,8 @@ from libqtile.lazy import lazy
 
 # AUTOSTART
 # ---------
+
+
 @hook.subscribe.startup_once
 def autostart():
     """List of lists with commands to be executed on startup and their args"""
@@ -70,7 +72,7 @@ mouse = [
          start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod],"Button2", lazy.window.toggle_floating())
+    Click([mod], "Button2", lazy.window.toggle_floating())
 ]
 
 follow_mouse_focus = False
@@ -118,26 +120,26 @@ nord_colors = [
 ]
 
 theme_layout = {
-    "border_width" : 2,
-    "margin" : 12,
-    "border_focus" : nord_colors[9],
-    "border_normal" : nord_colors[3]
+    "border_width": 2,
+    "margin": 12,
+    "border_focus": nord_colors[9],
+    "border_normal": nord_colors[3]
 }
 
 layouts = [
     layout.MonadTall(
-        align = layout.MonadTall._left,
-        ratio = 0.5,
-        max_ratio = 0.75,
-        min_ratio = 0.25,
-        change_ratio = 0.05,
-        single_border_width = theme_layout["border_width"],
-        single_margin = theme_layout["margin"],
-        name = ' ',
+        align=layout.MonadTall._left,
+        ratio=0.5,
+        max_ratio=0.75,
+        min_ratio=0.25,
+        change_ratio=0.05,
+        single_border_width=theme_layout["border_width"],
+        single_margin=theme_layout["margin"],
+        name=' ',
         **theme_layout
     ),
     layout.Max(
-        name = ' ',
+        name=' ',
         **theme_layout
     ),
 ]
@@ -169,11 +171,12 @@ floating_layout = layout.Floating(
 )
 
 auto_fullscreen = True
-focus_on_window_activation = "smart"
+focus_on_window_activation = "focus"
 wmname = "LG3D"
 
 # SCREENS & WIDGETS
 # -----------------
+
 
 class PamixerVolume(widget.base._TextBox):
     """Volume widget using the pamixer tool"""
@@ -181,7 +184,7 @@ class PamixerVolume(widget.base._TextBox):
     defaults = [
         ("padding", 3, "Padding left and right. Calculated if None."),
         ("update_interval", 0.2, "Update time in seconds."),
-        ]
+    ]
 
     def __init__(self, **config):
         super().__init__(**config)
@@ -207,11 +210,11 @@ class PamixerVolume(widget.base._TextBox):
     def get_volume():
         """Use pamixer to find current volume"""
         p_outcome = subprocess.Popen(
-            ["pamixer","--get-volume"],
-            stdout=subprocess.PIPE)
-        volume, _= p_outcome.communicate()
+            ["pamixer", "--get-volume"], stdout=subprocess.PIPE
+        )
+        volume, _ = p_outcome.communicate()
         p_outcome = subprocess.Popen(
-            ["pamixer","--get-mute"],
+            ["pamixer", "--get-mute"],
             stdout=subprocess.PIPE)
         muted, _ = p_outcome.communicate()
         if "true" in str(muted):
@@ -238,10 +241,12 @@ class PamixerVolume(widget.base._TextBox):
             self.bar.draw()
         self.timeout_add(self.update_interval, self.update)
 
+
 class Battery(widget.battery.Battery):
     def build_string(self, status: BatteryStatus) -> str:
         if self.layout is not None:
-            if status.state == BatteryState.DISCHARGING and status.percent < self.low_percentage:
+            if status.state == BatteryState.DISCHARGING and
+            \ status.percent < self.low_percentage:
                 self.layout.colour = self.low_foreground
             else:
                 self.layout.colour = self.foreground
@@ -250,35 +255,36 @@ class Battery(widget.battery.Battery):
             return f" {percent}%"
         elif status.state == BatteryState.FULL:
             return f" {percent}%"
-        if 90<percent <=100:
+        if 90 < percent <= 100:
             return f" {percent}%"
-        elif 80<percent<=90:
+        elif 80 < percent <= 90:
             return f" {percent}%"
-        elif 70<percent<=80:
+        elif 70 < percent <= 80:
             return f" {percent}%"
-        elif 60<percent<=70:
+        elif 60 < percent <= 70:
             return f" {percent}%"
-        elif 50<percent<=60:
+        elif 50 < percent <= 60:
             return f" {percent}%"
-        elif 40<percent<=50:
+        elif 40 < percent <= 50:
             return f" {percent}%"
-        elif 30<percent<=40:
+        elif 30 < percent <= 40:
             return f" {percent}%"
-        elif 20<percent<=30:
+        elif 20 < percent <= 30:
             return f" {percent}%"
-        elif 10<percent<=20:
+        elif 10 < percent <= 20:
             return f" {percent}%"
-        elif 5<percent<=10:
+        elif 5 < percent <= 10:
             return f" {percent}%"
-        elif 0<=percent<=5:
+        elif 0 <= percent <= 5:
             return f" {percent}%"
         else:
             return " ???"
 
+
 theme_widget = {
-    "font" : 'NotoSans Nerd Font',
-    "padding" : 4,
-    "foreground" : nord_colors[6],
+    "font": 'NotoSans Nerd Font',
+    "padding": 4,
+    "foreground": nord_colors[6],
     "markup": True,
     "fontsize": 14
 }
@@ -289,25 +295,25 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length = 5), # pylint: disable=no-member
+                widget.Spacer(length=5),  # pylint: disable=no-member
                 widget.GroupBox(
-                    highlight_method ='block',
-                    active = nord_colors[6],
-                    center_aligned = True,
-                    disable_drag = True,
-                    inactive = nord_colors[3],
-                    this_screen_border = nord_colors[0],
-                    this_current_screen_border = nord_colors[10],
-                    urgent_border = nord_colors[12],
-                    use_mouse_wheel = False,
-                    rounded = False,
-                    margin_y = 4,
-                    padding_y = 10,
+                    highlight_method='block',
+                    active=nord_colors[6],
+                    center_aligned=True,
+                    disable_drag=True,
+                    inactive=nord_colors[3],
+                    this_screen_border=nord_colors[0],
+                    this_current_screen_border=nord_colors[10],
+                    urgent_border=nord_colors[12],
+                    use_mouse_wheel=False,
+                    rounded=False,
+                    margin_y=4,
+                    padding_y=10,
                     **theme_widget
                 ),
-                widget.Spacer(length=5), # pylint: disable=no-member
+                widget.Spacer(length=5),  # pylint: disable=no-member
                 widget.WindowName(
-                    show_state = False,
+                    show_state=False,
                     **theme_widget
                 ),
                 PamixerVolume(
@@ -316,13 +322,13 @@ screens = [
                     foreground=theme_widget['foreground'],
                     padding=theme_widget['padding'],
                 ),
-                Battery(**theme_widget), # pylint: disable=no-member
+                Battery(**theme_widget),  # pylint: disable=no-member
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
-                widget.Spacer(length=5), # pylint: disable=no-member
+                widget.Spacer(length=5),  # pylint: disable=no-member
             ],
             36,
-            background = nord_colors[0]
+            background=nord_colors[0]
         ),
     ),
 ]
