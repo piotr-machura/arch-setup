@@ -120,17 +120,15 @@ imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigge
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
-
 " Code actions
 nnoremap <silent> K :lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>r :lua vim.lsp.buf.rename()<CR>
-nnoremap <silent><leader>f :lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
+nnoremap <silent> <leader>f :lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
 
 nmap <silent> [g :PrevDiagnosticCycle<CR>
 nmap <silent> ]g :NextDiagnosticCycle<CR>
 
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gs :lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> gr :lua vim.lsp.buf.references()<CR>
 
 " Disable middle mouse click
@@ -161,7 +159,7 @@ set sidescrolloff=8
 
 set signcolumn=number
 set number
-set numberwidth=1
+set numberwidth=3
 
 set splitbelow
 set splitright
@@ -234,8 +232,9 @@ let g:completion_enable_auto_paren = 1
 " Diagnostic settings
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_insert_delay = 1
-let g:diagnostic_virtual_text_prefix = ' '
+let g:diagnostic_virtual_text_prefix = ' '
 let g:space_before_virtual_text = 4
+
 call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
 call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
 call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
@@ -492,7 +491,7 @@ augroup END
 
 augroup title_string
     autocmd!
-    autocmd BufReadPost * let &titlestring=<SID>get_title_string()
+    autocmd DirChanged,BufWinEnter * let &titlestring=<SID>get_title_string()
 augroup END
 
 augroup clear_search
