@@ -24,10 +24,7 @@ Plug 'tpope/vim-commentary' " Comment automation
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
 Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
-
-" Language packs
-Plug 'elzr/vim-json'
-Plug 'plasticboy/vim-markdown'
+Plug 'sheerun/vim-polyglot' " Multi-language pack
 
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -106,6 +103,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 let g:coc_snippet_next = '<TAB>'
+nnoremap <silent> n n:set hlsearch<CR>
 
 " Code actions
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -456,12 +454,18 @@ augroup title_string
     autocmd BufEnter * let &titlestring=<SID>get_title_string()
 augroup END
 
+augroup clear_search
+    autocmd!
+    autocmd CursorMoved * set nohlsearch
+augroup END
+
 augroup netrw_mapping
     autocmd!
     autocmd FileType netrw nmap <buffer> l <CR>
     autocmd FileType netrw nmap <buffer> L gn
     autocmd FileType netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
     autocmd FileType netrw noremap <silent><buffer> - :bd<CR>
+    autocmd FileType <buffer> set eventignore+=CursorHold
 augroup END
 
 
