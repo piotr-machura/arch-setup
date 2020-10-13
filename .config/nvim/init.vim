@@ -61,6 +61,9 @@ nvim_lsp.pyls.setup{
     }
 }
 
+-- Rust language server
+nvim_lsp.rust_analyzer.setup{on_attach=attach_vim}
+
 EOF
 
 " MAPS
@@ -363,7 +366,7 @@ function! LightlineDiagnostics() abort
 endfunction
 
 function! LightlineFunction() abort
-    if <SID>bad_buffer() || winwidth(0) < 70
+    if <SID>bad_buffer() || winwidth(0) < 90
         return ''
     endif
     lua require('lsp-status').update_current_function()
@@ -526,8 +529,7 @@ augroup prose_writing
 augroup END
 
 
-augroup lsp_omni
+augroup lsp_implementation
     autocmd!
-    autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd BufEnter * let b:lsp_current_function = ''
 augroup END
