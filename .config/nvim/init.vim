@@ -24,10 +24,8 @@ Plug 'tpope/vim-commentary' " Comment automation
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 Plug 'nvim-lua/diagnostic-nvim' " Native LSP diagnostics
-Plug 'nvim-lua/lsp-status.nvim' " status
-
+Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
 Plug 'sheerun/vim-polyglot' " Multi-language pack
-Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
 
 " Visual enchancments
@@ -124,8 +122,9 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 
 " Code actions
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> K :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>r :lua vim.lsp.buf.rename()<CR>
+nnoremap <silent><leader>f :lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
 
 nmap <silent> [g :PrevDiagnosticCycle<CR>
 nmap <silent> ]g :NextDiagnosticCycle<CR>
@@ -188,6 +187,8 @@ set nowritebackup
 set dir=$HOME/.cache/nvim
 set backupdir=$HOME/.cache/nvim/backup
 set undodir=$HOME/.cache/nvim/undo
+
+let g:python3_host_prog='/usr/bin/python3'
 
 set list
 set listchars=tab:-,trail:░
@@ -483,9 +484,10 @@ augroup diff_close
     autocmd VimEnter * if &diff | cmap q qa| endif
 augroup END
 
-augroup format_options
+augroup formatting
     autocmd!
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd BufWritePre *.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
 augroup END
 
 augroup title_string

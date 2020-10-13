@@ -5,11 +5,12 @@
 import subprocess
 from typing import List  # noqa: F401
 import re
+from collections import OrderedDict
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
 from libqtile.widget.battery import BatteryState, BatteryStatus
 from libqtile.lazy import lazy
-#pylint: disable=invalid-name,protected-access
+# pylint: disable=invalid-name,protected-access
 
 # AUTOSTART
 # ---------
@@ -245,40 +246,36 @@ class PamixerVolume(widget.base._TextBox):
 class Battery(widget.battery.Battery):
     def build_string(self, status: BatteryStatus) -> str:
         if self.layout is not None:
-            if status.state == BatteryState.DISCHARGING and
-            \ status.percent < self.low_percentage:
+            if status.state == BatteryState.DISCHARGING \
+                    and status.percent < self.low_percentage:
                 self.layout.colour = self.low_foreground
             else:
                 self.layout.colour = self.foreground
         percent = int(status.percent * 100)
         if status.state == BatteryState.CHARGING and percent < 100:
+            if status.state == BatteryState.FULL:
+                return f" {percent}%"
             return f" {percent}%"
-        elif status.state == BatteryState.FULL:
-            return f" {percent}%"
-        if 90 < percent <= 100:
-            return f" {percent}%"
-        elif 80 < percent <= 90:
-            return f" {percent}%"
-        elif 70 < percent <= 80:
-            return f" {percent}%"
-        elif 60 < percent <= 70:
-            return f" {percent}%"
-        elif 50 < percent <= 60:
-            return f" {percent}%"
-        elif 40 < percent <= 50:
-            return f" {percent}%"
-        elif 30 < percent <= 40:
-            return f" {percent}%"
-        elif 20 < percent <= 30:
-            return f" {percent}%"
-        elif 10 < percent <= 20:
-            return f" {percent}%"
-        elif 5 < percent <= 10:
-            return f" {percent}%"
-        elif 0 <= percent <= 5:
-            return f" {percent}%"
-        else:
+        elif status.state == BatteryState.UNKNOWN or percent < 0:
             return " ???"
+
+        status_symbols = OrderedDict({
+            90: f" {percent}%",
+            80: f" {percent}%",
+            70: f" {percent}%",
+            60: f" {percent}%",
+            50: f" {percent}%",
+            40: f" {percent}%",
+            30: f" {percent}%",
+            20: f" {percent}%",
+            10: f" {percent}%",
+            5:  f" {percent}%",
+            0:  f" {percent}%",
+        })
+
+        for percentage in status_symbols.keys():
+            if percent >= percentage:
+                return status_symbols[percentage]
 
 
 theme_widget = {

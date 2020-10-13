@@ -11,6 +11,7 @@ brightnessctl
 dhcpcd
 dunst
 firefox
+flake8
 galculator
 git
 github-cli
@@ -30,9 +31,7 @@ nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
 networkmanager
 nm-connection-editor
-nodejs-neovim
 noto-fonts-emoji
-npm
 pamixer
 papirus-icon-theme
 parole
@@ -45,7 +44,7 @@ pulseaudio-alsa
 python-iwlib
 python-language-server
 python-pip
-python-pylint
+python-pydocstyle
 python-pyqt5
 qtile
 ristretto
