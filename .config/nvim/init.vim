@@ -21,10 +21,14 @@ Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
 
 " IDE features
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP implementation
+Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
+Plug 'nvim-lua/completion-nvim' " Native LSP completion window
+Plug 'nvim-lua/diagnostic-nvim' " Native LSP diagnostics
+Plug 'nvim-lua/lsp-status.nvim' " status
+
+Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'piotrmachura16/snippet-library' " Personalized snippet library
 Plug 'janko-m/vim-test' " Testing suite
-Plug 'sheerun/vim-polyglot' " Multi-language pack
 
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -35,15 +39,29 @@ Plug 'ryanoasis/vim-devicons' " Pretty file icons
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 call plug#end()
 
-" Language server extensions
-let g:coc_global_extensions = [
-            \ 'coc-snippets',
-            \ 'coc-python',
-            \ 'coc-rust-analyzer',
-            \ 'coc-html',
-            \ 'coc-css',
-            \ 'coc-json',
-            \ ]
+lua <<EOF
+-- Attach the completon and diagnostic plugins
+
+local nvim_lsp = require'nvim_lsp'
+
+local attach_vim = function(client)
+  require'completion'.on_attach(client)
+  require'diagnostic'.on_attach(client)
+end
+
+-- Python language server
+nvim_lsp.pyls.setup{
+    on_attach = attach_vim;
+    settings = {
+        plugins = {
+            pylint = {
+                enabled = true;
+            }
+        }
+    }
+}
+
+EOF
 
 " MAPS
 " ----
@@ -72,8 +90,8 @@ nmap <leader>0 <Plug>BufTabLine.Go(10)
 
 noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd<CR>'
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [g :PrevDiagnosticCycle<CR>
+nmap <silent> ]g :NextDiagnosticCycle<CR>
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -98,19 +116,16 @@ nnoremap <silent> [<space> O<ESC>
 nnoremap <silent> ]<space> o<ESC>
 
 " <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
-inoremap <silent><expr> <C-space> pumvisible() ? "\<C-e>" : coc#refresh()
+imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-let g:coc_snippet_next = '<TAB>'
+
 nnoremap <silent> n n:set hlsearch<CR>
 
 " Code actions
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-nmap <leader>r <Plug>(coc-rename)
-nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
-nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
-nnoremap <silent><nowait> <leader>f  :<C-u>call CocAction('format')<CR>
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>a <cmd>lua vim.lsp.buf.definition()<CR>
 
 
 " Disable middle mouse click actions
@@ -140,7 +155,7 @@ set wrap linebreak
 set scrolloff=4
 set sidescrolloff=8
 
-set signcolumn=yes
+set signcolumn=number
 set number
 set numberwidth=1
 
@@ -197,6 +212,21 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
+" Completion settings
+set completeopt=menuone,noinsert,noselect
+let g:completion_enable_auto_signature = 0
+let g:completion_enable_auto_hover = 0
+
+" Diagnostic settings
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_insert_delay = 1
+let g:diagnostic_virtual_text_prefix = ' '
+let g:space_before_virtual_text = 4
+call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
+
 " THEME
 " -----
 
@@ -211,14 +241,15 @@ let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
         \       'left': [ [ 'mode' ], ['readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'cocstatus', 'gitbranch', 'filetype', 'lineinfo' ] ]
+        \       'right': [ [ 'diagnostics', 'function', 'gitbranch', 'filetype', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
         \       'left': [ [ 'filename' ] ],
         \       'right': [ [ 'filetype' ] ]
         \ },
         \ 'component_function': {
-        \   'cocstatus': 'LightlineDiagnostic',
+        \   'diagnostics': 'LightlineDiagnostics',
+        \   'function': 'LightlineFunction',
         \   'gitbranch': 'LightlineGitBranch',
         \   'filetype': 'LightlineFiletype',
         \   'lineinfo': 'LightlineLineinfo',
@@ -303,7 +334,7 @@ function! LightlineLineinfo() abort
     let current_line = line('.')
     let total_lines = line('$')
     let column  = virtcol('.')
-    let column = 'ﲒ ' . column . ' ' 
+    let column = 'ﲒ ' . column . ' '
     return column . ' ' . current_line . ':' . total_lines
 endfunction
 
@@ -312,22 +343,34 @@ function! LightlineDiagnostics() abort
         return ''
     endif
 
-    let info = get(b:, 'coc_diagnostic_info', {})
+    let info = luaeval("require('lsp-status').diagnostics()")
+
     if empty(info) | return '' | endif
     let msgs = []
-    if get(info, 'error', 0)
-        call add(msgs, ' ' . info['error'])
+    if get(info, 'errors', 0)
+        call add(msgs, ' ' . info['errors'])
     endif
-    if get(info, 'warning', 0)
-        call add(msgs, ' ' . info['warning'])
+    if get(info, 'warnings', 0)
+        call add(msgs, ' ' . info['warnings'])
     endif
-    if get(info, 'information', 0)
-        call add(msgs, ' ' . info['information'])
+    if get(info, 'info', 0)
+        call add(msgs, ' ' . info['info'])
     endif
-    if get(info, 'hint', 0)
-        call add(msgs, ' ' . info['hint'])
+    if get(info, 'hints', 0)
+        call add(msgs, ' ' . info['hints'])
     endif
     return join(msgs, ' ')
+endfunction
+
+function! LightlineFunction() abort
+    if <SID>bad_buffer() || winwidth(0) < 70
+        return ''
+    endif
+    lua require('lsp-status').update_current_function()
+    if strlen(b:lsp_current_function) !=0
+        return ' ' . b:lsp_current_function
+    endif
+    return ''
 endfunction
 
 function! s:set_git_branch() abort
@@ -428,6 +471,11 @@ function! s:get_title_string() abort
     return title
 endfunction
 
+function! <SID>lsp_diagnostics() abort
+
+  return ''
+endfunction
+
 " COMMANDS
 " --------
 
@@ -470,7 +518,6 @@ augroup netrw_mapping
     autocmd FileType <buffer> set eventignore+=CursorHold
 augroup END
 
-
 augroup prose_writing
     autocmd!
     autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
@@ -478,3 +525,9 @@ augroup prose_writing
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 augroup END
 
+
+augroup lsp_omni
+    autocmd!
+    autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd BufEnter * let b:lsp_current_function = ''
+augroup END

@@ -24,7 +24,7 @@ linux
 linux-firmware
 man-db
 meta-group-base-devel
-neovim
+neovim-nightly
 neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
@@ -43,11 +43,10 @@ pinta
 pulseaudio
 pulseaudio-alsa
 python-iwlib
+python-language-server
 python-pip
 python-pylint
-python-pynvim
 python-pyqt5
-python-rope
 qtile
 ristretto
 rmtrash
