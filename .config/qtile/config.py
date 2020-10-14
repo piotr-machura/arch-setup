@@ -18,7 +18,7 @@ from libqtile.lazy import lazy
 
 @hook.subscribe.startup_once
 def autostart():
-    """List of lists with commands to be executed on startup and their args"""
+    """List of lists with commands to be executed on startup and their args."""
     processes = [
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
@@ -180,7 +180,8 @@ wmname = "LG3D"
 
 
 class PamixerVolume(widget.base._TextBox):
-    """Volume widget using the pamixer tool"""
+    """Volume widget using the pamixer tool."""
+
     orientations = widget.base.ORIENTATION_HORIZONTAL
     defaults = [
         ("padding", 3, "Padding left and right. Calculated if None."),
@@ -209,7 +210,7 @@ class PamixerVolume(widget.base._TextBox):
 
     @staticmethod
     def get_volume():
-        """Use pamixer to find current volume"""
+        """Use pamixer to find current volume."""
         p_outcome = subprocess.Popen(
             ["pamixer", "--get-volume"], stdout=subprocess.PIPE
         )
@@ -234,7 +235,7 @@ class PamixerVolume(widget.base._TextBox):
             self.text = '婢'
 
     def update(self):
-        """Called every update_interval"""
+
         vol = self.get_volume()
         if vol != self.volume:
             self.volume = vol
@@ -252,12 +253,10 @@ class Battery(widget.battery.Battery):
             else:
                 self.layout.colour = self.foreground
         percent = int(status.percent * 100)
-        if status.state == BatteryState.CHARGING and percent < 100:
-            if status.state == BatteryState.FULL:
+        if status.state == BatteryState.CHARGING:
+            if percent == 100:
                 return f" {percent}%"
             return f" {percent}%"
-        elif status.state == BatteryState.UNKNOWN or percent < 0:
-            return " ???"
 
         status_symbols = OrderedDict({
             90: f" {percent}%",
@@ -276,6 +275,7 @@ class Battery(widget.battery.Battery):
         for percentage in status_symbols.keys():
             if percent >= percentage:
                 return status_symbols[percentage]
+        return " ???"
 
 
 theme_widget = {

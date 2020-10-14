@@ -48,15 +48,25 @@ local attach_vim = function(client)
 end
 
 -- Python language server
-nvim_lsp.pyls.setup{
+nvim_lsp.pyls.setup {
     on_attach = attach_vim;
+    cmd = { "pyls" };
     settings = {
-        plugins = {
-            pylint = {
-                enabled = true;
+        pyls = {
+            plugins = {
+                mccabe = {
+                    enabled = false
+                },
+                pylint = {
+                    enabled = true
+                },
+                pydocstyle = {
+                    enabled = true,
+                    convention = "pep257"
+                }
             }
         }
-    }
+    };
 }
 
 -- Rust language server
@@ -473,6 +483,10 @@ command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 " AUTOCMDS
 " --------
 
+augroup autosave
+    autocmd!
+    autocmd InsertLeave *.py silent! if &modified | :w | endif
+augroup END
 augroup git_branch
     autocmd!
     autocmd BufReadPost * call <SID>set_git_branch()

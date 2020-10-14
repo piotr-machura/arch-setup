@@ -2,7 +2,6 @@ abiword
 alacritty
 arc-gtk-theme
 aspell-pl
-atool
 autopep8
 base
 bibata-cursor-theme-bin
@@ -11,7 +10,6 @@ brightnessctl
 dhcpcd
 dunst
 firefox
-flake8
 galculator
 git
 github-cli
@@ -41,10 +39,10 @@ picom
 pinta
 pulseaudio
 pulseaudio-alsa
-python-iwlib
 python-language-server
 python-pip
 python-pydocstyle
+python-pylint
 python-pyqt5
 qtile
 ristretto
