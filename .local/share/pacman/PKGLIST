@@ -2,7 +2,6 @@ abiword
 alacritty
 arc-gtk-theme
 aspell-pl
-autopep8
 base
 bibata-cursor-theme-bin
 bitwarden-bin
@@ -68,6 +67,7 @@ xarchiver
 xcb-util-cursor
 xclip
 xorg-server
+yapf
 yay-bin
 zathura
 zathura-djvu

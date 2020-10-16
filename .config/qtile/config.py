@@ -3,7 +3,7 @@
 # ----------------------------------
 
 import subprocess
-from typing import List  # noqa: F401
+from typing import List
 import re
 from collections import OrderedDict
 from libqtile import bar, hook, layout, widget
@@ -23,7 +23,7 @@ def autostart():
         ['xrandr', '--size', '1360x768'],
         ['dunst', '&'],
         ['picom', '-b'],
-        ['spacefm', '-d']
+        ['spacefm', '-d'],
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -36,10 +36,9 @@ mod = "mod4"
 
 # Custom commands
 scrot = "scrot --select --freeze --line style=solid,width=3,color=#a3be8"
-power_menu = "zsh -c"
-power_menu += " 'rofi -no-show-icons -show menu -modi"
-power_menu += ' "menu:rofi-power-menu --choices=shutdown/reboot/logout"\' '
+power_menu = "rofi -no-show-icons -show menu -modi menu:rofi-power-menu"
 keys = [
+
     # Switch between windows in current stack pane
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "j", lazy.layout.down()),
@@ -51,12 +50,10 @@ keys = [
     Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "l", lazy.layout.swap_right()),
-
     Key([mod], "equal", lazy.layout.grow()),
     Key([mod], "minus", lazy.layout.shrink()),
     Key([mod], "0", lazy.layout.normalize()),
     Key([mod], "p", lazy.next_layout()),
-
     Key([mod], "Return", lazy.spawn("alacritty")),
     Key([mod], "w", lazy.spawn("firefox")),
     Key([mod], "f", lazy.spawn("spacefm")),
@@ -69,10 +66,16 @@ keys = [
 ]
 
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position()),
+    Drag(
+        [mod],
+        "Button3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.toggle_floating())
 ]
 
@@ -83,20 +86,21 @@ cursor_warp = True
 # GROUPS
 # ------
 
-groups = [Group(str(i+1)) for i in range(5)]
+groups = [Group(str(i + 1)) for i in range(5)]
 
 for i in groups:
-    keys.extend([
-        Key([mod], i.name,
-            lazy.group[i.name].toscreen()),
-        Key([mod, "shift"], i.name,
-            lazy.window.togroup(i.name, switch_group=True)),
-    ])
+    keys.extend(
+        [
+            Key([mod], i.name, lazy.group[i.name].toscreen()),
+            Key(
+                [mod, "shift"], i.name,
+                lazy.window.togroup(i.name, switch_group=True)),
+        ])
 
 keys.append(Key([mod], "Tab", lazy.screen.toggle_group()))
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
+dgroups_app_rules = []    # type: List
 
 # LAYOUTS
 # -------
@@ -124,7 +128,7 @@ theme_layout = {
     "border_width": 2,
     "margin": 12,
     "border_focus": nord_colors[9],
-    "border_normal": nord_colors[3]
+    "border_normal": nord_colors[3],
 }
 
 layouts = [
@@ -137,12 +141,8 @@ layouts = [
         single_border_width=theme_layout["border_width"],
         single_margin=theme_layout["margin"],
         name=' ',
-        **theme_layout
-    ),
-    layout.Max(
-        name=' ',
-        **theme_layout
-    ),
+        **theme_layout),
+    layout.Max(name=' ', **theme_layout),
 ]
 
 floating_layout = layout.Floating(
@@ -155,21 +155,20 @@ floating_layout = layout.Floating(
         {'wmclass': 'notification'},
         {'wmclass': 'splash'},
         {'wmclass': 'toolbar'},
-        {'wmclass': 'confirmreset'},  # gitk
-        {'wmclass': 'makebranch'},  # gitk
-        {'wmclass': 'maketag'},  # gitk
-        {'wname': 'branchdialog'},  # gitk
-        {'wname': 'pinentry'},  # GPG key password entry
-        {'wmclass': 'ssh-askpass'},  # ssh-askpass
-        # User-created floating window rules
-        # Run `xprop` to see the wm class
+        {'wmclass': 'confirmreset'},    # gitk
+        {'wmclass': 'makebranch'},    # gitk
+        {'wmclass': 'maketag'},    # gitk
+        {'wname': 'branchdialog'},    # gitk
+        {'wname': 'pinentry'},    # GPG key password entry
+        {'wmclass': 'ssh-askpass'},    # ssh-askpass
+    # User-created floating window rules
+    # Run `xprop` to see the wm class
         {'wmclass': 'galculator'},
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
         {'wmclass': 'spotify'},
     ],
-    **theme_layout
-)
+    **theme_layout)
 
 auto_fullscreen = True
 focus_on_window_activation = "focus"
@@ -212,12 +211,10 @@ class PamixerVolume(widget.base._TextBox):
     def get_volume():
         """Use pamixer to find current volume."""
         p_outcome = subprocess.Popen(
-            ["pamixer", "--get-volume"], stdout=subprocess.PIPE
-        )
+            ["pamixer", "--get-volume"], stdout=subprocess.PIPE)
         volume, _ = p_outcome.communicate()
         p_outcome = subprocess.Popen(
-            ["pamixer", "--get-mute"],
-            stdout=subprocess.PIPE)
+            ["pamixer", "--get-mute"], stdout=subprocess.PIPE)
         muted, _ = p_outcome.communicate()
         if "true" in str(muted):
             return -1
@@ -235,7 +232,6 @@ class PamixerVolume(widget.base._TextBox):
             self.text = '婢'
 
     def update(self):
-
         vol = self.get_volume()
         if vol != self.volume:
             self.volume = vol
@@ -253,24 +249,25 @@ class Battery(widget.battery.Battery):
             else:
                 self.layout.colour = self.foreground
         percent = int(status.percent * 100)
+        if status.state == BatteryState.FULL:
+            return f" {percent}%"
         if status.state == BatteryState.CHARGING:
-            if percent == 100:
-                return f" {percent}%"
             return f" {percent}%"
 
-        status_symbols = OrderedDict({
-            90: f" {percent}%",
-            80: f" {percent}%",
-            70: f" {percent}%",
-            60: f" {percent}%",
-            50: f" {percent}%",
-            40: f" {percent}%",
-            30: f" {percent}%",
-            20: f" {percent}%",
-            10: f" {percent}%",
-            5:  f" {percent}%",
-            0:  f" {percent}%",
-        })
+        status_symbols = OrderedDict(
+            {
+                90: f" {percent}%",
+                80: f" {percent}%",
+                70: f" {percent}%",
+                60: f" {percent}%",
+                50: f" {percent}%",
+                40: f" {percent}%",
+                30: f" {percent}%",
+                20: f" {percent}%",
+                10: f" {percent}%",
+                5: f" {percent}%",
+                0: f" {percent}%",
+            })
 
         for percentage in status_symbols.keys():
             if percent >= percentage:
@@ -283,7 +280,7 @@ theme_widget = {
     "padding": 4,
     "foreground": nord_colors[6],
     "markup": True,
-    "fontsize": 14
+    "fontsize": 14,
 }
 
 screens = [
@@ -292,7 +289,7 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length=5),  # pylint: disable=no-member
+                widget.Spacer(length=5),    # pylint: disable=no-member
                 widget.GroupBox(
                     highlight_method='block',
                     active=nord_colors[6],
@@ -306,26 +303,21 @@ screens = [
                     rounded=False,
                     margin_y=4,
                     padding_y=10,
-                    **theme_widget
-                ),
-                widget.Spacer(length=5),  # pylint: disable=no-member
-                widget.WindowName(
-                    show_state=False,
-                    **theme_widget
-                ),
+                    **theme_widget),
+                widget.Spacer(length=5),    # pylint: disable=no-member
+                widget.WindowName(show_state=False, **theme_widget),
                 PamixerVolume(
                     fontsize=18,
                     font=theme_widget['font'],
                     foreground=theme_widget['foreground'],
                     padding=theme_widget['padding'],
                 ),
-                Battery(**theme_widget),  # pylint: disable=no-member
+                Battery(**theme_widget),    # pylint: disable=no-member
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
-                widget.Spacer(length=5),  # pylint: disable=no-member
+                widget.Spacer(length=5),    # pylint: disable=no-member
             ],
             36,
-            background=nord_colors[0]
-        ),
+            background=nord_colors[0]),
     ),
 ]

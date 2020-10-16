@@ -61,7 +61,7 @@ nvim_lsp.pyls.setup {
                     enabled = true
                 },
                 pydocstyle = {
-                    enabled = true,
+                    enabled = false,
                     convention = "pep257"
                 }
             }
@@ -116,6 +116,9 @@ vnoremap <leader>d "_d
 " Undo tree and netrw shortcuts
 nnoremap <silent> <C-u> :UndotreeToggle<CR>:call buftabline#update(0)<CR>
 nnoremap <silent><nowait> - :Explore<CR>
+
+" Built-in terminal
+tnoremap <S-Esc> <C-\><C-n>
 
 " Insert blank lines above or below from normal mode
 nnoremap <silent> [<space> O<ESC>
@@ -483,10 +486,6 @@ command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 " AUTOCMDS
 " --------
 
-augroup autosave
-    autocmd!
-    autocmd InsertLeave *.py silent! if &modified | :w | endif
-augroup END
 augroup git_branch
     autocmd!
     autocmd BufReadPost * call <SID>set_git_branch()
@@ -520,6 +519,13 @@ augroup netrw_mapping
     autocmd FileType netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
     autocmd FileType netrw noremap <silent><buffer> - :bd<CR>
     autocmd FileType <buffer> set eventignore+=CursorHold
+augroup END
+
+augroup terminal_settings
+    autocmd!
+    autocmd TermEnter * setlocal nonumber
+    autocmd TermEnter * setlocal bufhidden=""
+    autocmd TermEnter * setlocal nomodifiable
 augroup END
 
 augroup prose_writing
