@@ -20,6 +20,7 @@ htop
 lightdm-gtk-greeter
 linux
 linux-firmware
+maim
 man-db
 meta-group-base-devel
 neovim-nightly
@@ -52,7 +53,6 @@ rust-analyzer
 sagemath
 sagemath-doc
 sagemath-jupyter
-scrot
 signal-desktop
 spacefm-git
 spaceship-prompt-git

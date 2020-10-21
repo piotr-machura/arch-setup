@@ -35,7 +35,8 @@ def autostart():
 mod = "mod4"
 
 # Custom commands
-scrot = "scrot --select --freeze --line style=solid,width=3,color=#a3be8"
+screenshot = 'sh -c "maim --select --bordersize=3 --color=0.922,0.796,0.545,1'
+screenshot += ' --hidecursor ~/Pictures/screenshot_$(date +%s).png"'
 power_menu = "rofi -no-show-icons -show menu -modi menu:rofi-power-menu"
 keys = [
 
@@ -59,7 +60,7 @@ keys = [
     Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
-    Key([], "Print", lazy.spawn(scrot)),
+    Key([], "Print", lazy.spawn(screenshot)),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.spawn(power_menu)),
@@ -93,8 +94,10 @@ for i in groups:
         [
             Key([mod], i.name, lazy.group[i.name].toscreen()),
             Key(
-                [mod, "shift"], i.name,
-                lazy.window.togroup(i.name, switch_group=True)),
+                [mod, "shift"],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=True),
+            ),
         ])
 
 keys.append(Key([mod], "Tab", lazy.screen.toggle_group()))
@@ -171,7 +174,7 @@ floating_layout = layout.Floating(
     **theme_layout)
 
 auto_fullscreen = True
-focus_on_window_activation = "focus"
+focus_on_window_activation = "smart"
 wmname = "LG3D"
 
 # SCREENS & WIDGETS
@@ -312,7 +315,7 @@ screens = [
                     foreground=theme_widget['foreground'],
                     padding=theme_widget['padding'],
                 ),
-                Battery(**theme_widget),    # pylint: disable=no-member
+                Battery(**theme_widget),
                 widget.CurrentLayout(**theme_widget),
                 widget.Clock(format='%H:%M', **theme_widget),
                 widget.Spacer(length=5),    # pylint: disable=no-member

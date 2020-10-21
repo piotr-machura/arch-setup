@@ -310,7 +310,6 @@ set clipboard+=unnamedplus
 function! s:upgrade_everything() abort
     PlugUpgrade " Update vim-plug
     PlugUpdate " Update vim-plug extensions
-    CocUpdate " Update Coc Extensions
     UpdateRemotePlugins " Neovim-specific handler update
 endfunction
 
