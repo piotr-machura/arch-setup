@@ -37,6 +37,7 @@ mod = "mod4"
 # Custom commands
 screenshot = 'sh -c "maim --select --bordersize=3 --color=0.922,0.796,0.545,1'
 screenshot += ' --hidecursor ~/Pictures/screenshot_$(date +%s).png"'
+screenshot_full = 'sh -c "maim ~/Pictures/screenshot_$(date +%s).png"'
 power_menu = "rofi -no-show-icons -show menu -modi menu:rofi-power-menu"
 keys = [
 
@@ -61,6 +62,7 @@ keys = [
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
     Key([], "Print", lazy.spawn(screenshot)),
+    Key(["control"], "Print", lazy.spawn(screenshot_full)),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.spawn(power_menu)),
