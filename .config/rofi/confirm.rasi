@@ -1,0 +1,12 @@
+/* ----------------------------
+ * Rofi Menu Power Menu Confirm
+ * ----------------------------
+ *
+ * Based on the amazing scripts by @adi1090x
+ */
+
+@import "./powermenu.rasi"
+
+#window {
+    height: 19%;
+}

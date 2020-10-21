@@ -22,7 +22,6 @@ alias mv='mv -i'
 alias py='python3'
 alias open='mimeopen-many'
 alias jpnb='jupyter notebook'
-alias ranger='ranger-cd'
 
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'

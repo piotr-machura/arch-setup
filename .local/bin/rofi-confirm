@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Based on scripts by @adi1090x
+
+rofi_command="rofi -theme ~/.config/rofi/confirm.rasi"
+uptime=$(uptime -p | sed -e 's/up //g')
+
+# Options
+confirm=$1
+abort=" "
+
+options="$confirm\n$abort"
+
+chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 1)"
+
+case $chosen in
+    $confirm)
+        exit 1
+        ;;
+    $abort)
+        exit 0
+        ;;
+esac

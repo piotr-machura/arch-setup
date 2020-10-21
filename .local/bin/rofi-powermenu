@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Based on scripts by @adi1090x
+
+rofi_command="rofi -theme ~/.config/rofi/powermenu.rasi"
+uptime=$(uptime -p | sed -e 's/up //g')
+
+# Options
+shutdown=" "
+reboot=" "
+logout=" "
+
+# Variable passed to rofi
+options="$shutdown\n$reboot\n$logout"
+
+chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
+
+
+if [ -e $chosen ];
+then
+    exit 1
+fi
+
+rofi-confirm $chosen
+
+if [ $? != 1 ];
+then
+    exit 1
+fi
+
+case $chosen in
+    $shutdown)
+        systemctl poweroff
+        ;;
+    $reboot)
+        systemctl reboot
+        ;;
+    $logout)
+        loginctl terminate-session $XDG_SESSION_ID
+        ;;
+esac
+

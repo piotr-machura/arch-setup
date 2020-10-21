@@ -210,6 +210,7 @@ let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
 let g:home = $HOME
+let g:netrw_localrmdir='rm -r'
 
 " Bufftabline options
 let g:buftabline_show = 1
@@ -517,7 +518,7 @@ augroup netrw_mapping
     autocmd FileType netrw nmap <buffer> L gn
     autocmd FileType netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
     autocmd FileType netrw noremap <silent><buffer> - :bd<CR>
-    autocmd FileType <buffer> set eventignore+=CursorHold
+    autocmd FileType netrw setlocal eventignore+=CursorHold
 augroup END
 
 augroup terminal_settings

@@ -38,7 +38,6 @@ mod = "mod4"
 screenshot = 'sh -c "maim --select --bordersize=3 --color=0.922,0.796,0.545,1'
 screenshot += ' --hidecursor ~/Pictures/screenshot_$(date +%s).png"'
 screenshot_full = 'sh -c "maim ~/Pictures/screenshot_$(date +%s).png"'
-power_menu = "rofi -no-show-icons -show menu -modi menu:rofi-power-menu"
 keys = [
 
     # Switch between windows in current stack pane
@@ -65,7 +64,7 @@ keys = [
     Key(["control"], "Print", lazy.spawn(screenshot_full)),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.spawn(power_menu)),
+    Key([mod, "control"], "q", lazy.spawn("rofi-powermenu")),
 ]
 
 mouse = [
