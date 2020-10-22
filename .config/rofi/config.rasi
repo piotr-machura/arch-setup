@@ -5,7 +5,7 @@
 configuration {
     modi: "drun";
     width: 28;
-    lines: 10;
+    lines: 6;
     columns: 1;
     font: "NotoSans Nerd Font 15";
     bw: 3;
@@ -63,6 +63,7 @@ configuration {
     drun-use-desktop-cache: false;
     drun-reload-desktop-cache: false;
     pid: "/run/user/1000/rofi.pid";
+
     kb-primary-paste: "Control+V";
     kb-secondary-paste: "Insert";
     kb-clear-line: "Control+c";
@@ -89,8 +90,8 @@ configuration {
     kb-row-up: "ISO_Left_Tab,Control+k,Up";
     kb-row-down: "Tab,Control+j,Down";
     kb-row-tab: "";
-    kb-page-prev: "";
-    kb-page-next: "";
+    kb-page-prev: "ScrollUp";
+    kb-page-next: "ScrollDown";
     kb-row-first: "";
     kb-row-last: "";
     kb-row-select: "";
@@ -182,7 +183,6 @@ configuration {
     padding: 0px 0px 6px 7px;
 }
 #listview {
-    lines: 10;
     padding: 2px 0px 0px;
     scrollbar: true;
 }
