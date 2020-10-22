@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+
+# Use maim to take a screenshot and push an interactive notofication
+
+screenshot_id=$(date +%s)
+file_path="$HOME/Pictures/screenshot_$screenshot_id.png"
+icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
+
+if [ -z $1 ];
+then
+    maim --select --bordersize=3 --color=0.922,0.796,0.545,1 \
+        --hidecursor "$file_path" && \
+            action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
+                --icon="$icon_path" --action="open,open")
+elif [ "$1" = "full" ];
+then
+    maim $file_path && \
+        action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
+            --icon="$icon_path" --action="open,open")
+else
+    echo "Unknown option"
+    exit 1
+fi
+
+if [ "$action" = "open" ];
+then
+    xdg-open $file_path
+fi
+

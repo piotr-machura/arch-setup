@@ -1,4 +1,4 @@
-# /usr/bin/zsh
+#!/usr/bin/env zsh
 
 # Open multiple files with mimeopen
 if [ -z "$1" ]; then

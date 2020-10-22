@@ -35,9 +35,6 @@ def autostart():
 mod = "mod4"
 
 # Custom commands
-screenshot = 'sh -c "maim --select --bordersize=3 --color=0.922,0.796,0.545,1'
-screenshot += ' --hidecursor ~/Pictures/screenshot_$(date +%s).png"'
-screenshot_full = 'sh -c "maim ~/Pictures/screenshot_$(date +%s).png"'
 keys = [
 
     # Switch between windows in current stack pane
@@ -60,8 +57,8 @@ keys = [
     Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
-    Key([], "Print", lazy.spawn(screenshot)),
-    Key(["control"], "Print", lazy.spawn(screenshot_full)),
+    Key([], "Print", lazy.spawn("screenshot")),
+    Key(["control"], "Print", lazy.spawn("screenshot full")),
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.spawn("rofi-powermenu")),
