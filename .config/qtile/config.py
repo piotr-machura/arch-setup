@@ -168,12 +168,13 @@ floating_layout = layout.Floating(
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
         {'wmclass': 'spotify'},
+        {'wmclass': 'bitwarden'},
     ],
     **theme_layout)
 
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-wmname = "LG3D"
+wmname = "Qtile"
 
 # SCREENS & WIDGETS
 # -----------------
@@ -242,6 +243,9 @@ class PamixerVolume(widget.base._TextBox):
 
 
 class Battery(widget.battery.Battery):
+    """Default Battery widget modified to display NerdFont icons alongside
+    percentage.
+    """
     def build_string(self, status: BatteryStatus) -> str:
         if self.layout is not None:
             if status.state == BatteryState.DISCHARGING \
@@ -270,13 +274,13 @@ class Battery(widget.battery.Battery):
                 0: f" {percent}%",
             })
 
-        for percentage in status_symbols.keys():
+        for percentage in status_symbols:
             if percent >= percentage:
                 return status_symbols[percentage]
         return " ???"
 
 
-theme_widget = {
+widget_defaults = {
     "font": 'NotoSans Nerd Font',
     "padding": 4,
     "foreground": nord_colors[6],
@@ -304,18 +308,16 @@ screens = [
                     rounded=False,
                     margin_y=4,
                     padding_y=10,
-                    **theme_widget),
+                ),
                 widget.Spacer(length=5),    # pylint: disable=no-member
-                widget.WindowName(show_state=False, **theme_widget),
+                widget.WindowName(show_state=False),
                 PamixerVolume(
                     fontsize=18,
-                    font=theme_widget['font'],
-                    foreground=theme_widget['foreground'],
-                    padding=theme_widget['padding'],
+                    update_interval=0.8,
                 ),
-                Battery(**theme_widget),
-                widget.CurrentLayout(**theme_widget),
-                widget.Clock(format='%H:%M', **theme_widget),
+                Battery(),
+                widget.CurrentLayout(),
+                widget.Clock(format='%H:%M'),
                 widget.Spacer(length=5),    # pylint: disable=no-member
             ],
             36,

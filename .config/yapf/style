@@ -1,3 +1,7 @@
+# ---------------------------
+# YAPF PYTHON FORMATER CONFIG
+# ---------------------------
+
 [style]
 BASED_ON_STYLE = pep8
 SPACES_BEFORE_COMMENT = 4

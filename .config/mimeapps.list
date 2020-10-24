@@ -1,7 +1,8 @@
 [Added Associations]
-text/plain=org.xfce.Parole.desktop;io.github.celluloid_player.Celluloid.desktop;nvim.desktop;abiword.desktop;
+text/plain=nvim.desktop;abiword.desktop;
 application/zip=xarchiver.desktop;
 image/svg+xml=ristretto.desktop;
+image/png=ristretto.desktop;pinta.desktop;
 application/octet-stream=nvim.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
 inode/chardevice=nvim.desktop;
@@ -30,7 +31,6 @@ application/x-ipynb+json=jupyter-notebook.desktop;
 application/xml=nvim.desktop;
 inode/directory=spacefm.desktop;
 application/x-shellscript=nvim.desktop;
-image/png=ristretto.desktop;
 video/mp4=org.xfce.Parole.desktop;
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
 image/jpeg=ristretto.desktop;
@@ -47,3 +47,4 @@ application/xhtml+xml=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 application/x-yaml=nvim.desktop;
+image/png=ristretto.desktop;

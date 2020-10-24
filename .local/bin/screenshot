@@ -8,7 +8,7 @@ icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
 
 if [ -z $1 ];
 then
-    maim --select --bordersize=4 --color=0.816,0.529,0.439,1 \
+    maim --select --highlight --bordersize=4 --color=0.816,0.529,0.439,0.15 \
         --hidecursor "$file_path" && \
             action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
                 --icon="$icon_path" --action="open,open")
