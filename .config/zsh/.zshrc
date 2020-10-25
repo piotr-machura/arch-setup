@@ -9,8 +9,6 @@
 
 alias -g ...='../..'
 alias -g ....='../../..'
-alias -g %rc='$ZDOTDIR/.zshrc'
-alias -g %env='$ZDOTDIR/.zshenv'
 
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
@@ -63,6 +61,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(completion)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=true
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=clear-on-empty
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 # THEME
 # -----
@@ -99,12 +98,12 @@ SPACESHIP_DIR_COLOR="cyan"
 SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_VI_MODE_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VI_MODE_INSERT=" "
-SPACESHIP_VI_MODE_NORMAL=" "
+SPACESHIP_VI_MODE_NORMAL=$'%{\e[1;33m%} ' # yellow escape code
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_GIT_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
-SPACESHIP_GIT_SYMBOL=" " 
+SPACESHIP_GIT_SYMBOL=" "
 SPACESHIP_GIT_STATUS_SHOW=false
 SPACESHIP_GIT_BRANCH_COLOR="white"
 
@@ -137,5 +136,6 @@ eval spaceship_vi_mode_enable
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+ZSH_HIGHLIGHT_STYLES[precommand]="fg=yellow,bold"
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
