@@ -290,7 +290,7 @@ widget_defaults = {
 
 screens = [
     Screen(
-        wallpaper='/usr/share/backgrounds/iceberg.jpg',
+        wallpaper='/usr/share/backgrounds/arch.jpg',
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [

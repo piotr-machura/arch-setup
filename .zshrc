@@ -23,6 +23,7 @@ alias jpnb='jupyter notebook'
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
 alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
+alias htop='print -Pn "\e]0;htop\a";htop' # Change htop window title
 
 # CLEAR ON EMPTY INPUT
 # --------------------
