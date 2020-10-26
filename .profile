@@ -9,6 +9,9 @@ export EDITOR='vim'
 export PAGER='less'
 export TERMINAL='alacritty -e'
 export BROWSER='firefox'
+export RC="$HOME/.zshrc"
+
+export PIP_REQUIRE_VIRTUALENV=true
 
 # XDG BASE DIRECTORY SPECIFICATION
 # --------------------------------
@@ -18,7 +21,6 @@ export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
 
 export HISTFILE="$XDG_CACHE_HOME"/shell_hist
-export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
 export ERRFILE="$XDG_CACHE_HOME"/xsession-errors
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc

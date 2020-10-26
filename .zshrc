@@ -53,7 +53,7 @@ SAVEHIST=1000
 
 zstyle :compinstall filename '$ZDOTDIR/.zshrc'
 autoload -Uz compinit
-compinit
+compinit -d "$XDG_CACHE_HOME/zcompdump"
 
 # Autosuggestions plugin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
