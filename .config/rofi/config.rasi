@@ -3,15 +3,15 @@
 // ----------------------------
 
 configuration {
-    modi: "drun";
-    width: 28;
+    modi: "drun,calc";
+    width: 35;
     lines: 6;
     columns: 1;
     font: "NotoSans Nerd Font 15";
     bw: 3;
     location: 0;
     padding: 15;
-    yoffset: -150;
+    yoffset: -130;
     xoffset: 0;
     fixed-num-lines: false;
     show-icons: true;
@@ -82,7 +82,7 @@ configuration {
     kb-accept-entry: "Return,KP_Enter";
     kb-accept-custom: "Control+Return";
     kb-accept-alt: "";
-    kb-delete-entry: "";
+    kb-delete-entry: "Control+d";
     kb-mode-next: "";
     kb-mode-previous: "";
     kb-row-left: "";
@@ -99,7 +99,7 @@ configuration {
     kb-ellipsize: "";
     kb-toggle-case-sensitivity: "";
     kb-toggle-sort: "";
-    kb-cancel: "Escape,Super+space,Super+q,Super+Control+q";
+    kb-cancel: "Escape,Super+space,Super+q,Super+c,Super+Control+q";
     kb-custom-1: "";
     kb-custom-2: "";
     kb-custom-3: "";
@@ -167,15 +167,12 @@ configuration {
     text-color: @nord4;
 }
 #inputbar {
-    text-color: @nord3;
-    padding: 6px;
-    margin: 0px 0px 2px;
+    padding: 5px;
     children: [ entry ];
 }
 #entry {
-    background-color: @nord3;
-    text-color: @nord4;
-    padding: 5px;
+    background-color: @nord2;
+    padding: 5px 5px 5px 8px;
 }
 #message {
     border: 0px 0px 1px;
@@ -183,7 +180,7 @@ configuration {
     padding: 0px 0px 6px 7px;
 }
 #listview {
-    padding: 2px 0px 0px;
+    padding: 2px 0px 2px;
     scrollbar: true;
 }
 #element {
@@ -191,17 +188,11 @@ configuration {
     margin: 0px 0px 5px 0px;
     text-color: @nord4;
 }
-#element.normal.normal {
-    text-color: @nord4;
-}
 #element.normal.urgent {
     text-color: @nord11;
 }
 #element.normal.active {
     text-color: @nord10;
-}
-#element.alternate.normal {
-    text-color: @nord4;
 }
 #element.alternate.urgent {
     text-color: @nord11;
@@ -215,11 +206,9 @@ configuration {
 }
 #element.selected.urgent {
     background-color: @nord11;
-    text-color: @nord4;
 }
 #element.selected.active {
     background-color: @nord10;
-    text-color: @nord4;
 }
 #scrollbar {
     handle-color: @nord3;
@@ -227,5 +216,4 @@ configuration {
 }
 #button.selected {
     background-color: @nord8;
-    text-color: @nord4;
 }

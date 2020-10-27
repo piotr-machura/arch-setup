@@ -34,7 +34,6 @@ def autostart():
 
 mod = "mod4"
 
-# Custom commands
 keys = [
 
     # Switch between windows in current stack pane
@@ -57,6 +56,7 @@ keys = [
     Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
+    Key([mod], "c", lazy.spawn("rofi -show calc -no-show-match -no-sort")),
     Key([], "Print", lazy.spawn("screenshot")),
     Key(["control"], "Print", lazy.spawn("screenshot full")),
     Key([mod], "q", lazy.window.kill()),
@@ -126,8 +126,8 @@ nord_colors = [
 ]
 
 theme_layout = {
-    "border_width": 3,
-    "margin": 11,
+    "border_width": 4,
+    "margin": 10,
     "border_focus": nord_colors[9],
     "border_normal": nord_colors[3],
 }
