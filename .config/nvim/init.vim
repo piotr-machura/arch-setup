@@ -166,43 +166,34 @@ set shiftwidth=4
 set expandtab
 set shiftround
 set wrap linebreak
-
 set scrolloff=4
 set sidescrolloff=8
-
 set signcolumn=number
 set number
 set numberwidth=3
-
 set splitbelow
 set splitright
-
 set title
-
 set noshowmode
 set laststatus=2
 set shortmess+=c
-
 set hidden
 set switchbuf=usetab
-
 set mouse+=ar
 set shellcmdflag=-ic
 set updatetime=300
-
 set undofile
 set nobackup
 set autowrite
 set nowritebackup
-
 set dir=$HOME/.cache/nvim
 set backupdir=$HOME/.cache/nvim/backup
 set undodir=$HOME/.cache/nvim/undo
+set list
+set listchars=tab:-,trail:░
 
 let g:python3_host_prog='/usr/bin/python3'
 
-set list
-set listchars=tab:-,trail:░
 
 " Netrw configuration
 let g:netrw_browse_split = 0
@@ -227,10 +218,8 @@ let g:current_branch_name = ''
 
 " Language pack settings
 let g:vim_json_syntax_conceal = 0
-
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
-
 let g:python_highlight_space_errors = 0
 let g:python_highlight_indent_errors = 1
 let g:python_highlight_class_vars = 1
@@ -439,15 +428,15 @@ function! s:check_programming_filename() abort
     return 0
 endfunction
 
-function! StartGoyo()
-    if !&diff
-        call lightline#init()
-        Goyo
-        cmap q qa
-    endif
+function! s:get_title_string() abort
+    let title = " "
+    let title = title . substitute(getcwd(), g:home, "~", "")
+    let title = title . "  "
+    let title = title . fnamemodify(expand("%"), ":~:.")
+    return title
 endfunction
 
-function! ApplyProseFormatting() abort
+function s:prose_ftplugin() abort
     " Spellfile in the main file's dir
     let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
@@ -468,69 +457,34 @@ function! ApplyProseFormatting() abort
     nnoremap <buffer> j gj
     nnoremap <buffer> k gk
     setlocal nolist
+    " Disable tabline and line numbers
+    setlocal nonumber
+    " Conceal the call to vim filetype
+    syntax match Normal '# vim: set filetype=prose:' conceal
+    " Goyo keyboard shortcut
+    nnoremap <buffer><silent> <leader>g :Goyo<CR>:execute 'set showtabline=' . (&showtabline == 0 ? 1 : 0)<CR>
 endfunction
 
-function! s:get_title_string() abort
-    let title = " "
-    let title = title . substitute(getcwd(), g:home, "~", "")
-    let title = title . "  "
-    let title = title . fnamemodify(expand("%"), ":~:.")
-    return title
+function! s:netrw_mappings() abort
+    nmap <buffer> l <CR>
+    nmap <buffer> L gn
+    nmap <buffer> h <Plug>NetrwBrowseUpDir()
+    noremap <silent><buffer> - :bd<CR>
+    setlocal eventignore+=CursorHold
 endfunction
-
-" COMMANDS
-" --------
-
-command! -nargs=0 Upgrade :call <SID>upgrade_everything()
 
 " AUTOCMDS
 " --------
 
-augroup git_branch
+augroup user_created
     autocmd!
     autocmd BufReadPost * call <SID>set_git_branch()
-augroup END
-
-augroup diff_close
-    autocmd!
-    autocmd VimEnter * if &diff | cmap q qa| endif
-augroup END
-
-augroup formatting
-    autocmd!
-    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
-    autocmd BufWritePre *.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
-augroup END
-
-augroup title_string
-    autocmd!
     autocmd DirChanged,BufWinEnter * let &titlestring=<SID>get_title_string()
-augroup END
-
-augroup clear_search
-    autocmd!
+    autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd CursorMoved * set nohlsearch
-augroup END
-
-augroup netrw_mapping
-    autocmd!
-    autocmd FileType netrw nmap <buffer> l <CR>
-    autocmd FileType netrw nmap <buffer> L gn
-    autocmd FileType netrw nmap <buffer> h <Plug>NetrwBrowseUpDir
-    autocmd FileType netrw noremap <silent><buffer> - :bd<CR>
-    autocmd FileType netrw setlocal eventignore+=CursorHold
-augroup END
-
-augroup terminal_settings
-    autocmd!
-    autocmd TermEnter * setlocal nonumber
-    autocmd TermEnter * setlocal bufhidden=""
-    autocmd TermEnter * setlocal nomodifiable
-augroup END
-
-augroup prose_writing
-    autocmd!
-    autocmd BufEnter *.txt if !<SID>check_programming_filename() | call ApplyProseFormatting() | endif
-    autocmd VimEnter *.txt if !<SID>check_programming_filename() | call StartGoyo() | endif
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+    autocmd BufWritePre *.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType netrw call <SID>netrw_mappings()
+    autocmd FileType prose call <SID>prose_ftplugin()
 augroup END
