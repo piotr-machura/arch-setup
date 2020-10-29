@@ -7,10 +7,10 @@
 * {
     /* CUSTOMIZATION
        ------------- */
-    --tab-corner-rounding: 3px;
-    --menu-corner-rounding: 3px;
+    --tab-corner-rounding: 0px;
+    --menu-corner-rounding: 0px;
     --menu-item-height: 30px;
-    --button-corner-rounding: 3px;
+    --button-corner-rounding: 0px;
     --animation-speed: 0.1s;
 }
 
@@ -466,7 +466,7 @@ toolbarbutton:not(.titlebar-button):not([class^="findbar-find"]):not([class^="sc
 }
 
 #urlbar {
-    border-radius: calc(1px + var(--button-corner-rounding)) !important;
+    border-radius: calc(var(--button-corner-rounding)) !important;
     border: none !important;
 }
 
