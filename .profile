@@ -54,4 +54,3 @@ export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
-export HAS_PROFILE_LOADED="Yes it has!"

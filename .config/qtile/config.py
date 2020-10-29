@@ -128,7 +128,7 @@ nord_colors = [
 theme_layout = {
     "border_width": 4,
     "margin": 10,
-    "border_focus": nord_colors[9],
+    "border_focus": nord_colors[8],
     "border_normal": nord_colors[3],
 }
 
@@ -136,8 +136,8 @@ layouts = [
     layout.MonadTall(
         align=layout.MonadTall._left,
         ratio=0.5,
-        max_ratio=0.75,
-        min_ratio=0.25,
+        max_ratio=0.9,
+        min_ratio=0.1,
         change_ratio=0.05,
         single_border_width=theme_layout["border_width"],
         single_margin=theme_layout["margin"],

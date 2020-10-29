@@ -8,6 +8,7 @@
 [core]
     editor = vim
     excludesfile = ~/.config/git/ignore
+	trustctime = false
 [pull]
     ff = only
 [alias]

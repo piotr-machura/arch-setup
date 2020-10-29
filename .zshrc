@@ -45,9 +45,8 @@ bindkey -a "^M" clear-on-empty # vi normal mode
 # -------
 
 setopt hist_ignore_dups
-setopt share_history
 HISTSIZE=1000
-SAVEHIST=1000
+SAVEHIST=2000
 
 # COMPLETION
 # ----------
@@ -68,16 +67,31 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # -----
 
 #Title
-precmd () {print -Pn "\e]0; ${PWD/$HOME/~}\a"}
+_term_title () {print -Pn "\e]0; ${PWD/$HOME/~}\a"}
+precmd_functions+=(_term_title)
 
-#Cursor
-_set_cursor() {echo -ne '\e[4 q'}
-precmd_functions+=(_set_cursor)
+# Cursors for vi mode
+function _cursor_beam { echo -ne '\e[5 q' }
+function _cursor_block { echo -ne '\e[1 q' }
+
+function zle-keymap-select {
+    case "${KEYMAP}" in
+        main|viins)
+            _cursor_beam
+        ;;
+        vicmd)
+            _cursor_block
+        ;;
+    esac
+    # Reset prompt on mode change
+    zle reset-prompt ; zle -R
+}
+zle -N zle-keymap-select
+
+# Default to beam cursor
+precmd_functions+=(_cursor_beam)
 
 # Spaceship prompt
-SPACESHIP_PROMPT_DEFAULT_PREFIX=" "
-SPACESHIP_PROMPT_DEFAULT_SUFFIX=""
-
 SPACESHIP_PROMPT_ORDER=(
     dir         # Current directory
     vi_mode     # Vi mode prompt
@@ -85,8 +99,10 @@ SPACESHIP_PROMPT_ORDER=(
 SPACESHIP_RPROMPT_ORDER=(
     git         # Git branch
     venv        # Python virtual environment
-    package     # Cargo/npm package
-    )
+)
+
+SPACESHIP_PROMPT_DEFAULT_PREFIX=" "
+SPACESHIP_PROMPT_DEFAULT_SUFFIX=""
 
 SPACESHIP_DIR_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_DIR_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
@@ -99,7 +115,7 @@ SPACESHIP_DIR_COLOR="cyan"
 SPACESHIP_VI_MODE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_VI_MODE_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VI_MODE_INSERT=" "
-SPACESHIP_VI_MODE_NORMAL=$'%{\e[1;33m%} ' # yellow escape code
+SPACESHIP_VI_MODE_NORMAL=$'%{\e[1;33m%} ' # yellow escape code
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
@@ -113,11 +129,6 @@ SPACESHIP_VENV_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VENV_SYMBOL=" "
 SPACESHIP_VENV_COLOR="blue"
 
-SPACESHIP_PACKAGE_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
-SPACESHIP_PACKAGE_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
-SPACESHIP_PACKAGE_SYMBOL="ﰩ "
-SPACESHIP_PACKAGE_COLOR="yellow"
-
 autoload -U promptinit
 promptinit
 prompt spaceship
@@ -125,11 +136,12 @@ prompt spaceship
 # VI MODE
 # -------
 
+bindkey -v
 bindkey "^?" backward-delete-char # ^?: backspace keycode
 bindkey '^[[3~' delete-char # ^[[3: delete keycode
 bindkey -a '^[[3~' delete-char # vi normal mode
 
-eval spaceship_vi_mode_enable
+KEYTIMEOUT=1 # Reduce the delay between keymap switches
 
 # SYNTAX HIGHLIGHTING
 # -------------------
