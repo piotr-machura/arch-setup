@@ -4,7 +4,7 @@
 
 configuration {
     modi: "drun,calc";
-    width: 35;
+    width: 30;
     lines: 6;
     columns: 1;
     font: "NotoSans Nerd Font 15";

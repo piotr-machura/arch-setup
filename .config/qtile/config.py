@@ -56,7 +56,11 @@ keys = [
     Key([mod], "f", lazy.spawn("spacefm")),
     Key([mod], "s", lazy.spawn("spotify")),
     Key([mod], "space", lazy.spawn("rofi -show drun")),
-    Key([mod], "c", lazy.spawn("rofi -show calc -no-show-match -no-sort")),
+    Key(
+        [mod],
+        "c",
+        lazy.spawn("rofi -show calc -no-show-match -no-sort -width 40"),
+    ),
     Key([], "Print", lazy.spawn("screenshot")),
     Key(["control"], "Print", lazy.spawn("screenshot full")),
     Key([mod], "q", lazy.window.kill()),
