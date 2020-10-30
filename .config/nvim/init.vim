@@ -89,16 +89,16 @@ nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
 
 " Easy buffer switching
-nmap <leader>1 <Plug>BufTabLine.Go(1)
-nmap <leader>2 <Plug>BufTabLine.Go(2)
-nmap <leader>3 <Plug>BufTabLine.Go(3)
-nmap <leader>4 <Plug>BufTabLine.Go(4)
-nmap <leader>5 <Plug>BufTabLine.Go(5)
-nmap <leader>6 <Plug>BufTabLine.Go(6)
-nmap <leader>7 <Plug>BufTabLine.Go(7)
-nmap <leader>8 <Plug>BufTabLine.Go(8)
-nmap <leader>9 <Plug>BufTabLine.Go(9)
-nmap <leader>0 <Plug>BufTabLine.Go(10)
+nmap g1 <Plug>BufTabLine.Go(1)
+nmap g2 <Plug>BufTabLine.Go(2)
+nmap g3 <Plug>BufTabLine.Go(3)
+nmap g4 <Plug>BufTabLine.Go(4)
+nmap g5 <Plug>BufTabLine.Go(5)
+nmap g6 <Plug>BufTabLine.Go(6)
+nmap g7 <Plug>BufTabLine.Go(7)
+nmap g8 <Plug>BufTabLine.Go(8)
+nmap g9 <Plug>BufTabLine.Go(9)
+nmap g0 <Plug>BufTabLine.Go(10)
 
 " Easy buffer closing
 noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd<CR>'
@@ -194,7 +194,6 @@ set listchars=tab:-,trail:░
 
 let g:python3_host_prog='/usr/bin/python3'
 
-
 " Netrw configuration
 let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
@@ -235,7 +234,7 @@ let g:completion_enable_auto_paren = 1
 " Diagnostic settings
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_insert_delay = 1
-let g:diagnostic_virtual_text_prefix = ' '
+let g:diagnostic_virtual_text_prefix = ' '
 let g:space_before_virtual_text = 4
 
 call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
@@ -297,22 +296,13 @@ set clipboard+=unnamedplus
 " FUNCTIONS
 " ---------
 
-function! s:upgrade_everything() abort
-    PlugUpgrade " Update vim-plug
-    PlugUpdate " Update vim-plug extensions
-    UpdateRemotePlugins " Neovim-specific handler update
-endfunction
-
 " Lightline elements
 function! s:set_git_branch() abort
-    if <SID>bad_buffer()
-        return ''
-    endif
-    let branch_name = trim(system('git branch --show-current'))
-    if stridx(branch_name, 'fatal: not a git repository')!=-1
+    let git_output = trim(system('git branch --show-current'))
+    if stridx(git_output, 'fatal: not a git repository')!=-1
         let g:current_branch_name = ''
     else
-        let g:current_branch_name = branch_name
+        let g:current_branch_name = git_output
     endif
 endfunction
 
@@ -323,109 +313,51 @@ function! s:bad_buffer() abort
                 \ "diff",
                 \ "netrw"
                 \ ]
-    for str in names
-        if stridx(&filetype, str)!=-1
-            return 1
-        endif
-    endfor
+    for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
 endfunction
 
 function! LightlineFiletype() abort
-    if <SID>bad_buffer()
-        return ''
-    endif
+    if <SID>bad_buffer() | return '' | endif
     return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
 endfunction
 
 function! LightlineFilename() abort
-    if <SID>bad_buffer()
-        return ''
-    endif
+    if <SID>bad_buffer() | return '' | endif
     return expand("%:t")
 endfunction
 
 function! LightlineLineinfo() abort
-    if <SID>bad_buffer() || winwidth(0) < 35
-        return ''
-    endif
-    let current_line = line('.')
-    let total_lines = line('$')
-    let column  = virtcol('.')
-    let column = 'ﲒ ' . column . ' '
-    return column . ' ' . current_line . ':' . total_lines
+    if <SID>bad_buffer() || winwidth(0) < 35 | return '' | endif
+    return 'ﲒ ' . virtcol('.').'  '.line('.').':'.line('$')
 endfunction
 
 function! LightlineDiagnostics() abort
-    if <SID>bad_buffer() || winwidth(0) < 70
-        return ''
-    endif
-
+    if <SID>bad_buffer() || winwidth(0) < 70 | return '' | endif
     let info = luaeval("require('lsp-status').diagnostics()")
-
     if empty(info) | return '' | endif
     let msgs = []
-    if get(info, 'errors', 0)
-        call add(msgs, ' ' . info['errors'])
-    endif
-    if get(info, 'warnings', 0)
-        call add(msgs, ' ' . info['warnings'])
-    endif
-    if get(info, 'info', 0)
-        call add(msgs, ' ' . info['info'])
-    endif
-    if get(info, 'hints', 0)
-        call add(msgs, ' ' . info['hints'])
-    endif
+    if get(info, 'errors', 0) | call add(msgs, ' ' . info['errors']) | endif
+    if get(info, 'warnings', 0) | call add(msgs, ' ' . info['warnings']) | endif
+    if get(info, 'info', 0) | call add(msgs, ' ' . info['info']) | endif
+    if get(info, 'hints', 0) | call add(msgs, ' ' . info['hints']) | endif
     return join(msgs, ' ')
 endfunction
 
 
 function! LightlineGitBranch() abort
-    if len(g:current_branch_name)
-        return ' ' . g:current_branch_name
-    else
-        return ''
-    endif
+    if len(g:current_branch_name) | return ' ' . g:current_branch_name | endif
+    return ''
 endfunction
 
 function! LightlineReadonly() abort
-    if &readonly
-        return ' Read-only'
-    else
-        return ''
-    endif
+    if &readonly | return 'ﰸ Read-only' | endif
+    return ''
 endfunction
 
 function! LightlineModified() abort
-    if &modified
-        return '烙'
-    else
-        return ''
-    endif
-endfunction
-
-" Prose formatting
-function! s:check_programming_filename() abort
-    " Check for some commonly used programming .txt files
-    let names = [
-                \ "pkg",
-                \ "PKG",
-                \ "README",
-                \ "readme",
-                \ "license",
-                \ "LICENSE",
-                \ "requirements",
-                \ "REQUIREMENTS",
-                \ "Make",
-                \ "make",
-                \ ]
-    for str in names
-        if stridx(bufname(), str)!=-1
-            return 1
-        endif
-    endfor
-    return 0
+    if &modified | return ' ' | endif
+    return ''
 endfunction
 
 function! s:get_title_string() abort
@@ -478,7 +410,7 @@ endfunction
 
 augroup user_created
     autocmd!
-    autocmd BufReadPost * call <SID>set_git_branch()
+    autocmd VimEnter,DirChanged * call <SID>set_git_branch()
     autocmd DirChanged,BufWinEnter * let &titlestring=<SID>get_title_string()
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd CursorMoved * set nohlsearch

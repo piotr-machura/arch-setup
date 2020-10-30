@@ -14,10 +14,6 @@ options="$confirm\n$abort"
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 1)"
 
 case $chosen in
-    $confirm)
-        exit 1
-        ;;
-    $abort)
-        exit 0
-        ;;
+    $confirm) exit 1 ;;
+    $abort) exit 0 ;;
 esac

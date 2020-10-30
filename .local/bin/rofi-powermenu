@@ -15,28 +15,12 @@ options="$shutdown\n$reboot\n$logout"
 
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 
-
-if [ -e $chosen ];
-then
-    exit 1
-fi
-
-rofi-confirm $chosen
-
-if [ $? != 1 ];
-then
-    exit 1
-fi
+[ -e $chosen ] && exit 1
+rofi-confirm $chosen && exit 1
 
 case $chosen in
-    $shutdown)
-        systemctl poweroff
-        ;;
-    $reboot)
-        systemctl reboot
-        ;;
-    $logout)
-        loginctl terminate-session $XDG_SESSION_ID
-        ;;
+    $shutdown) systemctl poweroff ;;
+    $reboot) systemctl reboot ;;
+    $logout) loginctl terminate-session $XDG_SESSION_ID ;;
 esac
 
