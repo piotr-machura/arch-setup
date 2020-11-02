@@ -15,7 +15,8 @@ grub
 gst-libav
 gst-plugins-ugly
 htop
-lightdm-gtk-greeter
+light-locker
+lightdm-mini-greeter
 linux
 linux-firmware
 maim
@@ -31,6 +32,7 @@ noto-fonts-emoji
 pamixer
 papirus-icon-theme
 parole
+paru-bin
 pavucontrol
 perl-file-mimeinfo
 picom
@@ -67,7 +69,6 @@ xcb-util-cursor
 xclip
 xorg-server
 yapf
-yay-bin
 zathura
 zathura-djvu
 zathura-pdf-mupdf

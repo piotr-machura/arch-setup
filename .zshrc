@@ -2,6 +2,7 @@
 # ZSH SHELL RUNTIME CONFIG
 # ------------------------
 
+[[ -z $DOTPROFILE_LOADED ]] && source "$HOME/.profile"
 [[ $- != *i* ]] && return
 
 # ALIASES
@@ -22,19 +23,15 @@ alias jpnb='jupyter notebook'
 
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
-alias pkgclean='yay -Rns $(yay -Qdtq); yay -Scc'
+alias pkgclean='paru -Rns $(paru -Qdtq); paru -Scc'
 alias htop='print -Pn "\e]0;htop\a";htop' # Change htop window title
 
 # CLEAR ON EMPTY INPUT
 # --------------------
 
 clear-on-empty() {
-    if [[ -z $BUFFER ]]
-    then
-        zle clear-screen
-    else
-        zle accept-line
-    fi
+    [[ -z $BUFFER ]] && zle clear-screen
+    [[ -z $BUFFER ]] || zle accept-line
 }
 
 zle -N clear-on-empty

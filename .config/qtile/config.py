@@ -21,9 +21,10 @@ def autostart():
     """List of lists with commands to be executed on startup and their args."""
     processes = [
         ['xrandr', '--size', '1360x768'],
-        ['dunst', '&'],
+        ['dunst'],
         ['picom', '-b'],
         ['spacefm', '-d'],
+        ['light-locker'],
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -294,7 +295,7 @@ widget_defaults = {
 
 screens = [
     Screen(
-        wallpaper='/usr/share/backgrounds/arch.jpg',
+        wallpaper='~/.local/share/backgrounds/arch.jpg',
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [

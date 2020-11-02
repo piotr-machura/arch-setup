@@ -6,22 +6,25 @@
 shutdown=" "
 reboot=" "
 logout=" "
+lock=" "
 abort=" "
 
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu.rasi"
-options="$shutdown\n$reboot\n$logout"
+options="$shutdown\n$reboot\n$lock\n$logout"
 chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 0)"
-[ -e $chosen ] && exit 1
+[[ -z $chosen ]] && exit 1
 
 # Confirm the selection
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu-confirm.rasi"
 options="$chosen\n$abort"
-confirm="$(echo -e "$options" | $rofi_command -dmenu -selected-row 1)"
-[ "$confirm" = "$abort" ] && exit 1
+chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 1)"
+[[ -z "$chosen" ]] && exit 1
 
 case $chosen in
     $shutdown) systemctl poweroff ;;
     $reboot) systemctl reboot ;;
+    $lock) light-loceker-command --lock ;;
     $logout) loginctl terminate-session $XDG_SESSION_ID ;;
+    $abort) exit 1 ;;
 esac
 
