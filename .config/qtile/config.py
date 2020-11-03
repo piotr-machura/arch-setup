@@ -33,54 +33,53 @@ def autostart():
 # KEYBINDINGS
 # -----------
 
-mod = "mod4"
-
 keys = [
 
     # Switch between windows in current stack pane
-    Key([mod], "h", lazy.layout.left()),
-    Key([mod], "j", lazy.layout.down()),
-    Key([mod], "k", lazy.layout.up()),
-    Key([mod], "l", lazy.layout.right()),
+    Key(["mod4"], "h", lazy.layout.left()),
+    Key(["mod4"], "j", lazy.layout.down()),
+    Key(["mod4"], "k", lazy.layout.up()),
+    Key(["mod4"], "l", lazy.layout.right()),
 
     # Move windows up or down in current stack
-    Key([mod, "shift"], "h", lazy.layout.swap_left()),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "l", lazy.layout.swap_right()),
-    Key([mod], "equal", lazy.layout.grow()),
-    Key([mod], "minus", lazy.layout.shrink()),
-    Key([mod], "0", lazy.layout.normalize()),
-    Key([mod], "p", lazy.next_layout()),
-    Key([mod], "Return", lazy.spawn("alacritty")),
-    Key([mod], "w", lazy.spawn("firefox")),
-    Key([mod], "f", lazy.spawn("spacefm")),
-    Key([mod], "s", lazy.spawn("spotify")),
-    Key([mod], "space", lazy.spawn("rofi -show drun")),
+    Key(["mod4", "shift"], "h", lazy.layout.swap_left()),
+    Key(["mod4", "shift"], "j", lazy.layout.shuffle_down()),
+    Key(["mod4", "shift"], "k", lazy.layout.shuffle_up()),
+    Key(["mod4", "shift"], "l", lazy.layout.swap_right()),
+    Key(["mod4"], "equal", lazy.layout.grow()),
+    Key(["mod4"], "minus", lazy.layout.shrink()),
+    Key(["mod4"], "0", lazy.layout.normalize()),
+    Key(["mod4"], "p", lazy.next_layout()),
+    Key(["mod4"], "Return", lazy.spawn("alacritty")),
+    Key(["mod4"], "w", lazy.spawn("firefox")),
+    Key(["mod4"], "f", lazy.spawn("spacefm")),
+    Key(["mod4"], "s", lazy.spawn("spotify")),
+    Key(["mod4"], "i", lazy.spawn("nm-connection-editor")),
+    Key(["mod4"], "space", lazy.spawn("rofi -show drun")),
     Key(
-        [mod],
+        ["mod4"],
         "c",
         lazy.spawn("rofi -show calc -no-show-match -no-sort -width 40"),
     ),
     Key([], "Print", lazy.spawn("screenshot")),
     Key(["control"], "Print", lazy.spawn("screenshot full")),
-    Key([mod], "q", lazy.window.kill()),
-    Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.spawn("rofi-powermenu")),
+    Key(["mod4"], "q", lazy.window.kill()),
+    Key(["mod4", "control"], "r", lazy.restart()),
+    Key(["mod4", "control"], "q", lazy.spawn("rofi-powermenu")),
 ]
 
 mouse = [
     Drag(
-        [mod],
+        ["mod4"],
         "Button1",
         lazy.window.set_position_floating(),
         start=lazy.window.get_position()),
     Drag(
-        [mod],
+        ["mod4"],
         "Button3",
         lazy.window.set_size_floating(),
         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.toggle_floating())
+    Click(["mod4"], "Button2", lazy.window.toggle_floating())
 ]
 
 follow_mouse_focus = False
@@ -95,15 +94,15 @@ groups = [Group(str(i + 1)) for i in range(5)]
 for i in groups:
     keys.extend(
         [
-            Key([mod], i.name, lazy.group[i.name].toscreen()),
+            Key(["mod4"], i.name, lazy.group[i.name].toscreen()),
             Key(
-                [mod, "shift"],
+                ["mod4", "shift"],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
             ),
         ])
 
-keys.append(Key([mod], "Tab", lazy.screen.toggle_group()))
+keys.append(Key(["mod4"], "Tab", lazy.screen.toggle_group()))
 
 dgroups_key_binder = None
 dgroups_app_rules = []    # type: List

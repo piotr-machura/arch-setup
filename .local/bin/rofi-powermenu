@@ -23,7 +23,7 @@ chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 1)"
 case $chosen in
     $shutdown) systemctl poweroff ;;
     $reboot) systemctl reboot ;;
-    $lock) light-loceker-command --lock ;;
+    $lock) light-locker-command --lock ;;
     $logout) loginctl terminate-session $XDG_SESSION_ID ;;
     $abort) exit 1 ;;
 esac
