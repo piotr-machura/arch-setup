@@ -9,8 +9,8 @@ export EDITOR='vim'
 export PAGER='less'
 export TERMINAL='alacritty -e'
 export BROWSER='firefox'
-export RC="$HOME/.zshrc"
 
+# Use pip only for virtualenvs
 export PIP_REQUIRE_VIRTUALENV=true
 
 # XDG BASE DIRECTORY SPECIFICATION
@@ -22,7 +22,6 @@ export XDG_DATA_HOME="$HOME"/.local/share
 
 export HISTFILE="$XDG_CACHE_HOME"/shell_hist
 export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
-export ERRFILE="$XDG_CACHE_HOME"/xsession-errors
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export PYLINTHOME="$XDG_DATA_HOME"/pylint
@@ -54,4 +53,9 @@ export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
+# Mitigate hardcoded ligthdm errorfile
+export ERRFILE=/dev/null
+rm --force "$HOME"/.xsession-errors*
+
 export DOTPROFILE_LOADED=1
+

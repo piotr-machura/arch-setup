@@ -48,7 +48,7 @@ SAVEHIST=2000
 # COMPLETION
 # ----------
 
-zstyle :compinstall filename '$ZDOTDIR/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME/zcompdump"
 
