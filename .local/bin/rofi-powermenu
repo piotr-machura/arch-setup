@@ -6,7 +6,7 @@
 shutdown=" "
 reboot=" "
 lock=" "
-logout=" "
+logout=" "
 abort=" "
 
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu.rasi"
