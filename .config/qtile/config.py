@@ -204,14 +204,14 @@ class PamixerVolume(widget.base._TextBox):
         }
 
     def timer_setup(self):
+        self.update()
         self.timeout_add(self.update_interval, self.update)
 
     def button_press(self, x, y, button):
         name = f'Button{button}'
         if name in self.mouse_callbacks:
             self.mouse_callbacks[name]()
-        self._update_drawer()
-        self.draw()
+        self.update()
 
     @staticmethod
     def get_volume():
@@ -317,7 +317,7 @@ screens = [
                 widget.WindowName(show_state=False),
                 PamixerVolume(
                     fontsize=18,
-                    update_interval=0.8,
+                    update_interval=2.5,
                 ),
                 Battery(),
                 widget.CurrentLayout(),
