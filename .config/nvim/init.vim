@@ -308,28 +308,34 @@ endfunction
 
 function! s:bad_buffer() abort
     " Disable lightline elements for theeses buffer types
-    let names = [
-                \ "undotree",
-                \ "diff",
-                \ "netrw"
-                \ ]
+    let names = [ "undotree", "diff", "netrw" ]
     for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
 endfunction
 
 function! LightlineFiletype() abort
-    if <SID>bad_buffer() | return '' | endif
-    return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : ''
+    return strlen(&filetype) || <SID>bad_buffer() ? WebDevIconsGetFileTypeSymbol().' '.&filetype : ''
 endfunction
 
 function! LightlineFilename() abort
-    if <SID>bad_buffer() | return '' | endif
-    return expand("%:t")
+    return <SID>bad_buffer() ? "" : expand("%:t")
 endfunction
 
 function! LightlineLineinfo() abort
-    if <SID>bad_buffer() || winwidth(0) < 35 | return '' | endif
-    return 'ﲒ ' . virtcol('.').'  '.line('.').':'.line('$')
+    return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$')
+endfunction
+
+function! LightlineGitBranch() abort
+    if len(g:current_branch_name) | return " " . g:current_branch_name | endif
+    return ""
+endfunction
+
+function! LightlineReadonly() abort
+    return &readonly ? "ﰸ Read-only" :  ""
+endfunction
+
+function! LightlineModified() abort
+    return &modified ? " " : ""
 endfunction
 
 function! LightlineDiagnostics() abort
@@ -344,22 +350,6 @@ function! LightlineDiagnostics() abort
     return join(msgs, ' ')
 endfunction
 
-
-function! LightlineGitBranch() abort
-    if len(g:current_branch_name) | return ' ' . g:current_branch_name | endif
-    return ''
-endfunction
-
-function! LightlineReadonly() abort
-    if &readonly | return 'ﰸ Read-only' | endif
-    return ''
-endfunction
-
-function! LightlineModified() abort
-    if &modified | return ' ' | endif
-    return ''
-endfunction
-
 function! s:get_title_string() abort
     let title = " "
     let title = title . substitute(getcwd(), g:home, "~", "")
@@ -369,19 +359,18 @@ function! s:get_title_string() abort
 endfunction
 
 function s:prose_ftplugin() abort
-    " Spellfile in the main file's dir
+    " Spellfile in the same dir as the file itself
     let &spellfile=expand('%:p:h').'/pl.add'
     setlocal spelllang=pl,en_us
     setlocal spell
     setlocal spellsuggest+=5
     " Put dialogue dash instead of --
     iabbrev <buffer> -- —
-    " Disable all automatic indentation
+    " Disable all automatic indentation and use tabs
     setlocal noautoindent
     setlocal nobreakindent
     setlocal nosmartindent
     setlocal nocindent
-    " Use tabs, not spaces
     setlocal noexpandtab
     " Line wrap modifications
     setlocal scrolloff=0
@@ -394,7 +383,7 @@ function s:prose_ftplugin() abort
     " Conceal the call to vim filetype
     syntax match Normal '# vim: set filetype=prose:' conceal
     " Goyo keyboard shortcut
-    nnoremap <buffer><silent> <leader>g :Goyo<CR>:execute 'set showtabline=' . (&showtabline == 0 ? 1 : 0)<CR>
+    nnoremap <buffer><silent> <leader>f :Goyo<CR>:execute 'set showtabline=' . (&showtabline == 0 ? 1 : 0)<CR>
 endfunction
 
 function! s:netrw_mappings() abort

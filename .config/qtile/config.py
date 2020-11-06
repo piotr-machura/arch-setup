@@ -10,7 +10,7 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
 from libqtile.widget.battery import BatteryState, BatteryStatus
 from libqtile.lazy import lazy
-# pylint: disable=invalid-name,protected-access
+# pylint: disable=invalid-name,protected-access,line-too-long
 
 # AUTOSTART
 # ---------
@@ -56,8 +56,9 @@ keys = [
     Key(["mod4"], "s", lazy.spawn("spotify")),
     Key(["mod4"], "i", lazy.spawn("nm-connection-editor")),
     Key(["mod4"], "space", lazy.spawn("rofi -show drun")),
-    Key(["mod4"], "c", lazy.spawn("rofi -show calc -no-show-match -no-sort")),
-    Key(["mod4"], "e", lazy.spawn("rofi -show emoji -no-show-icons")),
+    Key(
+        ["mod4"], "c",
+        lazy.spawn("rofi -show calc -lines 0 -terse -no-history")),
     Key([], "Print", lazy.spawn("screenshot")),
     Key(["control"], "Print", lazy.spawn("screenshot full")),
     Key(["mod4"], "q", lazy.window.kill()),
