@@ -3,17 +3,15 @@
 // ----------------------------
 
 configuration {
-    modi: "drun,calc,emoji";
-    width: 30;
-    lines: 6;
-    columns: 1;
-    font: "NotoSans Nerd Font 15";
-    bw: 3;
-    location: 0;
-    padding: 15;
-    yoffset: -130;
+    modi: "drun,calc";
+    width: 100;
+    lines: 1;
+    columns: 9;
+    font: "NotoSans Nerd Font 12";
+    location: 2;
+    yoffset: -10px;
     xoffset: 0;
-    fixed-num-lines: false;
+    fixed-num-lines: true;
     show-icons: true;
     terminal: "alacritty";
     ssh-client: "ssh";
@@ -26,7 +24,7 @@ configuration {
     icon-theme: "Papirus Dark";
     drun-match-fields: "name,generic,exec,categories,keywords";
     drun-show-actions: false;
-    drun-display-format: "{name}";
+    drun-display-format: "{icon} {name}";
     drun-url-launcher: "mimeopen";
     disable-history: true;
     ignored-prefixes: "";
@@ -46,14 +44,14 @@ configuration {
     line-margin: 10;
     line-padding: 10;
     separator-style: "dash";
-    hide-scrollbar: false;
+    hide-scrollbar: true;
     fullscreen: false;
     fake-transparency: false;
     dpi: -1;
     threads: 0;
     scrollbar-width: 3;
     scroll-method: 0;
-    fake-background: "screenshot";
+    fake-background: "";
     window-format: "{w}    {c}   {t}";
     click-to-exit: true;
     show-match: true;
@@ -64,8 +62,8 @@ configuration {
     drun-reload-desktop-cache: false;
     pid: "/run/user/1000/rofi.pid";
 
-    kb-primary-paste: "Control+V";
-    kb-secondary-paste: "Insert";
+    kb-primary-paste: "Control+Shift+v";
+    kb-secondary-paste: "Control+v";
     kb-clear-line: "Control+c";
     kb-move-front: "";
     kb-move-end: "";
@@ -87,8 +85,8 @@ configuration {
     kb-mode-previous: "";
     kb-row-left: "";
     kb-row-right: "";
-    kb-row-up: "ISO_Left_Tab,Control+k,Up";
-    kb-row-down: "Tab,Control+j,Down";
+    kb-row-up: "ISO_Left_Tab,Up";
+    kb-row-down: "Tab,Down";
     kb-row-tab: "";
     kb-page-prev: "ScrollUp";
     kb-page-next: "ScrollDown";
@@ -167,25 +165,24 @@ configuration {
     text-color: @nord4;
 }
 #inputbar {
-    padding: 5px;
+    padding: 3px;
+    margin: 2px;
     children: [ entry ];
 }
 #entry {
-    background-color: @nord2;
-    padding: 5px 5px 5px 8px;
+    padding: 3px 5px;
+    background-color: @nord3;
 }
 #message {
-    border: 0px 0px 1px;
-    border-color: @nord3;
     padding: 0px 0px 6px 7px;
 }
 #listview {
-    padding: 2px 0px 2px;
-    scrollbar: true;
+    padding: 0px 5px;
+    spacing: 2px;
 }
 #element {
-    padding: 0px 0px 0px 7px;
-    margin: 0px 0px 5px 0px;
+    padding: 1px 5px 1px 5px ;
+    margin: 2px;
     text-color: @nord4;
 }
 #element.normal.urgent {
@@ -212,7 +209,6 @@ configuration {
 }
 #scrollbar {
     handle-color: @nord3;
-    handle-width: 0.50em;
 }
 #button.selected {
     background-color: @nord8;

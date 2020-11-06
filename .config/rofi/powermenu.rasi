@@ -5,11 +5,15 @@
  * Based on the amazing scripts by @adi1090x
  */
 
+configuration {
+    show-icons: false;
+}
+
 * {
     font: "NotoSans Nerd Font 24";
     option-6-listview-spacing: 6px;
     menu-window-padding: 6px 6px;
-    menu-element-padding: 8px 0px 10px -7px;
+    menu-element-padding: 8px 4px 10px 17px;
     background-color: @nord1;
     text-color: @nord4;
 }
@@ -19,8 +23,6 @@
     height: 38%;
     anchor: east;
     location: east;
-    x-offset: -10px;
-    y-offset: 0px;
     border: 0px;
     border-radius: 0px;
 }
