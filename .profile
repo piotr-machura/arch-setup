@@ -29,8 +29,8 @@ export GRIPHOME="$XDG_CONFIG_HOME"/grip
 export PYTHON_EGG_CACHE="$XDG_CACHE_HOME"/python-eggs
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
-export DOT_SAGE="$XDG_CONFIG_HOME"/sage
-export MAXIMA_USERDIR="$XDG_CONFIG_HOME"/maxima
+export DOT_SAGE="$XDG_DATA_HOME"/sage
+export MAXIMA_USERDIR="$XDG_DATA_HOME"/maxima
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java

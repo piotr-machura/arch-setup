@@ -3,7 +3,7 @@
 // ----------------------------
 
 configuration {
-    modi: "drun,calc";
+    modi: "drun,calc,emoji";
     width: 30;
     lines: 6;
     columns: 1;
@@ -99,7 +99,7 @@ configuration {
     kb-ellipsize: "";
     kb-toggle-case-sensitivity: "";
     kb-toggle-sort: "";
-    kb-cancel: "Escape,Super+space,Super+q,Super+c,Super+Control+q";
+    kb-cancel: "Escape,Super+space,Super+q,Super+c,Super+Control+q,Super+e";
     kb-custom-1: "";
     kb-custom-2: "";
     kb-custom-3: "";

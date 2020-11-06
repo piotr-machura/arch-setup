@@ -56,11 +56,8 @@ keys = [
     Key(["mod4"], "s", lazy.spawn("spotify")),
     Key(["mod4"], "i", lazy.spawn("nm-connection-editor")),
     Key(["mod4"], "space", lazy.spawn("rofi -show drun")),
-    Key(
-        ["mod4"],
-        "c",
-        lazy.spawn("rofi -show calc -no-show-match -no-sort -width 40"),
-    ),
+    Key(["mod4"], "c", lazy.spawn("rofi -show calc -no-show-match -no-sort")),
+    Key(["mod4"], "e", lazy.spawn("rofi -show emoji -no-show-icons")),
     Key([], "Print", lazy.spawn("screenshot")),
     Key(["control"], "Print", lazy.spawn("screenshot full")),
     Key(["mod4"], "q", lazy.window.kill()),
