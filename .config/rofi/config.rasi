@@ -165,24 +165,24 @@ configuration {
     text-color: @nord4;
 }
 #inputbar {
-    padding: 3px;
+    padding: 6px;
     margin: 2px;
     children: [ entry ];
 }
 #entry {
-    padding: 3px 5px;
+    padding: 4px 5px;
     background-color: @nord3;
 }
 #message {
-    padding: 0px 0px 6px 7px;
+    padding: 0px 0px 5px 10px;
 }
 #listview {
-    padding: 0px 5px;
+    padding: 1px 5px 1px 5px;
     spacing: 2px;
 }
 #element {
-    padding: 1px 5px 1px 5px ;
-    margin: 2px;
+    padding: 1px 5px;
+    margin: 0px 3px 3px 3px;
     text-color: @nord4;
 }
 #element.normal.urgent {

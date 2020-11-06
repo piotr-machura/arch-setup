@@ -11,9 +11,9 @@ configuration {
 
 * {
     font: "NotoSans Nerd Font 24";
-    option-6-listview-spacing: 6px;
-    menu-window-padding: 6px 6px;
-    menu-element-padding: 8px 4px 10px 17px;
+    option-6-listview-spacing: 4px;
+    menu-window-padding: 4px 4px;
+    menu-element-padding: 8px 4px 12px 18px;
     background-color: @nord1;
     text-color: @nord4;
 }
@@ -35,8 +35,9 @@ configuration {
 
 #listview {
     layout: vertical;
+    columns: 1;
     lines: 3;
-    padding: 0px 0px -10px;
+    padding: 3px 0px 0px 0px;
     scrollbar: false;
 }
 
