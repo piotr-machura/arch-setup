@@ -23,6 +23,8 @@ configuration {
     height: 38%;
     anchor: east;
     location: east;
+    x-offset: 0px;
+    y-offset: 0px;
     border: 0px;
     border-radius: 0px;
 }
