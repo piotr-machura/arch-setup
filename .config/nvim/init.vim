@@ -17,8 +17,8 @@ Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
-Plug 'tpope/vim-repeat' " Easy repeats on custom commands
 Plug 'tpope/vim-commentary' " Comment automation
+Plug 'tpope/vim-repeat' " Repeta surroundings/commentary with '.'
 
 " IDE features
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
@@ -80,10 +80,20 @@ EOF
 let mapleader=' '
 
 " Navigation
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
 
 nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
@@ -101,7 +111,7 @@ nmap g9 <Plug>BufTabLine.Go(9)
 nmap g0 <Plug>BufTabLine.Go(10)
 
 " Easy buffer closing
-noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd<CR>'
+noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -113,12 +123,12 @@ vnoremap <leader>x "_x
 vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
-" Undo tree and netrw shortcuts
+" Undotree, netrw, terminal shortcuts
 nnoremap <silent> <C-u> :UndotreeToggle<CR>:call buftabline#update(0)<CR>
 nnoremap <silent><nowait> - :Explore<CR>
-
-" Built-in terminal
-tnoremap <S-Esc> <C-\><C-n>
+nnoremap <silent> <leader>t :term<CR>
+tnoremap <C-Space> <C-\><C-n>
+tnoremap <F12> <C-\><C-N><C-w>:bd!
 
 " Insert blank lines above or below from normal mode
 nnoremap <silent> [<space> O<ESC>
@@ -134,15 +144,15 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " Code actions
-nnoremap <silent> K :lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>r :lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>f :lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
+nnoremap <silent> K :silent! lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>r :silent! lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>f :silent! lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
 
 nmap <silent> [g :PrevDiagnosticCycle<CR>
 nmap <silent> ]g :NextDiagnosticCycle<CR>
 
-nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gr :lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gd :silent! lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gr :silent! lua vim.lsp.buf.references()<CR>
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
@@ -201,6 +211,9 @@ let g:netrw_banner = 0
 let g:netrw_altv = 1
 let g:home = $HOME
 let g:netrw_localrmdir='rm -r'
+
+" Tests in new terminal
+let test#strategy = 'neovim'
 
 " Bufftabline options
 let g:buftabline_show = 1
@@ -308,7 +321,7 @@ endfunction
 
 function! s:bad_buffer() abort
     " Disable lightline elements for theeses buffer types
-    let names = [ "undotree", "diff", "netrw" ]
+    let names = [ "undotree", "diff", "netrw", "vim-plug" ]
     for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
 endfunction
@@ -390,7 +403,7 @@ function! s:netrw_mappings() abort
     nmap <buffer> l <CR>
     nmap <buffer> L gn
     nmap <buffer> h <Plug>NetrwBrowseUpDir()
-    noremap <silent><buffer> - :bd<CR>
+    noremap <silent><buffer> - :bd!<CR>
     setlocal eventignore+=CursorHold
 endfunction
 
@@ -402,9 +415,11 @@ augroup user_created
     autocmd VimEnter,DirChanged * call <SID>set_git_branch()
     autocmd DirChanged,BufWinEnter * let &titlestring=<SID>get_title_string()
     autocmd VimEnter * if &diff | cmap q qa| endif
+    autocmd TermOpen * startinsert
+    autocmd TermOpen * setlocal nonumber
     autocmd CursorMoved * set nohlsearch
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-    autocmd BufWritePre *.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+    autocmd BufWritePre *.rs,*.py silent! lua vim.lsp.buf.formatting_sync(nil, 1000)
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
     autocmd FileType prose call <SID>prose_ftplugin()

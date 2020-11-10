@@ -170,7 +170,6 @@ floating_layout = layout.Floating(
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
         {'wmclass': 'spotify'},
-        {'wmclass': 'bitwarden'},
     ],
     **theme_layout)
 

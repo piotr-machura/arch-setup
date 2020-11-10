@@ -8,5 +8,5 @@
 @import "./powermenu.rasi"
 
 #window {
-    height: 19%;
+    height: 19.5%;
 }
