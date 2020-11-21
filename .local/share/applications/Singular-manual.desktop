@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Singular Manual
-Comment=read the user manual for Singular 4.1.3
-Type=Link
-URL=file://@DOC_DIR@/html/index.htm
-Icon=/usr/share/icons/Singular.png
-Hidden=true
