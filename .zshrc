@@ -19,8 +19,6 @@ alias rmdir='rmdirtrash -I'
 alias mv='mv -i'
 
 alias py='python3'
-alias jpnb='jupyter notebook'
-
 alias venv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
 alias pkgclean='paru -Rns $(paru -Qdtq); paru -Scc'
@@ -96,6 +94,7 @@ SPACESHIP_PROMPT_ORDER=(
 SPACESHIP_RPROMPT_ORDER=(
     git         # Git branch
     venv        # Python virtual environment
+    jobs        # Currently running jobs
 )
 
 SPACESHIP_PROMPT_DEFAULT_PREFIX=" "
@@ -125,6 +124,11 @@ SPACESHIP_VENV_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
 SPACESHIP_VENV_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
 SPACESHIP_VENV_SYMBOL=" "
 SPACESHIP_VENV_COLOR="blue"
+
+SPACESHIP_JOBS_PREFIX=$SPACESHIP_PROMPT_DEFAULT_PREFIX
+SPACESHIP_VENV_SUFFIX=$SPACESHIP_PROMPT_DEFAULT_SUFFIX
+SPACESHIP_JOBS_SYMBOL="O "
+SPACEHISP_JOBS_COLOR="yellow"
 
 autoload -U promptinit
 promptinit

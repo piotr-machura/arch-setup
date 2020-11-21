@@ -23,7 +23,6 @@ Plug 'tpope/vim-repeat' " Repeta surroundings/commentary with '.'
 " IDE features
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
-Plug 'nvim-lua/diagnostic-nvim' " Native LSP diagnostics
 Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
 Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'janko-m/vim-test' " Testing suite
@@ -38,18 +37,10 @@ Plug 'junegunn/goyo.vim' " Distraction-free mode
 call plug#end()
 
 lua <<EOF
--- Attach the completon and diagnostic plugins
-
-local nvim_lsp = require'nvim_lsp'
-
-local attach_vim = function(client)
-  require'completion'.on_attach(client)
-  require'diagnostic'.on_attach(client)
-end
 
 -- Python language server
-nvim_lsp.pyls.setup {
-    on_attach = attach_vim;
+require'lspconfig'.pyls.setup {
+    -- on_attach = require'completion'.on_attach(client);
     cmd = { "pyls" };
     settings = {
         pyls = {
@@ -70,8 +61,20 @@ nvim_lsp.pyls.setup {
 }
 
 -- Rust language server
-nvim_lsp.rust_analyzer.setup{on_attach=attach_vim}
+require'lspconfig'.rust_analyzer.setup{
+    -- on_attach=require'completion'.on_attach(client)
+}
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = {
+            spacing = 4,
+            prefix = '<',
+        },
+        update_in_insert = false,
+    }
+)
 EOF
 
 " MAPS
@@ -147,9 +150,10 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 nnoremap <silent> K :silent! lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>r :silent! lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>f :silent! lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
+nnoremap <silent> <leader>o :silent! lua vim.lsp.diagnostic.set_loclist()<CR>
 
-nmap <silent> [g :PrevDiagnosticCycle<CR>
-nmap <silent> ]g :NextDiagnosticCycle<CR>
+nmap <silent> [g :silent! lua vim.lsp.diagnostic.goto_prev()<CR>
+nmap <silent> ]g :silent! lua vim.lsp.diagnostic.goto_next()<CR>
 
 nnoremap <silent> gd :silent! lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gr :silent! lua vim.lsp.buf.references()<CR>
@@ -245,10 +249,6 @@ let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_paren = 1
 
 " Diagnostic settings
-let g:diagnostic_enable_virtual_text = 1
-let g:diagnostic_insert_delay = 1
-let g:diagnostic_virtual_text_prefix = ' '
-let g:space_before_virtual_text = 4
 
 call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
 call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
@@ -352,9 +352,10 @@ function! LightlineModified() abort
 endfunction
 
 function! LightlineDiagnostics() abort
+    return ""
     if <SID>bad_buffer() || winwidth(0) < 70 | return '' | endif
-    let info = luaeval("require('lsp-status').diagnostics()")
     if empty(info) | return '' | endif
+    let info = luaeval("require('lsp-status').diagnostics()")
     let msgs = []
     if get(info, 'errors', 0) | call add(msgs, ' ' . info['errors']) | endif
     if get(info, 'warnings', 0) | call add(msgs, ' ' . info['warnings']) | endif
