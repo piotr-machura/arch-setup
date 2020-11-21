@@ -267,7 +267,7 @@ screens = [
                 ),
                 widget.Spacer(length=5),    # pylint: disable=no-member
                 widget.WindowName(show_state=False),
-                PamixerVolume(fontsize=18, update_interval=2.5),
+                PamixerVolume(fontsize=18, update_interval=2.5, padding=8),
                 widget.CurrentLayout(),
                 widget.Clock(format='%H:%M'),
                 widget.Spacer(length=5),    # pylint: disable=no-member

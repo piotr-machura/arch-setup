@@ -135,10 +135,7 @@ tnoremap <F12> <C-\><C-N><C-w>:bd!
 " Insert blank lines above or below from normal mode
 nnoremap <silent> [<space> O<ESC>
 nnoremap <silent> ]<space> o<ESC>
-
-" Resotre hlsearch wneh n or N is pressed
-nnoremap <silent> n n:set hlsearch<CR>
-nnoremap <silent> N N:set hlsearch<CR>
+nnoremap <silent> K a<CR><ESC>
 
 " <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
 imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
@@ -146,7 +143,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " Code actions
-nnoremap <silent> K :silent! lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>h :silent! lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>r :silent! lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>f :silent! lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
 nnoremap <silent> <leader>o :silent! lua vim.lsp.diagnostic.set_loclist()<CR>
@@ -417,7 +414,6 @@ augroup user_created
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber
-    autocmd CursorMoved * set nohlsearch
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
     autocmd BufWritePre *.rs,*.py silent! lua vim.lsp.buf.formatting_sync(nil, 1000)
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o

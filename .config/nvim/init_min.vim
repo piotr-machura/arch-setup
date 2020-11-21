@@ -20,6 +20,7 @@ Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeta surroundings/commentary with '.'
+Plug 'sheerun/vim-polyglot' " Multi-language pack
 
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -49,8 +50,10 @@ tnoremap <A-j> <C-\><C-N><C-w>j
 tnoremap <A-k> <C-\><C-N><C-w>k
 tnoremap <A-l> <C-\><C-N><C-w>l
 
-" Easy buffer closing
+" Easy buffer navigation
 noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
+nnoremap <silent> gb :bnext<CR>
+nnoremap <silent> gB :bprev<CR>
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -69,13 +72,10 @@ nnoremap <silent> <leader>t :term<CR>
 tnoremap <C-Space> <C-\><C-n>
 tnoremap <F12> <C-\><C-N><C-w>:bd!
 
-" Insert blank lines above or below from normal mode
+" Line splitting from normal mode
 nnoremap <silent> [<space> O<ESC>
 nnoremap <silent> ]<space> o<ESC>
-
-" Resotre hlsearch wneh n or N is pressed
-nnoremap <silent> n n:set hlsearch<CR>
-nnoremap <silent> N N:set hlsearch<CR>
+nnoremap <silent> K a<CR><ESC>
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
@@ -109,6 +109,7 @@ set splitright
 set title
 set noshowmode
 set laststatus=2
+set conceallevel=2
 set shortmess+=c
 set hidden
 set switchbuf=usetab
@@ -138,6 +139,11 @@ let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
+
+" Language pack settings
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 " Git branch name
 let g:current_branch_name = ''
@@ -174,6 +180,7 @@ let g:lightline = {
 
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
+let g:indentLine_setConceal = 0
 
 " CLIPBOARD
 " ---------
@@ -248,12 +255,26 @@ function! s:netrw_mappings() abort
 endfunction
 
 " Lightline elements
-function! LightlineFiletype() abort | return strlen(&filetype) || <SID>bad_buffer() ? ' '.&filetype : '' | endfunction
-function! LightlineFilename() abort | return <SID>bad_buffer() ? "" : expand("%:t") | endfunction
-function! LightlineLineinfo() abort | return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') | endfunction
-function! LightlineGitBranch() abort | if len(g:current_branch_name) | return " " . g:current_branch_name | endif | return "" | endfunction
-function! LightlineReadonly() abort | return &readonly ? "ﰸ Read-only" :  "" | endfunction
-function! LightlineModified() abort | return &modified ? " " : "" | endfunction
+function! LightlineFiletype() abort
+    return strlen(&filetype) || <SID>bad_buffer() ? ' '.&filetype : ''
+endfunction
+function! LightlineFilename() abort
+    return <SID>bad_buffer() ? "" : expand("%:t") 
+endfunction
+function! LightlineLineinfo() abort
+    return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') 
+endfunction
+function! LightlineGitBranch() abort
+    if len(g:current_branch_name) | return " " . g:current_branch_name | endif
+    return ""
+endfunction
+function! LightlineReadonly() abort
+    return &readonly ? "ﰸ Read-only" :  ""
+endfunction
+function! LightlineModified() abort
+    return &modified ? " " : ""
+endfunction
+
 " AUTOCMDS
 " --------
 
@@ -264,7 +285,6 @@ augroup user_created
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber
-    autocmd CursorMoved * set nohlsearch
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
