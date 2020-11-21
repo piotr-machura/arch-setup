@@ -22,6 +22,7 @@ export XDG_DATA_HOME="$HOME"/.local/share
 
 export HISTFILE="$XDG_CACHE_HOME"/shell_hist
 export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
+export NVIM_LOG_FILE="$XDG_CACHE_HOME"/nvim/messages_log
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export PYLINTHOME="$XDG_DATA_HOME"/pylint

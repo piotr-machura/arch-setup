@@ -71,12 +71,8 @@ function _cursor_block { echo -ne '\e[1 q' }
 
 function zle-keymap-select {
     case "${KEYMAP}" in
-        main|viins)
-            _cursor_beam
-        ;;
-        vicmd)
-            _cursor_block
-        ;;
+        main|viins) _cursor_beam ;;
+        vicmd) _cursor_block ;;
     esac
     # Reset prompt on mode change
     zle reset-prompt ; zle -R
