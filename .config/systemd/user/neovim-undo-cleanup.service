@@ -1,0 +1,8 @@
+[Unit]
+Description=Delete neovim undo files older than 7 days
+
+[Service]
+ExecStart=/usr/bin/find %h/.cache/nvim/undo -mtime 7 -delete
+
+[Install]
+WantedBy=default.target

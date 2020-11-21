@@ -40,7 +40,7 @@ lua <<EOF
 
 -- Python language server
 require'lspconfig'.pyls.setup {
-    -- on_attach = require'completion'.on_attach(client);
+    on_attach = require'completion'.on_attach(client);
     cmd = { "pyls" };
     settings = {
         pyls = {
@@ -62,7 +62,7 @@ require'lspconfig'.pyls.setup {
 
 -- Rust language server
 require'lspconfig'.rust_analyzer.setup{
-    -- on_attach=require'completion'.on_attach(client)
+    on_attach=require'completion'.on_attach(client)
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
