@@ -4,12 +4,9 @@ arc-gtk-theme
 aspell-pl
 base
 bibata-cursor-theme-bin
-brightnessctl
-dhcpcd
 dunst
 firefox
 git
-github-cli
 gnumeric
 grub
 gst-libav
@@ -44,6 +41,7 @@ python-pip
 python-pydocstyle
 python-pylint
 python-pyqt5
+python-setproctitle
 qtile
 ristretto
 rmtrash
@@ -51,15 +49,11 @@ rofi
 rofi-calc
 rsnapshot
 rust-analyzer
-sagemath
-sagemath-doc
-sagemath-jupyter
 signal-desktop
 spacefm-git
 spaceship-prompt-git
 spotify
 spotifywm-git
-tlp
 udevil
 unrar
 unzip
@@ -70,7 +64,6 @@ xclip
 xorg-server
 yapf
 zathura
-zathura-djvu
 zathura-pdf-mupdf
 zsh
 zsh-autosuggestions
