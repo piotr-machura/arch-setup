@@ -166,7 +166,6 @@ floating_layout = layout.Floating(
         {'wmclass': 'ssh-askpass'},    # ssh-askpass
     # User-created floating window rules
     # Run `xprop` to see the wm class
-        {'wmclass': 'galculator'},
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
         {'wmclass': 'spotify'},

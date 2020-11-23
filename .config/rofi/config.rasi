@@ -58,8 +58,8 @@ configuration {
     max-history-size: 0;
     combi-hide-mode-prefix: false;
     window-thumbnail: false;
-    drun-use-desktop-cache: false;
-    drun-reload-desktop-cache: false;
+    drun-use-desktop-cache: true;
+    drun-reload-desktop-cache: true;
     pid: "/run/user/1000/rofi.pid";
 
     kb-primary-paste: "Control+Shift+v";

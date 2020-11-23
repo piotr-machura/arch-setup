@@ -62,7 +62,7 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # -----
 
 #Title
-_term_title () {print -Pn "\e]0; ${PWD/$HOME/~}\a"}
+_term_title () { print -Pn "\e]0; ${PWD/$HOME/~}\a" }
 precmd_functions+=(_term_title)
 
 # Cursors for vi mode
@@ -104,7 +104,7 @@ SPACESHIP_DIR_COLOR="cyan"
 SPACESHIP_VI_MODE_PREFIX=" "
 SPACESHIP_VI_MODE_SUFFIX=""
 SPACESHIP_VI_MODE_INSERT=" "
-SPACESHIP_VI_MODE_NORMAL=$'%{\e[33m%} ' # yellow escape code
+SPACESHIP_VI_MODE_NORMAL=$'%{\e[37m%} ' # white escape code
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=" "
@@ -120,7 +120,7 @@ SPACESHIP_VENV_COLOR="blue"
 
 SPACESHIP_JOBS_PREFIX=" "
 SPACESHIP_JOBS_SUFFIX=""
-SPACESHIP_JOBS_SYMBOL=" "
+SPACESHIP_JOBS_SYMBOL=" "
 SPACESHIP_JOBS_COLOR="yellow"
 SPACESHIP_JOBS_AMOUNT_THRESHOLD=0
 
