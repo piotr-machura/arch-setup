@@ -80,7 +80,7 @@ configuration {
     kb-accept-entry: "Return,KP_Enter";
     kb-accept-custom: "Control+Return";
     kb-accept-alt: "";
-    kb-delete-entry: "Control+d";
+    kb-delete-entry: "";
     kb-mode-next: "";
     kb-mode-previous: "";
     kb-row-left: "";
@@ -212,4 +212,7 @@ configuration {
 }
 #button.selected {
     background-color: @nord8;
+}
+#element-icon {
+    size: 1.8ch;
 }
