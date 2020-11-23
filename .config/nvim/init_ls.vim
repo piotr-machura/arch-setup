@@ -1,7 +1,6 @@
 " -----------------------------
 " NEOVIM TERMINAL EDITOR CONFIG
 " -----------------------------
-" Note: this is a minimal version, without any IDE features
 
 " PLUGINS
 " -------
@@ -20,14 +19,62 @@ Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeta surroundings/commentary with '.'
+
+" IDE features
+Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
+Plug 'nvim-lua/completion-nvim' " Native LSP completion window
+Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
 Plug 'sheerun/vim-polyglot' " Multi-language pack
+Plug 'janko-m/vim-test' " Testing suite
 
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
+Plug 'ap/vim-buftabline' " Buffers displayed in tabline
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 call plug#end()
+
+lua <<EOF
+
+-- Python language server
+require'lspconfig'.pyls.setup {
+    on_attach = require'completion'.on_attach(client);
+    cmd = { "pyls" };
+    settings = {
+        pyls = {
+            plugins = {
+                mccabe = {
+                    enabled = false
+                },
+                pylint = {
+                    enabled = true
+                },
+                pydocstyle = {
+                    enabled = false,
+                    convention = "pep257"
+                }
+            }
+        }
+    };
+}
+
+-- Rust language server
+require'lspconfig'.rust_analyzer.setup{
+    on_attach=require'completion'.on_attach(client)
+}
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = {
+            spacing = 4,
+            prefix = '<',
+        },
+        update_in_insert = false,
+    }
+)
+EOF
 
 " MAPS
 " ----
@@ -40,20 +87,33 @@ nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
-inoremap <A-h> <Esc><C-w>h
-inoremap <A-j> <Esc><C-w>j
-inoremap <A-k> <Esc><C-w>k
-inoremap <A-l> <Esc><C-w>l
+inoremap <A-h> <Esc>h
+inoremap <A-j> <Esc>j
+inoremap <A-k> <Esc>k
+inoremap <A-l> <Esc>l
 
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
 tnoremap <A-k> <C-\><C-N><C-w>k
 tnoremap <A-l> <C-\><C-N><C-w>l
 
-" Easy buffer navigation
-noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
+
+" Easy buffer switching
+nmap g1 <Plug>BufTabLine.Go(1)
+nmap g2 <Plug>BufTabLine.Go(2)
+nmap g3 <Plug>BufTabLine.Go(3)
+nmap g4 <Plug>BufTabLine.Go(4)
+nmap g5 <Plug>BufTabLine.Go(5)
+nmap g6 <Plug>BufTabLine.Go(6)
+nmap g7 <Plug>BufTabLine.Go(7)
+nmap g8 <Plug>BufTabLine.Go(8)
+nmap g9 <Plug>BufTabLine.Go(9)
+nmap g0 <Plug>BufTabLine.Go(10)
+
+" Easy buffer closing
+noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -66,16 +126,33 @@ vnoremap <leader>s "_s
 vnoremap <leader>d "_d
 
 " Undotree, netrw, terminal shortcuts
-nnoremap <silent> <C-u> :UndotreeToggle<CR>
+nnoremap <silent> <C-u> :UndotreeToggle<CR>:call buftabline#update(0)<CR>
 nnoremap <silent><nowait> - :Explore<CR>
 nnoremap <silent> <leader>t :term<CR>
 tnoremap <C-Space> <C-\><C-n>
 tnoremap <F12> <C-\><C-N><C-w>:bd!
 
-" Line splitting from normal mode
+" Insert blank lines above or below from normal mode
 nnoremap <silent> [<space> O<ESC>
 nnoremap <silent> ]<space> o<ESC>
 nnoremap <silent> K a<CR><ESC>
+
+" <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
+imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+
+" Code actions
+nnoremap <silent> <leader>h :silent! lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>r :silent! lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>f :silent! lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
+nnoremap <silent> <leader>o :silent! lua vim.lsp.diagnostic.set_loclist()<CR>
+
+nmap <silent> [g :silent! lua vim.lsp.diagnostic.goto_prev()<CR>
+nmap <silent> ]g :silent! lua vim.lsp.diagnostic.goto_next()<CR>
+
+nnoremap <silent> gd :silent! lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gr :silent! lua vim.lsp.buf.references()<CR>
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
@@ -109,7 +186,6 @@ set splitright
 set title
 set noshowmode
 set laststatus=2
-set conceallevel=2
 set shortmess+=c
 set hidden
 set switchbuf=usetab
@@ -126,6 +202,8 @@ set undodir=$HOME/.cache/nvim/undo
 set list
 set listchars=tab:-,trail:░
 
+let g:python3_host_prog='/usr/bin/python3'
+
 " Netrw configuration
 let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
@@ -134,19 +212,44 @@ let g:netrw_altv = 1
 let g:home = $HOME
 let g:netrw_localrmdir='rm -r'
 
+" Tests in new terminal
+let test#strategy = 'neovim'
+
+" Bufftabline options
+let g:buftabline_show = 1
+let g:buftabline_numbers = 2
+
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 
+" Git branch name
+let g:current_branch_name = ''
+
 " Language pack settings
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
+let g:python_highlight_space_errors = 0
+let g:python_highlight_indent_errors = 1
+let g:python_highlight_class_vars = 1
+let g:python_highlight_exceptions = 1
 
-" Git branch name
-let g:current_branch_name = ''
+" Completion settings
+set completeopt=menuone,noinsert,noselect
+let g:completion_enable_auto_signature = 1
+let g:completion_matching_ignore_case = 1
+let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_paren = 1
+
+" Diagnostic settings
+
+call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
 
 " THEME
 " -----
@@ -162,13 +265,14 @@ let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
         \       'left': [ [ 'mode' ], ['readonly', 'filename', 'modified'] ],
-        \       'right': [ [ 'gitbranch', 'filetype', 'lineinfo' ] ]
+        \       'right': [ [ 'diagnostics', 'gitbranch', 'filetype', 'lineinfo' ] ]
         \ },
         \ 'inactive': {
         \       'left': [ [ 'filename' ] ],
         \       'right': [ [ 'filetype' ] ]
         \ },
         \ 'component_function': {
+        \   'diagnostics': 'LightlineDiagnostics',
         \   'gitbranch': 'LightlineGitBranch',
         \   'filetype': 'LightlineFiletype',
         \   'lineinfo': 'LightlineLineinfo',
@@ -180,15 +284,20 @@ let g:lightline = {
 
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
-let g:indentLine_setConceal = 0
 
 " CLIPBOARD
 " ---------
 
 let g:clipboard = {
   \   'name': 'xclip',
-  \   'copy': {'+': 'xclip -selection clipboard', '*': 'xclip -selection clipboard'},
-  \   'paste': {'+': 'xclip -selection clipboard -o', '*': 'xclip -selection clipboard -o'},
+  \   'copy': {
+  \      '+': 'xclip -selection clipboard',
+  \      '*': 'xclip -selection clipboard',
+  \    },
+  \   'paste': {
+  \      '+': 'xclip -selection clipboard -o',
+  \      '*': 'xclip -selection clipboard -o',
+  \   },
   \   'cache_enabled': 1,
   \ }
 set clipboard+=unnamedplus
@@ -196,6 +305,7 @@ set clipboard+=unnamedplus
 " FUNCTIONS
 " ---------
 
+" Lightline elements
 function! s:set_git_branch() abort
     let git_output = trim(system('git branch --show-current'))
     if stridx(git_output, 'fatal: not a git repository')!=-1
@@ -212,10 +322,50 @@ function! s:bad_buffer() abort
     return 0
 endfunction
 
+function! LightlineFiletype() abort
+    return strlen(&filetype) || <SID>bad_buffer() ? ' '.&filetype : ''
+endfunction
+
+function! LightlineFilename() abort
+    return <SID>bad_buffer() ? "" : expand("%:t")
+endfunction
+
+function! LightlineLineinfo() abort
+    return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$')
+endfunction
+
+function! LightlineGitBranch() abort
+    if len(g:current_branch_name) | return " " . g:current_branch_name | endif
+    return ""
+endfunction
+
+function! LightlineReadonly() abort
+    return &readonly ? "ﰸ Read-only" :  ""
+endfunction
+
+function! LightlineModified() abort
+    return &modified ? " " : ""
+endfunction
+
+function! LightlineDiagnostics() abort
+    return ""
+    if <SID>bad_buffer() || winwidth(0) < 70 | return '' | endif
+    if empty(info) | return '' | endif
+    let info = luaeval("require('lsp-status').diagnostics()")
+    let msgs = []
+    if get(info, 'errors', 0) | call add(msgs, ' ' . info['errors']) | endif
+    if get(info, 'warnings', 0) | call add(msgs, ' ' . info['warnings']) | endif
+    if get(info, 'info', 0) | call add(msgs, ' ' . info['info']) | endif
+    if get(info, 'hints', 0) | call add(msgs, ' ' . info['hints']) | endif
+    return join(msgs, ' ')
+endfunction
+
 function! s:get_title_string() abort
-    let old_title = &titlestring
-    if <SID>bad_buffer() | return old_title | endif
-    return " ". substitute(getcwd(), g:home, "~", "")."  ".fnamemodify(expand("%"), ":~:.")
+    let title = " "
+    let title = title . substitute(getcwd(), g:home, "~", "")
+    let title = title . "  "
+    let title = title . fnamemodify(expand("%"), ":~:.")
+    return title
 endfunction
 
 function s:prose_ftplugin() abort
@@ -243,7 +393,7 @@ function s:prose_ftplugin() abort
     " Conceal the call to vim filetype
     syntax match Normal '# vim: set filetype=prose:' conceal
     " Goyo keyboard shortcut
-    nnoremap <buffer><silent> <leader>f :Goyo<CR>
+    nnoremap <buffer><silent> <leader>f :Goyo<CR>:execute 'set showtabline=' . (&showtabline == 0 ? 1 : 0)<CR>
 endfunction
 
 function! s:netrw_mappings() abort
@@ -254,38 +404,18 @@ function! s:netrw_mappings() abort
     setlocal eventignore+=CursorHold
 endfunction
 
-" Lightline elements
-function! LightlineFiletype() abort
-    return strlen(&filetype) || <SID>bad_buffer() ? ' '.&filetype : ''
-endfunction
-function! LightlineFilename() abort
-    return <SID>bad_buffer() ? "" : expand("%:t") 
-endfunction
-function! LightlineLineinfo() abort
-    return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') 
-endfunction
-function! LightlineGitBranch() abort
-    if len(g:current_branch_name) | return " " . g:current_branch_name | endif
-    return ""
-endfunction
-function! LightlineReadonly() abort
-    return &readonly ? "ﰸ Read-only" :  ""
-endfunction
-function! LightlineModified() abort
-    return &modified ? " " : ""
-endfunction
-
 " AUTOCMDS
 " --------
 
 augroup user_created
     autocmd!
     autocmd VimEnter,DirChanged * call <SID>set_git_branch()
-    autocmd BufEnter * let &titlestring=<SID>get_title_string()
+    autocmd DirChanged,BufWinEnter * let &titlestring=<SID>get_title_string()
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+    autocmd BufWritePre *.rs,*.py silent! lua vim.lsp.buf.formatting_sync(nil, 1000)
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
     autocmd FileType prose call <SID>prose_ftplugin()
