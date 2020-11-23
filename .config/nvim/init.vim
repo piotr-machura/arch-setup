@@ -20,7 +20,6 @@ Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeta surroundings/commentary with '.'
 Plug 'sheerun/vim-polyglot' " Multi-language pack
-
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
@@ -36,14 +35,6 @@ nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
-inoremap <A-h> <Esc><C-w>h
-inoremap <A-j> <Esc><C-w>j
-inoremap <A-k> <Esc><C-w>k
-inoremap <A-l> <Esc><C-w>l
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
 
 noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 nnoremap <silent> gb :bnext<CR>
@@ -64,8 +55,8 @@ nnoremap <silent><nowait> - :Explore<CR>
 tnoremap <C-\> <C-\><C-n>
 
 " Line splitting from normal mode
-nnoremap <silent> [<space> O<ESC>
-nnoremap <silent> ]<space> o<ESC>
+nnoremap <silent> [<CR> O<ESC>
+nnoremap <silent> ]<CR> o<ESC>
 nnoremap <silent> K a<CR><ESC>
 
 " Disable middle mouse click
@@ -175,7 +166,7 @@ function! s:set_git_branch() abort
 endfunction
 
 function! s:bad_buffer() abort
-    " Disable lightline elements for theeses buffer types
+    " Disable lightline elements for certain buffer types
     let names = [ "undotree", "diff", "netrw", "vim-plug" ]
     for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
@@ -226,10 +217,10 @@ function! LightlineGitbranch() abort
     return ""
 endfunction
 function! LightlineReadonly() abort
-    return &readonly ? "ﰸ Read-only" :  ""
+    return &readonly && !<SID>bad_buffer() ? "ﰸ Read-only" :  ""
 endfunction
 function! LightlineModified() abort
-    return &modified ? " " : ""
+    return &modified && !<SID>bad_buffer() ? " " : ""
 endfunction
 
 " AUTOCMDS
