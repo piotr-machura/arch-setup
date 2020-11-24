@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+# Compare the local and global .desktop files with vimdiff
+if [ "$1" = "--help" ]; then
+    # display usage if no parameters given
+    echo "Compare local XDG menu entries with systemwide location"
+    echo "using vimdiff"
+    exit 1
+else
+    vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")
+fi
+

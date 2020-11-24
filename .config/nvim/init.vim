@@ -23,25 +23,17 @@ Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
-Plug 'junegunn/goyo.vim' " Distraction-free mode
 call plug#end()
 
 " MAPS
 " ----
 
-" Navigation
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+let g:mapleader = " "
 
-noremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
+" Buffer management
+nnoremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
-
-nnoremap <silent> U :UndotreeToggle<CR>
-nnoremap <silent><nowait> - :Explore<CR>
-tnoremap <C-\> <C-\><C-n>
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -60,15 +52,14 @@ nnoremap <silent> K a<CR><ESC>
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
 map <2-MiddleMouse> <Nop>
-map <3-MiddleMouse> <Nop>
-map <4-MiddleMouse> <Nop>
 imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
-imap <3-MiddleMouse> <Nop>
-imap <4-MiddleMouse> <Nop>
 
-" Disable autopair toggling
-let g:AutoPairsShortcutToggle = ''
+" Other shortcuts
+nnoremap <silent> <C-u> :UndotreeToggle<CR>
+nnoremap <silent><nowait> - :Explore<CR>
+tnoremap <C-space> <C-\><C-n>
+let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " SETTINGS
 " --------
@@ -160,25 +151,7 @@ function! s:bad_buffer() abort
 endfunction
 
 function! s:get_title_string() abort
-    let old_title = &titlestring
-    if <SID>bad_buffer() | return old_title | endif
     return " ". substitute(getcwd(), g:home, "~", "")."  ".fnamemodify(expand("%"), ":~:.")
-endfunction
-
-function s:prose_ftplugin() abort
-    " Spellfile in the same dir as the file itself
-    let &spellfile=expand('%:p:h').'/pl.add'
-    setlocal spell spelllang=pl,en_us spellsuggest+=5
-    " Put dialogue dash instead of --
-    iabbrev <buffer> -- —
-    setlocal noautoindent nobreakindent nosmartindent nocindent noexpandtab
-    setlocal wrap linebreak scrolloff=0 display=lastline nolist nonumber
-    " Conceal the call to vim filetype
-    syntax match Normal '# vim: set filetype=prose:' conceal
-    " Keyboard shortcuts
-    nnoremap <buffer><silent> <leader>f :Goyo<CR>
-    nnoremap <buffer> j gj
-    nnoremap <buffer> k gk
 endfunction
 
 function! s:netrw_mappings() abort
@@ -194,7 +167,7 @@ function! LightlineFiletype() abort
     return strlen(&filetype) ? ' '.&filetype : ''
 endfunction
 function! LightlineFilename() abort
-    return <SID>bad_buffer() ? "" : expand("%:t") 
+    return <SID>bad_buffer() ? "" : expand("%:t")
 endfunction
 function! LightlineLineinfo() abort
     return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') 
@@ -215,9 +188,12 @@ augroup user_created
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber
-    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
-    autocmd FileType prose call <SID>prose_ftplugin()
 augroup END
 
+" EXTRA SCRIPTS
+" -------------
+
+exec 'source '.stdpath('config').'/prose.vim'
+" exec 'source'.stdpath('config').'/lsp.vim'
