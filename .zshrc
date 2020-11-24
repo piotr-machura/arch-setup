@@ -23,6 +23,8 @@ alias venv='python3 -m venv .venv && echo "Created a new virtual environment at 
 alias activate='source .venv/bin/activate'
 alias pkgclean='paru -Rns $(paru -Qdtq); paru -Scc'
 alias htop='print -Pn "\e]0;htop\a";htop' # Change htop window title
+alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
+alias open='mimeopen'
 
 # CLEAR ON EMPTY INPUT
 # --------------------

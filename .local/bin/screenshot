@@ -6,24 +6,20 @@ screenshot_id=$(date +%s)
 file_path="$HOME/Pictures/screenshot_$screenshot_id.png"
 icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
 
-if [ -z $1 ];
-then
+if [ -z $1 ]; then
     maim --select --highlight --bordersize=4 --color=0.816,0.529,0.439,0.15 \
         --hidecursor "$file_path" && \
             action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
                 --icon="$icon_path" --action="open,open")
-elif [ "$1" = "full" ];
-then
+elif [ "$1" = "full" ]; then
     maim $file_path && \
         action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
             --icon="$icon_path" --action="open,open")
 else
-    echo "Unknown option"
+    echo "Unknown option: $1"
     exit 1
 fi
 
-if [ "$action" = "open" ];
-then
+if [ "$action" = "open" ]; then
     xdg-open $file_path
 fi
-
