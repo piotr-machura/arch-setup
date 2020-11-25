@@ -1,8 +1,10 @@
+# -----------------
+# PACKAGE LIST HOOK
+# -----------------
 # Dump all explicitly installed packages to
 # ~/.local/share/pacman/PKGLIST
-# -----------------------------------------
 # Note: this file needs to be hard linked to
-# /usr/share/libalpm/hooks/.
+# /usr/share/libalpm/hooks
 # AND sudo has to preserve $HOME
 
 [Trigger]

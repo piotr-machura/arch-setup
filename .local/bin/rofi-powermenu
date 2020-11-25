@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-# Based on scripts by @adi1090x
+# ROFI POWERMENU
+# --------------
+# Display interactive powermenu using rofi
+# and the rofi config found at $XDG_CONFIG_HOME/rofi
+# Note: based on 'rofi-scripts' by @adi1090x
 
 # Options
 shutdown=" "

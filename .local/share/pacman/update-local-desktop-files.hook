@@ -1,16 +1,18 @@
-# Update desktop files at
-# ~/.local/share/applications
-# ---------------------------
+# ----------------------------
+# LOCAL DESKTOP FILE SYNC HOOK
+# ----------------------------
+# Copies all newly added .desktop files to
+# # ~/.local/share/applications
 # Note: this file needs to be hard linked to
-# /usr/share/libalpm/hooks/.
+# /usr/share/libalpm/hooks
 # AND sudo has to preserve $HOME
 
 [Trigger]
-Type = Package 
+Type = Package
 Operation = Install
 Target = *
 
 [Action]
 Description = Adding local desktop entries... 
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/cp -rn /usr/share/applications/*.desktop $HOME/.local/share/applications/.; /usr/bin/chown -R $(cut -d'/' -f3 <<<$HOME) $HOME/.local/share/applications'
+Exec = /bin/sh -c '/usr/bin/cp -rn /usr/share/applications/*.desktop $HOME/.local/share/applications; /usr/bin/chown -R $(cut -d'/' -f3 <<<$HOME) $HOME/.local/share/applications'

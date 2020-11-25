@@ -1,6 +1,9 @@
 #!/usr/bin/env zsh
 
-# Use maim to take a screenshot and push an interactive notification with dunstify
+# MAIM SCREENSHOT WRAPPER
+# -----------------------
+# Use maim to take a screenshot and push
+# an interactive notification with dunstify
 
 screenshot_id=$(date +%s)
 file_path="$HOME/Pictures/screenshot_$screenshot_id.png"
