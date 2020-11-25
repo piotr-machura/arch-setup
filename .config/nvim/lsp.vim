@@ -7,7 +7,6 @@
 " PLUGINS
 " -------
 
-call plug#begin(stdpath('data').'/vim-plug')
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 Plug 'nvim-lua/lsp-status.nvim' " Native LSP status

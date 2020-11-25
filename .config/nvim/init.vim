@@ -23,6 +23,9 @@ Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
+Plug 'junegunn/goyo.vim' " Distraction-free mode
+" Optional LSP functionality
+" exec 'source'.stdpath('config').'/lsp.vim'
 call plug#end()
 
 " MAPS
@@ -190,10 +193,6 @@ augroup user_created
     autocmd TermOpen * setlocal nonumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
+    autocmd FileType vim setlocal nomodeline
+    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 augroup END
-
-" EXTRA SCRIPTS
-" -------------
-
-exec 'source '.stdpath('config').'/prose.vim'
-" exec 'source'.stdpath('config').'/lsp.vim'
