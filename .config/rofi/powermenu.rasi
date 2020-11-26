@@ -20,7 +20,7 @@ configuration {
 
 #window {
     width: 6%;
-    height: 38%;
+    height: 38.5%;
     anchor: east;
     location: east;
     x-offset: 0px;

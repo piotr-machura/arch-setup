@@ -2,7 +2,6 @@
 # ALACRITTY TERMINAL EMULATOR CONFIG
 # ----------------------------------
 
-live_config_reload: true
 env:
   TERM: xterm-256color
 
@@ -111,10 +110,10 @@ mouse_bindings:
   - { mouse: Middle, action: None}
 
 key_bindings:
-  - { key: V,        mods: Control|Alt,   action: Paste            }
-  - { key: C,        mods: Control|Alt,   action: Copy             }
-  - { key: F,        mods: Control|Alt,   action: SearchForward    }
-  - { key: B,        mods: Control|Alt,   action: SearchBackward   }
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: F,        mods: Control|Shift, action: SearchForward    }
+  - { key: B,        mods: Control|Shift, action: SearchBackward   }
   - { key: Key0,     mods: Control,       action: ResetFontSize    }
   - { key: Equals,   mods: Control,       action: IncreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
