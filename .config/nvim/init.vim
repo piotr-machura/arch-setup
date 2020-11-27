@@ -68,10 +68,11 @@ let g:AutoPairsShortcutToggle = "\<C-p>"
 " --------
 
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround
-set nowrap scrolloff=4 sidescrolloff=8
-set number numberwidth=3 signcolumn=number
+set nowrap scrolloff=4 sidescrolloff=8 cursorline
+set number relativenumber numberwidth=3 signcolumn=number
 set splitbelow splitright
 set noshowmode laststatus=2 title
+set titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
 set conceallevel=2 concealcursor=inc shortmess+=c hidden
 set updatetime=300 switchbuf=usetab
 set undofile nobackup autowrite nowritebackup
@@ -83,7 +84,6 @@ let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
-let g:home = $HOME
 let g:netrw_home = $HOME.'/.cache/nvim'
 let g:netrw_localrmdir='rm -r'
 
@@ -149,13 +149,9 @@ set clipboard+=unnamedplus
 
 function! s:bad_buffer() abort
     " Disable lightline elements for certain buffer types
-    let names = [ "undotree", "diff", "netrw", "vim-plug" ]
+    let names = [ 'undotree', 'diff', 'netrw', 'vim-plug' ]
     for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
-endfunction
-
-function! s:get_title_string() abort
-    return " ". substitute(getcwd(), g:home, "~", "")."  ".fnamemodify(expand("%"), ":~:.")
 endfunction
 
 function! s:netrw_mappings() abort
@@ -171,16 +167,16 @@ function! LightlineFiletype() abort
     return strlen(&filetype) ? ' '.&filetype : ''
 endfunction
 function! LightlineFilename() abort
-    return <SID>bad_buffer() ? "" : expand("%:t")
+    return <SID>bad_buffer() ? '' : expand('%:t')
 endfunction
 function! LightlineLineinfo() abort
     return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') 
 endfunction
 function! LightlineReadonly() abort
-    return &readonly && !<SID>bad_buffer() ? " Read-only" :  ""
+    return &readonly && !<SID>bad_buffer() ? ' Read-only' :  ''
 endfunction
 function! LightlineModified() abort
-    return &modified && !<SID>bad_buffer() ? " " : ""
+    return &modified && !<SID>bad_buffer() ? ' ' : ''
 endfunction
 
 " AUTOCMDS
@@ -188,10 +184,9 @@ endfunction
 
 augroup user_created
     autocmd!
-    autocmd BufEnter * let &titlestring=<SID>get_title_string()
     autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
-    autocmd TermOpen * setlocal nonumber
+    autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType netrw call <SID>netrw_mappings()
     autocmd FileType vim setlocal nomodeline

@@ -3,12 +3,9 @@
 # ----------------------------------
 
 import subprocess
-from typing import List
 import re
-from collections import OrderedDict
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
-from libqtile.widget.battery import BatteryState, BatteryStatus
 from libqtile.lazy import lazy
 # pylint: disable=invalid-name,protected-access,line-too-long
 
@@ -32,52 +29,57 @@ def autostart():
 
 # KEYBINDINGS
 # -----------
+win = 'mod4'
+shift = 'shift'
+ctrl = 'control'
 
 keys = [
 
     # Switch between windows in current stack pane
-    Key(["mod4"], "h", lazy.layout.left()),
-    Key(["mod4"], "j", lazy.layout.down()),
-    Key(["mod4"], "k", lazy.layout.up()),
-    Key(["mod4"], "l", lazy.layout.right()),
+    Key([win], 'h', lazy.layout.left()),
+    Key([win], 'j', lazy.layout.down()),
+    Key([win], 'k', lazy.layout.up()),
+    Key([win], 'l', lazy.layout.right()),
 
     # Move windows up or down in current stack
-    Key(["mod4", "shift"], "h", lazy.layout.swap_left()),
-    Key(["mod4", "shift"], "j", lazy.layout.shuffle_down()),
-    Key(["mod4", "shift"], "k", lazy.layout.shuffle_up()),
-    Key(["mod4", "shift"], "l", lazy.layout.swap_right()),
-    Key(["mod4"], "equal", lazy.layout.grow()),
-    Key(["mod4"], "minus", lazy.layout.shrink()),
-    Key(["mod4"], "0", lazy.layout.normalize()),
-    Key(["mod4"], "p", lazy.next_layout()),
-    Key(["mod4"], "Return", lazy.spawn("alacritty")),
-    Key(["mod4"], "w", lazy.spawn("firefox")),
-    Key(["mod4"], "f", lazy.spawn("spacefm")),
-    Key(["mod4"], "s", lazy.spawn("spotify")),
-    Key(["mod4"], "i", lazy.spawn("nm-connection-editor")),
-    Key(["mod4"], "space", lazy.spawn("rofi -show drun")),
-    Key(
-        ["mod4"], "c",
-        lazy.spawn("rofi -show calc -lines 0 -terse -no-history")),
-    Key([], "Print", lazy.spawn("screenshot")),
-    Key(["control"], "Print", lazy.spawn("screenshot full")),
-    Key(["mod4"], "q", lazy.window.kill()),
-    Key(["mod4", "control"], "r", lazy.restart()),
-    Key(["mod4", "control"], "q", lazy.spawn("rofi-powermenu")),
+    Key([win, shift], 'h', lazy.layout.swap_left()),
+    Key([win, shift], 'j', lazy.layout.shuffle_down()),
+    Key([win, shift], 'k', lazy.layout.shuffle_up()),
+    Key([win, shift], 'l', lazy.layout.swap_right()),
+    Key([win], 'equal', lazy.layout.grow()),
+    Key([win], 'minus', lazy.layout.shrink()),
+    Key([win], '0', lazy.layout.normalize()),
+    Key([win], 'p', lazy.next_layout()),
+    Key([win], 'Return', lazy.spawn('alacritty')),
+    Key([win], 'w', lazy.spawn('firefox')),
+    Key([win], 'f', lazy.spawn('spacefm')),
+    Key([win], 's', lazy.spawn('spotify')),
+    Key([win], 'i', lazy.spawn('nm-connection-editor')),
+    Key([win], 'space', lazy.spawn('rofi -show drun')),
+    Key([win], 'c', lazy.spawn('rofi -show calc -lines 0 -terse -no-history')),
+    Key([], 'Print', lazy.spawn('screenshot')),
+    Key([shift], 'Print', lazy.spawn('screenshot full')),
+    Key([win], 'q', lazy.window.kill()),
+    Key([win, ctrl], 'r', lazy.restart()),
+    Key([win, ctrl], 'q', lazy.spawn('rofi-powermenu')),
+    Key([win], 'Tab', lazy.screen.toggle_group()),
 ]
 
 mouse = [
     Drag(
-        ["mod4"],
-        "Button1",
+        [win],
+        'Button1',
         lazy.window.set_position_floating(),
         start=lazy.window.get_position()),
     Drag(
-        ["mod4"],
-        "Button3",
+        [win],
+        'Button3',
         lazy.window.set_size_floating(),
         start=lazy.window.get_size()),
-    Click(["mod4"], "Button2", lazy.window.toggle_floating())
+    Click(
+        [win],
+        'Button2',
+        lazy.window.toggle_floating()),
 ]
 
 follow_mouse_focus = False
@@ -92,15 +94,16 @@ groups = [Group(str(i + 1)) for i in range(5)]
 for i in groups:
     keys.extend(
         [
-            Key(["mod4"], i.name, lazy.group[i.name].toscreen()),
+            Key([win],
+                i.name,
+                lazy.group[i.name].toscreen()),
             Key(
-                ["mod4", "shift"],
+                [win, shift],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
-            ),
-        ])
-
-keys.append(Key(["mod4"], "Tab", lazy.screen.toggle_group()))
+            )
+        ]
+    )
 
 dgroups_key_binder = None
 dgroups_app_rules = []    # type: List
@@ -109,29 +112,17 @@ dgroups_app_rules = []    # type: List
 # -------
 
 nord_colors = [
-    '#2E3440',
-    '#3b4252',
-    '#434c5e',
-    '#4c566a',
-    '#d8dee9',
-    '#e5e9f0',
-    '#eceff4',
-    '#8fbcbb',
-    '#88c0d0',
-    '#81a1c1',
-    '#5e81ac',
-    '#bf616a',
-    '#d08770',
-    '#ebcb8b',
-    '#a3be8c',
-    '#b48ead',
+    '#2E3440', '#3b4252', '#434c5e', '#4c566a',
+    '#d8dee9', '#e5e9f0', '#eceff4', '#8fbcbb',
+    '#88c0d0', '#81a1c1', '#5e81ac', '#bf616a',
+    '#d08770', '#ebcb8b', '#a3be8c', '#b48ead',
 ]
 
 theme_layout = {
-    "border_width": 4,
-    "margin": 10,
-    "border_focus": nord_colors[8],
-    "border_normal": nord_colors[3],
+    'border_width': 4,
+    'margin': 10,
+    'border_focus': nord_colors[8],
+    'border_normal': nord_colors[3],
 }
 
 layouts = [
@@ -141,8 +132,8 @@ layouts = [
         max_ratio=0.9,
         min_ratio=0.1,
         change_ratio=0.05,
-        single_border_width=theme_layout["border_width"],
-        single_margin=theme_layout["margin"],
+        single_border_width=theme_layout['border_width'],
+        single_margin=theme_layout['margin'],
         name=' ',
         **theme_layout),
     layout.Max(name=' ', **theme_layout),
@@ -173,20 +164,19 @@ floating_layout = layout.Floating(
     **theme_layout)
 
 auto_fullscreen = True
-focus_on_window_activation = "smart"
-wmname = "Qtile"
+focus_on_window_activation = 'smart'
+wmname = 'Qtile'
 
 # SCREENS & WIDGETS
 # -----------------
-
 
 class PamixerVolume(widget.base._TextBox):
     """Volume widget using the pamixer tool."""
 
     orientations = widget.base.ORIENTATION_HORIZONTAL
     defaults = [
-        ("padding", 3, "Padding left and right. Calculated if None."),
-        ("update_interval", 0.2, "Update time in seconds."),
+        ('padding', 3, 'Padding left and right. Calculated if None.'),
+        ('update_interval', 0.2, 'Update time in seconds.'),
     ]
 
     def __init__(self, **config):
@@ -195,8 +185,8 @@ class PamixerVolume(widget.base._TextBox):
         self.surfaces = {}
         self.volume = None
         self.mouse_callbacks = {
-            'Button1': lambda: subprocess.Popen(["pamixer", "--toggle-mute"]),
-            'Button3': lambda: subprocess.Popen(["pavucontrol"]),
+            'Button1': lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
+            'Button3': lambda: subprocess.Popen(['pavucontrol']),
         }
 
     def timer_setup(self):
@@ -213,14 +203,14 @@ class PamixerVolume(widget.base._TextBox):
     def get_volume():
         """Use pamixer to find current volume."""
         p_outcome = subprocess.Popen(
-            ["pamixer", "--get-volume"], stdout=subprocess.PIPE)
+            ['pamixer', '--get-volume'], stdout=subprocess.PIPE)
         volume, _ = p_outcome.communicate()
         p_outcome = subprocess.Popen(
-            ["pamixer", "--get-mute"], stdout=subprocess.PIPE)
+            ['pamixer', '--get-mute'], stdout=subprocess.PIPE)
         muted, _ = p_outcome.communicate()
-        if "true" in str(muted):
+        if 'true' in str(muted):
             return -1
-        volume = re.sub(r"[b'\\n]", "", str(volume))
+        volume = re.sub(r"[b'\\n]", '', str(volume))
         return int(volume)
 
     def _update_drawer(self):
@@ -242,50 +232,12 @@ class PamixerVolume(widget.base._TextBox):
         self.timeout_add(self.update_interval, self.update)
 
 
-class Battery(widget.battery.Battery):
-    """Default Battery widget modified to display NerdFont icons alongside
-    percentage.
-    """
-    def build_string(self, status: BatteryStatus) -> str:
-        if self.layout is not None:
-            if status.state == BatteryState.DISCHARGING \
-                    and status.percent < self.low_percentage:
-                self.layout.colour = self.low_foreground
-            else:
-                self.layout.colour = self.foreground
-        percent = int(status.percent * 100)
-        if status.state == BatteryState.FULL:
-            return f" {percent}%"
-        if status.state == BatteryState.CHARGING:
-            return f" {percent}%"
-
-        status_symbols = OrderedDict(
-            {
-                90: f" {percent}%",
-                80: f" {percent}%",
-                70: f" {percent}%",
-                60: f" {percent}%",
-                50: f" {percent}%",
-                40: f" {percent}%",
-                30: f" {percent}%",
-                20: f" {percent}%",
-                10: f" {percent}%",
-                5: f" {percent}%",
-                0: f" {percent}%",
-            })
-
-        for percentage in status_symbols:
-            if percent >= percentage:
-                return status_symbols[percentage]
-        return " ???"
-
-
 widget_defaults = {
-    "font": 'NotoSans Nerd Font',
-    "padding": 4,
-    "foreground": nord_colors[6],
-    "markup": True,
-    "fontsize": 14,
+    'font': 'NotoSans Nerd Font',
+    'padding': 4,
+    'foreground': nord_colors[6],
+    'markup': True,
+    'fontsize': 14,
 }
 
 screens = [
@@ -314,8 +266,8 @@ screens = [
                 PamixerVolume(
                     fontsize=18,
                     update_interval=2.5,
+                    padding=6,
                 ),
-                Battery(),
                 widget.CurrentLayout(),
                 widget.Clock(format='%H:%M'),
                 widget.Spacer(length=5),    # pylint: disable=no-member

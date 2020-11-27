@@ -2,24 +2,36 @@
 " NEOVIM PROSE FILETYPE
 " ---------------------
 
-let b:did_ftplugin = 1
+" SETTINGS
+" --------
 
-" Enable spellchacking
-setlocal spell spelllang=pl,en_us spellsuggest+=5
+setlocal noautoindent
+setlocal nobreakindent
+setlocal nosmartindent
+setlocal nocindent
+setlocal noexpandtab
+setlocal wrap
+setlocal linebreak
+setlocal scrolloff=0
+setlocal display=lastline
+setlocal nolist
+setlocal nonumber
+setlocal nocursorline
 
-" Spellfile in the same dir as the file itself
-let &spellfile=expand('%:p:h').'/pl.add'
+" SPELLCHECKING
+" -------------
 
-" Put dialogue dash instead of --
+setlocal spell
+setlocal spelllang=pl,en_us
+setlocal spellsuggest+=5
+let &spellfile=expand('%:p:h').'/pl.add' " Spellfile in the same dir as the file itself
+
+" MAPS
+" ----
+
 iabbrev <buffer> -- —
-
-" Remove all indentation
-setlocal noautoindent nobreakindent nosmartindent nocindent noexpandtab
-
-" Wrap long lines
-setlocal wrap linebreak scrolloff=0 display=lastline nolist nonumber
-
-" Keyboard shortcuts
 nnoremap <buffer><silent> <leader>f :Goyo<CR>
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk
+
+let b:did_ftplugin = 1
