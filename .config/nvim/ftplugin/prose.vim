@@ -16,6 +16,7 @@ setlocal scrolloff=0
 setlocal display=lastline
 setlocal nolist
 setlocal nonumber
+setlocal norelativenumber
 setlocal nocursorline
 
 " SPELLCHECKING
@@ -30,7 +31,6 @@ let &spellfile=expand('%:p:h').'/pl.add' " Spellfile in the same dir as the file
 " ----
 
 iabbrev <buffer> -- —
-nnoremap <buffer><silent> <leader>f :Goyo<CR>
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk
 

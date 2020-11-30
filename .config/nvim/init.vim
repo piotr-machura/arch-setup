@@ -58,26 +58,27 @@ map <2-MiddleMouse> <Nop>
 imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 
-" Other shortcuts
+" Other maps
 nnoremap <silent> <C-u> :UndotreeToggle<CR>
 nnoremap <silent><nowait> - :Explore<CR>
 tnoremap <C-space> <C-\><C-n>
+nnoremap <silent> <leader>g :Goyo<CR>
+nnoremap <silent> <leader>s :call <SID>strip_whitespace()<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " SETTINGS
 " --------
 
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround
-set nowrap scrolloff=4 sidescrolloff=8 cursorline
-set number relativenumber numberwidth=3 signcolumn=number
-set splitbelow splitright
-set noshowmode laststatus=2 title
+set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
+set nowrap      scrolloff=4     cursorline      sidescrolloff=8
+set number      relativenumber  numberwidth=3   signcolumn=number
+set hidden      shortmess+=c    conceallevel=2  concealcursor=""
+set undofile    nobackup        autowrite       nowritebackup
+set mouse+=ar   updatetime=300  switchbuf=usetab
+set noshowmode  laststatus=2    title
+set splitbelow  splitright
+set list        listchars=tab:-,trail:·
 set titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
-set conceallevel=2 concealcursor=inc shortmess+=c hidden
-set updatetime=300 switchbuf=usetab
-set undofile nobackup autowrite nowritebackup
-set list listchars=tab:-,trail:░
-set mouse+=ar
 
 " Netrw configuration
 let g:netrw_browse_split = 0
@@ -96,14 +97,7 @@ let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 let g:undotree_Splitwidth = 10
 
-" Language pack configuration
-let g:vim_json_syntax_conceal = 0
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
-
-" THEME
-" -----
-
+"Theme configuration
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
@@ -111,6 +105,7 @@ let g:nord_italic_comments = 1
 let g:nord_underline = 1
 colorscheme nord
 
+" Statusline configuration
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
@@ -129,9 +124,15 @@ let g:lightline = {
         \ },
         \ }
 
+" Indentline configuration
 let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
 let g:indentLine_setConceal = 0
+
+" Goyo configuration
+let g:goyo_height = '100%'
+let g:goyo_width = 85
+let g:goyo_linenr = 0
 
 " CLIPBOARD
 " ---------
@@ -147,19 +148,21 @@ set clipboard+=unnamedplus
 " FUNCTIONS
 " ---------
 
+function! s:strip_whitespace() abort
+    " Preserve last search buffer
+    let _s = @/
+    %substitute/\s\+$//e
+    let @/ = _s
+    nohlsearch
+    unlet _s
+    echo 'Stripped trailing whitespace'
+endfunction
+
 function! s:bad_buffer() abort
-    " Disable lightline elements for certain buffer types
+    " Disable lightline elements for these buffer types
     let names = [ 'undotree', 'diff', 'netrw', 'vim-plug' ]
     for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
     return 0
-endfunction
-
-function! s:netrw_mappings() abort
-    nmap <buffer> l <CR>
-    nmap <buffer> L gn
-    nmap <buffer> h <Plug>NetrwBrowseUpDir()
-    noremap <silent><buffer> - :bd!<CR>
-    setlocal eventignore+=CursorHold
 endfunction
 
 " Lightline elements
@@ -167,16 +170,16 @@ function! LightlineFiletype() abort
     return strlen(&filetype) ? ' '.&filetype : ''
 endfunction
 function! LightlineFilename() abort
-    return <SID>bad_buffer() ? '' : expand('%:t')
+    return b:bad_buffer ? '' : expand('%:t')
 endfunction
 function! LightlineLineinfo() abort
-    return <SID>bad_buffer() || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$') 
+    return b:bad_buffer || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$')
 endfunction
 function! LightlineReadonly() abort
-    return &readonly && !<SID>bad_buffer() ? ' Read-only' :  ''
+    return &readonly && !b:bad_buffer  ? ' Read-only' :  ''
 endfunction
 function! LightlineModified() abort
-    return &modified && !<SID>bad_buffer() ? ' ' : ''
+    return &modified && !b:bad_buffer ? ' ' : ''
 endfunction
 
 " AUTOCMDS
@@ -184,11 +187,9 @@ endfunction
 
 augroup user_created
     autocmd!
-    autocmd VimEnter * if &diff | cmap q qa| endif
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
-    autocmd FileType netrw call <SID>netrw_mappings()
-    autocmd FileType vim setlocal nomodeline
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+    autocmd BufEnter,BufWinEnter * let b:bad_buffer = <SID>bad_buffer()
 augroup END

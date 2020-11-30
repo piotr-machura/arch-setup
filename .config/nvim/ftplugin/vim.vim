@@ -1,0 +1,5 @@
+" DISABLE MODELINES
+" -----------------
+
+setlocal nomodeline
+

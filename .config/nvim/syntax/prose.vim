@@ -4,5 +4,4 @@
 
 syntax match Normal "# vim: filetype=prose" conceal
 syntax match TODO '&&&'
-syntax match TODO '%%%'
-syntax match ERROR '\$\$\$'
+syntax match ERROR '%%%'
