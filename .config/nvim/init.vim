@@ -25,7 +25,7 @@ Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 " Optional LSP functionality
-" exec 'source'.stdpath('config').'/lsp.vim'
+" exec 'source '.stdpath('config').'/lsp.vim'
 call plug#end()
 
 " MAPS
@@ -40,12 +40,17 @@ nnoremap <silent> gB :bprev<CR>
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
+nnoremap <leader>X "_X
 nnoremap <leader>s "_s
+nnoremap <leader>S "_S
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
 vnoremap <leader>x "_x
+vnoremap <leader>X "_X
 vnoremap <leader>s "_s
+vnoremap <leader>S "_S
 vnoremap <leader>d "_d
+vnoremap <leader>D "_D
 
 " Line splitting from normal mode
 nnoremap <silent> [<CR> O<ESC>
@@ -149,12 +154,11 @@ set clipboard+=unnamedplus
 " ---------
 
 function! s:strip_whitespace() abort
-    " Preserve last search buffer
-    let _s = @/
+    let last_search = @/
     %substitute/\s\+$//e
-    let @/ = _s
+    let @/ = last_search
     nohlsearch
-    unlet _s
+    unlet last_search
     echo 'Stripped trailing whitespace'
 endfunction
 
@@ -167,7 +171,7 @@ endfunction
 
 " Lightline elements
 function! LightlineFiletype() abort
-    return strlen(&filetype) ? ' '.&filetype : ''
+    return strlen(&filetype) ? ' '.&filetype : ' —'
 endfunction
 function! LightlineFilename() abort
     return b:bad_buffer ? '' : expand('%:t')

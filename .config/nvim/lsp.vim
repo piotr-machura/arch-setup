@@ -13,6 +13,7 @@ Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
 Plug 'janko-m/vim-test' " Testing suite
 Plug 'ap/vim-buftabline' " Buffers displayed in tabline
 call plug#end()
+let g:did_plug_end = 1
 
 " LSP CLIENT
 " ----------
