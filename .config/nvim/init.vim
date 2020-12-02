@@ -115,14 +115,14 @@ let g:lightline = {
         \       'right': [ ['filetype', 'lineinfo'] ]
         \ },
         \ 'inactive': {
-        \       'left': [ [ 'filename' ] ], 'right': [ [ 'filetype' ] ]
+        \       'left': [ [ 'filename' ] ], 'right': []
         \ },
         \ 'component': {
-        \ 'filetype' : '%{strlen(&filetype) && winwidth(0) > 35  ? " ".&filetype : ""}',
         \ 'filename' : '%{expand("%:t")}',
         \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
-        \ 'modified' : '%{&modified ? " " : ""}',
-        \ 'lineinfo' : '%{winwidth(0) > 40 ? "ﲒ ".virtcol(".")."  ".line(".").":".line("$") : ""}'
+        \ 'modified' : '%{&modified && &modifiable ? " " : ""}',
+        \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : ""}%<',
+        \ 'lineinfo' : '%{"ﲒ ".virtcol(".")."  ".line(".").":".line("$")}%<'
         \ }
         \ }
 
