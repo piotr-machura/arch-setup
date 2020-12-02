@@ -1,7 +1,7 @@
 " -----------------------------
 " NEOVIM LANGUAGE SERVER CONFIG
 " -----------------------------
-" Note: source this in the init.vim and run :PlugInstall
+" Note: add the appropriete sections in init.vim
 " in order to get lsp functionality
 
 " PLUGINS
@@ -12,8 +12,6 @@ Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
 Plug 'janko-m/vim-test' " Testing suite
 Plug 'ap/vim-buftabline' " Buffers displayed in tabline
-call plug#end()
-let g:did_plug_end = 1
 
 " LSP CLIENT
 " ----------
@@ -114,7 +112,8 @@ call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDi
 call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
 call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
 
-" Add lightline components
+" Lightline components
+" Note: this must be added after the lightline dictionary is declared
 call insert(g:lightline['active']['right'][0], 'gitbranch')
 call insert(g:lightline['active']['right'], ['diagnostics'])
 let g:lightline['component_function']['gitbranch'] = 'LightlineGitbranch'

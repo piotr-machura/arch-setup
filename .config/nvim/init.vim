@@ -14,18 +14,15 @@ call plug#begin(stdpath('data').'/vim-plug')
 " Quality of life plugins
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
+Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
-Plug 'sheerun/vim-polyglot' " Multi-language pack
 " Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
-" Optional LSP functionality
-" exec 'source '.stdpath('config').'/lsp.vim'
 call plug#end()
 
 " MAPS
@@ -120,13 +117,13 @@ let g:lightline = {
         \ 'inactive': {
         \       'left': [ [ 'filename' ] ], 'right': [ [ 'filetype' ] ]
         \ },
-        \ 'component_function': {
-        \   'filetype': 'LightlineFiletype',
-        \   'lineinfo': 'LightlineLineinfo',
-        \   'filename': 'LightlineFilename',
-        \   'readonly': 'LightlineReadonly',
-        \   'modified': 'LightlineModified'
-        \ },
+        \ 'component': {
+        \ 'filetype' : '%{strlen(&filetype) && winwidth(0) > 35  ? " ".&filetype : ""}',
+        \ 'filename' : '%{expand("%:t")}',
+        \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
+        \ 'modified' : '%{&modified ? " " : ""}',
+        \ 'lineinfo' : '%{winwidth(0) > 40 ? "ﲒ ".virtcol(".")."  ".line(".").":".line("$") : ""}'
+        \ }
         \ }
 
 " Indentline configuration
@@ -162,30 +159,6 @@ function! s:strip_whitespace() abort
     echo 'Stripped trailing whitespace'
 endfunction
 
-function! s:bad_buffer() abort
-    " Disable lightline elements for these buffer types
-    let names = [ 'undotree', 'diff', 'netrw', 'vim-plug' ]
-    for str in names | if stridx(&filetype, str)!=-1 | return 1 | endif | endfor
-    return 0
-endfunction
-
-" Lightline elements
-function! LightlineFiletype() abort
-    return strlen(&filetype) ? ' '.&filetype : ' —'
-endfunction
-function! LightlineFilename() abort
-    return b:bad_buffer ? '' : expand('%:t')
-endfunction
-function! LightlineLineinfo() abort
-    return b:bad_buffer || winwidth(0) < 35 ? '' : 'ﲒ '.virtcol('.').'  '.line('.').':'.line('$')
-endfunction
-function! LightlineReadonly() abort
-    return &readonly && !b:bad_buffer  ? ' Read-only' :  ''
-endfunction
-function! LightlineModified() abort
-    return &modified && !b:bad_buffer ? ' ' : ''
-endfunction
-
 " AUTOCMDS
 " --------
 
@@ -195,5 +168,4 @@ augroup user_created
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-    autocmd BufEnter,BufWinEnter * let b:bad_buffer = <SID>bad_buffer()
 augroup END
