@@ -15,7 +15,6 @@ export PIP_REQUIRE_VIRTUALENV=true
 
 # XDG BASE DIRECTORY SPECIFICATION
 # --------------------------------
-
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -26,6 +25,7 @@ export NVIM_LOG_FILE="$XDG_CACHE_HOME"/nvim/messages_log
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export PYLINTHOME="$XDG_DATA_HOME"/pylint
+export PYTHONSTARTUP="$XDG_CONFIG_HOME"/pythonrc.py
 export GRIPHOME="$XDG_CONFIG_HOME"/grip
 export PYTHON_EGG_CACHE="$XDG_CACHE_HOME"/python-eggs
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython

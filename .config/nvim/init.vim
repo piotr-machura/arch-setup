@@ -26,7 +26,6 @@ call plug#end()
 
 " MAPS
 " ----
-
 let g:mapleader = " "
 
 " Buffer management
@@ -69,7 +68,6 @@ let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " SETTINGS
 " --------
-
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set nowrap      scrolloff=4     cursorline      sidescrolloff=8
 set number      relativenumber  numberwidth=3   signcolumn=number
@@ -137,7 +135,6 @@ let g:goyo_linenr = 0
 
 " CLIPBOARD
 " ---------
-
 let g:clipboard = {
   \   'name': 'xclip',
   \   'copy': {'+': 'xclip -selection clipboard', '*': 'xclip -selection clipboard'},
@@ -148,7 +145,6 @@ set clipboard+=unnamedplus
 
 " FUNCTIONS
 " ---------
-
 function! s:strip_whitespace() abort
     let last_search = @/
     %substitute/\s\+$//e
@@ -160,7 +156,6 @@ endfunction
 
 " AUTOCMDS
 " --------
-
 augroup user_created
     autocmd!
     autocmd TermOpen * startinsert

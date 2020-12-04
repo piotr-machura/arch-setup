@@ -6,7 +6,6 @@
 
 " PLUGINS
 " -------
-
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
@@ -15,7 +14,6 @@ Plug 'ap/vim-buftabline' " Buffers displayed in tabline
 
 " LSP CLIENT
 " ----------
-
 lua <<EOF
 
 -- Python language server
@@ -59,7 +57,6 @@ EOF
 
 " MAPS
 " ----
-
 nmap g1 <Plug>BufTabLine.Go(1)
 nmap g2 <Plug>BufTabLine.Go(2)
 nmap g3 <Plug>BufTabLine.Go(3)
@@ -88,7 +85,6 @@ nnoremap <silent> gr :silent! lua vim.lsp.buf.references()<CR>
 
 " SETTINGS
 " --------
-
 let g:python3_host_prog='/usr/bin/python3'
 
 let test#strategy = 'neovim'
@@ -121,7 +117,6 @@ let g:lightline['component_function']['diagnostics'] = 'LightlineDiagnostics'
 
 " FUNCTIONS
 " ---------
-
 function! s:set_git_branch() abort
     let git_output = trim(system('git branch --show-current'))
     if stridx(git_output, 'fatal: not a git repository')!=-1
@@ -149,9 +144,8 @@ function! LightlineGitbranch() abort
     return ""
 endfunction
 
-" AUTOCMD
-" -------
-
+" AUTOCMDS
+" --------
 augroup lsp_config
     autocmd!
     autocmd BufWritePre *.rs,*.py silent! lua vim.lsp.buf.formatting_sync(nil, 1000)

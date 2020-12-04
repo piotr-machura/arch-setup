@@ -1,0 +1,7 @@
+# --------------------------------
+# PYTHON ACTIVE INTERPRETER CONFIG
+# --------------------------------
+# vim: filetype=python
+
+import readline
+readline.write_history_file = lambda *args: None

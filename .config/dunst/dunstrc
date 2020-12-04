@@ -6,7 +6,6 @@
 
 # DISPLAY
 # -------
-
 monitor = 0
 follow = mouse
 geometry = "250-25-60"
@@ -26,7 +25,6 @@ show_indicators = false
 
 # TEXT
 # ----
-
 font = NotoSans Nerd Font 8
 line_height = 0
 markup = full
@@ -43,7 +41,6 @@ show_indicators = yes
 
 # ICONS
 # -----
-
 icon_position = left
 min_icon_size = 0
 max_icon_size = 32
@@ -51,13 +48,11 @@ icon_path = /usr/share/icons/Papirus-Dark/symbolic/status/:/usr/share/icons/Papi
 
 # HISTORY
 # -------
-
 sticky_history = yes
 history_length = 20
 
 # MISC
 # ----
-
 dmenu = /usr/bin/rofi -p dunst:
 browser = /usr/bin/firefox -new-tab
 always_run_script = true

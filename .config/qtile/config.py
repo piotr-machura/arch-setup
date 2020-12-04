@@ -13,7 +13,6 @@ wmname = 'Qtile'
 
 # AUTOSTART
 # ---------
-
 @hook.subscribe.startup_once
 def autostart():
     """List of lists with commands to be executed on startup and their args."""
@@ -29,7 +28,6 @@ def autostart():
 
 # KEYBINDINGS
 # -----------
-
 win = 'mod4'
 shift = 'shift'
 ctrl = 'control'
@@ -90,7 +88,6 @@ cursor_warp = True
 
 # GROUPS
 # ------
-
 groups = [Group(str(i + 1)) for i in range(5)]
 
 for i in groups:
@@ -108,7 +105,6 @@ for i in groups:
 
 # LAYOUTS
 # -------
-
 nord_colors = [
     '#2e3440', '#3b4252', '#434c5e', '#4c566a',
     '#d8dee9', '#e5e9f0', '#eceff4', '#8fbcbb',
@@ -167,7 +163,6 @@ focus_on_window_activation = 'smart'
 
 # SCREENS & WIDGETS
 # -----------------
-
 class PamixerVolume(widget.base._TextBox):
     """Volume widget using the pamixer tool."""
 

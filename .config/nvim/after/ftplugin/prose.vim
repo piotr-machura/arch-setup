@@ -1,10 +1,5 @@
-" ---------------------
-" NEOVIM PROSE FILETYPE
-" ---------------------
-
-" SETTINGS
-" --------
-
+" PROSE FTPLUGIN
+" --------------
 setlocal noautoindent
 setlocal nobreakindent
 setlocal nosmartindent
@@ -18,20 +13,12 @@ setlocal nolist
 setlocal nonumber
 setlocal norelativenumber
 setlocal nocursorline
-
-" SPELLCHECKING
-" -------------
-
 setlocal spell
 setlocal spelllang=pl,en_us
 setlocal spellsuggest+=5
-let &spellfile=expand('%:p:h').'/pl.add' " Spellfile in the same dir as the file itself
 
-" MAPS
-" ----
+let &spellfile=expand('%:p:h').'/pl.add'
 
 iabbrev <buffer> -- —
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk
-
-let b:did_ftplugin = 1

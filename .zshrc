@@ -7,7 +7,6 @@
 
 # ALIASES
 # -------
-
 alias -g ...='../..'
 alias -g ....='../../..'
 
@@ -28,7 +27,6 @@ alias open='mimeopen'
 
 # CLEAR ON EMPTY INPUT
 # --------------------
-
 clear-on-empty() {
     [[ -z $BUFFER ]] && zle clear-screen
     [[ -z $BUFFER ]] || zle accept-line
@@ -40,14 +38,12 @@ bindkey -a "^M" clear-on-empty # vi normal mode
 
 # HISTORY
 # -------
-
 setopt hist_ignore_dups
 HISTSIZE=1000
 SAVEHIST=2000
 
 # COMPLETION
 # ----------
-
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME/zcompdump"
@@ -62,8 +58,6 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 # THEME
 # -----
-
-#Title
 _term_title () { print -Pn "\e]0; ${PWD/$HOME/~}\a" }
 precmd_functions+=(_term_title)
 
@@ -132,7 +126,6 @@ prompt spaceship
 
 # VI MODE
 # -------
-
 bindkey -v
 bindkey "^?" backward-delete-char # ^?: backspace keycode
 bindkey '^[[3~' delete-char # ^[[3: delete keycode
@@ -142,7 +135,6 @@ KEYTIMEOUT=1 # Reduce the delay between keymap switches
 
 # SYNTAX HIGHLIGHTING
 # -------------------
-
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none

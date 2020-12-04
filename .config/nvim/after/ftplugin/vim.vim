@@ -1,5 +1,3 @@
-" DISABLE MODELINES
-" -----------------
-
+" VIM FTPLUGIN
+" ------------
 setlocal nomodeline
-
