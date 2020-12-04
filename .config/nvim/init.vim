@@ -2,6 +2,7 @@
 " NEOVIM TERMINAL EDITOR CONFIG
 " -----------------------------
 
+
 " PLUGINS
 " -------
 
@@ -11,14 +12,12 @@ if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-p
 endif
 
 call plug#begin(stdpath('data').'/vim-plug')
-" Quality of life plugins
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
 Plug 'tpope/vim-surround' " Change surrounding braces/quotes
 Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
-" Visual enchancments
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
@@ -115,13 +114,13 @@ let g:lightline = {
         \       'right': [ ['filetype', 'lineinfo'] ]
         \ },
         \ 'inactive': {
-        \       'left': [ [ 'filename' ] ], 'right': []
+        \       'left': [['filename'], ['readonly', 'modified'] ], 'right': []
         \ },
         \ 'component': {
         \ 'filename' : '%{expand("%:t")}',
         \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
         \ 'modified' : '%{&modified && &modifiable ? " " : ""}',
-        \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : ""}%<',
+        \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
         \ 'lineinfo' : '%{"ﲒ ".virtcol(".")."  ".line(".").":".line("$")}%<'
         \ }
         \ }

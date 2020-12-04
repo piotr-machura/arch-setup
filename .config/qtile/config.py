@@ -9,9 +9,10 @@ from libqtile.config import Drag, Click, Group, Key, Screen
 from libqtile.lazy import lazy
 # pylint: disable=invalid-name,protected-access,line-too-long
 
+wmname = 'Qtile'
+
 # AUTOSTART
 # ---------
-
 
 @hook.subscribe.startup_once
 def autostart():
@@ -26,30 +27,31 @@ def autostart():
     for process in processes:
         subprocess.Popen(process)
 
-
 # KEYBINDINGS
 # -----------
+
 win = 'mod4'
 shift = 'shift'
 ctrl = 'control'
 
 keys = [
-
     # Switch between windows in current stack pane
     Key([win], 'h', lazy.layout.left()),
     Key([win], 'j', lazy.layout.down()),
     Key([win], 'k', lazy.layout.up()),
     Key([win], 'l', lazy.layout.right()),
-
     # Move windows up or down in current stack
     Key([win, shift], 'h', lazy.layout.swap_left()),
     Key([win, shift], 'j', lazy.layout.shuffle_down()),
     Key([win, shift], 'k', lazy.layout.shuffle_up()),
     Key([win, shift], 'l', lazy.layout.swap_right()),
+    # Resize and change layouts
+    Key([win], 'p', lazy.next_layout()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
     Key([win], '0', lazy.layout.normalize()),
-    Key([win], 'p', lazy.next_layout()),
+    Key([win], 'Tab', lazy.screen.toggle_group()),
+    # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
     Key([win], 'w', lazy.spawn('firefox')),
     Key([win], 'f', lazy.spawn('spacefm')),
@@ -59,10 +61,10 @@ keys = [
     Key([win], 'c', lazy.spawn('rofi -show calc -lines 0 -terse -no-history')),
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
+    # System shortcuts
     Key([win], 'q', lazy.window.kill()),
     Key([win, ctrl], 'r', lazy.restart()),
     Key([win, ctrl], 'q', lazy.spawn('rofi-powermenu')),
-    Key([win], 'Tab', lazy.screen.toggle_group()),
 ]
 
 mouse = [
@@ -92,9 +94,9 @@ cursor_warp = True
 groups = [Group(str(i + 1)) for i in range(5)]
 
 for i in groups:
-    keys.extend(
-        [
-            Key([win],
+    keys.extend([
+            Key(
+                [win],
                 i.name,
                 lazy.group[i.name].toscreen()),
             Key(
@@ -102,24 +104,20 @@ for i in groups:
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
             )
-        ]
-    )
-
-dgroups_key_binder = None
-dgroups_app_rules = []    # type: List
+        ])
 
 # LAYOUTS
 # -------
 
 nord_colors = [
-    '#2E3440', '#3b4252', '#434c5e', '#4c566a',
+    '#2e3440', '#3b4252', '#434c5e', '#4c566a',
     '#d8dee9', '#e5e9f0', '#eceff4', '#8fbcbb',
     '#88c0d0', '#81a1c1', '#5e81ac', '#bf616a',
     '#d08770', '#ebcb8b', '#a3be8c', '#b48ead',
 ]
 
 theme_layout = {
-    'border_width': 4,
+    'border_width': 5,
     'margin': 10,
     'border_focus': nord_colors[8],
     'border_normal': nord_colors[3],
@@ -128,6 +126,7 @@ theme_layout = {
 layouts = [
     layout.MonadTall(
         align=layout.MonadTall._left,
+        new_at_current=False,
         ratio=0.5,
         max_ratio=0.9,
         min_ratio=0.1,
@@ -165,7 +164,6 @@ floating_layout = layout.Floating(
 
 auto_fullscreen = True
 focus_on_window_activation = 'smart'
-wmname = 'Qtile'
 
 # SCREENS & WIDGETS
 # -----------------
@@ -173,21 +171,11 @@ wmname = 'Qtile'
 class PamixerVolume(widget.base._TextBox):
     """Volume widget using the pamixer tool."""
 
-    orientations = widget.base.ORIENTATION_HORIZONTAL
-    defaults = [
-        ('padding', 3, 'Padding left and right. Calculated if None.'),
-        ('update_interval', 0.2, 'Update time in seconds.'),
-    ]
-
     def __init__(self, **config):
         super().__init__(**config)
-        self.add_defaults(PamixerVolume.defaults)
+        self.orientation = widget.base.ORIENTATION_HORIZONTAL
         self.surfaces = {}
         self.volume = None
-        self.mouse_callbacks = {
-            'Button1': lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
-            'Button3': lambda: subprocess.Popen(['pavucontrol']),
-        }
 
     def timer_setup(self):
         self.update()
@@ -199,35 +187,28 @@ class PamixerVolume(widget.base._TextBox):
             self.mouse_callbacks[name]()
         self.update()
 
-    @staticmethod
-    def get_volume():
-        """Use pamixer to find current volume."""
+    def update(self):
+        """Update volume information and display"""
         p_outcome = subprocess.Popen(
             ['pamixer', '--get-volume'], stdout=subprocess.PIPE)
-        volume, _ = p_outcome.communicate()
+        pamixer_volume, _ = p_outcome.communicate()
         p_outcome = subprocess.Popen(
             ['pamixer', '--get-mute'], stdout=subprocess.PIPE)
         muted, _ = p_outcome.communicate()
         if 'true' in str(muted):
-            return -1
-        volume = re.sub(r"[b'\\n]", '', str(volume))
-        return int(volume)
-
-    def _update_drawer(self):
-        if 0 < self.volume < 30:
-            self.text = '奄'
-        elif 30 < self.volume <= 70:
-            self.text = '奔'
-        elif self.volume > 70:
-            self.text = '墳'
+            vol = -1
         else:
-            self.text = '婢'
-
-    def update(self):
-        vol = self.get_volume()
+            vol = int(re.sub(r"[b'\\n]", '', str(pamixer_volume)))
         if vol != self.volume:
             self.volume = vol
-            self._update_drawer()
+            if 0 < self.volume < 30:
+                self.text = '奄'
+            elif 30 < self.volume <= 70:
+                self.text = '奔'
+            elif self.volume > 70:
+                self.text = '墳'
+            else:
+                self.text = '婢'
             self.bar.draw()
         self.timeout_add(self.update_interval, self.update)
 
@@ -246,7 +227,7 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length=5),    # pylint: disable=no-member
+                widget.Spacer(length=8),    # pylint: disable=no-member
                 widget.GroupBox(
                     highlight_method='block',
                     active=nord_colors[6],
@@ -260,19 +241,24 @@ screens = [
                     rounded=False,
                     margin_y=4,
                     padding_y=10,
+                    padding_x=8,
                 ),
-                widget.Spacer(length=5),    # pylint: disable=no-member
+                widget.Spacer(length=12),    # pylint: disable=no-member
                 widget.WindowName(show_state=False),
                 PamixerVolume(
                     fontsize=18,
-                    update_interval=2.5,
-                    padding=6,
+                    update_interval=5,
+                    padding=8,
+                    mouse_callbacks={
+                        'Button1': lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
+                        'Button3': lambda: subprocess.Popen(['pavucontrol']),
+                    },
                 ),
                 widget.CurrentLayout(),
                 widget.Clock(format='%H:%M'),
-                widget.Spacer(length=5),    # pylint: disable=no-member
+                widget.Spacer(length=8),    # pylint: disable=no-member
             ],
-            36,
+            34,
             background=nord_colors[0]),
     ),
 ]

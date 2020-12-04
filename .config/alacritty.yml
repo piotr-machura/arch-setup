@@ -3,118 +3,118 @@
 # ----------------------------------
 
 env:
-  TERM: xterm-256color
+    TERM: xterm-256color
 
 window:
-  padding:
-    x: 10
-    y: 5
-  dynamic_padding: false
-  startup_mode: Windowed
-  title: ---
-  dynamic_title: true
-  class:
-    instance: Alacritty
+    padding:
+        x: 10
+        y: 5
+    dynamic_padding: false
+    startup_mode: Windowed
+    title: ---
+    dynamic_title: true
+    class:
+        instance: Alacritty
 
 scrolling:
-  history: 1000
-  multiplier: 3
+    history: 1000
+    multiplier: 3
 
 font:
-  normal:
-    family: FiraMono Nerd Font
-    style: Medium
-  bold:
-    family: FiraMono Nerd Font
-    style: Bold
-  italic:
-    family: FiraMono Nerd Font
-    style: Italic
-  bold_italic:
-    family: FiraMono Nerd Font
-    style: Bold Italic
-  size: 11.5
+    normal:
+        family: FiraMono Nerd Font
+        style: Medium
+    bold:
+        family: FiraMono Nerd Font
+        style: Bold
+    italic:
+        family: FiraMono Nerd Font
+        style: Italic
+    bold_italic:
+        family: FiraMono Nerd Font
+        style: Bold Italic
+    size: 11.5
 
 # Nord Theme
 colors:
-  primary:
-    background: '#2e3440'
-    foreground: '#d8dee9'
-    dim_foreground: '#a5abb6'
-  cursor:
-    text: '#2e3440'
-    cursor: '#d8dee9'
-  vi_mode_cursor:
-    text: '#2e3440'
-    cursor: '#d8dee9'
-  selection:
-    text: CellForeground
-    background: '#4c566a'
-  search:
-    matches:
-      foreground: CellBackground
-      background: '#88c0d0'
-    bar:
-      background: '#434c5e'
-      foreground: '#d8dee9'
-  normal:
-    black: '#3b4252'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#88c0d0'
-    white: '#e5e9f0'
-  bright:
-    black: '#4c566a'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#8fbcbb'
-    white: '#eceff4'
-  dim:
-    black: '#373e4d'
-    red: '#94545d'
-    green: '#809575'
-    yellow: '#b29e75'
-    blue: '#68809a'
-    magenta: '#8c738c'
-    cyan: '#6d96a5'
-    white: '#aeb3bb'
-  indexed_colors:
-    - { index: 16, color: '#81a1c1' }
-    - { index: 17, color: '#b48ead' }
-    - { index: 18, color: '#3b4252' }
-    - { index: 19, color: '#434c5e' }
-    - { index: 20, color: '#d8dee9' }
-    - { index: 21, color: '#eceff4' }
+    primary:
+        background: '#2e3440'
+        foreground: '#d8dee9'
+        dim_foreground: '#a5abb6'
+    cursor:
+        text: '#2e3440'
+        cursor: '#d8dee9'
+    vi_mode_cursor:
+        text: '#2e3440'
+        cursor: '#d8dee9'
+    selection:
+        text: CellForeground
+        background: '#4c566a'
+    search:
+        matches:
+            foreground: CellBackground
+            background: '#88c0d0'
+        bar:
+            background: '#434c5e'
+            foreground: '#d8dee9'
+    normal:
+        black: '#3b4252'
+        red: '#bf616a'
+        green: '#a3be8c'
+        yellow: '#ebcb8b'
+        blue: '#81a1c1'
+        magenta: '#b48ead'
+        cyan: '#88c0d0'
+        white: '#e5e9f0'
+    bright:
+        black: '#4c566a'
+        red: '#bf616a'
+        green: '#a3be8c'
+        yellow: '#ebcb8b'
+        blue: '#81a1c1'
+        magenta: '#b48ead'
+        cyan: '#8fbcbb'
+        white: '#eceff4'
+    dim:
+        black: '#373e4d'
+        red: '#94545d'
+        green: '#809575'
+        yellow: '#b29e75'
+        blue: '#68809a'
+        magenta: '#8c738c'
+        cyan: '#6d96a5'
+        white: '#aeb3bb'
+    indexed_colors:
+        - { index: 16, color: '#81a1c1' }
+        - { index: 17, color: '#b48ead' }
+        - { index: 18, color: '#3b4252' }
+        - { index: 19, color: '#434c5e' }
+        - { index: 20, color: '#d8dee9' }
+        - { index: 21, color: '#eceff4' }
 
 background_opacity: 1.0
 
 cursor:
-  unfocused_hollow: false
+    unfocused_hollow: false
 
 mouse:
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
-  hide_when_typing: false
-  url:
-    launcher:
-      program: xdg-open
-      args: []
+    double_click: { threshold: 300 }
+    triple_click: { threshold: 300 }
+    hide_when_typing: false
+    url:
+        launcher:
+            program: xdg-open
+            args: []
 
 mouse_bindings:
-  - { mouse: Middle, action: None}
+    - { mouse: Middle, action: None}
 
 key_bindings:
-  - { key: V,        mods: Control|Shift, action: Paste            }
-  - { key: C,        mods: Control|Shift, action: Copy             }
-  - { key: F,        mods: Control|Shift, action: SearchForward    }
-  - { key: B,        mods: Control|Shift, action: SearchBackward   }
-  - { key: Key0,     mods: Control,       action: ResetFontSize    }
-  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
-  - { key: Return,   mods: Control,       action: SpawnNewInstance }
+    - { key: V,        mods: Control|Shift, action: Paste            }
+    - { key: C,        mods: Control|Shift, action: Copy             }
+    - { key: F,        mods: Control|Shift, action: SearchForward    }
+    - { key: B,        mods: Control|Shift, action: SearchBackward   }
+    - { key: Key0,     mods: Control,       action: ResetFontSize    }
+    - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+    - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+    - { key: Return,   mods: Control,       action: SpawnNewInstance }
