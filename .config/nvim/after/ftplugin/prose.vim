@@ -17,8 +17,9 @@ setlocal spell
 setlocal spelllang=pl,en_us
 setlocal spellsuggest+=5
 
-let &spellfile=expand('%:p:h').'/pl.add'
+let &l:spellfile=expand('%:p:h').'/pl.add'
 
 iabbrev <buffer> -- —
+iabbrev <buffer> ... …
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk

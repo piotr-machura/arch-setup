@@ -71,13 +71,13 @@ let g:AutoPairsShortcutToggle = "\<C-p>"
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set nowrap      scrolloff=4     cursorline      sidescrolloff=8
 set number      relativenumber  numberwidth=3   signcolumn=number
-set hidden      shortmess+=c    conceallevel=2  concealcursor=""
-set undofile    nobackup        autowrite       nowritebackup
-set mouse+=ar   updatetime=300  switchbuf=usetab
-set noshowmode  laststatus=2    title
-set splitbelow  splitright
+set hidden      conceallevel=2  concealcursor=""
+set noshowmode  laststatus=2    updatetime=300  confirm
+set splitbelow  splitright      switchbuf=usetab
 set list        listchars=tab:-,trail:·
-set titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
+set title       titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
+set mouse+=ar   virtualedit=block
+set undofile    undolevels=500  autowrite
 
 " Netrw configuration
 let g:netrw_browse_split = 0
@@ -108,14 +108,13 @@ colorscheme nord
 let g:lightline = {
         \ 'colorscheme': 'nord',
         \ 'active': {
-        \       'left': [ ['mode'], ['filename'], ['readonly', 'modified'] ],
-        \       'right': [ ['filetype', 'lineinfo'] ]
+        \ 'left': [ ['mode'], ['filename'], ['readonly', 'modified'] ],
+        \ 'right': [ ['filetype', 'lineinfo'] ]
         \ },
         \ 'inactive': {
-        \       'left': [['filename'], ['readonly', 'modified'] ], 'right': []
+        \ 'left': [['filename'], ['readonly', 'modified'] ], 'right': []
         \ },
         \ 'component': {
-        \ 'filename' : '%{expand("%:t")}',
         \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
         \ 'modified' : '%{&modified && &modifiable ? " " : ""}',
         \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
