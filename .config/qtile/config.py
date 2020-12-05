@@ -222,7 +222,7 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length=8),    # pylint: disable=no-member
+                widget.Spacer(length=6),    # pylint: disable=no-member
                 widget.GroupBox(
                     highlight_method='block',
                     active=nord_colors[6],
@@ -238,7 +238,9 @@ screens = [
                     padding_y=10,
                     padding_x=8,
                 ),
-                widget.Spacer(length=12),    # pylint: disable=no-member
+                widget.Spacer(length=6),    # pylint: disable=no-member
+                widget.Sep(size_percent=50, linewidth=2),    # pylint: disable=no-member
+                widget.Spacer(length=6),    # pylint: disable=no-member
                 widget.WindowName(show_state=False),
                 PamixerVolume(
                     fontsize=18,
