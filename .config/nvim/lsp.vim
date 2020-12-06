@@ -1,8 +1,8 @@
 " -----------------------------
 " NEOVIM LANGUAGE SERVER CONFIG
 " -----------------------------
-" Note: add the appropriete sections in init.vim
-" in order to get lsp functionality
+" Note: add the appropriete sections in init.vim in order
+" to get lsp functionality on latest neovim nightly
 
 " PLUGINS
 " -------
@@ -25,9 +25,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 EOF
 
-" Put this in /after/ftplugin/python.vim
+" Note: put this in after/ftplugin/python.vim
 lua <<EOF
-
 -- Python language server
 require'lspconfig'.pyls.setup {
     on_attach = require'completion'.on_attach(client);
@@ -53,18 +52,23 @@ EOF
 
 " MAPS
 " ----
-" <C-space> triggers/cancells lsp completion
-imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
+" LSP completion
+imap <expr> <C-space> pumvisible() ?
+            \ "\<C-e>" : <SID>attached() ? "<Plug>(completion_trigger)" : "\<C-n>"
 
-" Code actions
-nnoremap <silent> <C-h> :call <SID>code_action('hover')<CR>
-nnoremap <silent> <leader>r :call <SID>code_action('rename')<CR>
-nnoremap <silent> <leader>f :call <SID>code_action('format')<CR>
-nnoremap <silent> <leader>o :call <SID>code_action('diagnostics')<CR>
-nnoremap <silent> [o :call <SID>code_action('diagnostics_prev')<CR>
-nnoremap <silent> ]o :call <SID>code_action('diagnostics_next')<CR>
-nnoremap <silent> gd :call <SID>code_action('definition')<CR>
-nnoremap <silent> gr :call <SID>code_action('references')<CR>
+" LSP code actions
+nnoremap <expr> <C-h> <SID>attached() ?
+            \ "<cmd>lua vim.lsp.buf.hover()<CR>" : "\K"
+nnoremap <expr> # <SID>attached() ?
+            \ "<cmd>lua vim.lsp.buf.rename()<CR>" : "#"
+nnoremap <expr> [d <SID>attached() ?
+            \ "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
+nnoremap <expr> ]d <SID>attached() ?
+            \ "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
+nnoremap <expr> <C-]> <SID>attached() ?
+            \ "<cmd>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
+nnoremap <expr> <C-t> <SID>attached() ?
+            \ "<cmd>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
 
 " SETTINGS
 " --------
@@ -75,17 +79,19 @@ let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_paren = 1
 
-" Note: this is deprecated
-call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
+call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsVirtualTextError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsVirtualTextWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsVirtualTextInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsVirtualTextHint"})
 
-" Lightline components
 " Note: this must be added after the lightline dictionary is declared
 call insert(g:lightline['active']['right'][0], 'gitbranch')
 call insert(g:lightline['active']['right'], ['diagnostics'])
 let g:lightline['component_function'] = {'gitbranch' : 'LightlineGitbranch', 'diagnostics' : 'LightlineDiagnostics'}
+
+" TODO: make these do other thing when lsp is not availible
+command! Format lua vim.lsp.buf.formatting_sync(nil, 1000)
+command! Diagnostic lua vim.lsp.diagnostic.set_loclist()
 
 " FUNCTIONS
 " ---------
@@ -98,23 +104,8 @@ function! s:set_git_branch() abort
     endif
 endfunction
 
-function! s:code_action(action) abort
-    if empty(luaeval("vim.lsp.get_active_clients()"))
-        echo 'No active language server.'
-        return
-    endif
-    let actions = {
-        \ 'hover' : 'vim.lsp.buf.hover()'
-        \ 'format' : 'vim.lsp.buf.formatting_sync(nil, 1000)',
-        \ 'rename' : 'vim.lsp.buf.rename()',
-        \ 'diagnostics' : 'vim.lsp.diagnostic.set_loclist()',
-        \ 'diagnostics_prev' : 'vim.lsp.diagnostic.goto_prev()',
-        \ 'diagnostics_next' : 'vim.lsp.diagnostic.goto_next()',
-        \ 'definition' : 'vim.lsp.buf.definition()',
-        \ 'references' : 'vim.lsp.buf.references()',
-        \ }
-    call luaeval(actions[a:action])
-    unlet actions
+function! s:attached() abort
+    return !empty(luaeval("vim.lsp.buf_get_clients(0)"))
 endfunction
 
 function! LightlineDiagnostics() abort
@@ -130,14 +121,21 @@ function! LightlineDiagnostics() abort
 endfunction
 
 function! LightlineGitbranch() abort
-    if len(g:current_branch_name) | return ' ' . g:current_branch_name | endif
+    if !empty(g:current_branch_name) && winwidth(0) > 50
+        return ' ' . g:current_branch_name
+    endif
     return ''
 endfunction
 
 " AUTOCMDS
 " --------
-augroup lsp_config
+" Note: add this to after/ftplugin/<filetype to autoformat>.vim
+augroup format_on_save
     autocmd!
-    autocmd BufWritePre *.rs,*.py silent! lua vim.lsp.buf.formatting_sync(nil, 1000)
+    autocmd BufWritePre <buffer> silent! lua vim.lsp.buf.formatting_sync(nil, 1000)
+augroup END
+
+augroup git
+    autocmd!
     autocmd VimEnter,DirChanged * call <SID>set_git_branch()
 augroup END

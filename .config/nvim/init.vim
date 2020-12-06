@@ -146,7 +146,7 @@ nnoremap <silent> <C-u> :UndotreeToggle<CR>
 nnoremap <silent><nowait> - :Explore<CR>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <silent> <leader>g :Goyo<CR>
-nnoremap <silent> <leader>s :call <SID>strip_whitespace()<CR>
+nnoremap <silent> <leader>f :call <SID>strip_whitespace()<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " FUNCTIONS

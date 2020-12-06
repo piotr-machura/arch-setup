@@ -8,7 +8,6 @@ setlocal noexpandtab
 setlocal wrap
 setlocal linebreak
 setlocal scrolloff=0
-setlocal display=lastline
 setlocal nolist
 setlocal nonumber
 setlocal norelativenumber
@@ -20,6 +19,5 @@ setlocal spellsuggest+=5
 let &l:spellfile=expand('%:p:h').'/pl.add'
 
 iabbrev <buffer> -- —
-iabbrev <buffer> ... …
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk
