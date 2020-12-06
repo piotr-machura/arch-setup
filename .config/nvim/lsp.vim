@@ -9,11 +9,23 @@
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 Plug 'nvim-lua/lsp-status.nvim' " Native LSP status
-Plug 'janko-m/vim-test' " Testing suite
-Plug 'ap/vim-buftabline' " Buffers displayed in tabline
 
 " LSP CLIENT
 " ----------
+lua << EOF
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = {
+            spacing = 4,
+            prefix = ' ',
+        },
+        update_in_insert = false,
+    }
+)
+EOF
+
+" Put this in /after/ftplugin/python.vim
 lua <<EOF
 
 -- Python language server
@@ -37,72 +49,33 @@ require'lspconfig'.pyls.setup {
         }
     };
 }
-
--- Rust language server
-require'lspconfig'.rust_analyzer.setup{
-    on_attach=require'completion'.on_attach(client)
-}
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        virtual_text = {
-            spacing = 4,
-            prefix = ' ',
-        },
-        update_in_insert = false,
-    }
-)
 EOF
 
 " MAPS
 " ----
-nmap g1 <Plug>BufTabLine.Go(1)
-nmap g2 <Plug>BufTabLine.Go(2)
-nmap g3 <Plug>BufTabLine.Go(3)
-nmap g4 <Plug>BufTabLine.Go(4)
-nmap g5 <Plug>BufTabLine.Go(5)
-nmap g6 <Plug>BufTabLine.Go(6)
-nmap g7 <Plug>BufTabLine.Go(7)
-nmap g8 <Plug>BufTabLine.Go(8)
-nmap g9 <Plug>BufTabLine.Go(9)
-nmap g0 <Plug>BufTabLine.Go(10)
-
-" <C-space> triggers/cancels completion, <TAB><S-TAB> move around, <CR> confirms
+" <C-space> triggers/cancells lsp completion
 imap <silent><expr><C-space> pumvisible() ? "\<C-e>" : "<Plug>(completion_trigger)"
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " Code actions
-nnoremap <silent> <leader>h :silent! lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>r :silent! lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>f :silent! lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
-nnoremap <silent> <leader>o :silent! lua vim.lsp.diagnostic.set_loclist()<CR>
-nmap <silent> [g :silent! lua vim.lsp.diagnostic.goto_prev()<CR>
-nmap <silent> ]g :silent! lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <silent> gd :silent! lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gr :silent! lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <C-h> :call <SID>code_action('hover')<CR>
+nnoremap <silent> <leader>r :call <SID>code_action('rename')<CR>
+nnoremap <silent> <leader>f :call <SID>code_action('format')<CR>
+nnoremap <silent> <leader>o :call <SID>code_action('diagnostics')<CR>
+nnoremap <silent> [o :call <SID>code_action('diagnostics_prev')<CR>
+nnoremap <silent> ]o :call <SID>code_action('diagnostics_next')<CR>
+nnoremap <silent> gd :call <SID>code_action('definition')<CR>
+nnoremap <silent> gr :call <SID>code_action('references')<CR>
 
 " SETTINGS
 " --------
-let g:python3_host_prog='/usr/bin/python3'
-
-let test#strategy = 'neovim'
 let g:current_branch_name = ''
-let g:buftabline_show = 1
-let g:buftabline_numbers = 2
 
-let g:python_highlight_space_errors = 0
-let g:python_highlight_indent_errors = 1
-let g:python_highlight_class_vars = 1
-let g:python_highlight_exceptions = 1
-
-set completeopt=menuone,noinsert,noselect
 let g:completion_enable_auto_signature = 1
 let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 1
 let g:completion_enable_auto_paren = 1
 
+" Note: this is deprecated
 call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
 call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
 call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
@@ -112,8 +85,7 @@ call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagn
 " Note: this must be added after the lightline dictionary is declared
 call insert(g:lightline['active']['right'][0], 'gitbranch')
 call insert(g:lightline['active']['right'], ['diagnostics'])
-let g:lightline['component_function']['gitbranch'] = 'LightlineGitbranch'
-let g:lightline['component_function']['diagnostics'] = 'LightlineDiagnostics'
+let g:lightline['component_function'] = {'gitbranch' : 'LightlineGitbranch', 'diagnostics' : 'LightlineDiagnostics'}
 
 " FUNCTIONS
 " ---------
@@ -126,11 +98,29 @@ function! s:set_git_branch() abort
     endif
 endfunction
 
+function! s:code_action(action) abort
+    if empty(luaeval("vim.lsp.get_active_clients()"))
+        echo 'No active language server.'
+        return
+    endif
+    let actions = {
+        \ 'hover' : 'vim.lsp.buf.hover()'
+        \ 'format' : 'vim.lsp.buf.formatting_sync(nil, 1000)',
+        \ 'rename' : 'vim.lsp.buf.rename()',
+        \ 'diagnostics' : 'vim.lsp.diagnostic.set_loclist()',
+        \ 'diagnostics_prev' : 'vim.lsp.diagnostic.goto_prev()',
+        \ 'diagnostics_next' : 'vim.lsp.diagnostic.goto_next()',
+        \ 'definition' : 'vim.lsp.buf.definition()',
+        \ 'references' : 'vim.lsp.buf.references()',
+        \ }
+    call luaeval(actions[a:action])
+    unlet actions
+endfunction
+
 function! LightlineDiagnostics() abort
-    return ""
-    if <SID>bad_buffer() || winwidth(0) < 70 | return '' | endif
-    if empty(info) | return '' | endif
+    if winwidth(0) < 70 | return '' | endif
     let info = luaeval("require('lsp-status').diagnostics()")
+    if empty(info) | return '' | endif
     let msgs = []
     if get(info, 'errors', 0) | call add(msgs, ' ' . info['errors']) | endif
     if get(info, 'warnings', 0) | call add(msgs, ' ' . info['warnings']) | endif
@@ -140,8 +130,8 @@ function! LightlineDiagnostics() abort
 endfunction
 
 function! LightlineGitbranch() abort
-    if len(g:current_branch_name) | return " " . g:current_branch_name | endif
-    return ""
+    if len(g:current_branch_name) | return ' ' . g:current_branch_name | endif
+    return ''
 endfunction
 
 " AUTOCMDS

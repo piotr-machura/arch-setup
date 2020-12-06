@@ -1,5 +1,4 @@
 " PYTHON FTPLUGIN
 " ---------------
-command! -nargs=0 Lint :term pylint %
-setlocal makeprg=/usr/bin/python3\ %
+setlocal makeprg=/usr/bin/python3\ -m \unittest\ %
 compiler pyunit

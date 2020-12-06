@@ -128,8 +128,8 @@ prompt spaceship
 # -------
 bindkey -v
 bindkey "^?" backward-delete-char # ^?: backspace keycode
-bindkey '^[[3~' delete-char # ^[[3: delete keycode
-bindkey -a '^[[3~' delete-char # vi normal mode
+bindkey "^[[3~" delete-char # ^[[3: delete keycode
+bindkey -a "^[[3~" delete-char # vi normal mode
 
 KEYTIMEOUT=1 # Reduce the delay between keymap switches
 
