@@ -19,6 +19,8 @@ Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
+Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
+Plug 'nvim-lua/completion-nvim' " Native LSP completion window
 call plug#end()
 
 " SETTINGS
@@ -27,14 +29,13 @@ set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set nowrap      scrolloff=4     cursorline      sidescrolloff=8
 set number      relativenumber  numberwidth=3   signcolumn=number
 set noshowmode  updatetime=300  confirm         shortmess+=c
-set hidden      conceallevel=2  concealcursor=""
+set hidden      conceallevel=2  concealcursor=''
 set splitbelow  splitright      switchbuf=usetab
 set list        listchars=tab:-,trail:·
 set title       titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
 set undofile    undolevels=500  autowrite
 set mouse+=ar   virtualedit=block
 set path=**,.,, completeopt=menuone,noinsert,noselect
-
 
 " Python executable
 let g:python3_host_prog='/usr/bin/python3'
@@ -56,6 +57,13 @@ let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 let g:undotree_Splitwidth = 10
 
+let g:current_branch_name = ''
+
+let g:completion_enable_auto_signature = 1
+let g:completion_matching_ignore_case = 1
+let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_paren = 1
+
 "Theme configuration
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
@@ -69,7 +77,7 @@ let g:lightline = {
     \ 'colorscheme': 'nord',
     \ 'active': {
     \ 'left': [ ['mode'], ['filename'], ['readonly', 'modified'] ],
-    \ 'right': [ ['filetype', 'lineinfo'] ]
+    \ 'right': [['filetype', 'lineinfo'], [], ['diagnostics', 'gitbranch'] ]
     \ },
     \ 'inactive': {
     \ 'left': [['filename'], ['readonly', 'modified'] ], 'right': []
@@ -80,6 +88,10 @@ let g:lightline = {
     \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
     \ 'lineinfo' : '%{"ﲒ ".virtcol(".")."  ".line(".").":".line("$")}%<'
     \ },
+    \ 'component_function' : {
+    \ 'gitbranch' : 'LightlineGitbranch',
+    \ 'diagnostics' : 'LightlineDiagnostics'
+    \ }
     \ }
 
 " Indentline configuration
@@ -91,6 +103,17 @@ let g:indentLine_setConceal = 0
 let g:goyo_height = '100%'
 let g:goyo_width = 80
 let g:goyo_linenr = 0
+
+" LSP diagnostics highlighting
+sign define LspDiagnosticsSignError text= texthl=LSPDiagnosticsError linehl= numhl=
+sign define LspDiagnosticsSignWarning text= texthl=LSPDiagnosticsWarning linehl= numhl=
+sign define LspDiagnosticsSignInformation text= texthl=LSPDiagnosticsInformation linehl= numhl=
+sign define LspDiagnosticsSignHint text= texthl=LSPDiagnosticsHint linehl= numhl=
+
+highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
+highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
+highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
+highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
 
 " CLIPBOARD
 " ---------
@@ -135,6 +158,26 @@ inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 
+
+" LSP completion
+imap <expr> <C-space> pumvisible() ?
+            \ "\<C-e>" : !empty(luaeval("vim.lsp.buf.server_ready()")) ? "<Plug>(completion_trigger)" : "\<C-n>"
+let g:completion_confirm_key = "\<CR>"
+
+" LSP code actions
+nnoremap <expr> <C-h> luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.buf.hover()<CR>" : "\K"
+nnoremap <expr> # luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.buf.rename()<CR>" : "#"
+nnoremap <expr> [d luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
+nnoremap <expr> ]d luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
+nnoremap <expr> <C-]> luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
+nnoremap <expr> <C-t> luaeval("vim.lsp.buf.server_ready()") ?
+            \ "<cmd>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
+
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
 map <2-MiddleMouse> <Nop>
@@ -146,18 +189,81 @@ nnoremap <silent> <C-u> :UndotreeToggle<CR>
 nnoremap <silent><nowait> - :Explore<CR>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <silent> <leader>g :Goyo<CR>
-nnoremap <silent> <leader>f :call <SID>strip_whitespace()<CR>
+nnoremap <silent> <leader>n :nohlsearch<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
+
+" COMMANDS
+" --------
+command! -nargs=0 Format call <SID>format_file()
+command! -nargs=0 Diagnostic call <SID>display_diagnostics()
+
+" LSP
+" ---
+lua require('lspconf')
 
 " FUNCTIONS
 " ---------
-function! s:strip_whitespace() abort
-    let last_search = @/
-    %substitute/\s\+$//e
-    let @/ = last_search
-    nohlsearch
-    unlet last_search
-    echo 'Stripped trailing whitespace'
+function! s:format_file() abort
+    if !luaeval("vim.lsp.buf.server_ready()")
+        let last_search = @/
+        silent! %substitute/\s\+$//e
+        let @/ = last_search
+        nohlsearch
+        unlet last_search
+        echo 'Stripped trailing whitespace.'
+    else
+        lua vim.lsp.buf.formatting_sync(nil, 1000)
+        echo 'Formatted buffer.'
+    endif
+endfunction
+
+function! s:display_diagnostics() abort
+    if !luaeval('vim.lsp.buf.server_ready()')
+       lwindow
+    else
+        lua vim.lsp.diagnostic.set_loclist()
+    endif
+endfunction
+
+function! s:set_git_branch() abort
+    let git_output = trim(system('git branch --show-current'))
+    if stridx(git_output, 'fatal: not a git repository')!=-1
+        let g:current_branch_name = ''
+    else
+        let g:current_branch_name = git_output
+    endif
+endfunction
+
+function! LightlineDiagnostics() abort
+    let msgs = ''
+    if winwidth(0) < 70  || !luaeval('vim.lsp.buf.server_ready()') | return msgs | endif
+    let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Error]])')
+    let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Warning]])')
+    let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Information]])')
+    let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Hint]])')
+    if errors > 0
+        let msgs .= ' ' . errors
+    endif
+    if warnings > 0
+        if !empty(msgs) | let msgs .= ' ' | endif
+        let msgs .= ' ' . warnings
+    endif
+    if infos > 0
+        if !empty(msgs) | let msgs .= ' ' | endif
+        let msgs .= ' ' . infos
+    endif
+    if hints > 0
+        if !empty(msgs) | let msgs .= ' ' | endif
+        let msgs .= ' ' . hints
+    endif
+    return msgs
+endfunction
+
+function! LightlineGitbranch() abort
+    if !empty(g:current_branch_name) && winwidth(0) > 50
+        return ' ' . g:current_branch_name
+    endif
+    return ''
 endfunction
 
 " AUTOCMDS
@@ -168,4 +274,5 @@ augroup user_created
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+    autocmd VimEnter,DirChanged * call <SID>set_git_branch()
 augroup END
