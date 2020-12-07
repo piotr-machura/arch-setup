@@ -28,11 +28,11 @@ font:
         family: FiraMono Nerd Font
         style: Bold
     italic:
-        family: FiraMono Nerd Font
-        style: Italic
+        family: FiraMono Nerd Font Mono
+        style: Regular
     bold_italic:
         family: FiraMono Nerd Font
-        style: Bold Italic
+        style: Bold
     size: 11.5
 
 # Nord Theme

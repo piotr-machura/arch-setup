@@ -66,7 +66,6 @@ let g:completion_enable_auto_paren = 1
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
-let g:nord_italic_comments = 1
 let g:nord_underline = 1
 colorscheme nord
 
@@ -94,6 +93,7 @@ let g:lightline = {
 
 " Indentline configuration
 let g:indentLine_color_term = 0
+let g:indentLine_color_gui = '#4c566a'
 let g:indentLine_char = '|'
 let g:indentLine_setConceal = 0
 
@@ -103,10 +103,10 @@ let g:goyo_width = 80
 let g:goyo_linenr = 0
 
 " LSP diagnostics highlighting
-sign define LspDiagnosticsSignError text= texthl=LSPDiagnosticsError linehl= numhl=
-sign define LspDiagnosticsSignWarning text= texthl=LSPDiagnosticsWarning linehl= numhl=
-sign define LspDiagnosticsSignInformation text= texthl=LSPDiagnosticsInformation linehl= numhl=
-sign define LspDiagnosticsSignHint text= texthl=LSPDiagnosticsHint linehl= numhl=
+sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsDefaultError linehl= numhl=
+sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsDefaultWarning linehl= numhl=
+sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsInformation linehl= numhl=
+sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsDefaultHint linehl= numhl=
 
 highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
 highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
@@ -165,7 +165,7 @@ let g:completion_confirm_key = "\<CR>"
 " LSP code actions
 nnoremap <expr> <C-h> luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.hover()<CR>" : "\K"
-nnoremap <expr> <C-r> luaeval('vim.lsp.buf.server_ready()') ?
+nnoremap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.rename()<CR>" : "#"
 nnoremap <expr> [d luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
@@ -257,7 +257,7 @@ function! LightlineDiagnostics() abort
 endfunction
 
 function! LightlineGitbranch() abort
-    if exists('b:current_branch_name') && winwidth(0) > 50
+    if exists('b:current_branch_name') && winwidth(0) > 70
         return ' ' . b:current_branch_name
     endif
     return ''
