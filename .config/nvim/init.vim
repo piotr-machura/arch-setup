@@ -29,7 +29,7 @@ set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set nowrap      scrolloff=4     cursorline      sidescrolloff=8
 set number      relativenumber  numberwidth=3   signcolumn=number
 set noshowmode  updatetime=300  confirm         shortmess+=c
-set hidden      conceallevel=2  concealcursor=''
+set hidden      conceallevel=2  concealcursor=
 set splitbelow  splitright      switchbuf=usetab
 set list        listchars=tab:-,trail:·
 set title       titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
@@ -45,7 +45,7 @@ let g:netrw_browse_split = 0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altv = 1
-let g:netrw_home = $HOME.'/.cache/nvim'
+let g:netrw_home = stdpath('cache')
 let g:netrw_localrmdir='rm -r'
 
 " Undoo tree configuration
@@ -57,11 +57,9 @@ let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 let g:undotree_Splitwidth = 10
 
-let g:current_branch_name = ''
-
 let g:completion_enable_auto_signature = 1
 let g:completion_matching_ignore_case = 1
-let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_paren = 1
 
 "Theme configuration
@@ -161,21 +159,21 @@ inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 
 " LSP completion
 imap <expr> <C-space> pumvisible() ?
-            \ "\<C-e>" : !empty(luaeval("vim.lsp.buf.server_ready()")) ? "<Plug>(completion_trigger)" : "\<C-n>"
+            \ "\<C-e>" : !empty(luaeval('vim.lsp.buf.server_ready()')) ? "<Plug>(completion_trigger)" : "\<C-n>"
 let g:completion_confirm_key = "\<CR>"
 
 " LSP code actions
-nnoremap <expr> <C-h> luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> <C-h> luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.hover()<CR>" : "\K"
-nnoremap <expr> # luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> <C-r> luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.rename()<CR>" : "#"
-nnoremap <expr> [d luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> [d luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
-nnoremap <expr> ]d luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> ]d luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
-nnoremap <expr> <C-]> luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> <C-]> luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
-nnoremap <expr> <C-t> luaeval("vim.lsp.buf.server_ready()") ?
+nnoremap <expr> <C-t> luaeval('vim.lsp.buf.server_ready()') ?
             \ "<cmd>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
 
 " Disable middle mouse click
@@ -185,11 +183,11 @@ imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 
 " Other maps
-nnoremap <silent> <C-u> :UndotreeToggle<CR>
-nnoremap <silent><nowait> - :Explore<CR>
+nnoremap <C-u> <cmd>UndotreeToggle<CR>
+nnoremap - <cmd>Explore<CR>
 tnoremap <C-\> <C-\><C-n>
-nnoremap <silent> <leader>g :Goyo<CR>
-nnoremap <silent> <leader>n :nohlsearch<CR>
+nnoremap <leader>g <cmd>Goyo<CR>
+nnoremap <leader>n <cmd>nohlsearch<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
@@ -204,7 +202,7 @@ lua require('lspconf')
 " FUNCTIONS
 " ---------
 function! s:format_file() abort
-    if !luaeval("vim.lsp.buf.server_ready()")
+    if !luaeval('vim.lsp.buf.server_ready()')
         let last_search = @/
         silent! %substitute/\s\+$//e
         let @/ = last_search
@@ -226,21 +224,20 @@ function! s:display_diagnostics() abort
 endfunction
 
 function! s:set_git_branch() abort
-    let git_output = trim(system('git branch --show-current'))
+    let git_output = trim(system('git -C ' . expand("%:h") . ' branch --show-current'))
     if stridx(git_output, 'fatal: not a git repository')!=-1
-        let g:current_branch_name = ''
-    else
-        let g:current_branch_name = git_output
+        return
     endif
+    let b:current_branch_name = git_output
 endfunction
 
 function! LightlineDiagnostics() abort
     let msgs = ''
-    if winwidth(0) < 70  || !luaeval('vim.lsp.buf.server_ready()') | return msgs | endif
-    let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Error]])')
-    let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Warning]])')
-    let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Information]])')
-    let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Hint]])')
+    if winwidth(0) < 70 | return msgs | endif
+    let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
+    let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
+    let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
+    let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
     if errors > 0
         let msgs .= ' ' . errors
     endif
@@ -260,8 +257,8 @@ function! LightlineDiagnostics() abort
 endfunction
 
 function! LightlineGitbranch() abort
-    if !empty(g:current_branch_name) && winwidth(0) > 50
-        return ' ' . g:current_branch_name
+    if exists('b:current_branch_name') && winwidth(0) > 50
+        return ' ' . b:current_branch_name
     endif
     return ''
 endfunction
@@ -274,5 +271,5 @@ augroup user_created
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-    autocmd VimEnter,DirChanged * call <SID>set_git_branch()
+    autocmd BufEnter * call <SID>set_git_branch()
 augroup END
