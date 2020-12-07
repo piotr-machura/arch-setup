@@ -93,14 +93,8 @@ let g:lightline = {
 
 " Indentline configuration
 let g:indentLine_color_term = 0
-let g:indentLine_color_gui = '#4c566a'
 let g:indentLine_char = '|'
 let g:indentLine_setConceal = 0
-
-" Goyo configuration
-let g:goyo_height = '100%'
-let g:goyo_width = 80
-let g:goyo_linenr = 0
 
 " LSP diagnostics highlighting
 sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsDefaultError linehl= numhl=
@@ -156,10 +150,9 @@ inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 
-
 " LSP completion
 imap <expr> <C-space> pumvisible() ?
-            \ "\<C-e>" : !empty(luaeval('vim.lsp.buf.server_ready()')) ? "<Plug>(completion_trigger)" : "\<C-n>"
+            \ "\<C-e>" : luaeval('vim.lsp.buf.server_ready()') ? "<Plug>(completion_trigger)" : "\<C-n>"
 let g:completion_confirm_key = "\<CR>"
 
 " LSP code actions
@@ -224,6 +217,7 @@ function! s:display_diagnostics() abort
 endfunction
 
 function! s:set_git_branch() abort
+    if empty(expand("%:h")) | return | endif
     let git_output = trim(system('git -C ' . expand("%:h") . ' branch --show-current'))
     if stridx(git_output, 'fatal: not a git repository')!=-1
         return
