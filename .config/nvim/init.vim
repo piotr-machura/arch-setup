@@ -82,7 +82,7 @@ let g:lightline = {
     \ 'component': {
     \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
     \ 'modified' : '%{&modified && &modifiable ? " " : ""}',
-    \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
+    \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
     \ 'lineinfo' : '%{"ﲒ ".virtcol(".")."  ".line(".").":".line("$")}%<'
     \ },
     \ 'component_function' : {
@@ -203,7 +203,7 @@ function! s:format_file() abort
         unlet last_search
         echo 'Stripped trailing whitespace.'
     else
-        lua vim.lsp.buf.formatting_sync(nil, 1000)
+        lua vim.lsp.buf.formatting()
         echo 'Formatted buffer.'
     endif
 endfunction

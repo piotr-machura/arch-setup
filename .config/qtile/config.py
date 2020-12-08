@@ -70,16 +70,19 @@ mouse = [
         [win],
         'Button1',
         lazy.window.set_position_floating(),
-        start=lazy.window.get_position()),
+        start=lazy.window.get_position()
+        ),
     Drag(
         [win],
         'Button3',
         lazy.window.set_size_floating(),
-        start=lazy.window.get_size()),
+        start=lazy.window.get_size(),
+        ),
     Click(
         [win],
         'Button2',
-        lazy.window.toggle_floating()),
+        lazy.window.toggle_floating(),
+        ),
 ]
 
 follow_mouse_focus = False
@@ -113,10 +116,10 @@ nord_colors = [
 ]
 
 theme_layout = {
-    'border_width': 5,
-    'margin': 10,
-    'border_focus': nord_colors[8],
-    'border_normal': nord_colors[3],
+    'border_width' : 5,
+    'margin' : 10,
+    'border_focus' : nord_colors[8],
+    'border_normal' : nord_colors[3],
 }
 
 layouts = [
