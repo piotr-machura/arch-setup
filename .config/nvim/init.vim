@@ -195,17 +195,18 @@ lua require('lspconf')
 " FUNCTIONS
 " ---------
 function! s:format_file() abort
-    if !luaeval('vim.lsp.buf.server_ready()')
-        let last_search = @/
-        silent! %substitute/\s\+$//e
-        let @/ = last_search
-        nohlsearch
-        unlet last_search
-        echo 'Stripped trailing whitespace.'
-    else
+    let msg = ''
+    if luaeval('vim.lsp.buf.server_ready()')
         lua vim.lsp.buf.formatting()
-        echo 'Formatted buffer.'
+        let msg .= 'Formatted buffer. '
     endif
+    let last_search = @/
+    silent! %substitute/\s\+$//e
+    let @/ = last_search
+    nohlsearch
+    unlet last_search
+    let msg .= 'Stripped trailing whitespace.'
+    echo msg
 endfunction
 
 function! s:display_diagnostics() abort
