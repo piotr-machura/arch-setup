@@ -11,8 +11,8 @@ endif
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'tpope/vim-surround' " Change surrounding braces/quotes
-Plug 'jiangmiao/auto-pairs' " Auto pairs for '(' '[' '{' and surroundings
+Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
+Plug 'jiangmiao/auto-pairs' " Auto pairs for brackets/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
 Plug 'arcticicestudio/nord-vim' " Theme
@@ -21,6 +21,7 @@ Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
+Plug 'nvim-treesitter/nvim-treesitter' " Native tree-sitter support
 call plug#end()
 
 " SETTINGS
@@ -188,9 +189,10 @@ let g:AutoPairsShortcutToggle = "\<C-p>"
 command! -nargs=0 Format call <SID>format_file()
 command! -nargs=0 Diagnostic call <SID>display_diagnostics()
 
-" LSP
+" LUA
 " ---
 lua require('lspconf')
+lua require('trees')
 
 " FUNCTIONS
 " ---------
