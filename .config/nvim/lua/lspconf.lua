@@ -23,7 +23,7 @@ require'lspconfig'.pyls.setup {
                 },
                 pydocstyle = {
                     enabled = false,
-                    convention = "pep257"
+                    convention = "google"
                 }
             }
         }

@@ -58,6 +58,7 @@ let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 let g:undotree_Splitwidth = 10
 
+" Completion popup configuration
 let g:completion_enable_auto_signature = 1
 let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 0
@@ -221,7 +222,7 @@ endfunction
 function! s:set_git_branch() abort
     if empty(expand("%:h")) | return | endif
     let git_output = trim(system('git -C ' . expand("%:h") . ' branch --show-current'))
-    if stridx(git_output, 'fatal:')!=-1
+    if stridx(git_output, 'fatal: ')!=-1
         return
     endif
     let b:current_branch_name = git_output
