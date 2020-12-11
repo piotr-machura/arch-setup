@@ -110,10 +110,4 @@ mouse_bindings:
     - { mouse: Middle, action: None}
 
 key_bindings:
-    - { key: V,      mods: Control|Alt, action: Paste            }
-    - { key: C,      mods: Control|Alt, action: Copy             }
-    - { key: F,      mods: Control|Alt, action: SearchForward    }
-    - { key: Key0,   mods: Control|Alt, action: ResetFontSize    }
-    - { key: Equals, mods: Control|Alt, action: IncreaseFontSize }
-    - { key: Minus,  mods: Control|Alt, action: DecreaseFontSize }
     - { key: Return, mods: Control,     action: SpawnNewInstance }

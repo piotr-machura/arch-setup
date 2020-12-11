@@ -15,13 +15,13 @@ Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
 Plug 'jiangmiao/auto-pairs' " Auto pairs for brackets/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
+Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'arcticicestudio/nord-vim' " Theme
 Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
 Plug 'nvim-lua/completion-nvim' " Native LSP completion window
-Plug 'nvim-treesitter/nvim-treesitter' " Native tree-sitter support
 call plug#end()
 
 " SETTINGS
@@ -192,7 +192,6 @@ command! -nargs=0 Diagnostic call <SID>display_diagnostics()
 " LUA
 " ---
 lua require('lspconf')
-lua require('trees')
 
 " FUNCTIONS
 " ---------
@@ -222,7 +221,7 @@ endfunction
 function! s:set_git_branch() abort
     if empty(expand("%:h")) | return | endif
     let git_output = trim(system('git -C ' . expand("%:h") . ' branch --show-current'))
-    if stridx(git_output, 'fatal: not a git repository')!=-1
+    if stridx(git_output, 'fatal:')!=-1
         return
     endif
     let b:current_branch_name = git_output
