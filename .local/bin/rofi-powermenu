@@ -7,11 +7,11 @@
 # Note: based on 'rofi-scripts' by @adi1090x
 
 # Options
-shutdown=" "
-reboot=" "
-lock=" "
-logout=" "
-abort=" "
+shutdown="\uf011 "
+reboot="\uf01e "
+lock="\uf023 "
+logout="\uf08b "
+abort="\uf467 "
 
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu.rasi"
 options="$shutdown\n$reboot\n$lock\n$logout"
@@ -31,4 +31,3 @@ case $chosen in
     $logout) loginctl terminate-session $XDG_SESSION_ID ;;
     $abort) exit 1 ;;
 esac
-

@@ -7,7 +7,7 @@ import re
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Drag, Click, Group, Key, Screen
 from libqtile.lazy import lazy
-# pylint: disable=invalid-name,protected-access,line-too-long
+# pylint: disable=invalid-name,protected-access,line-too-long,no-member
 
 wmname = 'Qtile'
 
@@ -132,9 +132,9 @@ layouts = [
         change_ratio=0.05,
         single_border_width=theme_layout['border_width'],
         single_margin=theme_layout['margin'],
-        name=' ',
+        name='\uf0db ',
         **theme_layout),
-    layout.Max(name=' ', **theme_layout),
+    layout.Max(name='\ue25d ', **theme_layout),
 ]
 
 floating_layout = layout.Floating(
@@ -200,13 +200,13 @@ class PamixerVolume(widget.base._TextBox):
         if vol != self.volume:
             self.volume = vol
             if 0 < self.volume < 30:
-                self.text = '奄'
+                self.text = '\ufa7e'
             elif 30 < self.volume <= 70:
-                self.text = '奔'
+                self.text = '\ufa7f'
             elif self.volume > 70:
-                self.text = '墳'
+                self.text = '\ufa7d'
             else:
-                self.text = '婢'
+                self.text = '\ufc5d'
             self.bar.draw()
         self.timeout_add(self.update_interval, self.update)
 
@@ -225,7 +225,7 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length=6),    # pylint: disable=no-member
+                widget.Spacer(length=6),
                 widget.GroupBox(
                     highlight_method='block',
                     active=nord_colors[6],
@@ -241,23 +241,23 @@ screens = [
                     padding_y=10,
                     padding_x=8,
                 ),
-                widget.Spacer(length=6),    # pylint: disable=no-member
-                widget.Sep(size_percent=60, linewidth=2),    # pylint: disable=no-member
-                widget.Spacer(length=6),    # pylint: disable=no-member
-                widget.TaskList(    # pylint: disable=no-member
+                widget.Spacer(length=6),
+                widget.Sep(size_percent=65, linewidth=2),
+                widget.Spacer(length=6),
+                widget.TaskList(
                     highlight_method='block',
                     title_width_method='uniform',
                     rounded = False,
                     markup_focused='{}',
-                    markup_floating='{}  ',
-                    markup_minimized='{}  ',
+                    markup_floating='\uf0d8  {}',
+                    markup_minimized='\uf0d7  {}',
                     border=nord_colors[3],
                     urgent_border=nord_colors[12],
                     spacing=0,
                     margin_y=-1,
                     padding=8,
                     icon_size=0,
-                    max_title_width=250,
+                    max_title_width=350,
                 ),
                 PamixerVolume(
                     fontsize=18,
@@ -270,7 +270,7 @@ screens = [
                 ),
                 widget.CurrentLayout(),
                 widget.Clock(format='%H:%M'),
-                widget.Spacer(length=8),    # pylint: disable=no-member
+                widget.Spacer(length=8),
             ],
             34,
             background=nord_colors[0]),

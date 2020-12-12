@@ -27,13 +27,13 @@ call plug#end()
 " SETTINGS
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
-set nowrap      scrolloff=4     cursorline      sidescrolloff=8
+set nowrap      scrolloff=4     cursorline      sidescrolloff=6
 set number      relativenumber  numberwidth=3   signcolumn=number
 set noshowmode  updatetime=300  confirm         shortmess+=c
 set hidden      conceallevel=2  concealcursor=
 set splitbelow  splitright      switchbuf=usetab
-set list        listchars=tab:-,trail:·
-set title       titlestring=%{'\ '.substitute(getcwd(),$HOME,'~','').'\ \ '.fnamemodify(expand('%'),':~:.')}
+set list        fcs=eob:\       listchars=tab:>-,trail:·
+set title       titlestring=%{\"\\ue62b\".substitute(getcwd(),$HOME,'~','').\"\ \\uf460\ \".fnamemodify(expand('%'),':~:.')}
 set undofile    undolevels=500  autowrite
 set mouse+=ar   virtualedit=block
 set path=**,.,, completeopt=menuone,noinsert,noselect
@@ -82,10 +82,10 @@ let g:lightline = {
     \ 'left': [['filename'], ['readonly', 'modified'] ], 'right': []
     \ },
     \ 'component': {
-    \ 'readonly' : '%{&readonly && &modifiable ? " Read-only" :  ""}',
-    \ 'modified' : '%{&modified && &modifiable ? " " : ""}',
-    \ 'filetype' : '%{strlen(&filetype) ? " ".&filetype : " ---"}%<',
-    \ 'lineinfo' : '%{"ﲒ ".virtcol(".")."  ".line(".").":".line("$")}%<'
+    \ 'readonly' : '%{&readonly && &modifiable ? "\uf05e Read-only" :  ""}',
+    \ 'modified' : '%{&modified && &modifiable ? "\uf44d " : ""}',
+    \ 'filetype' : '%{strlen(&filetype) ? "\ue612 ".&filetype : "\ue612 ---"}%<',
+    \ 'lineinfo' : '%{"\ufc92 ".virtcol(".")." \uf1dd ".line(".").":".line("$")}%<'
     \ },
     \ 'component_function' : {
     \ 'gitbranch' : 'LightlineGitbranch',
@@ -99,10 +99,10 @@ let g:indentLine_char = '|'
 let g:indentLine_setConceal = 0
 
 " LSP diagnostics highlighting
-sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsDefaultError linehl= numhl=
-sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsDefaultWarning linehl= numhl=
-sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsInformation linehl= numhl=
-sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsDefaultHint linehl= numhl=
+call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
+call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
+call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
+call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
 
 highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
 highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
@@ -236,26 +236,26 @@ function! LightlineDiagnostics() abort
     let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
     let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
     if errors > 0
-        let msgs .= ' ' . errors
+        let msgs .= "\uf057 " . errors
     endif
     if warnings > 0
         if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .= ' ' . warnings
+        let msgs .= "\uf06a " . warnings
     endif
     if infos > 0
         if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .= ' ' . infos
+        let msgs .= "\uf059 " . infos
     endif
     if hints > 0
         if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .= ' ' . hints
+        let msgs .=  "\uf055 " . hints
     endif
     return msgs
 endfunction
 
 function! LightlineGitbranch() abort
     if exists('b:current_branch_name') && winwidth(0) > 70
-        return ' ' . b:current_branch_name
+        return "\uf418 " . b:current_branch_name
     endif
     return ''
 endfunction
