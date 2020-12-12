@@ -242,9 +242,23 @@ screens = [
                     padding_x=8,
                 ),
                 widget.Spacer(length=6),    # pylint: disable=no-member
-                widget.Sep(size_percent=50, linewidth=2),    # pylint: disable=no-member
+                widget.Sep(size_percent=60, linewidth=2),    # pylint: disable=no-member
                 widget.Spacer(length=6),    # pylint: disable=no-member
-                widget.WindowName(show_state=False),
+                widget.TaskList(    # pylint: disable=no-member
+                    highlight_method='block',
+                    title_width_method='uniform',
+                    rounded = False,
+                    markup_focused='{}',
+                    markup_floating='{}  ',
+                    markup_minimized='{}  ',
+                    border=nord_colors[3],
+                    urgent_border=nord_colors[12],
+                    spacing=0,
+                    margin_y=-1,
+                    padding=8,
+                    icon_size=0,
+                    max_title_width=250,
+                ),
                 PamixerVolume(
                     fontsize=18,
                     update_interval=5,
