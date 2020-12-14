@@ -1,6 +1,7 @@
 " -----------------------------
 " NEOVIM TERMINAL EDITOR CONFIG
 " -----------------------------
+
 if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-plug
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -17,7 +18,6 @@ Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
 Plug 'sheerun/vim-polyglot' " Multi-language pack
 Plug 'arcticicestudio/nord-vim' " Theme
-Plug 'itchyny/lightline.vim' " Status bar
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
@@ -29,7 +29,7 @@ call plug#end()
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set nowrap      scrolloff=4     cursorline      sidescrolloff=6
 set number      relativenumber  numberwidth=3   signcolumn=number
-set noshowmode  updatetime=300  confirm         shortmess+=c
+set confirm     updatetime=300  shortmess+=c
 set hidden      conceallevel=2  concealcursor=
 set splitbelow  splitright      switchbuf=usetab
 set list        fcs=eob:\       listchars=tab:>-,trail:·
@@ -71,27 +71,24 @@ let g:nord_italic = 1
 let g:nord_underline = 1
 colorscheme nord
 
-" Statusline configuration
-let g:lightline = {
-    \ 'colorscheme': 'nord',
-    \ 'active': {
-    \ 'left': [ ['mode'], ['filename'], ['readonly', 'modified'] ],
-    \ 'right': [['filetype', 'lineinfo'], [], ['diagnostics', 'gitbranch'] ]
-    \ },
-    \ 'inactive': {
-    \ 'left': [['filename'], ['readonly', 'modified'] ], 'right': []
-    \ },
-    \ 'component': {
-    \ 'readonly' : '%{&readonly && &modifiable ? "\uf05e Read-only" :  ""}',
-    \ 'modified' : '%{&modified && &modifiable ? "\uf44d " : ""}',
-    \ 'filetype' : '%{strlen(&filetype) ? "\ue612 ".&filetype : "\ue612 ---"}%<',
-    \ 'lineinfo' : '%{"\ufc92 ".virtcol(".")." \uf1dd ".line(".").":".line("$")}%<'
-    \ },
-    \ 'component_function' : {
-    \ 'gitbranch' : 'LightlineGitbranch',
-    \ 'diagnostics' : 'LightlineDiagnostics'
-    \ }
-    \ }
+" Statusline
+set showmode
+set statusline=
+set statusline+=%1*
+set statusline+=%=%2*%{StatuslineDiagnostics()}%*
+set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \"\ :\ ''}
+set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
+set statusline+=%f
+set statusline+=%{\"\ \|\ \\ufc92\ \"}%c\ %{\"\\uf1dd\ \"}%-l:%-L\ %*
+
+highlight StatusLine ctermbg=8 ctermfg=7
+highlight StatusLineNC ctermbg=None ctermfg=8
+highlight link User1 StatusLineNC 
+highlight User2 ctermbg=None ctermfg=7
+
+" Tabline
+highlight TabLineFill ctermbg=None
+highlight TabLineSel ctermfg=7
 
 " Indentline configuration
 let g:indentLine_color_term = 0
@@ -219,16 +216,7 @@ function! s:display_diagnostics() abort
     endif
 endfunction
 
-function! s:set_git_branch() abort
-    if empty(expand("%:h")) | return | endif
-    let git_output = trim(system('git -C ' . expand("%:h") . ' branch --show-current'))
-    if stridx(git_output, 'fatal: ')!=-1
-        return
-    endif
-    let b:current_branch_name = git_output
-endfunction
-
-function! LightlineDiagnostics() abort
+function! StatuslineDiagnostics() abort
     let msgs = ''
     if winwidth(0) < 70 | return msgs | endif
     let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
@@ -250,13 +238,7 @@ function! LightlineDiagnostics() abort
         if !empty(msgs) | let msgs .= ' ' | endif
         let msgs .=  "\uf055 " . hints
     endif
-    return msgs
-endfunction
-
-function! LightlineGitbranch() abort
-    if exists('b:current_branch_name') && winwidth(0) > 70
-        return "\uf418 " . b:current_branch_name
-    endif
+    if !empty(msgs) | return msgs .' '| endif
     return ''
 endfunction
 
@@ -268,5 +250,4 @@ augroup user_created
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
-    autocmd BufEnter * call <SID>set_git_branch()
 augroup END
