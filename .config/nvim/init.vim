@@ -64,27 +64,15 @@ let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_paren = 1
 
-"Theme configuration
-let g:nord_uniform_diff_background = 1
-let g:nord_bold = 1
-let g:nord_italic = 1
-let g:nord_underline = 1
-colorscheme nord
-
 " Statusline
 set showmode
 set statusline=
-set statusline+=%1*
-set statusline+=%=%2*%{StatuslineDiagnostics()}%*
+set statusline+=%#StatusLineNC#
+set statusline+=%=%1*%{StatuslineDiagnostics()}%*
 set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \"\ :\ ''}
 set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
 set statusline+=%f
 set statusline+=%{\"\ \|\ \\ufc92\ \"}%c\ %{\"\\uf1dd\ \"}%-l:%-L\ %*
-
-highlight StatusLine ctermbg=8 ctermfg=7
-highlight StatusLineNC ctermbg=None ctermfg=8
-highlight link User1 StatusLineNC 
-highlight User2 ctermbg=None ctermfg=7
 
 " Tabline
 highlight TabLineFill ctermbg=None
@@ -101,10 +89,12 @@ call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDia
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
 call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
 
-highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
-highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
-highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
-highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+
+"Theme configuration
+let g:nord_uniform_diff_background = 1
+let g:nord_bold = 1
+let g:nord_italic = 1
+let g:nord_underline = 1
 
 " CLIPBOARD
 " ---------
@@ -121,7 +111,7 @@ set clipboard+=unnamedplus
 let g:mapleader = " "
 
 " Buffer management
-nnoremap <silent><expr> ZB &modified ? ':w\|bd<CR>' : ':bd!<CR>'
+nnoremap <silent><expr> ZZ &modified ? ':w\|bd<CR>' : ':bd!<CR>'
 nnoremap <silent> gb :bnext<CR>
 nnoremap <silent> gB :bprev<CR>
 
@@ -249,5 +239,18 @@ augroup user_created
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType qf setlocal statusline=
     autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 augroup END
+
+augroup colorscheme_modification
+    autocmd ColorScheme * highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
+    autocmd ColorScheme * highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
+    autocmd ColorScheme * highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
+    autocmd ColorScheme * highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+    autocmd ColorScheme * highlight StatusLine ctermbg=8 ctermfg=7
+    autocmd ColorScheme * highlight StatusLineNC ctermbg=None ctermfg=8
+    autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
+augroup END
+
+colorscheme nord
