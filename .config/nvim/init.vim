@@ -69,14 +69,10 @@ set showmode
 set statusline=
 set statusline+=%#StatusLineNC#
 set statusline+=%=%1*%{StatuslineDiagnostics()}%*
-set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \"\ :\ ''}
-set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
-set statusline+=%f
-set statusline+=%{\"\ \|\ \\ufc92\ \"}%c\ %{\"\\uf1dd\ \"}%-l:%-L\ %*
-
-" Tabline
-highlight TabLineFill ctermbg=None
-highlight TabLineSel ctermfg=7
+set statusline+=\ %{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
+set statusline+=%{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \"\ :\ ''}
+set statusline+=%f\ \|\ %{\"\\ufc92\"}\ %c
+set statusline+=\ %{\"\\uf1dd\"}\ %l:%L\ %{\"\\uf719\"}\ %n\ %<
 
 " Indentline configuration
 let g:indentLine_color_term = 0
@@ -122,6 +118,7 @@ nnoremap <leader>s "_s
 nnoremap <leader>S "_S
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
+
 vnoremap <leader>x "_x
 vnoremap <leader>X "_X
 vnoremap <leader>s "_s
@@ -244,6 +241,7 @@ augroup user_created
 augroup END
 
 augroup colorscheme_modification
+    autocmd!
     autocmd ColorScheme * highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
     autocmd ColorScheme * highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     autocmd ColorScheme * highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
@@ -251,6 +249,7 @@ augroup colorscheme_modification
     autocmd ColorScheme * highlight StatusLine ctermbg=8 ctermfg=7
     autocmd ColorScheme * highlight StatusLineNC ctermbg=None ctermfg=8
     autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
+    autocmd ColorScheme * highlight TabLineFill ctermbg=None
+    autocmd ColorScheme * highlight TabLineSel ctermfg=7
+    colorscheme nord
 augroup END
-
-colorscheme nord
