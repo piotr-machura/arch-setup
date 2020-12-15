@@ -5,7 +5,7 @@
 export LANG=en_US.UTF-8
 export PATH=$HOME/.local/bin:$PATH
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export PAGER='less'
 export TERMINAL='alacritty -e'
 export BROWSER='firefox'

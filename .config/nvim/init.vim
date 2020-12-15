@@ -27,16 +27,28 @@ call plug#end()
 " SETTINGS
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
-set nowrap      scrolloff=4     cursorline      sidescrolloff=6
-set number      relativenumber  numberwidth=3   signcolumn=number
-set confirm     updatetime=300  shortmess+=c
-set hidden      conceallevel=2  concealcursor=
-set splitbelow  splitright      switchbuf=usetab
+set confirm     updatetime=500  shortmess+=c    virtualedit=block
+set nowrap      cursorline      scrolloff=4     sidescrolloff=6
+set undofile    undolevels=500  autowrite       signcolumn=yes
+set hidden      conceallevel=2  concealcursor=  mouse+=ar
 set list        fcs=eob:\       listchars=tab:>-,trail:·
-set title       titlestring=%{\"\\ue62b\".substitute(getcwd(),$HOME,'~','').\"\ \\uf460\ \".fnamemodify(expand('%'),':~:.')}
-set undofile    undolevels=500  autowrite
-set mouse+=ar   virtualedit=block
 set path=**,.,, completeopt=menuone,noinsert,noselect
+set splitbelow  splitright      switchbuf=usetab
+
+" Title
+set title titlelen=0
+set titlestring=
+set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),$HOME,'~','')}
+set titlestring+=%{\"\\uf460\".fnamemodify(expand('%'),':~:.')}
+
+" Statusline
+set statusline=
+set statusline+=%#StatusLineNC#
+set statusline+=%=%1*%{StatuslineDiagnostics()}%*
+set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \|\ \"\ :\ ''}
+set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
+set statusline+=%{fnamemodify(expand('%'),':~:.')}\ \|\ %{\"\\ufc92\"}\ %c
+set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 
 " Python executable
 let g:python3_host_prog='/usr/bin/python3'
@@ -55,7 +67,7 @@ let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
-let g:undotree_DiffpanelHeight = 6
+let g:undotree_DiffpanelHeight = 5
 let g:undotree_Splitwidth = 10
 
 " Completion popup configuration
@@ -64,27 +76,17 @@ let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_paren = 1
 
-" Statusline
-set showmode
-set statusline=
-set statusline+=%#StatusLineNC#
-set statusline+=%=%1*%{StatuslineDiagnostics()}%*
-set statusline+=\ %{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
-set statusline+=%{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \"\ :\ ''}
-set statusline+=%f\ \|\ %{\"\\ufc92\"}\ %c
-set statusline+=\ %{\"\\uf1dd\"}\ %l:%L\ %{\"\\uf719\"}\ %n\ %<
-
 " Indentline configuration
-let g:indentLine_color_term = 0
-let g:indentLine_char = '|'
+let g:indentLine_color_term = 8
+let g:indentLine_char = "\u2506"
 let g:indentLine_setConceal = 0
+let g:indentLine_bufTypeExclude = ['help', 'term']
 
 " LSP diagnostics highlighting
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
 call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
 call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
-
 
 "Theme configuration
 let g:nord_uniform_diff_background = 1
@@ -143,17 +145,17 @@ let g:completion_confirm_key = "\<CR>"
 
 " LSP code actions
 nnoremap <expr> <C-h> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.buf.hover()<CR>" : "\K"
+            \ "<CMD>lua vim.lsp.buf.hover()<CR>" : "\K"
 nnoremap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.buf.rename()<CR>" : "#"
+            \ "<CMD>lua vim.lsp.buf.rename()<CR>" : "#"
 nnoremap <expr> [d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
+            \ "<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
 nnoremap <expr> ]d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
+            \ "<CMD>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
 nnoremap <expr> <C-]> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
+            \ "<CMD>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
 nnoremap <expr> <C-t> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<cmd>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
+            \ "<CMD>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
@@ -162,11 +164,11 @@ imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 
 " Other maps
-nnoremap <C-u> <cmd>UndotreeToggle<CR>
-nnoremap - <cmd>Explore<CR>
+nnoremap <C-u> <CMD>UndotreeToggle<CR>
+nnoremap - <CMD>Explore<CR>
 tnoremap <C-\> <C-\><C-n>
-nnoremap <leader>g <cmd>Goyo<CR>
-nnoremap <leader>n <cmd>nohlsearch<CR>
+nnoremap <leader>g <CMD>Goyo<CR>
+nnoremap <leader>n <CMD>nohlsearch<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
@@ -231,25 +233,25 @@ endfunction
 
 " AUTOCMDS
 " --------
-augroup user_created
+augroup init_vim
     autocmd!
     autocmd TermOpen * startinsert
-    autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType qf setlocal statusline=
-    autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+    autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
+    autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
+        \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
+        \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
+        \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
+        \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+        \ | highlight StatusLine ctermbg=8 ctermfg=7
+        \ | highlight StatusLineNC ctermbg=None ctermfg=8
+        \ | highlight TabLineFill ctermbg=None
+        \ | highlight TabLineSel ctermfg=7
+        \ | highlight ModeMsg cterm=bold ctermfg=7
+        \ | highlight link MsgSeparator StatusLineNC
 augroup END
 
-augroup colorscheme_modification
-    autocmd!
-    autocmd ColorScheme * highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
-    autocmd ColorScheme * highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
-    autocmd ColorScheme * highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
-    autocmd ColorScheme * highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
-    autocmd ColorScheme * highlight StatusLine ctermbg=8 ctermfg=7
-    autocmd ColorScheme * highlight StatusLineNC ctermbg=None ctermfg=8
-    autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
-    autocmd ColorScheme * highlight TabLineFill ctermbg=None
-    autocmd ColorScheme * highlight TabLineSel ctermfg=7
-    colorscheme nord
-augroup END
+" COLORSCHEME
+" -----------
+colorscheme nord

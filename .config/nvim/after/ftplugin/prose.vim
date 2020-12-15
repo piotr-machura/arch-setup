@@ -1,20 +1,9 @@
 " PROSE FTPLUGIN
 " --------------
-setlocal noautoindent
-setlocal nobreakindent
-setlocal nosmartindent
-setlocal nocindent
-setlocal noexpandtab
-setlocal wrap
-setlocal linebreak
-setlocal scrolloff=0
-setlocal nolist
-setlocal nonumber
-setlocal norelativenumber
-setlocal nocursorline
-setlocal spell
-setlocal spelllang=pl,en_us
-setlocal spellsuggest+=5
+setlocal noautoindent nobreakindent nosmartindent nocindent
+setlocal noexpandtab wrap linebreak scrolloff=0
+setlocal nolist nonumber norelativenumber nocursorline
+setlocal spell spelllang=pl,en_us spellsuggest+=5
 
 let &l:spellfile=expand('%:p:h').'/pl.add'
 

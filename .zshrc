@@ -47,6 +47,7 @@ SAVEHIST=2000
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME/zcompdump"
+zmodload zsh/complist
 
 # Autosuggestions plugin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -100,7 +101,7 @@ SPACESHIP_DIR_COLOR="cyan"
 SPACESHIP_VI_MODE_PREFIX=" "
 SPACESHIP_VI_MODE_SUFFIX=""
 SPACESHIP_VI_MODE_INSERT="\uf155 "
-SPACESHIP_VI_MODE_NORMAL=$'%{\e[37m%}\uf155 ' # white escape code
+SPACESHIP_VI_MODE_NORMAL=$'%{\e[33m%}\uf155 ' # yellow escape code
 SPACESHIP_VI_MODE_COLOR="green"
 
 SPACESHIP_GIT_PREFIX=" "

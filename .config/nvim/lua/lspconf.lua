@@ -2,9 +2,9 @@
 -- -----------------
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = false,
-        virtual_text = false,
         update_in_insert = false,
+        virtual_text = false,
+        underline = false,
     }
 )
 
@@ -15,16 +15,9 @@ require'lspconfig'.pyls.setup {
     settings = {
         pyls = {
             plugins = {
-                mccabe = {
-                    enabled = false
-                },
-                pylint = {
-                    enabled = true
-                },
-                pydocstyle = {
-                    enabled = false,
-                    convention = "google"
-                }
+                pylint = { enabled = true },
+                pydocstyle = { enabled = false, convention = "google" },
+                mccabe = { enabled = false },
             }
         }
     };
