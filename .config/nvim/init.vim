@@ -32,7 +32,7 @@ set nowrap      cursorline      scrolloff=4     sidescrolloff=6
 set undofile    undolevels=500  autowrite       signcolumn=yes
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
 set list        fcs=eob:\       listchars=tab:>-,trail:·
-set path=**,.,, completeopt=menuone,noinsert,noselect
+set path=.,**   completeopt=menuone,noinsert,noselect
 set splitbelow  splitright      switchbuf=usetab
 
 " Title
