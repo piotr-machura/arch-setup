@@ -27,12 +27,12 @@ call plug#end()
 " SETTINGS
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
+set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
 set confirm     updatetime=500  shortmess+=c    virtualedit=block
 set nowrap      cursorline      scrolloff=4     sidescrolloff=6
 set undofile    undolevels=500  autowrite       signcolumn=yes
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
 set list        fcs=eob:\       listchars=tab:>-,trail:·
-set path=.,**   completeopt=menuone,noinsert,noselect
 set splitbelow  splitright      switchbuf=usetab
 
 " Title
@@ -78,9 +78,12 @@ let g:completion_enable_auto_paren = 1
 
 " Indentline configuration
 let g:indentLine_color_term = 8
+let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_char = "\u2506"
+let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'term']
+let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug']
 
 " LSP diagnostics highlighting
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
@@ -97,11 +100,11 @@ let g:nord_underline = 1
 " CLIPBOARD
 " ---------
 let g:clipboard = {
-  \   'name': 'xclip',
-  \   'copy': {'+': 'xclip -selection clipboard', '*': 'xclip -selection clipboard'},
-  \   'paste': {'+': 'xclip -selection clipboard -o', '*': 'xclip -selection clipboard -o'},
-  \   'cache_enabled': 1,
-  \ }
+    \ 'name': 'xclip',
+    \ 'copy': {'+': 'xclip -selection clipboard', '*': 'xclip -selection clipboard'},
+    \ 'paste': {'+': 'xclip -selection clipboard -o', '*': 'xclip -selection clipboard -o'},
+    \ 'cache_enabled': 1,
+    \ }
 set clipboard+=unnamedplus
 
 " MAPS

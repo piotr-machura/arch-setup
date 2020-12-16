@@ -6,6 +6,7 @@ setlocal nolist nonumber norelativenumber nocursorline
 setlocal spell spelllang=pl,en_us spellsuggest+=5
 
 let &l:spellfile=expand('%:p:h').'/pl.add'
+let g:indentLine_fileTypeExclude+=['prose']
 
 iabbrev <buffer> -- —
 nnoremap <buffer> j gj
