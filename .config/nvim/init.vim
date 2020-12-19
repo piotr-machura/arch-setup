@@ -28,7 +28,7 @@ call plug#end()
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
-set confirm     updatetime=500  shortmess+=c    virtualedit=block
+set confirm     updatetime=500  shortmess+=cI   virtualedit=block
 set nowrap      cursorline      scrolloff=4     sidescrolloff=6
 set undofile    undolevels=500  autowrite       signcolumn=yes
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
@@ -38,7 +38,7 @@ set splitbelow  splitright      switchbuf=usetab
 " Title
 set title titlelen=0
 set titlestring=
-set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),$HOME,'~','')}
+set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),g:home,'~','')}
 set titlestring+=%{\"\\uf460\".fnamemodify(expand('%'),':~:.')}
 
 " Statusline
@@ -47,7 +47,8 @@ set statusline+=%#StatusLineNC#
 set statusline+=%=%1*%{StatuslineDiagnostics()}%*
 set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \|\ \"\ :\ ''}
 set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
-set statusline+=%{fnamemodify(expand('%'),':~:.')}\ \|\ %{\"\\ufc92\"}\ %c
+set statusline+=%{!empty(expand('%'))\ ?\ fnamemodify(expand('%'),':~:.').'\ \|\ ':''} 
+set statusline+=%{\"\\ufc92\"}\ %c
 set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 
 " Python executable
@@ -60,6 +61,7 @@ let g:netrw_banner = 0
 let g:netrw_altv = 1
 let g:netrw_home = stdpath('cache')
 let g:netrw_localrmdir='rm -r'
+let g:home = $HOME
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -134,7 +136,7 @@ vnoremap <leader>D "_D
 " Line splitting from normal mode
 nnoremap <silent> [<CR> O<ESC>
 nnoremap <silent> ]<CR> o<ESC>
-nnoremap <silent> K a<CR><ESC>
+nnoremap <silent> K hi<CR><ESC>
 
 " Insert mode completion
 inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"

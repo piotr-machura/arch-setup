@@ -6,6 +6,7 @@ base
 bibata-cursor-theme-bin
 dunst
 firefox
+gimp
 git
 gnumeric
 grub
@@ -33,7 +34,6 @@ paru-bin
 pavucontrol
 perl-file-mimeinfo
 picom
-pinta
 pulseaudio
 pulseaudio-alsa
 python-language-server
