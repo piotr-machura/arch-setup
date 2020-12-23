@@ -56,7 +56,7 @@ set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 let g:python3_host_prog='/usr/bin/python3'
 
 " LuaTree configuration
-let g:lua_tree_ignore = [ '.git', 'node_modules', '__pycache__' ]
+let g:lua_tree_ignore = [ '.git' ]
 let g:lua_tree_auto_open = 1
 let g:lua_tree_auto_close = 1
 let g:lua_tree_follow = 1
@@ -95,7 +95,7 @@ let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'term']
-let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug', 'LuaTree']
+let g:indentLine_fileTypeExclude = ['undotree',  'diff']
 
 " LSP diagnostics highlighting
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
