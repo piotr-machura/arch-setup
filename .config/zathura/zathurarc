@@ -13,6 +13,7 @@ set guioptions "cs"
 set font "FiraMono Nerd Font Bold 11"
 set window-title-basename "true"
 set statusbar-home-tilde "true"
+set selection-clipboard clipboard
 
 # Nord theme
 set default-bg                  "#2E3440"

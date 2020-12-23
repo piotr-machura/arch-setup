@@ -10,6 +10,7 @@ endif
 " PLUGINS
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
+Plug 'kyazdani42/nvim-tree.lua' " Lua file tree
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
 Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
@@ -38,7 +39,7 @@ set splitbelow  splitright      switchbuf=usetab
 " Title
 set title titlelen=0
 set titlestring=
-set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),g:home,'~','')}
+set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),$HOME,'~','')}
 set titlestring+=%{\"\\uf460\".fnamemodify(expand('%'),':~:.')}
 
 " Statusline
@@ -54,14 +55,23 @@ set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 " Python executable
 let g:python3_host_prog='/usr/bin/python3'
 
-" Netrw configuration
-let g:netrw_browse_split = 0
-let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_altv = 1
-let g:netrw_home = stdpath('cache')
-let g:netrw_localrmdir='rm -r'
-let g:home = $HOME
+" LuaTree configuration
+let g:lua_tree_ignore = [ '.git', 'node_modules', '__pycache__' ]
+let g:lua_tree_auto_open = 1
+let g:lua_tree_auto_close = 1
+let g:lua_tree_follow = 1
+let g:lua_tree_git_hl = 1
+let g:lua_tree_indent_markers = 1
+let g:lua_tree_show_icons = { 'git': 0, 'folders': 1, 'files': 1, }
+let g:lua_tree_icons = {
+    \ 'default': "\uf718 ",
+    \ 'symlink': "\uf729 ",
+    \ 'folder': {
+    \   'default': "\uf74a",
+    \   'open': "\ufc6e",
+    \   'symlink': "\uf751",
+    \   }
+    \ }
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -85,7 +95,7 @@ let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'term']
-let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug']
+let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug', 'LuaTree']
 
 " LSP diagnostics highlighting
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
@@ -170,7 +180,7 @@ imap <2-MiddleMouse> <Nop>
 
 " Other maps
 nnoremap <C-u> <CMD>UndotreeToggle<CR>
-nnoremap - <CMD>Explore<CR>
+nnoremap <expr> - exists('#goyo') ? "" : "<CMD>LuaTreeToggle<CR>"
 tnoremap <C-\> <C-\><C-n>
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>n <CMD>nohlsearch<CR>
