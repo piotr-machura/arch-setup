@@ -143,7 +143,7 @@ inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 
 " LSP completion
-imap <expr> <C-space> pumvisible() ?
+imap <expr> <C-Space> pumvisible() ?
             \ "\<C-e>" : luaeval('vim.lsp.buf.server_ready()') ? "<Plug>(completion_trigger)" : "\<C-n>"
 let g:completion_confirm_key = "\<CR>"
 
@@ -168,11 +168,11 @@ imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 
 " Other maps
-nnoremap <C-u> <CMD>UndotreeToggle<CR>
+nnoremap - <CMD>UndotreeToggle<CR>
 nnoremap <C-\> <CMD>terminal<CR>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader><space> <CMD>nohlsearch<CR>
+nnoremap <leader><Space> <CMD>nohlsearch<CR>:<BS>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
