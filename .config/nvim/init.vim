@@ -10,7 +10,6 @@ endif
 " PLUGINS
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
-Plug 'kyazdani42/nvim-tree.lua' " Lua file tree
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
 Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
@@ -48,30 +47,15 @@ set statusline+=%#StatusLineNC#
 set statusline+=%=%1*%{StatuslineDiagnostics()}%*
 set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \|\ \"\ :\ ''}
 set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
-set statusline+=%{!empty(expand('%'))\ ?\ fnamemodify(expand('%'),':~:.').'\ \|\ ':''} 
+set statusline+=%{!empty(expand('%'))\ ?\ fnamemodify(expand('%'),':~:.').'\ \|\ ':''}
 set statusline+=%{\"\\ufc92\"}\ %c
 set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 
 " Python executable
 let g:python3_host_prog='/usr/bin/python3'
 
-" LuaTree configuration
-let g:lua_tree_ignore = [ '.git' ]
-let g:lua_tree_auto_open = 1
-let g:lua_tree_auto_close = 1
-let g:lua_tree_follow = 1
-let g:lua_tree_git_hl = 1
-let g:lua_tree_indent_markers = 1
-let g:lua_tree_show_icons = { 'git': 0, 'folders': 1, 'files': 1, }
-let g:lua_tree_icons = {
-    \ 'default': "\uf718 ",
-    \ 'symlink': "\uf729 ",
-    \ 'folder': {
-    \   'default': "\uf74a",
-    \   'open': "\ufc6e",
-    \   'symlink': "\uf751",
-    \   }
-    \ }
+" Disable Netrw
+let g:loaded_netrwPlugin = 1
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -80,7 +64,7 @@ let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 5
-let g:undotree_Splitwidth = 10
+let g:undotree_Splitwidth = 15
 
 " Completion popup configuration
 let g:completion_enable_auto_signature = 1
@@ -95,9 +79,14 @@ let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'term']
-let g:indentLine_fileTypeExclude = ['undotree',  'diff']
+let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo' ]
 
 " LSP diagnostics highlighting
+highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
+highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
+highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
+highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
 call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
@@ -124,9 +113,9 @@ set clipboard+=unnamedplus
 let g:mapleader = " "
 
 " Buffer management
-nnoremap <silent><expr> ZZ &modified ? ':w\|bd<CR>' : ':bd!<CR>'
-nnoremap <silent> gb :bnext<CR>
-nnoremap <silent> gB :bprev<CR>
+nnoremap <expr> ZZ &modified ? "\<CMD>w\<BAR>bd!\<CR>" : "\<CMD>bd!\<CR>"
+nnoremap <silent> gb <CMD>bnext<CR>
+nnoremap <silent> gB <CMD>bprev<CR>
 
 " Use the leader key to cut into black hole register
 nnoremap <leader>x "_x
@@ -160,17 +149,17 @@ let g:completion_confirm_key = "\<CR>"
 
 " LSP code actions
 nnoremap <expr> <C-h> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.buf.hover()<CR>" : "\K"
+            \ "\<CMD>lua vim.lsp.buf.hover()<CR>" : "\K"
 nnoremap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.buf.rename()<CR>" : "#"
+            \ "\<CMD>lua vim.lsp.buf.rename()<CR>" : "#"
 nnoremap <expr> [d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
+            \ "\<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
 nnoremap <expr> ]d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
+            \ "\<CMD>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
 nnoremap <expr> <C-]> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
+            \ "\<CMD>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
 nnoremap <expr> <C-t> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "<CMD>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
+            \ "\<CMD>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
@@ -180,10 +169,10 @@ imap <2-MiddleMouse> <Nop>
 
 " Other maps
 nnoremap <C-u> <CMD>UndotreeToggle<CR>
-nnoremap <expr> - exists('#goyo') ? "" : "<CMD>LuaTreeToggle<CR>"
+nnoremap <C-\> <CMD>terminal<CR>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>n <CMD>nohlsearch<CR>
+nnoremap <leader><space> <CMD>nohlsearch<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
@@ -253,12 +242,9 @@ augroup init_vim
     autocmd TermOpen * startinsert
     autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType qf setlocal statusline=
+    autocmd FileType peekaboo setlocal statusline=%1*%=%{\"\\uf64d\"}%=
     autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
     autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
-        \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
-        \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
-        \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
-        \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
         \ | highlight StatusLine ctermbg=8 ctermfg=7
         \ | highlight StatusLineNC ctermbg=None ctermfg=8
         \ | highlight TabLineFill ctermbg=None
