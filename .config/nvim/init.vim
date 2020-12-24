@@ -12,8 +12,8 @@ endif
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
 Plug 'jiangmiao/auto-pairs' " Auto pairs for brackets/quotes
+Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
 Plug 'sheerun/vim-polyglot' " Multi-language pack
@@ -36,20 +36,18 @@ set list        fcs=eob:\       listchars=tab:>-,trail:·
 set splitbelow  splitright      switchbuf=usetab
 
 " Title
-set title titlelen=0
+set titlelen=0 title
 set titlestring=
 set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),$HOME,'~','')}
 set titlestring+=%{\"\\uf460\".fnamemodify(expand('%'),':~:.')}
 
 " Statusline
 set statusline=
-set statusline+=%#StatusLineNC#
-set statusline+=%=%1*%{StatuslineDiagnostics()}%*
+set statusline+=%#StatusLineNC#%=%1*%{StatuslineDiagnostics()}%*
 set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \|\ \"\ :\ ''}
 set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
 set statusline+=%{!empty(expand('%'))\ ?\ fnamemodify(expand('%'),':~:.').'\ \|\ ':''}
-set statusline+=%{\"\\ufc92\"}\ %c
-set statusline+=\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
+set statusline+=%{\"\\ufc92\"}\ %c\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
 
 " Python executable
 let g:python3_host_prog='/usr/bin/python3'
@@ -59,12 +57,12 @@ let g:loaded_netrwPlugin = 1
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_WindowLayout = 2
+let g:undotree_WindowLayout = 1
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
-let g:undotree_DiffpanelHeight = 5
-let g:undotree_Splitwidth = 15
+let g:undotree_DiffpanelHeight = 6
+let g:undotree_Splitwidth = 20
 
 " Completion popup configuration
 let g:completion_enable_auto_signature = 1
@@ -113,7 +111,7 @@ set clipboard+=unnamedplus
 let g:mapleader = " "
 
 " Buffer management
-nnoremap <expr> ZZ &modified ? "\<CMD>w\<BAR>bd!\<CR>" : "\<CMD>bd!\<CR>"
+nnoremap <expr> ZZ &modified ? "\<CMD>write\<BAR>bdelete\<CR>" : "\<CMD>bdelete\<CR>"
 nnoremap <silent> gb <CMD>bnext<CR>
 nnoremap <silent> gB <CMD>bprev<CR>
 
@@ -168,17 +166,20 @@ imap <MiddleMouse> <Nop>
 imap <2-MiddleMouse> <Nop>
 
 " Other maps
-nnoremap - <CMD>UndotreeToggle<CR>
+nnoremap - :find<space>
+nnoremap Q @q
+nnoremap <C-u> <CMD>UndotreeToggle<CR>
 nnoremap <C-\> <CMD>terminal<CR>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader><Space> <CMD>nohlsearch<CR>:<BS>
+nnoremap <leader><Space> <CMD>Cleanup<CR>
 let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
 " --------
-command! -nargs=0 Format call <SID>format_file()
-command! -nargs=0 Diagnostic call <SID>display_diagnostics()
+command! Format call <SID>format_file()
+command! Diagnostic call <SID>display_diagnostics()
+command! -bar Cleanup call <SID>clean_empty_buffers() | nohlsearch | mode
 
 " LUA
 " ---
@@ -201,6 +202,14 @@ function! s:format_file() abort
     echo msg
 endfunction
 
+function! s:clean_empty_buffers()
+    let condition =  'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
+    let buffers = filter(range(1, bufnr('$')), condition)
+    if !empty(buffers)
+        exe 'bwipeout ' . join(buffers, ' ')
+    endif
+endfunction
+
 function! s:display_diagnostics() abort
     if !luaeval('vim.lsp.buf.server_ready()')
        lwindow
@@ -211,28 +220,17 @@ endfunction
 
 function! StatuslineDiagnostics() abort
     let msgs = ''
-    if winwidth(0) < 70 | return msgs | endif
+    if winwidth(0) < 80 | return msgs | endif
     let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
     let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
     let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
     let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
-    if errors > 0
-        let msgs .= "\uf057 " . errors
-    endif
-    if warnings > 0
-        if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .= "\uf06a " . warnings
-    endif
-    if infos > 0
-        if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .= "\uf059 " . infos
-    endif
-    if hints > 0
-        if !empty(msgs) | let msgs .= ' ' | endif
-        let msgs .=  "\uf055 " . hints
-    endif
-    if !empty(msgs) | return msgs .' '| endif
-    return ''
+    if errors > 0 | let msgs .= " \uf057 " . errors | endif
+    if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
+    if infos > 0 | let msgs .= " \uf059 " . infos | endif
+    if hints > 0 | let msgs .=  " \uf055 " . hints | endif
+    if !empty(msgs) | let msgs .= ' '| endif
+    return msgs
 endfunction
 
 " AUTOCMDS
