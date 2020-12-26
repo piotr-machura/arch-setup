@@ -57,7 +57,7 @@ let g:loaded_netrwPlugin = 1
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_WindowLayout = 1
+let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
@@ -66,9 +66,11 @@ let g:undotree_Splitwidth = 20
 
 " Completion popup configuration
 let g:completion_enable_auto_signature = 1
-let g:completion_matching_ignore_case = 1
+let g:completion_matching_ignore_case = 0
 let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_paren = 1
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+let g:completion_sorting = 'alphabet'
 
 " Indentline configuration
 let g:indentLine_color_term = 8
@@ -115,29 +117,15 @@ nnoremap <expr> ZZ &modified ? "\<CMD>write\<BAR>bdelete\<CR>" : "\<CMD>bdelete\
 nnoremap <silent> gb <CMD>bnext<CR>
 nnoremap <silent> gB <CMD>bprev<CR>
 
-" Use the leader key to cut into black hole register
-nnoremap <leader>x "_x
-nnoremap <leader>X "_X
-nnoremap <leader>s "_s
-nnoremap <leader>S "_S
-nnoremap <leader>d "_d
-nnoremap <leader>D "_D
-
-vnoremap <leader>x "_x
-vnoremap <leader>X "_X
-vnoremap <leader>s "_s
-vnoremap <leader>S "_S
-vnoremap <leader>d "_d
-vnoremap <leader>D "_D
 
 " Line splitting from normal mode
 nnoremap <silent> [<CR> O<ESC>
 nnoremap <silent> ]<CR> o<ESC>
-nnoremap <silent> K hi<CR><ESC>
+nnoremap <silent> K a<CR><ESC>
 
 " Insert mode completion
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 
 " LSP completion
@@ -147,27 +135,31 @@ let g:completion_confirm_key = "\<CR>"
 
 " LSP code actions
 nnoremap <expr> <C-h> luaeval('vim.lsp.buf.server_ready()') ?
-            \ "\<CMD>lua vim.lsp.buf.hover()<CR>" : "\K"
-nnoremap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
-            \ "\<CMD>lua vim.lsp.buf.rename()<CR>" : "#"
+            \ "\<CMD>lua vim.lsp.buf.hover()<CR>" : "K"
 nnoremap <expr> [d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "\<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>" : "\[d"
+            \ "\<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>" : "[d"
 nnoremap <expr> ]d luaeval('vim.lsp.buf.server_ready()') ?
-            \ "\<CMD>lua vim.lsp.diagnostic.goto_next()<CR>" : "\]d"
+            \ "\<CMD>lua vim.lsp.diagnostic.goto_next()<CR>" : "]d"
 nnoremap <expr> <C-]> luaeval('vim.lsp.buf.server_ready()') ?
             \ "\<CMD>lua vim.lsp.buf.definition()<CR>" : "\<C-]>"
 nnoremap <expr> <C-t> luaeval('vim.lsp.buf.server_ready()') ?
             \ "\<CMD>lua vim.lsp.buf.references()<CR>" : "\<C-t>"
+nmap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
+            \ "\<CMD>lua vim.lsp.buf.rename()<CR>" : "\<leader>R"
 
 " Disable middle mouse click
 map <MiddleMouse> <Nop>
-map <2-MiddleMouse> <Nop>
 imap <MiddleMouse> <Nop>
-imap <2-MiddleMouse> <Nop>
+cmap <MiddleMouse> <Nop>
 
 " Other maps
-nnoremap - :find<space>
+noremap <Del> "_
 nnoremap Q @q
+nnoremap <S-Tab> <C-o>
+cnoremap <C-Space> <C-r>
+nnoremap - :find<Space>
+nnoremap _ <CMD>!tree --dirsfirst<CR>
+nnoremap <leader>R #:%s///gc<Left><Left><Left>
 nnoremap <C-u> <CMD>UndotreeToggle<CR>
 nnoremap <C-\> <CMD>terminal<CR>
 tnoremap <C-\> <C-\><C-n>
@@ -177,9 +169,9 @@ let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " COMMANDS
 " --------
-command! Format call <SID>format_file()
+command! Format call <SID>format()
 command! Diagnostic call <SID>display_diagnostics()
-command! -bar Cleanup call <SID>clean_empty_buffers() | nohlsearch | mode
+command! -bar Cleanup call <SID>wipe_empty() | nohlsearch | mode
 
 " LUA
 " ---
@@ -187,7 +179,7 @@ lua require('lspconf')
 
 " FUNCTIONS
 " ---------
-function! s:format_file() abort
+function! s:format() abort
     let msg = ''
     if luaeval('vim.lsp.buf.server_ready()')
         lua vim.lsp.buf.formatting()
@@ -202,7 +194,7 @@ function! s:format_file() abort
     echo msg
 endfunction
 
-function! s:clean_empty_buffers()
+function! s:wipe_empty()
     let condition =  'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
     let buffers = filter(range(1, bufnr('$')), condition)
     if !empty(buffers)
