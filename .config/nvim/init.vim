@@ -66,10 +66,10 @@ let g:undotree_Splitwidth = 20
 
 " Completion popup configuration
 let g:completion_enable_auto_signature = 1
-let g:completion_matching_ignore_case = 0
+let g:completion_matching_ignore_case = 1
 let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_paren = 1
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_sorting = 'alphabet'
 
 " Indentline configuration
@@ -113,7 +113,7 @@ set clipboard+=unnamedplus
 let g:mapleader = " "
 
 " Buffer management
-nnoremap <expr> ZZ &modified ? "\<CMD>write\<BAR>bdelete\<CR>" : "\<CMD>bdelete\<CR>"
+nnoremap <expr> ZZ &modified ? "\<CMD>write\<BAR>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>"
 nnoremap <silent> gb <CMD>bnext<CR>
 nnoremap <silent> gB <CMD>bprev<CR>
 
@@ -148,20 +148,20 @@ nmap <expr> <leader>r luaeval('vim.lsp.buf.server_ready()') ?
             \ "\<CMD>lua vim.lsp.buf.rename()<CR>" : "\<leader>R"
 
 " Disable middle mouse click
-map <MiddleMouse> <Nop>
-imap <MiddleMouse> <Nop>
-cmap <MiddleMouse> <Nop>
+noremap <MiddleMouse> <Nop>
+inoremap <MiddleMouse> <Nop>
+cnoremap <MiddleMouse> <Nop>
 
 " Other maps
-noremap <Del> "_
+noremap <Del> _
 nnoremap Q @q
 nnoremap <S-Tab> <C-o>
 cnoremap <C-Space> <C-r>
 nnoremap - :find<Space>
-nnoremap _ <CMD>!tree --dirsfirst<CR>
+nnoremap _ <CMD>terminal tree<CR><C-\><C-n>
 nnoremap <leader>R #:%s///gc<Left><Left><Left>
 nnoremap <C-u> <CMD>UndotreeToggle<CR>
-nnoremap <C-\> <CMD>terminal<CR>
+nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
 tnoremap <C-\> <C-\><C-n>
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader><Space> <CMD>Cleanup<CR>
@@ -198,7 +198,7 @@ function! s:wipe_empty()
     let condition =  'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
     let buffers = filter(range(1, bufnr('$')), condition)
     if !empty(buffers)
-        exe 'bwipeout ' . join(buffers, ' ')
+        execute 'bwipeout ' . join(buffers, ' ')
     endif
 endfunction
 
@@ -237,6 +237,7 @@ augroup init_vim
     autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
         \ | highlight StatusLine ctermbg=8 ctermfg=7
         \ | highlight StatusLineNC ctermbg=None ctermfg=8
+        \ | highlight Search cterm=bold,underline ctermfg=none ctermbg=0
         \ | highlight TabLineFill ctermbg=None
         \ | highlight TabLineSel ctermfg=7
         \ | highlight ModeMsg cterm=bold ctermfg=7
