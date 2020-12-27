@@ -32,7 +32,7 @@ set confirm     updatetime=500  shortmess+=cI   virtualedit=block
 set nowrap      cursorline      scrolloff=4     sidescrolloff=6
 set undofile    undolevels=500  autowrite       signcolumn=yes
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
-set list        fcs=eob:\       listchars=tab:>-,trail:·
+set list        fcs=eob:\       lcs=tab:>-,trail:·
 set splitbelow  splitright      switchbuf=usetab
 
 " Title
@@ -237,7 +237,7 @@ augroup init_vim
     autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
         \ | highlight StatusLine ctermbg=8 ctermfg=7
         \ | highlight StatusLineNC ctermbg=None ctermfg=8
-        \ | highlight Search cterm=bold,underline ctermfg=none ctermbg=0
+        \ | highlight Search cterm=bold,underline ctermfg=none ctermbg=8
         \ | highlight TabLineFill ctermbg=None
         \ | highlight TabLineSel ctermfg=7
         \ | highlight ModeMsg cterm=bold ctermfg=7
