@@ -3,7 +3,7 @@
 # ------------------------------------
 
 git_protocol: ssh
-editor: vim
+editor: nvim
 pager: less
 prompt: enabled
 aliases:

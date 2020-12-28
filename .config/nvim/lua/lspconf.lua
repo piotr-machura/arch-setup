@@ -17,7 +17,6 @@ local attach = function(client)
     vim.api.nvim_buf_set_keymap(0, 'n', '[q','<CMD>silent! lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap=true})
     vim.api.nvim_buf_set_keymap(0, 'n', ']q','<CMD>silent! lua vim.lsp.diagnostic.goto_next()<CR>', {noremap=true})
     vim.api.nvim_buf_set_keymap(0, 'i', '<C-Space>','pumvisible() ? "<C-e>" : "<Plug>(completion_trigger)"', {expr = true})
-    vim.api.nvim_set_var('completion_confirm_key', '<CR>')
     require'completion'.on_attach(client)
 end
 

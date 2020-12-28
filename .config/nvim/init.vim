@@ -17,7 +17,7 @@ Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
 Plug 'sheerun/vim-polyglot' " Multi-language pack
-Plug 'arcticicestudio/nord-vim' " Theme
+Plug 'arcticicestudio/nord-vim' " Color theme
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
 Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
@@ -64,7 +64,6 @@ let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
-let g:undotree_Splitwidth = 20
 
 " Indentline configuration
 let g:indentLine_color_term = 8
@@ -94,6 +93,7 @@ let g:completion_enable_auto_paren = 1
 let g:completion_matching_smart_case = 1
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_sorting = 'alphabet'
+let g:completion_confirm_key = ''
 
 " CLIPBOARD
 " ---------
@@ -110,7 +110,7 @@ set clipboard+=unnamedplus
 let g:mapleader = "\<Space>"
 
 " Buffer management
-nnoremap <expr> ZZ &modified ? "\<CMD>write\<Bar>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>" 
+nnoremap <expr> ZZ &modified ? "\<CMD>write\<Bar>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>"
 nnoremap <expr> ZQ &modified ? "\<CMD>write\<Bar>quit!\<CR>" : "\<CMD>quit!\<CR>"
 nnoremap gb <CMD>bnext<CR>
 nnoremap gB <CMD>bprev<CR>
@@ -126,6 +126,7 @@ inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Disable middle mouse click
 noremap <MiddleMouse> <Nop>
@@ -213,17 +214,25 @@ function! StatuslineDiagnostics() abort
     return msgs
 endfunction
 
+function! _UndoTreeStatusLine() abort
+    let status = t:undotree.GetStatusLine()
+    let status = substitute(status, 'current:', 'Current:', '')
+    let status = substitute(status, 'redo:', "\uf0e2", '')
+    return status
+endfunction
+
 " AUTOCMDS
 " --------
 augroup init_vim
     autocmd!
     autocmd TermOpen * startinsert
-    autocmd TermOpen * setlocal statusline=%1*%=%{\"\\uf44f\ Terminal\"}%=
-    autocmd FileType qf setlocal statusline=%1*%=%{\"\\uf4a0\ \ Quickfix\"}%=
-    autocmd FileType help setlocal statusline=%1*%=%{\"\\uf7d6\ \ Help\ -\ \".expand('%:t')}%=
-    autocmd FileType diff setlocal statusline=%#StatusLineNC#
-    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd TermOpen * setlocal statusline=%1*%=%{\"\\uf44f\ Terminal\ \"}
+    autocmd FileType qf setlocal statusline=%1*%=%{\"\\uf4a0\ \ Quickfix\ -\ \".w:quickfix_title.'\ '}
+    autocmd FileType help setlocal statusline=%1*%=%{\"\\uf7d6\ Help\ -\ \".expand('%:t').'\ '}
     autocmd FileType peekaboo setlocal statusline=%1*%=%{\"\\uf64d\"}%=
+    autocmd FileType undotree setlocal statusline=%=%{_UndoTreeStatusLine()}%=
+    autocmd FileType diff setlocal statusline=%1*%=%{t:diffpanel.GetStatusLine()}%=
+    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
     autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
         \ | highlight StatusLine ctermbg=8 ctermfg=7
