@@ -23,4 +23,5 @@ alias pkgclean='paru -Rns $(paru -Qdtq); paru -Scc'
 alias htop='print -Pn "\e]0;htop\a";htop' # Change htop window title
 alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
 alias open='mimeopen'
-alias tree='tree --dirsfirst -a -I ".git|.cache|__pycache__|.venv" --prune --filelimit 50'
+alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv" --prune --filelimit 50'
+alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
