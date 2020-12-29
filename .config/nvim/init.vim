@@ -184,6 +184,7 @@ function! _SpecialStatusline() abort
         let status = substitute(status, 'redo:', "\uf0e2", '')
         return status
     endif
+    return ''
 endfunction
 
 function! _TitleString() abort
@@ -244,9 +245,9 @@ autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
     \ | highlight TabLineFill ctermbg=None guibg=None
-    \ | highlight TabLineSel cterm=bold ctermfg=7 gui=bold guifg=#D8DEE9
-    \ | highlight StatusLine cterm=None gui=None ctermbg=None ctermfg=7 guibg=None guifg=#ECEEF4
-    \ | highlight StatusLineNC ctermfg=None ctermfg=8 guibg=None guifg=#4C566A
+    \ | highlight TabLineSel cterm=bold gui=bold ctermfg=7 guifg=#D8DEE9
+    \ | highlight StatusLine cterm=bold gui=bold ctermbg=None ctermfg=7 guibg=None guifg=#ECEEF4
+    \ | highlight StatusLineNC ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
     \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
