@@ -12,11 +12,11 @@ endif
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'mbbill/undotree' " Undo tree visualized
 Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'jiangmiao/auto-pairs' " Auto pairs for brackets/quotes
 Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
 Plug 'tpope/vim-commentary' " Comment automation
 Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
 Plug 'sheerun/vim-polyglot' " Multi-language pack
+Plug 'ap/vim-css-color' " Inline CSS colors
 Plug 'arcticicestudio/nord-vim' " Color theme
 Plug 'Yggdroot/indentLine' " Indentation line indicators
 Plug 'junegunn/goyo.vim' " Distraction-free mode
@@ -32,28 +32,16 @@ lua require('lspconf')
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
-set confirm     updatetime=500  shortmess+=cI   virtualedit=block
-set nowrap      cursorline      scrolloff=4     sidescrolloff=6
+set nowrap      updatetime=500  shortmess+=cI   virtualedit=block
 set undofile    undolevels=500  autowrite       signcolumn=yes
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
 set list        fcs=eob:\       lcs=tab:>-,trail:·
 set splitbelow  splitright      switchbuf=usetab
+set title       titlelen=0      titlestring=%{_TitleString()}
+set cursorline  scrolloff=2     sidescrolloff=6
+set statusline=%=%{_StatusLine()}%<
 
-" Title
-set titlelen=0 title
-set titlestring=
-set titlestring+=%{\"\\ue62b\ \".substitute(getcwd(),$HOME,'~','')}
-set titlestring+=%{\"\\uf460\".fnamemodify(expand('%'),':~:.')}
-
-" Statusline
-set statusline=
-set statusline+=%#StatusLineNC#%=%1*%{StatuslineDiagnostics()}%*
-set statusline+=\ %{&readonly\ &&\ &modifiable\ ?\ \"\\uf05e\ Read-only\ \|\ \"\ :\ ''}
-set statusline+=%{&modified\ &&\ &modifiable\ ?\ \"\\uf44d\ \"\ :\ ''}
-set statusline+=%{!empty(expand('%'))\ ?\ fnamemodify(expand('%'),':~:.').'\ \|\ ':''}
-set statusline+=%{\"\\ufc92\"}\ %c\ %{\"\\uf1dd\"}\ %l\ %{\"\\uf719\"}\ %n\ %<
-
-" Disable plugins
+" Disable included plugins
 let g:loaded_netrwPlugin = 1
 let g:loaded_matchit = 1
 
@@ -67,12 +55,13 @@ let g:undotree_DiffpanelHeight = 6
 
 " Indentline configuration
 let g:indentLine_color_term = 8
+let g:indentLine_color_gui = '#4C566A'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'term']
-let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo' ]
+let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug' ]
 
 "Theme configuration
 let g:nord_uniform_diff_background = 1
@@ -123,7 +112,6 @@ nnoremap K a<CR><ESC>
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
-inoremap <expr> <C-n> pumvisible() ? "\<C-e>" : "\<C-n>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
@@ -135,12 +123,12 @@ cnoremap <MiddleMouse> <Nop>
 
 " Jump, location and quickfix lists
 nnoremap <S-Tab> <C-o>
-nnoremap gj <CMD>jumps<CR>
 nnoremap [l <CMD>lprev<CR>
 nnoremap ]l <CMD>lnext<CR>
-noremap gl <CMD>llist<CR>
 nnoremap [q <CMD>cprev<CR>
 nnoremap ]q <CMD>cnext<CR>
+
+nnoremap gl <CMD>llist<CR>
 noremap gq <CMD>clist<CR>
 
 " Terminal
@@ -149,11 +137,10 @@ noremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>
 nnoremap _ <CMD>terminal tree<CR><C-\><C-n>
 
 " Utilities
-nmap r <leader>r
-nnoremap <leader>r #:%s///gc<Left><Left><Left>
+nmap <leader>r <leader>R
+nnoremap <leader>R #:%s///gc<Left><Left><Left>
+nnoremap <leader>u <CMD>UndotreeToggle<CR>
 noremap = <CMD>call <SID>format_buffer()<CR>
-nnoremap <C-u> <CMD>UndotreeToggle<CR>
-let g:AutoPairsShortcutToggle = "\<C-p>"
 
 " Other maps
 nnoremap <C-h> K
@@ -164,6 +151,53 @@ nnoremap <leader><Space> <CMD>nohlsearch<Bar>mode<Bar>call <SID>wipe_empty()<CR>
 
 " FUNCTIONS
 " ---------
+function! _StatusLine() abort
+    let statusline = ''
+    " LSP diagnostics
+    let msgs = ''
+    let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
+    let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
+    let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
+    let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
+    if errors > 0 | let msgs .= " \uf057 " . errors | endif
+    if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
+    if infos > 0 | let msgs .= " \uf059 " . infos | endif
+    if hints > 0 | let msgs .=  " \uf055 " . hints | endif
+    if !empty(msgs) && winwidth(0) > 80 | let statusline .= msgs . ' | '| endif
+    if &readonly && &modifiable | let statusline .= "\uf05e Read-only | " | endif
+    if &modified && &modifiable | let statusline .= "\uf44d " | endif
+    if !empty(expand('%')) | let statusline .= fnamemodify(expand('%'),':~:.') . ' | ' | endif
+    let statusline .= "\ufc92 " . col('.') .  " \uf1dd " . line('.') . ' '
+    return statusline
+endfunction
+
+function! _SpecialStatusline() abort
+    if &buftype == 'terminal' | return "\uf44f Terminal " | endif
+    if &buftype == 'help' | return "\uf7d6 Help - ".expand('%:t') . ' ' | endif
+    if &buftype == 'quickfix' | return "\uf4a0  Quickfix - " . w:quickfix_title . ' ' | endif
+    if &filetype == 'peekaboo' | return "\uf64d" | endif
+    if &filetype == 'vim-plug' | return "\uf1e6  Plugins" | endif
+    if &filetype == 'diff' | return t:diffpanel.GetStatusLine() | endif
+    if &filetype == 'undotree'
+        let status = t:undotree.GetStatusLine()
+        let status = substitute(status, 'current:', 'Current:', '')
+        let status = substitute(status, 'redo:', "\uf0e2", '')
+        return status
+    endif
+endfunction
+
+function! _TitleString() abort
+    let icon = "\ue62b "
+    if &filetype == 'vim-plug' | return icon . 'Plugins' | endif
+    if &filetype == 'undotree' | return icon . 'Undotree' | endif
+    if &filetype == 'peekaboo' | return icon . 'Registers' | endif
+    if &filetype ==  'diff' | return icon . 'Diff panel' | endif
+    if &buftype == 'quickfix' | return icon . 'Quickfix' | endif
+    if &buftype == 'help' | return icon . 'Help' | endif
+    if &buftype == 'terminal' | return icon . 'Terminal' | endif
+    return icon . substitute(getcwd(),$HOME,'~','') . "\uf460" . fnamemodify(expand('%'),':~:.')
+endfunction
+
 function! s:format_buffer() abort
     let c_line = line('.')
     let c_col = col('.')
@@ -176,16 +210,15 @@ function! s:format_buffer() abort
             silent! normal! gggqG
             let msg .= 'Formatted buffer. '
         endif
-        if !empty(&equalprg)
+        if !empty(&equalprg) && &equalprg != &formatprg
             silent! normal! gg=G
-            if empty(msg) | let msg .= 'Formatted buffer. ' | endif
+            if empty(msg) | let msg .= 'Reindented. ' | endif
         endif
     endif
     let last_search = @/
     silent! %substitute/\s\+$//e
     let @/ = last_search
     nohlsearch
-    unlet last_search
     let msg .= 'Stripped trailing whitespace.'
     echo msg
     call cursor(c_line, c_col)
@@ -199,55 +232,28 @@ function! s:wipe_empty() abort
     endif
 endfunction
 
-function! StatuslineDiagnostics() abort
-    let msgs = ''
-    if winwidth(0) < 80 | return msgs | endif
-    let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
-    let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
-    let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
-    let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
-    if errors > 0 | let msgs .= " \uf057 " . errors | endif
-    if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
-    if infos > 0 | let msgs .= " \uf059 " . infos | endif
-    if hints > 0 | let msgs .=  " \uf055 " . hints | endif
-    if !empty(msgs) | let msgs .= ' '| endif
-    return msgs
-endfunction
-
-function! _UndoTreeStatusLine() abort
-    let status = t:undotree.GetStatusLine()
-    let status = substitute(status, 'current:', 'Current:', '')
-    let status = substitute(status, 'redo:', "\uf0e2", '')
-    return status
-endfunction
-
 " AUTOCMDS
 " --------
 augroup init_vim
-    autocmd!
-    autocmd TermOpen * startinsert
-    autocmd TermOpen * setlocal statusline=%1*%=%{\"\\uf44f\ Terminal\ \"}
-    autocmd FileType qf setlocal statusline=%1*%=%{\"\\uf4a0\ \ Quickfix\ -\ \".w:quickfix_title.'\ '}
-    autocmd FileType help setlocal statusline=%1*%=%{\"\\uf7d6\ Help\ -\ \".expand('%:t').'\ '}
-    autocmd FileType peekaboo setlocal statusline=%1*%=%{\"\\uf64d\"}%=
-    autocmd FileType undotree setlocal statusline=%=%{_UndoTreeStatusLine()}%=
-    autocmd FileType diff setlocal statusline=%1*%=%{t:diffpanel.GetStatusLine()}%=
-    autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
-    autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
-    autocmd ColorScheme * highlight User1 ctermbg=None ctermfg=7
-        \ | highlight StatusLine ctermbg=8 ctermfg=7
-        \ | highlight StatusLineNC ctermbg=None ctermfg=8
-        \ | highlight Search cterm=bold,underline ctermfg=6 ctermbg=8
-        \ | highlight TabLineFill ctermbg=None
-        \ | highlight TabLineSel ctermfg=7
-        \ | highlight ModeMsg cterm=bold ctermfg=7
-        \ | highlight link MsgSeparator StatusLineNC
-        \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
-        \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
-        \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
-        \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+autocmd!
+autocmd TermOpen * startinsert
+autocmd TermOpen,FileType * if !empty(&buftype)
+            \ | setlocal statusline=%=%{_SpecialStatusline()}%=
+            \ | endif
+autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
+autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
+    \ | highlight TabLineFill ctermbg=None guibg=None
+    \ | highlight TabLineSel cterm=bold ctermfg=7 gui=bold guifg=#D8DEE9
+    \ | highlight StatusLine cterm=None gui=None ctermbg=None ctermfg=7 guibg=None guifg=#ECEEF4
+    \ | highlight StatusLineNC ctermfg=None ctermfg=8 guibg=None guifg=#4C566A
+    \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
+    \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
+    \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
+    \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
 augroup END
 
 " COLORSCHEME
 " -----------
 colorscheme nord
+set termguicolors
