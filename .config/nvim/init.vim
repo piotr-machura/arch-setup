@@ -36,10 +36,10 @@ set undofile    undolevels=500  autowrite       helpheight=5
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
-set cursorline  scrolloff=2     sidescrolloff=6
-set list        fcs=eob:\       lcs=tab:>-,trail:·
+set cursorline  scrolloff=1     sidescrolloff=4
 set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
 set title       titlelen=0      titlestring=%{_TitleString()}
+set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
 
@@ -67,8 +67,7 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
-let g:indentLine_bufTypeExclude = ['help', 'term']
-let g:indentLine_fileTypeExclude = ['undotree',  'diff', 'peekaboo', 'vim-plug' ]
+let g:indentLine_bufTypeExclude = ['help', 'term', 'nofile', 'nowrite']
 
 "Theme configuration
 let g:nord_uniform_diff_background = 1
@@ -163,10 +162,11 @@ endfunction
 
 function! _SpecialStatusline() abort
     " Used when &buftype is set
-    if &buftype == 'terminal' | return "\uf44f Terminal " | endif
-    if &buftype == 'help' | return "\uf7d6 Help - ".expand('%:t') . ' ' | endif
-    if &buftype == 'quickfix' | return "\uf4a0  Quickfix - " . w:quickfix_title . ' ' | endif
-    if &filetype == 'peekaboo' | return "\uf64d" | endif
+    if &buftype == 'terminal' | return "\uf44f Terminal" | endif
+    if &buftype == 'help' | return "\uf7d6 Help - " . expand('%:t') | endif
+    if &filetype == 'man' | return "\uf7d6 Man - " . expand('%:t') | endif
+    if &buftype == 'quickfix' | return "\uf4a0  Quickfix - " . w:quickfix_title | endif
+    if &filetype == 'peekaboo' | return "\uf64d Registers" | endif
     if &filetype == 'vim-plug' | return "\uf1e6  Plugins" | endif
     if &filetype == 'diff' | return t:diffpanel.GetStatusLine() | endif
     if &filetype == 'undotree'
@@ -201,9 +201,10 @@ function! _TitleString() abort
     if &filetype == 'vim-plug' | return icon . 'Plugins' | endif
     if &filetype == 'undotree' | return icon . 'Undotree' | endif
     if &filetype == 'peekaboo' | return icon . 'Registers' | endif
+    if &filetype == 'man' | return icon . "Man\uf460" . expand('%:t') | endif
     if &filetype ==  'diff' | return icon . 'Diff panel' | endif
     if &buftype == 'quickfix' | return icon . 'Quickfix' | endif
-    if &buftype == 'help' | return icon . 'Help' | endif
+    if &buftype == 'help' | return icon . "Help\uf460" . expand('%:t') | endif
     if &buftype == 'terminal' | return icon . 'Terminal' | endif
     " Regular buffer
     return icon . substitute(getcwd(),$HOME,'~','') . "\uf460" . fnamemodify(expand('%'),':~:.')
