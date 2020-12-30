@@ -31,15 +31,17 @@ lua require('lspconf')
 " SETTINGS
 " --------
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
-set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
-set nowrap      updatetime=500  shortmess+=cI   virtualedit=block
-set undofile    undolevels=500  autowrite       signcolumn=yes
+set noruler     nowrap          updatetime=500  shortmess+=cI
+set undofile    undolevels=500  autowrite       helpheight=5
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
-set list        fcs=eob:\       lcs=tab:>-,trail:·
+set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
-set title       titlelen=0      titlestring=%{_TitleString()}
 set cursorline  scrolloff=2     sidescrolloff=6
-set statusline=%=%{_StatusLine()}%<
+set list        fcs=eob:\       lcs=tab:>-,trail:·
+set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
+set title       titlelen=0      titlestring=%{_TitleString()}
+set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
+set virtualedit=block           clipboard+=unnamedplus
 
 " Disable included plugins
 let g:loaded_netrwPlugin = 1
@@ -84,31 +86,29 @@ let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_sorting = 'alphabet'
 let g:completion_confirm_key = ''
 
-" CLIPBOARD
-" ---------
-let g:clipboard = {
-    \ 'name': 'xclip',
-    \ 'copy': {'+': 'xclip -selection clipboard', '*': 'xclip -selection clipboard'},
-    \ 'paste': {'+': 'xclip -selection clipboard -o', '*': 'xclip -selection clipboard -o'},
-    \ 'cache_enabled': 1,
-    \ }
-set clipboard+=unnamedplus
-
 " MAPS
 " ----
 let g:mapleader = "\<Space>"
 
-" Buffer management
-nnoremap <expr> ZZ &modified ? "\<CMD>write\<Bar>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>"
-nnoremap <expr> ZQ &modified ? "\<CMD>write\<Bar>quit!\<CR>" : "\<CMD>quit!\<CR>"
-nnoremap gb <CMD>bnext<CR>
-nnoremap gB <CMD>bprev<CR>
+nnoremap <S-Tab> <C-o>
 nnoremap - :find<Space>
-
-" Line splitting from normal mode
+nnoremap <C-h> K
+nnoremap K a<CR><ESC>
+nnoremap Q @q
+noremap <Del> "_
 nnoremap [<CR> O<ESC>
 nnoremap ]<CR> o<ESC>
-nnoremap K a<CR><ESC>
+tnoremap <C-\> <C-\><C-n>
+
+noremap = <CMD>call <SID>format_buffer()<CR>
+nnoremap _ <CMD>terminal tree<CR><C-\><C-n>
+nnoremap <leader>h <CMD>echo <SID>highlight_group()<CR>
+nnoremap <leader>g <CMD>Goyo<CR>
+nnoremap <leader>u <CMD>UndotreeToggle<CR>
+nnoremap <leader><Space> <CMD>nohlsearch<Bar>mode<Bar>call <SID>wipe_empty()<CR>
+noremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : ''
+nnoremap <expr> ZZ &modified ? "\<CMD>write\<Bar>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>"
+nnoremap <expr> ZQ &modified ? "\<CMD>write\<Bar>quit!\<CR>" : "\<CMD>quit!\<CR>"
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
@@ -116,38 +116,22 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
+" Location and quickfix lists
+nnoremap [l <CMD>lprev<CR>
+nnoremap ]l <CMD>lnext<CR>
+nnoremap gl <CMD>llist<CR>
+nnoremap [q <CMD>cprev<CR>
+nnoremap ]q <CMD>cnext<CR>
+noremap gq <CMD>clist<CR>
+
+" Replace under cursor
+nmap <leader>r <leader>R
+nnoremap <leader>R #:%s///gc<Left><Left><Left>
+
 " Disable middle mouse click
 noremap <MiddleMouse> <Nop>
 inoremap <MiddleMouse> <Nop>
 cnoremap <MiddleMouse> <Nop>
-
-" Jump, location and quickfix lists
-nnoremap <S-Tab> <C-o>
-nnoremap [l <CMD>lprev<CR>
-nnoremap ]l <CMD>lnext<CR>
-nnoremap [q <CMD>cprev<CR>
-nnoremap ]q <CMD>cnext<CR>
-
-nnoremap gl <CMD>llist<CR>
-noremap gq <CMD>clist<CR>
-
-" Terminal
-tnoremap <C-\> <C-\><C-n>
-noremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
-nnoremap _ <CMD>terminal tree<CR><C-\><C-n>
-
-" Utilities
-nmap <leader>r <leader>R
-nnoremap <leader>R #:%s///gc<Left><Left><Left>
-nnoremap <leader>u <CMD>UndotreeToggle<CR>
-noremap = <CMD>call <SID>format_buffer()<CR>
-
-" Other maps
-nnoremap <C-h> K
-nnoremap Q @q
-noremap <Del> "_
-nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader><Space> <CMD>nohlsearch<Bar>mode<Bar>call <SID>wipe_empty()<CR>
 
 " FUNCTIONS
 " ---------
@@ -164,6 +148,7 @@ function! _StatusLine() abort
     if infos > 0 | let msgs .= " \uf059 " . infos | endif
     if hints > 0 | let msgs .=  " \uf055 " . hints | endif
     if !empty(msgs) && winwidth(0) > 80 | let statusline .= msgs . ' | '| endif
+    " Buffer properties
     if &readonly && &modifiable | let statusline .= "\uf05e Read-only | " | endif
     if &modified && &modifiable | let statusline .= "\uf44d " | endif
     if !empty(expand('%')) | let statusline .= fnamemodify(expand('%'),':~:.') . ' | ' | endif
@@ -172,6 +157,7 @@ function! _StatusLine() abort
 endfunction
 
 function! _SpecialStatusline() abort
+    " Used when &buftype is set
     if &buftype == 'terminal' | return "\uf44f Terminal " | endif
     if &buftype == 'help' | return "\uf7d6 Help - ".expand('%:t') . ' ' | endif
     if &buftype == 'quickfix' | return "\uf4a0  Quickfix - " . w:quickfix_title . ' ' | endif
@@ -187,8 +173,25 @@ function! _SpecialStatusline() abort
     return ''
 endfunction
 
+function! _Tabline() abort
+    let tabline = ''
+    for i in range(tabpagenr('$'))
+        if i+1 == tabpagenr()
+            let tabline .= '%#TabLineSel#'
+        else
+            let tabline .= '%#TabLine#'
+        endif
+        let buflist = tabpagebuflist(i+1)
+        let winnr = tabpagewinnr(i+1)
+        let name = fnamemodify(bufname(buflist[winnr-1]), ':t')
+        let tabline .= '%' . (i+1) . 'T ' . name . ' '
+    endfor
+    return tabline . '%#TabLineFill#'
+endfunction
+
 function! _TitleString() abort
     let icon = "\ue62b "
+    " Special buffers
     if &filetype == 'vim-plug' | return icon . 'Plugins' | endif
     if &filetype == 'undotree' | return icon . 'Undotree' | endif
     if &filetype == 'peekaboo' | return icon . 'Registers' | endif
@@ -196,7 +199,19 @@ function! _TitleString() abort
     if &buftype == 'quickfix' | return icon . 'Quickfix' | endif
     if &buftype == 'help' | return icon . 'Help' | endif
     if &buftype == 'terminal' | return icon . 'Terminal' | endif
+    " Regular buffer
     return icon . substitute(getcwd(),$HOME,'~','') . "\uf460" . fnamemodify(expand('%'),':~:.')
+endfunction
+
+function! s:highlight_group()
+    let msg = 'Highlight: '
+    let symbol = synID(line('.'), col('.'), 1)
+    let name = synIDattr(symbol, 'name')
+    let link = synIDattr(synIDtrans(symbol), 'name')
+    if name == link
+        return msg . name
+    endif
+    return msg . name . " \ufc32 " . link
 endfunction
 
 function! s:format_buffer() abort
@@ -235,7 +250,7 @@ endfunction
 
 " AUTOCMDS
 " --------
-augroup init_vim
+augroup init_dot_vim
 autocmd!
 autocmd TermOpen * startinsert
 autocmd TermOpen,FileType * if !empty(&buftype)
