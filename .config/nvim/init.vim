@@ -10,18 +10,18 @@ endif
 " PLUGINS
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
-Plug 'mbbill/undotree' " Undo tree visualized
-Plug 'junegunn/vim-peekaboo' " Registers visualized
-Plug 'tpope/vim-surround' " Change surrounding brackets/quotes
-Plug 'tpope/vim-commentary' " Comment automation
-Plug 'tpope/vim-repeat' " Repeat surroundings/commentary with '.'
-Plug 'sheerun/vim-polyglot' " Multi-language pack
-Plug 'ap/vim-css-color' " Inline CSS colors
-Plug 'arcticicestudio/nord-vim' " Color theme
-Plug 'Yggdroot/indentLine' " Indentation line indicators
-Plug 'junegunn/goyo.vim' " Distraction-free mode
-Plug 'neovim/nvim-lspconfig' " Native LSP client implementation
-Plug 'nvim-lua/completion-nvim' " Native LSP completion window
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'mbbill/undotree'
+Plug 'junegunn/vim-peekaboo'
+Plug 'ap/vim-css-color'
+Plug 'arcticicestudio/nord-vim'
+Plug 'Yggdroot/indentLine'
+Plug 'junegunn/goyo.vim'
 call plug#end()
 
 " LUA
@@ -55,6 +55,11 @@ let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 
+call sign_define('UndotreeAdd', {'text':'+' , 'texthl':'DiffAdd'})
+call sign_define('UndotreeChg', {'text':'~' , 'texthl':'DiffChange'})
+call sign_define('UndotreeDel', {'text':'-' , 'texthl':'DiffDelete'})
+call sign_define('UndotreeDelEnd', {'text':"\u2015" , 'texthl':'DiffDelete'})
+
 " Indentline configuration
 let g:indentLine_color_term = 8
 let g:indentLine_color_gui = '#4C566A'
@@ -71,11 +76,6 @@ let g:nord_bold = 1
 let g:nord_italic = 1
 let g:nord_underline = 1
 
-call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
-call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
-call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
-call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
-
 " Completion popup configuration
 let g:completion_enable_auto_popup = 0
 let g:completion_enable_auto_signature = 1
@@ -85,6 +85,11 @@ let g:completion_matching_smart_case = 1
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_sorting = 'alphabet'
 let g:completion_confirm_key = ''
+
+call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
+call sign_define('LspDiaget osticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
+call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
+call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
 
 " MAPS
 " ----
@@ -184,6 +189,7 @@ function! _Tabline() abort
         let buflist = tabpagebuflist(i+1)
         let winnr = tabpagewinnr(i+1)
         let name = fnamemodify(bufname(buflist[winnr-1]), ':t')
+        if empty(name) | let name = '-- Empty --' | endif
         let tabline .= '%' . (i+1) . 'T ' . name . ' '
     endfor
     return tabline . '%#TabLineFill#'
@@ -254,8 +260,8 @@ augroup init_dot_vim
 autocmd!
 autocmd TermOpen * startinsert
 autocmd TermOpen,FileType * if !empty(&buftype)
-            \ | setlocal statusline=%=%{_SpecialStatusline()}%=
-            \ | endif
+    \ | setlocal statusline=%=%{_SpecialStatusline()}%=
+    \ | endif
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
