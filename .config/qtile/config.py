@@ -257,7 +257,7 @@ screens = [
                     margin_y=-1,
                     padding=8,
                     icon_size=0,
-                    max_title_width=300,
+                    max_title_width=350,
                 ),
                 PamixerVolume(
                     fontsize=18,

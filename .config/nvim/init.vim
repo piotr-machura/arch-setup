@@ -11,7 +11,6 @@ endif
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -30,19 +29,19 @@ lua require('lspconf')
 
 " SETTINGS
 " --------
-set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
+set expandtab   softtabstop=4   shiftwidth=4    shiftround
 set noruler     nowrap          updatetime=500  shortmess+=cI
-set undofile    undolevels=500  autowrite       helpheight=5
-set path=.,**   ignorecase      smartcase       iskeyword-=_
-set hidden      conceallevel=2  concealcursor=  mouse+=ar
+set undofile    undolevels=500  autowrite       iskeyword-=_
+set path=.,**   ignorecase      smartcase       mouse+=ar
+set hidden      conceallevel=2  concealcursor=
 set cursorline  scrolloff=1     sidescrolloff=4
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
 set title       titlelen=0      titlestring=%{_TitleString()}
+set ph=15       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
-set completeopt=menuone,noinsert,noselect
 
 " Disable included plugins
 let g:loaded_netrwPlugin = 1
@@ -68,23 +67,13 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_char = "\u2506"
 let g:indentLine_first_char = "\u2506"
 let g:indentLine_setConceal = 0
-let g:indentLine_bufTypeExclude = ['help', 'term', 'nofile', 'nowrite']
+let g:indentLine_bufTypeExclude = ['help', 'terminal', 'nofile', 'nowrite']
 
 "Theme configuration
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
 let g:nord_underline = 1
-
-" Completion popup configuration
-let g:completion_enable_auto_popup = 0
-let g:completion_enable_auto_signature = 1
-let g:completion_enable_auto_hover = 1
-let g:completion_enable_auto_paren = 1
-let g:completion_matching_smart_case = 1
-let g:completion_matching_strategy_list = ['exact', 'substring']
-let g:completion_sorting = 'alphabet'
-let g:completion_confirm_key = ''
 
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
 call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
@@ -119,7 +108,7 @@ tnoremap <C-\> <C-\><C-n>
 nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
 
 " Insert mode completion
-inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
+inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : !empty(&omnifunc) ? "\<C-x>\<C-o>" : "\<C-n>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
@@ -127,10 +116,10 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " Location and quickfix lists
 nnoremap [l <CMD>lprev<CR>
 nnoremap ]l <CMD>lnext<CR>
-nnoremap gl <CMD>llist<CR>:ll<Space>
+nnoremap gl <CMD>lopen<CR>
 nnoremap [q <CMD>cprev<CR>
 nnoremap ]q <CMD>cnext<CR>
-noremap gq <CMD>clist<CR>:cc<Space>
+noremap gq <CMD>copen<CR>
 
 " Replace under cursor
 nmap <leader>r <leader>R
@@ -166,20 +155,24 @@ endfunction
 
 function! _SpecialStatusline() abort
     " Used when &buftype is set
-    if &buftype == 'terminal' | return "\uf44f Terminal" | endif
-    if &buftype == 'help' | return "\uf7d6 Help - " . expand('%:t') | endif
-    if &filetype == 'man' | return "\uf7d6 Man - " . expand('%:t') | endif
-    if &buftype == 'quickfix' | return "\uf4a0  Quickfix - " . w:quickfix_title | endif
-    if &filetype == 'peekaboo' | return "\uf64d Registers" | endif
-    if &filetype == 'vim-plug' | return "\uf1e6  Plugins" | endif
-    if &filetype == 'diff' | return t:diffpanel.GetStatusLine() | endif
-    if &filetype == 'undotree'
+    if &filetype == 'terminal' | return "\uf44f Terminal"
+    elseif &filetype == 'help' | return "\uf7d6 Help - " . expand('%:t')
+    elseif &filetype == 'man' | return "\uf7d6 Man - " . expand('%:t')
+    elseif &filetype == 'peekaboo' | return "\uf64d Registers"
+    elseif &filetype == 'vim-plug' | return "\uf1e6  Plugins"
+    elseif &filetype == 'diff' | return t:diffpanel.GetStatusLine()
+    elseif &filetype == 'undotree'
         let status = t:undotree.GetStatusLine()
         let status = substitute(status, 'current:', 'Current:', '')
         let status = substitute(status, 'redo:', "\uf0e2", '')
         return status
-    endif
-    return ''
+    elseif &filetype == 'qf'
+        if exists('w:quickfix_title')
+            return "\uf4a0  Quickfix - " . w:quickfix_title 
+        else
+            return "\uf4a0  Quickfix"
+        endif
+    else | return '' | endif
 endfunction
 
 function! _Tabline() abort
@@ -190,28 +183,35 @@ function! _Tabline() abort
         else
             let tabline .= '%#TabLine#'
         endif
-        let buflist = tabpagebuflist(i+1)
-        let winnr = tabpagewinnr(i+1)
-        let name = fnamemodify(bufname(buflist[winnr-1]), ':t')
-        if empty(name) | let name = '-- Empty --' | endif
+        let buf = tabpagebuflist(i+1)[tabpagewinnr(i+1)-1]
+        let name = ''
+        let filetype = getbufvar(buf, '&filetype')
+        if filetype == 'vim-plug' | let name = 'Plugins'
+        elseif filetype == 'undotree' | let name = 'Undotree'
+        elseif filetype == 'peekaboo' | let name = 'Registers'
+        elseif filetype == 'man' | let name = 'Man'
+        elseif filetype ==  'diff' | let name = 'Diff panel'
+        elseif filetype == 'qf' | let name = 'Quickfix'
+        elseif filetype == 'help' | let name = 'Help'
+        elseif filetype == 'terminal' | let name = 'Terminal'
+        else | let name = fnamemodify(bufname(buf), ':t') | endif
+        if empty(name) | let name = 'No name' | endif
         let tabline .= '%' . (i+1) . 'T ' . name . ' '
     endfor
     return tabline . '%#TabLineFill#'
 endfunction
 
 function! _TitleString() abort
-    let icon = "\ue62b "
-    " Special buffers
-    if &filetype == 'vim-plug' | return icon . 'Plugins' | endif
-    if &filetype == 'undotree' | return icon . 'Undotree' | endif
-    if &filetype == 'peekaboo' | return icon . 'Registers' | endif
-    if &filetype == 'man' | return icon . "Man\uf460" . expand('%:t') | endif
-    if &filetype ==  'diff' | return icon . 'Diff panel' | endif
-    if &buftype == 'quickfix' | return icon . 'Quickfix' | endif
-    if &buftype == 'help' | return icon . "Help\uf460" . expand('%:t') | endif
-    if &buftype == 'terminal' | return icon . 'Terminal' | endif
-    " Regular buffer
-    return icon . substitute(getcwd(),$HOME,'~','') . "\uf460" . fnamemodify(expand('%'),':~:.')
+    let start = "\ue62b ". substitute(getcwd(),$HOME,'~','') . "\uf460" 
+    if &filetype == 'vim-plug' | return start . 'Plugins'
+    elseif &filetype == 'undotree' | return start . 'Undotree'
+    elseif &filetype == 'peekaboo' | return start . 'Registers'
+    elseif &filetype == 'man' | return start . "Man - " . expand('%:t')
+    elseif &filetype ==  'diff' | return start . 'Diff panel'
+    elseif &filetype == 'qf' | return start . 'Quickfix'
+    elseif &filetype == 'help' | return start . "Help - " . expand('%:t')
+    elseif &filetype == 'terminal' | return start . 'Terminal'
+    else | return start . fnamemodify(expand('%'),':~:.') | endif
 endfunction
 
 function! s:highlight_group()
@@ -263,8 +263,8 @@ endfunction
 " --------
 augroup init_dot_vim
 autocmd!
-autocmd TermOpen * startinsert
-autocmd TermOpen,FileType * if !empty(&buftype)
+autocmd TermOpen * setfiletype terminal | startinsert
+autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif
 autocmd FileType qf execute "normal 6\<C-w>_"
