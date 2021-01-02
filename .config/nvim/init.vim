@@ -1,6 +1,6 @@
-" -----------------------------
-" NEOVIM TERMINAL EDITOR CONFIG
-" -----------------------------
+" --------------------
+" NEOVIM EDITOR CONFIG
+" --------------------
 
 if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-plug
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
@@ -33,15 +33,16 @@ lua require('lspconf')
 set tabstop=4   softtabstop=4   shiftwidth=4    expandtab   shiftround
 set noruler     nowrap          updatetime=500  shortmess+=cI
 set undofile    undolevels=500  autowrite       helpheight=5
+set path=.,**   ignorecase      smartcase       iskeyword-=_
 set hidden      conceallevel=2  concealcursor=  mouse+=ar
+set cursorline  scrolloff=1     sidescrolloff=4
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
-set cursorline  scrolloff=1     sidescrolloff=4
-set path=.,**   smartcase       completeopt=menuone,noinsert,noselect
 set title       titlelen=0      titlestring=%{_TitleString()}
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
+set completeopt=menuone,noinsert,noselect
 
 " Disable included plugins
 let g:loaded_netrwPlugin = 1
@@ -86,7 +87,7 @@ let g:completion_sorting = 'alphabet'
 let g:completion_confirm_key = ''
 
 call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagnosticsDefaultError'})
-call sign_define('LspDiaget osticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
+call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsInformation'})
 call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
 
@@ -94,25 +95,28 @@ call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiag
 " ----
 let g:mapleader = "\<Space>"
 
-nnoremap <S-Tab> <C-o>
-nnoremap - :find<Space>
-nnoremap <C-h> K
-nnoremap K a<CR><ESC>
+nnoremap ' `
 nnoremap Q @q
 noremap <Del> "_
+nnoremap <C-h> K
+nnoremap K a<CR><ESC>
 nnoremap [<CR> O<ESC>
 nnoremap ]<CR> o<ESC>
-tnoremap <C-\> <C-\><C-n>
-
+nnoremap <S-Tab> <C-o>
+nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
+nnoremap _ :find<Space>
 noremap = <CMD>call <SID>format_buffer()<CR>
-nnoremap _ <CMD>terminal tree<CR><C-\><C-n>
+nnoremap + <CMD>terminal tree<CR><CMD>stopinsert<CR>
+nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
+nnoremap ZQ <CMD>update<Bar>quit!<CR>
+
 nnoremap <leader>h <CMD>echo <SID>highlight_group()<CR>
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
 nnoremap <leader><Space> <CMD>nohlsearch<Bar>mode<Bar>call <SID>wipe_empty()<CR>
-noremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : ''
-nnoremap <expr> ZZ &modified ? "\<CMD>write\<Bar>bdelete!\<CR>" : "\<CMD>bdelete!\<CR>"
-nnoremap <expr> ZQ &modified ? "\<CMD>write\<Bar>quit!\<CR>" : "\<CMD>quit!\<CR>"
+
+tnoremap <C-\> <C-\><C-n>
+nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
@@ -123,14 +127,14 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " Location and quickfix lists
 nnoremap [l <CMD>lprev<CR>
 nnoremap ]l <CMD>lnext<CR>
-nnoremap gl <CMD>llist<CR>
+nnoremap gl <CMD>llist<CR>:ll<Space>
 nnoremap [q <CMD>cprev<CR>
 nnoremap ]q <CMD>cnext<CR>
-noremap gq <CMD>clist<CR>
+noremap gq <CMD>clist<CR>:cc<Space>
 
 " Replace under cursor
 nmap <leader>r <leader>R
-nnoremap <leader>R #:%s///gc<Left><Left><Left>
+nnoremap <leader>R :%s/\<<C-r>=expand('<cword>')<CR>\>/
 
 " Disable middle mouse click
 noremap <MiddleMouse> <Nop>
@@ -230,16 +234,16 @@ function! s:format_buffer() abort
         let msg .= 'Formatted buffer. '
     else
         if !empty(&formatprg)
-            silent! normal! gggqG
+            silent! keepjumps normal! gggqG
             let msg .= 'Formatted buffer. '
         endif
         if !empty(&equalprg) && &equalprg != &formatprg
-            silent! normal! gg=G
+            silent! keepjumps normal! gg=G
             if empty(msg) | let msg .= 'Reindented. ' | endif
         endif
     endif
     let last_search = @/
-    silent! %substitute/\s\+$//e
+    silent! keepjumps %substitute/\s\+$//e
     let @/ = last_search
     nohlsearch
     let msg .= 'Stripped trailing whitespace.'
@@ -263,6 +267,7 @@ autocmd TermOpen * startinsert
 autocmd TermOpen,FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif
+autocmd FileType qf execute "normal 6\<C-w>_"
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4

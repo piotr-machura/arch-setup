@@ -8,15 +8,16 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
-local attach = function(client)
-    vim.api.nvim_buf_set_keymap(0, 'n', '<C-h>','<CMD>lua vim.lsp.buf.hover()<CR>', {noremap = true})
-    vim.api.nvim_buf_set_keymap(0, 'n', '<C-]','<CMD>lua vim.lsp.buf.definition()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, 'n', '<C-t>','<CMD>lua vim.lsp.buf.references()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>r','<CMD>lua vim.lsp.buf.rename()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, '',  'gq','<CMD>lua vim.lsp.diagnostic.set_loclist()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, 'n', '[q','<CMD>silent! lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, 'n', ']q','<CMD>silent! lua vim.lsp.diagnostic.goto_next()<CR>', {noremap=true})
-    vim.api.nvim_buf_set_keymap(0, 'i', '<C-Space>','pumvisible() ? "<C-e>" : "<Plug>(completion_trigger)"', {expr = true})
+local function attach(client)
+    local map = vim.api.nvim_buf_set_keymap
+    map(0, 'n', '<C-h>','<CMD>lua vim.lsp.buf.hover()<CR>', {noremap = true})
+    map(0, 'n', '<C-]','<CMD>lua vim.lsp.buf.definition()<CR>', {noremap=true})
+    map(0, 'n', '<C-t>','<CMD>lua vim.lsp.buf.references()<CR>', {noremap=true})
+    map(0, 'n', '<leader>r','<CMD>lua vim.lsp.buf.rename()<CR>', {noremap=true})
+    map(0, '',  'gq','<CMD>lua vim.lsp.diagnostic.set_loclist()<CR>', {noremap=true})
+    map(0, 'n', '[q','<CMD>silent! lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap=true})
+    map(0, 'n', ']q','<CMD>silent! lua vim.lsp.diagnostic.goto_next()<CR>', {noremap=true})
+    map(0, 'i', '<C-Space>','pumvisible() ? "<C-e>" : "<Plug>(completion_trigger)"', {expr = true})
     require'completion'.on_attach(client)
 end
 
