@@ -99,7 +99,7 @@ nnoremap + <CMD>terminal tree<CR><CMD>stopinsert<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 nnoremap ZQ <CMD>update<Bar>quit!<CR>
 
-nnoremap <leader>h <CMD>echo <SID>highlight_group()<CR>
+nnoremap <leader>h <CMD>call <SID>highlight_group()<CR>
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
 nnoremap <leader><Space> <CMD>nohlsearch<Bar>mode<Bar>call <SID>wipe_empty()<CR>
@@ -215,14 +215,9 @@ function! _TitleString() abort
 endfunction
 
 function! s:highlight_group()
-    let msg = 'Highlight: '
-    let symbol = synID(line('.'), col('.'), 1)
-    let name = synIDattr(symbol, 'name')
-    let link = synIDattr(synIDtrans(symbol), 'name')
-    if name == link
-        return msg . name
-    endif
-    return msg . name . " \ufc32 " . link
+    let name = synIDattr(synID(line('.'), col('.'), 1), 'name')
+    echo 'Highlight under cursor:'
+    exec 'highlight ' . name
 endfunction
 
 function! s:format_buffer() abort
