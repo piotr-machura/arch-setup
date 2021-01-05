@@ -159,6 +159,7 @@ function! _SpecialStatusline() abort
     elseif &filetype == 'help' | return "\uf7d6 Help - " . expand('%:t')
     elseif &filetype == 'man' | return "\uf7d6 Man - " . expand('%:t')
     elseif &filetype == 'peekaboo' | return "\uf64d Registers"
+    elseif &filetype == 'cmdwin' | return "\uf155 Commands"
     elseif &filetype == 'vim-plug' | return "\uf1e6  Plugins"
     elseif &filetype == 'diff' | return t:diffpanel.GetStatusLine()
     elseif &filetype == 'undotree'
@@ -194,6 +195,7 @@ function! _Tabline() abort
         elseif filetype == 'qf' | let name = 'Quickfix'
         elseif filetype == 'help' | let name = 'Help'
         elseif filetype == 'terminal' | let name = 'Terminal'
+        elseif filetype == 'cmdwin' | let name = 'Commands'
         else | let name = fnamemodify(bufname(buf), ':t') | endif
         if empty(name) | let name = 'No name' | endif
         let tabline .= '%' . (i+1) . 'T ' . name . ' '
@@ -211,6 +213,7 @@ function! _TitleString() abort
     elseif &filetype == 'qf' | return start . 'Quickfix'
     elseif &filetype == 'help' | return start . "Help - " . expand('%:t')
     elseif &filetype == 'terminal' | return start . 'Terminal'
+    elseif &filetype == 'cmdwin' | return start . 'Commands'
     else | return start . fnamemodify(expand('%'),':~:.') | endif
 endfunction
 
@@ -259,6 +262,7 @@ endfunction
 augroup init_dot_vim
 autocmd!
 autocmd TermOpen * setfiletype terminal | startinsert
+autocmd CmdWinEnter * setfiletype cmdwin
 autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif

@@ -2,8 +2,8 @@
 # BASH INTERACTIVE SESSION CONFIG
 # -------------------------------
 
+[[ $0 != *bash ]] && return
 [[ $- != *i* ]] && return
-[[ -z "$DOTPROFILE_LOADED" ]] && source "$HOME/.profile"
 
 # ALIASES
 # -------
@@ -28,6 +28,9 @@ alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
 # ------
 PROMPT_COMMAND=_prompt_cmd
 function _prompt_cmd() {
+    # Set window title
+    echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a"
+    # Contruct the prompt
     prompt=""
     # SSH
     [[ -z "$SSH_CLINET" ]] || prompt="$prompt\[\e[1;33m\]\uf700 \h "
@@ -40,19 +43,16 @@ function _prompt_cmd() {
     [[ -z "$venv" ]] || prompt="$prompt\[\e[1;34m\]\uf81f $venv "
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
-    [[ -z "$branch" ]] || prompt="$prompt\[\e[1;37m\]\uf418 $branch "
+    [[ -z "$branch" ]] || prompt="$prompt\[\e[1;35m\]\uf418 $branch "
     # Add brackets around special info (if there is any)
     [[ -z "$prompt" ]] || prompt="\[\e[1;37m\][ $prompt\[\e[1;37m\]] "
-    # Working directory
+    # Working directory (with a lock symbol if no permissons)
     prompt="$prompt\[\e[1;36m\]\W "
-    # Add lock symbol if in non-writeable directory
     [[ -w $PWD ]] || prompt="$prompt\[\e[31m\]\uf023 "
     # Dollar sign
     prompt="$prompt\[\e[m\]\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt
     export PS1="$(echo -e "$prompt")"
-    # Set window title
-    echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a"
 }
 
 # VI MODE

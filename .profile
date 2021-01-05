@@ -60,3 +60,4 @@ export ERRFILE=/dev/null
 rm --force "$HOME"/.xsession-errors*
 
 export DOTPROFILE_LOADED=1
+source "$HOME/.bashrc"
