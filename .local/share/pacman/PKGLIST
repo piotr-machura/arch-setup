@@ -3,6 +3,7 @@ alacritty
 arc-gtk-theme
 aspell-pl
 base
+bash-completion
 bibata-cursor-theme-bin
 ctags
 dunst
@@ -13,6 +14,7 @@ gnumeric
 grub
 gst-libav
 gst-plugins-ugly
+homebank
 htop
 light-locker
 lightdm-mini-greeter
@@ -21,7 +23,7 @@ linux-firmware
 maim
 man-db
 meta-group-base-devel
-neovim-nightly
+neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
@@ -51,7 +53,6 @@ rofi-calc
 rsnapshot
 signal-desktop
 spacefm-git
-spaceship-prompt-git
 spotify
 spotifywm-git
 tidy
@@ -68,7 +69,3 @@ xorg-server
 yapf
 zathura
 zathura-pdf-mupdf
-zsh
-zsh-autosuggestions
-zsh-completions
-zsh-syntax-highlighting

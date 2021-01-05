@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=HomeBank
+GenericName=Personal finance
+Comment=Free, easy, personal accounting for everyone
+Keywords=finance;accounting;budget;personal;money;
+Exec=homebank %f
+Terminal=false
+StartupNotify=true
+Type=Application
+Icon=homebank
+Categories=GNOME;GTK;Office;Finance;
+MimeType=application/x-homebank;
