@@ -273,7 +273,7 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight TabLineFill ctermbg=None guibg=None
     \ | highlight TabLineSel cterm=bold gui=bold ctermfg=7 guifg=#D8DEE9
     \ | highlight StatusLine cterm=bold gui=bold ctermbg=None ctermfg=7 guibg=None guifg=#ECEEF4
-    \ | highlight StatusLineNC ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
+    \ | highlight StatusLineNC cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
     \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
