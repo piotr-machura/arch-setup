@@ -84,7 +84,6 @@ call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiag
 " ----
 let g:mapleader = "\<Space>"
 
-nnoremap ' `
 nnoremap Q @q
 noremap <Del> "_
 nnoremap <C-h> K
@@ -191,7 +190,7 @@ function! _Tabline() abort
         elseif filetype == 'undotree' | let name = 'Undotree'
         elseif filetype == 'peekaboo' | let name = 'Registers'
         elseif filetype == 'man' | let name = 'Man'
-        elseif filetype ==  'diff' | let name = 'Diff panel'
+        elseif filetype == 'diff' | let name = 'Diff panel'
         elseif filetype == 'qf' | let name = 'Quickfix'
         elseif filetype == 'help' | let name = 'Help'
         elseif filetype == 'terminal' | let name = 'Terminal'

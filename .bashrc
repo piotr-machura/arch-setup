@@ -10,23 +10,22 @@
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
-alias rm='rmtrash -I'
-alias rmdir='rmdirtrash'
-alias mv='mv -i'
+alias rm='rmtrash -Iv'
+alias rmdir='rmdirtrash --verbose'
+alias mv='mv -iv'
 
 alias py='python3'
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
-alias pkgclean='paru -Rns $(paru -Qdtq); paru -Scc'
+alias pkgclean='paru -Rns --noconfirm $(paru -Qdtq --noconfirm); paru -Scc --noconfirm'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
 alias opn='mimeopen'
-alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv" --prune --filelimit 50'
+alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
 alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
 
 # PROMPT
 # ------
-PROMPT_COMMAND=_prompt_cmd
 function _prompt_cmd() {
     # Set window title
     title=""
@@ -47,7 +46,7 @@ function _prompt_cmd() {
     # Add brackets around special info (if there is any)
     [[ -z "$prompt" ]] || prompt="\[\e[1;37m\]($prompt\[\e[1;37m\]) "
     # User @ hostname, working directory
-    u_host_cwd="\[\e[1;37m\][\[\e[1;34m\]\u@\h\[\e[1;37m\]: \[\e[1;36m\]\W\[\e[1;37m\]] "
+    u_host_cwd="\[\e[1;37m\][\[\e[1;34m\]\u@\h\[\e[1;37m\] \[\e[1;36m\]\W\[\e[1;37m\]] "
     # Add newline if space is at a premium
     [[ $COLUMNS -ge 70 ]] || prompt="$u_host_cwd$prompt\n"
     [[ $COLUMNS -lt 70 ]] || prompt="$prompt$u_host_cwd"
@@ -59,6 +58,7 @@ function _prompt_cmd() {
     # Set prompt
     export PS1="$(echo -e "$prompt")"
 }
+export PROMPT_COMMAND=_prompt_cmd
 
 # VI MODE
 # -------
