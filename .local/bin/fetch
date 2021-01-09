@@ -34,7 +34,7 @@ ic="${reset}"                       # info
 
 cat <<EOF
 
-    ${nc}${USER}${ic}@${nc}${host}${reset}
+    ${nc}${USER}@${host}${reset}
     ${lc}os:        ${ic}${os}${reset}
     ${lc}kernel:    ${ic}${kernel}${reset}
     ${lc}packages:  ${ic}${packages}${reset}

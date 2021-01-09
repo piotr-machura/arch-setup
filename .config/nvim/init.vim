@@ -38,7 +38,7 @@ set cursorline  scrolloff=1     sidescrolloff=4
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
 set title       titlelen=0      titlestring=%{_TitleString()}
-set ph=15       completeopt=menuone,noinsert,noselect
+set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
@@ -84,6 +84,7 @@ call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiag
 " ----
 let g:mapleader = "\<Space>"
 
+nnoremap Y y$
 nnoremap Q @q
 noremap <Del> "_
 nnoremap <C-h> K
@@ -94,15 +95,10 @@ nnoremap <S-Tab> <C-o>
 nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
 nnoremap _ :find<Space>
 noremap = <CMD>call <SID>format_buffer()<CR>
-nnoremap + <CMD>terminal tree<CR><CMD>stopinsert<CR>
+nnoremap + <CMD>UndotreeToggle<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 nnoremap ZQ <CMD>update<Bar>quit!<CR>
-nnoremap <C-l> <CMD>nohlsearch<Bar>call <SID>wipe_empty()<CR><C-l>
-
-nnoremap <leader>h <CMD>call <SID>highlight_group()<CR>
-nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>u <CMD>UndotreeToggle<CR>
-
+nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
 
@@ -120,14 +116,19 @@ nnoremap [q <CMD>cprev<CR>
 nnoremap ]q <CMD>cnext<CR>
 noremap gq <CMD>copen<CR>
 
-" Replace under cursor
+" Replace word under cursor
 nmap <leader>r <leader>R
-nnoremap <leader>R :%s/\<<C-r>=expand('<cword>')<CR>\>/
+nnoremap <leader>R :%s/<C-r>=expand('<cWORD>')<CR>//gc<Left><Left><Left>
 
 " Disable middle mouse click
 noremap <MiddleMouse> <Nop>
 inoremap <MiddleMouse> <Nop>
 cnoremap <MiddleMouse> <Nop>
+
+" COMMANDS
+" --------
+command! HighlightUnderCursor exec 'highlight '.synIDattr(synID(line('.'), col('.'), 1), 'name')
+command! -bar FileTree exec 'terminal tree'<BAR>exec 'stopinsert'
 
 " FUNCTIONS
 " ---------
@@ -168,7 +169,7 @@ function! _SpecialStatusline() abort
         return status
     elseif &filetype == 'qf'
         if exists('w:quickfix_title')
-            return "\uf4a0  Quickfix - " . w:quickfix_title 
+            return "\uf4a0  Quickfix - " . w:quickfix_title
         else
             return "\uf4a0  Quickfix"
         endif
@@ -203,7 +204,7 @@ function! _Tabline() abort
 endfunction
 
 function! _TitleString() abort
-    let start = "\ue62b ". substitute(getcwd(),$HOME,'~','') . "\uf460" 
+    let start = "\ue62b ". substitute(getcwd(),$HOME,'~','') . "\uf460"
     if &filetype == 'vim-plug' | return start . 'Plugins'
     elseif &filetype == 'undotree' | return start . 'Undotree'
     elseif &filetype == 'peekaboo' | return start . 'Registers'
@@ -214,12 +215,6 @@ function! _TitleString() abort
     elseif &filetype == 'terminal' | return start . 'Terminal'
     elseif &filetype == 'cmdwin' | return start . 'Commands'
     else | return start . fnamemodify(expand('%'),':~:.') | endif
-endfunction
-
-function! s:highlight_group()
-    let name = synIDattr(synID(line('.'), col('.'), 1), 'name')
-    echo 'Highlight under cursor:'
-    exec 'highlight ' . name
 endfunction
 
 function! s:format_buffer() abort
@@ -266,6 +261,7 @@ autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif
 autocmd FileType qf execute "normal 6\<C-w>_"
+autocmd FileType terminal setlocal signcolumn=no
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
@@ -277,6 +273,7 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
     \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
 augroup END
 
 " COLORSCHEME

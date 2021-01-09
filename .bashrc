@@ -10,8 +10,8 @@
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
 alias ll='ls -lA --color=auto'
-alias rm='rmtrash -Iv'
-alias rmdir='rmdirtrash --verbose'
+alias rm='rmtrash -I'
+alias rmdir='rmdirtrash'
 alias mv='mv -iv'
 
 alias py='python3'
@@ -52,7 +52,7 @@ function _prompt_cmd() {
     [[ $COLUMNS -lt 70 ]] || prompt="$prompt$u_host_cwd"
     # Jobs
     njobs=$(jobs | wc -l)
-    [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs"
+    [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
     # Newline if space is at a premium and dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt
