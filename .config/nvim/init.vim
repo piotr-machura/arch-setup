@@ -31,10 +31,9 @@ lua require('lspconf')
 " --------
 set expandtab   softtabstop=4   shiftwidth=4    shiftround
 set noruler     nowrap          updatetime=500  shortmess+=cI
-set undofile    undolevels=500  autowrite       iskeyword-=_
 set path=.,**   ignorecase      smartcase       mouse+=ar
-set hidden      conceallevel=2  concealcursor=
-set cursorline  scrolloff=1     sidescrolloff=4
+set hidden      undofile        undolevels=500  autowrite
+set cursorline  conceallevel=2  concealcursor=
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
 set title       titlelen=0      titlestring=%{_TitleString()}
@@ -42,8 +41,9 @@ set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
+set scrolloff=1     sidescrolloff=4
 
-" Disable included plugins
+" Disable netrw and matchit
 let g:loaded_netrwPlugin = 1
 let g:loaded_matchit = 1
 
@@ -54,11 +54,6 @@ let g:undotree_HelpLine = 0
 let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
-
-call sign_define('UndotreeAdd', {'text':'+' , 'texthl':'DiffAdd'})
-call sign_define('UndotreeChg', {'text':'~' , 'texthl':'DiffChange'})
-call sign_define('UndotreeDel', {'text':'-' , 'texthl':'DiffDelete'})
-call sign_define('UndotreeDelEnd', {'text':"\u2015" , 'texthl':'DiffDelete'})
 
 " Indentline configuration
 let g:indentLine_color_term = 8

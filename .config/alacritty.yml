@@ -112,8 +112,8 @@ mouse_bindings:
 
 key_bindings:
   - { key: Return,  mods: Control,      action: SpawnNewInstance }
-  - { key: V,       mods: Control|Alt,  action: Paste            }
-  - { key: C,       mods: Control|Alt,  action: Copy             }
+  - { key: P,       mods: Control|Alt,  action: Paste            }
+  - { key: Y,       mods: Control|Alt,  action: Copy             }
   - { key: Equals,  mods: Control|Alt,  action: IncreaseFontSize }
   - { key: Minus,   mods: Control|Alt,  action: DecreaseFontSize }
   - { key: Key0,    mods: Control|Alt,  action: ResetFontSize    }
