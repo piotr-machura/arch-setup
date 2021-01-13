@@ -10,7 +10,7 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 
 local function attach(client)
    vim.api.nvim_buf_set_keymap(0, 'n', '<C-h>','<CMD>lua vim.lsp.buf.hover()<CR>', {noremap = true})
-   vim.api.nvim_buf_set_keymap(0, 'n', '<C-]','<CMD>lua vim.lsp.buf.definition()<CR>', {noremap=true})
+   vim.api.nvim_buf_set_keymap(0, 'n', '<C-]>','<CMD>lua vim.lsp.buf.definition()<CR>', {noremap=true})
    vim.api.nvim_buf_set_keymap(0, 'n', '<C-t>','<CMD>lua vim.lsp.buf.references()<CR>', {noremap=true})
    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>r','<CMD>lua vim.lsp.buf.rename()<CR>', {noremap=true})
    vim.api.nvim_buf_set_keymap(0, '',  'gq','<CMD>lua vim.lsp.diagnostic.set_loclist()<CR>', {noremap=true})

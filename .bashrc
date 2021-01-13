@@ -53,7 +53,7 @@ function _prompt_cmd() {
     # Jobs
     njobs=$(jobs | wc -l)
     [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
-    # Newline if space is at a premium and dollar sign
+    # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt
     export PS1="$(echo -e "$prompt")"

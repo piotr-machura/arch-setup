@@ -45,7 +45,6 @@ set scrolloff=1     sidescrolloff=4
 
 " Disable netrw and matchit
 let g:loaded_netrwPlugin = 1
-let g:loaded_matchit = 1
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
