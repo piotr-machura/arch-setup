@@ -1,10 +1,12 @@
 abiword
 alacritty
+amd-ucode
 arc-gtk-theme
 aspell-pl
 base
 bash-completion
 bibata-cursor-theme-bin
+blueman
 ctags
 dunst
 firefox
@@ -22,6 +24,7 @@ linux
 linux-firmware
 maim
 man-db
+mesa
 meta-group-base-devel
 neovim-nightly-bin
 neovim-symlinks
@@ -61,11 +64,12 @@ tree
 udevil
 unrar
 unzip
-virtualbox-guest-utils
 xarchiver
 xcb-util-cursor
 xclip
+xf86-video-amdgpu
 xorg-server
+xorg-xrandr
 yapf
 zathura
 zathura-pdf-mupdf

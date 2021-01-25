@@ -11,20 +11,22 @@ from libqtile.lazy import lazy
 
 wmname = 'Qtile'
 
+
 # AUTOSTART
 # ---------
 @hook.subscribe.startup_once
 def autostart():
     """List of lists with commands to be executed on startup and their args."""
     processes = [
-        ['xrandr', '--size', '1360x768'],
         ['dunst'],
         ['picom', '-b'],
-        ['spacefm', '-d'],
+        ['spacefm', '--daemon-mode'],
         ['light-locker'],
+        ['blueman-applet'],
     ]
     for process in processes:
         subprocess.Popen(process)
+
 
 # KEYBINDINGS
 # -----------
@@ -47,14 +49,11 @@ keys = [
     Key([win], 'p', lazy.next_layout()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
-    Key([win], '0', lazy.layout.normalize()),
     Key([win], 'Tab', lazy.screen.toggle_group()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
     Key([win], 'w', lazy.spawn('firefox')),
     Key([win], 'f', lazy.spawn('spacefm')),
-    Key([win], 's', lazy.spawn('spotify')),
-    Key([win], 'i', lazy.spawn('nm-connection-editor')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
     Key([win], 'c', lazy.spawn('rofi -show calc -lines 0 -terse -no-history')),
     Key([], 'Print', lazy.spawn('screenshot')),
@@ -77,28 +76,26 @@ mouse = [
         'Button3',
         lazy.window.set_size_floating(),
         start=lazy.window.get_size(),
-        ),
+    ),
     Click(
         [win],
         'Button2',
         lazy.window.toggle_floating(),
-        ),
+    ),
 ]
 
 follow_mouse_focus = False
 bring_front_click = True
-cursor_warp = True
+cursor_warp = False
 
 # GROUPS
 # ------
 groups = [Group(str(i + 1)) for i in range(5)]
 
 for i in groups:
-    keys.extend([
-            Key(
-                [win],
-                i.name,
-                lazy.group[i.name].toscreen()),
+    keys.extend(
+        [
+            Key([win], i.name, lazy.group[i.name].toscreen()),
             Key(
                 [win, shift],
                 i.name,
@@ -109,17 +106,29 @@ for i in groups:
 # LAYOUTS
 # -------
 nord_colors = [
-    '#2e3440', '#3b4252', '#434c5e', '#4c566a',
-    '#d8dee9', '#e5e9f0', '#eceff4', '#8fbcbb',
-    '#88c0d0', '#81a1c1', '#5e81ac', '#bf616a',
-    '#d08770', '#ebcb8b', '#a3be8c', '#b48ead',
+    '#2e3440',
+    '#3b4252',
+    '#434c5e',
+    '#4c566a',
+    '#d8dee9',
+    '#e5e9f0',
+    '#eceff4',
+    '#8fbcbb',
+    '#88c0d0',
+    '#81a1c1',
+    '#5e81ac',
+    '#bf616a',
+    '#d08770',
+    '#ebcb8b',
+    '#a3be8c',
+    '#b48ead',
 ]
 
 theme_layout = {
-    'border_width' : 5,
-    'margin' : 10,
-    'border_focus' : nord_colors[8],
-    'border_normal' : nord_colors[3],
+    'border_width': 8,
+    'margin': 12,
+    'border_focus': nord_colors[8],
+    'border_normal': nord_colors[3],
 }
 
 layouts = [
@@ -157,6 +166,8 @@ floating_layout = layout.Floating(
     # Run `xprop` to see the wm class
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'nm-connection-editor'},
+        {'wmclass': 'blueman-adapters'},
+        {'wmclass': 'blueman-manager'},
         {'wmclass': 'spotify'},
     ],
     **theme_layout)
@@ -164,11 +175,11 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = 'smart'
 
+
 # SCREENS & WIDGETS
 # -----------------
 class PamixerVolume(widget.base._TextBox):
     """Volume widget using the pamixer tool."""
-
     def __init__(self, **config):
         super().__init__(**config)
         self.orientation = widget.base.ORIENTATION_HORIZONTAL
@@ -221,7 +232,7 @@ widget_defaults = {
 
 screens = [
     Screen(
-        wallpaper='~/.local/share/backgrounds/arch.jpg',
+        wallpaper='~/.local/share/backgrounds/mountains.jpg',
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
@@ -247,7 +258,7 @@ screens = [
                 widget.TaskList(
                     highlight_method='block',
                     title_width_method='uniform',
-                    rounded = False,
+                    rounded=False,
                     markup_focused='{}',
                     markup_floating='\uf0d8  {}',
                     markup_minimized='\uf0d7  {}',
@@ -264,8 +275,10 @@ screens = [
                     update_interval=5,
                     padding=4,
                     mouse_callbacks={
-                        'Button1': lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
-                        'Button3': lambda: subprocess.Popen(['pavucontrol']),
+                        'Button1':
+                        lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
+                        'Button3':
+                        lambda: subprocess.Popen(['pavucontrol']),
                     },
                 ),
                 widget.Clock(format='%H:%M'),

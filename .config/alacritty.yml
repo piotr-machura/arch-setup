@@ -7,9 +7,9 @@ env:
 
 window:
   padding:
-    x: 12
+    x: 10
     y: 5
-  dynamic_padding: false
+  dynamic_padding: true
   startup_mode: Windowed
   title: ---
   dynamic_title: true
@@ -33,7 +33,7 @@ font:
   bold_italic:
     family: FiraMono Nerd Font
     style: Bold
-  size: 11.5
+  size: 13
 
 # Nord Theme
 colors:

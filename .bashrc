@@ -46,10 +46,9 @@ function _prompt_cmd() {
     # Add brackets around special info (if there is any)
     [[ -z "$prompt" ]] || prompt="\[\e[1;37m\]($prompt\[\e[1;37m\]) "
     # User @ hostname, working directory
-    u_host_cwd="\[\e[1;37m\][\[\e[1;34m\]\u@\h\[\e[1;37m\] \[\e[1;36m\]\W\[\e[1;37m\]] "
-    # Add newline if space is at a premium
-    [[ $COLUMNS -ge 70 ]] || prompt="$u_host_cwd$prompt\n"
-    [[ $COLUMNS -lt 70 ]] || prompt="$prompt$u_host_cwd"
+    u_host_cwd="\[\e[1;37m\][\[\e[1;34m\]\u@\h\[\e[1;37m\] \[\e[1;36m\]\w\[\e[1;37m\]] "
+    # Add newline
+    prompt="$u_host_cwd$prompt\n"
     # Jobs
     njobs=$(jobs | wc -l)
     [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
@@ -59,6 +58,7 @@ function _prompt_cmd() {
     export PS1="$(echo -e "$prompt")"
 }
 export PROMPT_COMMAND=_prompt_cmd
+export PROMPT_DIRTRIM=2
 
 # VI MODE
 # -------

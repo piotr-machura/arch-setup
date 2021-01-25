@@ -670,7 +670,6 @@ menupopup menuseparator {
 
 menupopup:not(#BMB_bookmarksPopup) {
     padding: 6px 9px 9px !important;
-    margin: -6px -9px 0 !important;
     border: 0 !important;
     background: 0 !important;
 }
