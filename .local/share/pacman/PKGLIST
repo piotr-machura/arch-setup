@@ -6,7 +6,8 @@ aspell-pl
 base
 bash-completion
 bibata-cursor-theme-bin
-blueman
+bluez
+bluez-utils
 ctags
 dunst
 firefox
@@ -14,6 +15,7 @@ gimp
 git
 gnumeric
 grub
+gsimplecal
 gst-libav
 gst-plugins-ugly
 homebank
@@ -31,7 +33,6 @@ neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
 networkmanager
-nm-connection-editor
 noto-fonts-emoji
 pamixer
 papirus-icon-theme
@@ -57,7 +58,6 @@ rsnapshot
 signal-desktop
 spacefm-git
 spotify
-spotifywm-git
 tidy
 tk
 tree

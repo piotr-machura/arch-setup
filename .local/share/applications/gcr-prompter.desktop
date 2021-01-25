@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Access Prompt
-Comment=Unlock access to passwords and other secrets
-Icon=security-medium
-Exec=/usr/lib/gcr-prompter
-Terminal=false
-Type=Application
-Hidden=true

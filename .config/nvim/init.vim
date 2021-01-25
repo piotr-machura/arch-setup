@@ -43,7 +43,7 @@ set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set virtualedit=block           clipboard+=unnamedplus
 set scrolloff=1     sidescrolloff=4
 
-" Disable netrw and matchit
+" Disable netrw
 let g:loaded_netrwPlugin = 1
 
 " Undoo tree configuration

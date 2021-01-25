@@ -24,3 +24,5 @@
     tool = vimdiff
 [mergetool]
     prompt = true
+[init]
+	defaultBranch = master

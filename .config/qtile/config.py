@@ -69,8 +69,7 @@ mouse = [
         [win],
         'Button1',
         lazy.window.set_position_floating(),
-        start=lazy.window.get_position()
-        ),
+        start=lazy.window.get_position()),
     Drag(
         [win],
         'Button3',
@@ -126,8 +125,8 @@ nord_colors = [
 
 theme_layout = {
     'border_width': 8,
-    'margin': 12,
-    'border_focus': nord_colors[8],
+    'margin': 10,
+    'border_focus': nord_colors[9],
     'border_normal': nord_colors[3],
 }
 
@@ -165,10 +164,8 @@ floating_layout = layout.Floating(
     # User-created floating window rules
     # Run `xprop` to see the wm class
         {'wmclass': 'pavucontrol'},
-        {'wmclass': 'nm-connection-editor'},
-        {'wmclass': 'blueman-adapters'},
-        {'wmclass': 'blueman-manager'},
-        {'wmclass': 'spotify'},
+        {'wmclass': 'gsimplecal'},
+        {'wmclass': 'Places'},    # Firefox history/downloads
     ],
     **theme_layout)
 
@@ -281,7 +278,12 @@ screens = [
                         lambda: subprocess.Popen(['pavucontrol']),
                     },
                 ),
-                widget.Clock(format='%H:%M'),
+                widget.Clock(
+                    format='%H:%M',
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn('gsimplecal')
+                    },
+                ),
                 widget.Spacer(length=8),
             ],
             34,

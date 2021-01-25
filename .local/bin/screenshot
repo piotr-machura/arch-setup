@@ -6,7 +6,10 @@
 # an interactive notification with dunstify
 
 screenshot_id=$(date +%s)
-file_path="$HOME/Pictures/screenshot_$screenshot_id.png"
+screenshot_dir="$HOME/Pictures/screenshots"
+[ ! -d $screenshot_dir ] && mkdir --parents $screenshot_dir
+file_path="$screenshot_dir/screenshot_$screenshot_id.png"
+
 icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
 
 if [ -z $1 ]; then
