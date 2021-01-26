@@ -22,7 +22,6 @@ def autostart():
         ['picom', '-b'],
         ['spacefm', '--daemon-mode'],
         ['light-locker'],
-        ['blueman-applet'],
     ]
     for process in processes:
         subprocess.Popen(process)
@@ -273,9 +272,9 @@ screens = [
                     padding=4,
                     mouse_callbacks={
                         'Button1':
-                        lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
-                        'Button3':
                         lambda: subprocess.Popen(['pavucontrol']),
+                        'Button3':
+                        lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
                     },
                 ),
                 widget.Clock(

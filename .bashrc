@@ -58,7 +58,7 @@ function _prompt_cmd() {
     export PS1="$(echo -e "$prompt")"
 }
 export PROMPT_COMMAND=_prompt_cmd
-export PROMPT_DIRTRIM=2
+export PROMPT_DIRTRIM=3
 
 # VI MODE
 # -------

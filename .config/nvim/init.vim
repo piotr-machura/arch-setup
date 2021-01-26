@@ -58,8 +58,8 @@ let g:undotree_DiffpanelHeight = 6
 let g:indentLine_color_term = 8
 let g:indentLine_color_gui = '#4C566A'
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_char = "\u2506"
-let g:indentLine_first_char = "\u2506"
+let g:indentLine_char = "\u00A6"
+let g:indentLine_first_char = "\u00A6"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'terminal', 'nofile', 'nowrite']
 
@@ -255,7 +255,6 @@ autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif
 autocmd FileType qf execute "normal 6\<C-w>_"
-autocmd FileType terminal setlocal signcolumn=no
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
