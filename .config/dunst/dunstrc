@@ -14,9 +14,9 @@ shrink = no
 transparency = 0
 notification_height = 0
 separator_height = 4
-padding = 10
-horizontal_padding = 10
-frame_width = 8
+padding = 12
+horizontal_padding = 12
+frame_width = 4
 frame_color = "#88c0d0"
 separator_color = "#4C556A"
 sort = yes
@@ -25,7 +25,7 @@ show_indicators = false
 
 # TEXT
 # ----
-font = NotoSans Nerd Font 12
+font = NotoSans Nerd Font 14
 line_height = 0
 markup = full
 format = "<b>%s</b>\n<small>%b</small>"
@@ -82,14 +82,14 @@ msg_urgency = low
 background = "#3B4252"
 foreground = "#E5E9F0"
 frame_color = "#A3BE8C"
-timeout = 5
+timeout = 10
 
 [urgency_normal]
 
 msg_urgency = normal
 background = "#3b4252"
 foreground = "#E5E9F0"
-timeout = 5
+timeout = 10
 
 [urgency_critical]
 
@@ -97,4 +97,4 @@ msg_urgency = critical
 background = "#3b4252"
 foreground = "#E5E9F0"
 frame_color = "#bf616a"
-timeout = 10
+timeout = 20

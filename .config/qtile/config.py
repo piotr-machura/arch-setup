@@ -83,7 +83,7 @@ mouse = [
 ]
 
 follow_mouse_focus = False
-bring_front_click = True
+bring_front_click = False
 cursor_warp = False
 
 # GROUPS
@@ -174,25 +174,21 @@ focus_on_window_activation = 'smart'
 
 # SCREENS & WIDGETS
 # -----------------
-class PamixerVolume(widget.base._TextBox):
+class PamixerVolume(widget.textbox.TextBox):
     """Volume widget using the pamixer tool."""
     def __init__(self, **config):
         super().__init__(**config)
-        self.orientation = widget.base.ORIENTATION_HORIZONTAL
-        self.surfaces = {}
         self.volume = None
 
     def timer_setup(self):
-        self.update()
+        self.update(self.text)
         self.timeout_add(self.update_interval, self.update)
 
     def button_press(self, x, y, button):
-        name = f'Button{button}'
-        if name in self.mouse_callbacks:
-            self.mouse_callbacks[name]()
+        super().button_press(x, y, button)
         self.update()
 
-    def update(self):
+    def update(self, text=None):
         """Update volume information and display"""
         p_outcome = subprocess.Popen(
             ['pamixer', '--get-volume'], stdout=subprocess.PIPE)
@@ -206,11 +202,11 @@ class PamixerVolume(widget.base._TextBox):
             vol = int(re.sub(r"[b'\\n]", '', str(pamixer_volume)))
         if vol != self.volume:
             self.volume = vol
-            if 0 < self.volume < 30:
+            if 0 < self.volume <= 15:
                 self.text = '\ufa7e'
-            elif 30 < self.volume <= 70:
+            elif 15 < self.volume < 50:
                 self.text = '\ufa7f'
-            elif self.volume > 70:
+            elif self.volume >= 50:
                 self.text = '\ufa7d'
             else:
                 self.text = '\ufc5d'
@@ -232,7 +228,7 @@ screens = [
         wallpaper_mode='fill',
         bottom=bar.Bar(
             [
-                widget.Spacer(length=6),
+                widget.Spacer(length=8),
                 widget.GroupBox(
                     highlight_method='block',
                     active=nord_colors[6],
@@ -262,7 +258,8 @@ screens = [
                     urgent_border=nord_colors[12],
                     spacing=0,
                     margin_y=-1,
-                    padding=8,
+                    padding_x=16,
+                    padding_y=8,
                     icon_size=0,
                     max_title_width=350,
                 ),
@@ -272,9 +269,9 @@ screens = [
                     padding=4,
                     mouse_callbacks={
                         'Button1':
-                        lambda: subprocess.Popen(['pavucontrol']),
+                        lambda qtile: qtile.cmd_spawn('pavucontrol'),
                         'Button3':
-                        lambda: subprocess.Popen(['pamixer', '--toggle-mute']),
+                        lambda qtile: qtile.cmd_spawn('pamixer --toggle-mute'),
                     },
                 ),
                 widget.Clock(

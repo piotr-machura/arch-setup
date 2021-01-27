@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Calendar
-Comment=Shortcut to the Fastmail calendar
-Exec=xdg-open "https://www.fastmail.com/calendar/"
-Icon=calendar
-Terminal=false

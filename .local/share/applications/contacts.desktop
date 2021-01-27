@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Contacts
-Comment=Shortcut to the Fastmail contacts
-Exec=xdg-open "https://www.fastmail.com/contacts/"
-Icon=gnome-contacts
-Terminal=false
