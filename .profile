@@ -57,7 +57,7 @@ export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
 # Mitigate hardcoded ligthdm errorfile
 export ERRFILE=/dev/null
-rm --force "$HOME"/.xsession-errors*
+rm --force "$HOME"/.xsession-errors* &> /dev/null
 
 export DOTPROFILE_LOADED=1
 source "$HOME/.bashrc"

@@ -7,7 +7,6 @@ base
 bash-completion
 bluez
 bluez-utils
-ctags
 dunst
 firefox
 gimp

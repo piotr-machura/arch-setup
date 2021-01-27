@@ -22,7 +22,6 @@ alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
 alias opn='mimeopen'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
-alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
 
 # PROMPT
 # ------

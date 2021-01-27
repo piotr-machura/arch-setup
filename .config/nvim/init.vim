@@ -36,12 +36,12 @@ set hidden      undofile        undolevels=500  autowrite
 set cursorline  conceallevel=2  concealcursor=
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
+set scrolloff=1 sidescrolloff=4 virtualedit=block
 set title       titlelen=0      titlestring=%{_TitleString()}
 set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
-set virtualedit=block           clipboard+=unnamedplus
-set scrolloff=1     sidescrolloff=4
+set clipboard+=unnamedplus
 
 " Disable netrw
 let g:loaded_netrwPlugin = 1
