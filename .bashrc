@@ -36,14 +36,12 @@ function _prompt_cmd() {
     # Python virtualenv
     venv=""
     [[ -z "$VIRTUAL_ENV" ]] || venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
-    [[ -z "$venv" ]] || [[ -z "$prompt" ]] || prompt="$prompt "
-    [[ -z "$venv" ]] || prompt="$prompt\uf81f $venv"
+    [[ -z "$venv" ]] || prompt="$prompt\uf81f $venv "
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
-    [[ -z "$branch" ]] || [[ -z "$prompt" ]] || prompt="$prompt "
     [[ -z "$branch" ]] || prompt="$prompt\uf418 $branch"
     # Add brackets around special info (if there is any)
-    [[ -z "$prompt" ]] || prompt="\[\e[1;37m\]($prompt\[\e[1;37m\]) "
+    [[ -z "$prompt" ]] || prompt="\[\e[1;37m\]$prompt\[\e[1;37m\]"
     # User @ hostname, working directory
     u_host_cwd="\[\e[1;37m\][\[\e[1;34m\]\u@\h\[\e[1;37m\] \[\e[1;36m\]\w\[\e[1;37m\]] "
     # Add newline

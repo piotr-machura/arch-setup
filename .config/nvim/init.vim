@@ -58,8 +58,8 @@ let g:undotree_DiffpanelHeight = 6
 let g:indentLine_color_term = 8
 let g:indentLine_color_gui = '#4C566A'
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_char = "\u00A6"
-let g:indentLine_first_char = "\u00A6"
+let g:indentLine_char = "\u00a6"
+let g:indentLine_first_char = "\u00a6"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'terminal', 'nofile', 'nowrite']
 
@@ -142,8 +142,8 @@ function! _StatusLine() abort
     " Buffer properties
     if &readonly && &modifiable | let statusline .= "\uf05e Read-only | " | endif
     if &modified && &modifiable | let statusline .= "\uf44d " | endif
-    if !empty(expand('%')) | let statusline .= fnamemodify(expand('%'),':~:.') . ' | ' | endif
-    let statusline .= "\ufc92 " . col('.') .  " \uf1dd " . line('.') . ' '
+    if !empty(expand('%')) | let statusline .= fnamemodify(expand('%'),':~:.') . ' ' | endif
+    let statusline .= "[\ufc92 " . col('.') .  " \uf1dd " . line('.') . '] '
     return statusline
 endfunction
 
