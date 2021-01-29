@@ -18,6 +18,7 @@ gst-libav
 gst-plugins-ugly
 homebank
 htop
+libva-mesa-driver
 light-locker
 lightdm-mini-greeter
 linux
@@ -25,6 +26,7 @@ linux-firmware
 maim
 man-db
 mesa
+mesa-vdpau
 meta-group-base-devel
 neovim-nightly-bin
 neovim-symlinks
@@ -48,6 +50,7 @@ python-pylint
 python-pyqt5
 python-setproctitle
 qtile
+radeontop
 ristretto
 rmtrash
 rofi

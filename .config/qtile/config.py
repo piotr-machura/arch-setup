@@ -160,6 +160,7 @@ floating_layout = layout.Floating(
         {'wmclass': 'maketag'},    # gitk
         {'wname': 'branchdialog'},    # gitk
         {'wname': 'pinentry'},    # GPG key password entry
+        {'wmclass': 'pinentry-gtk-2'},    # GPG key password entry
         {'wmclass': 'ssh-askpass'},    # ssh-askpass
     # User-created floating window rules
     # Run `xprop` to see the wm class

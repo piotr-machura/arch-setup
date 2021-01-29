@@ -267,6 +267,7 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
     \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif
 augroup END
 
 " COLORSCHEME
