@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+# XDG-OPEN SCRIPT
+# ---------------
+# Wrap mimeopen to correctly open many files
+# and run in a separate process
+
+for arg in "$@"; do
+    nohup mimeopen --no-ask "$arg" &> /dev/null &
+done

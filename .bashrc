@@ -20,7 +20,7 @@ alias activate='source .venv/bin/activate'
 alias pkgclean='paru -Rns --noconfirm $(paru -Qdtq --noconfirm); paru -Scc --noconfirm'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
-alias opn='mimeopen'
+alias pacman='paru'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
 
 # PROMPT
