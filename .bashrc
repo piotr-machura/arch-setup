@@ -8,19 +8,17 @@
 # ALIASES
 # -------
 alias ls='ls --color=auto'
-alias la='ls -A --color=auto'
+alias la='ls --almost-all --color=auto'
 alias ll='ls -lA --color=auto'
-alias rm='rmtrash -I'
-alias rmdir='rmdirtrash'
-alias mv='mv -iv'
+alias rm='rmtrash --interactive=once --forbid-root=pass'
+alias rmdir='rmdirtrash --forbid-root=pass'
+alias mv='mv --interactive --verbose'
 
-alias py='python3'
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source .venv/bin/activate'
 alias pkgclean='paru -Rns --noconfirm $(paru -Qdtq --noconfirm); paru -Scc --noconfirm'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls -A /usr/share/applications | grep ".desktop") <(ls -A $XDG_DATA_HOME/applications | grep ".desktop")'
-alias pacman='paru'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
 
 # PROMPT
@@ -73,7 +71,7 @@ bind -m vi-insert 'Control-l: clear-screen'
 # ----------------------
 export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=1000
-export HISTIGNORE='clear*,cls'
+export HISTIGNORE='clear*'
 bind "TAB:menu-complete"
 bind '"\e[Z":menu-complete-backward' # Shift-tab
 bind "set show-all-if-ambiguous on"

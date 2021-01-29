@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# UFETCH
-# ------
+# FETCH SCRIPT
+# ------------
 # Print system info. Based on a script by @jschx
 
 host="$(cat /etc/hostname)"
@@ -10,10 +10,7 @@ kernel="$(uname -sr)"
 packages="$(pacman -Q | wc -l)"
 shell="$(basename "${SHELL}")"
 editor="$EDITOR"
-
-ui="$DESKTOP_SESSION"
-uitype='WM'
-ui="$(basename "${ui}")"
+ui="$(basename "$DESKTOP_SESSION")"
 
 if [ -x "$(command -v tput)" ]; then
     bold="$(tput bold)"
@@ -28,9 +25,9 @@ if [ -x "$(command -v tput)" ]; then
     reset="$(tput sgr0)"
 fi
 
-lc="${reset}${bold}${white}"         # labels
-nc="${reset}${bold}${blue}"         # user and hostname
-ic="${reset}"                       # info
+lc="${reset}${bold}${white}"    # labels
+nc="${reset}${bold}${blue}"     # user and hostname
+ic="${reset}"                   # info
 
 cat <<EOF
 
@@ -43,7 +40,8 @@ cat <<EOF
     ${lc}editor:    ${ic}${editor}${reset}
 
 EOF
-echo -en "    "
-for BG in 40m 41m 42m 43m 44m 45m 46m 47m
-    do echo -en "\033[$BG    \033[0m"; done
-echo ; echo
+echo -n "    "
+for BG in 40m 41m 42m 43m 44m 45m 46m 47m; do
+    echo -en "\033[$BG    \033[0m"
+done
+echo -e "\n"
