@@ -11,7 +11,7 @@
     --menu-corner-rounding: 0px;
     --menu-item-height: 30px;
     --button-corner-rounding: 0px;
-    --animation-speed: 0.1s;
+    --animation-speed: 0.05s;
 }
 
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");

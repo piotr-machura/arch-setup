@@ -9,7 +9,7 @@
 # -------
 alias ls='ls --color=auto'
 alias la='ls --almost-all --color=auto'
-alias ll='ls -l --almost-all --color=auto'
+alias ll='ls -l --almost-all --block-size=K --color=auto'
 alias rm='rmtrash --interactive=once --forbid-root=pass'
 alias rmdir='rmdirtrash --forbid-root=pass'
 alias mv='mv --interactive --verbose'
