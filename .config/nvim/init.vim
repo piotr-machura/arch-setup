@@ -51,6 +51,7 @@ let g:loaded_netrwPlugin = 1
 let g:completion_matching_smart_case = 1
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_timer_cycle = 100
+let g:completion_enable_auto_hover = 0
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -140,7 +141,7 @@ function! _StatusLine() abort
     let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
     let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
     let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
-    if errors > 0 | let msgs .= " *\uf057 " . errors | endif
+    if errors > 0 | let msgs .= " \uf057 " . errors | endif
     if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
     if infos > 0 | let msgs .= " \uf059 " . infos | endif
     if hints > 0 | let msgs .=  " \uf055 " . hints | endif

@@ -3,7 +3,6 @@
 # ----------------------------
 
 export LANG=en_US.UTF-8
-export PATH=$HOME/.local/bin:$PATH
 
 export EDITOR='nvim'
 export PAGER='less'
@@ -54,6 +53,10 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+
+# Extend PATH
+export PATH=$CARGO_HOME/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # Mitigate hardcoded ligthdm errorfile
 export ERRFILE=/dev/null

@@ -34,3 +34,8 @@ require'lspconfig'.pyls.setup {
         }
     };
 }
+
+-- Rust language server
+require'lspconfig'.rust_analyzer.setup{
+    on_attach = attach;
+}
