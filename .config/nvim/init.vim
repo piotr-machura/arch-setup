@@ -11,6 +11,7 @@ endif
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -45,6 +46,11 @@ set clipboard+=unnamedplus
 
 " Disable netrw
 let g:loaded_netrwPlugin = 1
+
+" Completion configuration
+let g:completion_matching_smart_case = 1
+let g:completion_matching_strategy_list = ['exact', 'substring']
+let g:completion_timer_cycle = 100
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -97,7 +103,7 @@ tnoremap <C-\> <C-\><C-n>
 nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
 
 " Insert mode completion
-inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : !empty(&omnifunc) ? "\<C-x>\<C-o>" : "\<C-n>"
+inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
@@ -134,7 +140,7 @@ function! _StatusLine() abort
     let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
     let infos = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Information]])')
     let hints = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Hint]])')
-    if errors > 0 | let msgs .= " \uf057 " . errors | endif
+    if errors > 0 | let msgs .= " *\uf057 " . errors | endif
     if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
     if infos > 0 | let msgs .= " \uf059 " . infos | endif
     if hints > 0 | let msgs .=  " \uf055 " . hints | endif
@@ -267,7 +273,7 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
     \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | endif
 augroup END
 
 " COLORSCHEME
