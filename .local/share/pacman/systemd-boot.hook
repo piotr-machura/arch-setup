@@ -1,6 +1,6 @@
 # SYSTEMD-BOOT UPDATE HOOK
 # ------------------------
-# Call bootctl update after upgradying systemd
+# Call bootctl update after upgrading systemd
 
 [Trigger]
 Type = Package
