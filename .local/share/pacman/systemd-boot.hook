@@ -1,0 +1,13 @@
+# SYSTEMD-BOOT UPDATE HOOK
+# ------------------------
+# Call bootctl update after upgradying systemd
+
+[Trigger]
+Type = Package
+Operation = Upgrade
+Target = systemd
+
+[Action]
+Description = Updating systemd-boot
+When = PostTransaction
+Exec = /usr/bin/bootctl update
