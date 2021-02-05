@@ -45,13 +45,16 @@ set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set clipboard+=unnamedplus
 
 " Disable netrw
+" Note: comment this if you want to to download spellfiles
 let g:loaded_netrwPlugin = 1
 
 " Completion configuration
 let g:completion_matching_smart_case = 1
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_timer_cycle = 100
-let g:completion_enable_auto_hover = 0
+let g:completion_enable_auto_hover = 1
+let g:completion_menu_length = 80
+let g:completion_mennu_abbr = 80
 
 " Undoo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
