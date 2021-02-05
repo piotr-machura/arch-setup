@@ -3,7 +3,7 @@
 // ----------------------------
 
 configuration {
-    modi: "drun,calc";
+    modi: "drun";
     width: 100;
     lines: 1;
     columns: 9;

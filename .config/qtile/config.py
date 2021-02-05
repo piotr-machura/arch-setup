@@ -19,7 +19,7 @@ def autostart():
     """List of lists with commands to be executed on startup and their args."""
     processes = [
         ['dunst'],
-        ['picom', '-b'],
+        ['picom', '--daemon'],
         ['spacefm', '--daemon-mode'],
         ['light-locker'],
     ]
@@ -55,7 +55,7 @@ keys = [
     Key([win], 'w', lazy.spawn('firefox')),
     Key([win], 'f', lazy.spawn('spacefm')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
-    Key([win], 'c', lazy.spawn('rofi -show calc -lines 0 -terse -no-history')),
+    Key([win], 'c', lazy.spawn('qalculate-gtk')),
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
     # System shortcuts
@@ -125,7 +125,7 @@ nord_colors = [
 
 theme_layout = {
     'border_width': 8,
-    'margin': 5,
+    'margin': 3,
     'border_focus': nord_colors[9],
     'border_normal': nord_colors[3],
 }
@@ -166,6 +166,7 @@ floating_layout = layout.Floating(
     # Run `xprop` to see the wm class
         {'wmclass': 'pavucontrol'},
         {'wmclass': 'gsimplecal'},
+        {'wmclass': 'qalculate-gtk'},
         {'wmclass': 'Places'},    # Firefox history/downloads
     ],
     **theme_layout)

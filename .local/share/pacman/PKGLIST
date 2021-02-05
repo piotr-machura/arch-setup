@@ -11,6 +11,7 @@ firefox
 gimp
 git
 gnumeric
+gnuplot
 grub
 gsimplecal
 gst-libav
@@ -44,12 +45,12 @@ python-pydocstyle
 python-pylint
 python-pyqt5
 python-setproctitle
+qalculate-gtk-nognome
 qtile
 radeontop
 ristretto
 rmtrash
 rofi
-rofi-calc
 rsnapshot
 rust
 rust-analyzer
