@@ -1,6 +1,5 @@
 abiword
 alacritty
-amd-ucode
 arc-gtk-theme
 aspell-pl
 base
@@ -17,15 +16,12 @@ gsimplecal
 gst-libav
 gst-plugins-ugly
 htop
-libva-mesa-driver
 light-locker
 lightdm-mini-greeter
 linux
 linux-firmware
 maim
 man-db
-mesa
-mesa-vdpau
 meta-group-base-devel
 neovim-nightly-bin
 neovim-symlinks
@@ -73,9 +69,7 @@ xarchiver
 xcb-util-cursor
 xclip
 xcursor-breeze
-xf86-video-amdgpu
 xorg-server
-xorg-xrandr
 yapf
 zathura
 zathura-pdf-mupdf

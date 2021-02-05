@@ -7,12 +7,12 @@
 # AND sudo has to preserve $HOME
 
 [Trigger]
-Type = Package 
+Type = Package
 Operation = Install
 Operation = Remove
 Target = *
 
 [Action]
-Description = Updating package database... 
+Description = Updating package database...
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/pacman -Qqe > $HOME/.local/share/pacman/PKGLIST'
+Exec = /bin/sh -c '/usr/bin/pacman -Qqe | /bin/grep -v "amd\|mesa\|intel\|nvidia" > $HOME/.local/share/pacman/PKGLIST'
