@@ -1,0 +1,29 @@
+# ----------------------------------
+# GIT VERSION CONTROLL SYSTEM CONFIG
+# ----------------------------------
+
+[include]
+    path = ~/.config/git/id
+[core]
+    editor = vim
+    excludesfile = ~/.config/git/ignore
+    trustctime = false
+[pull]
+    ff = only
+[alias]
+    hist = log --all --graph --decorate --oneline
+    dots = !git --git-dir=$XDG_CONFIG_HOME/dots --work-tree=$HOME
+    unstage = reset HEAD --
+    list = ls-tree -r --name-only
+[diff]
+    tool = vimdiff
+[diftool]
+    prompt = false
+[merge]
+    tool = vimdiff
+[mergetool]
+    prompt = true
+[init]
+    defaultBranch = master
+[commit]
+    gpgsign = true
