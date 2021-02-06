@@ -166,14 +166,14 @@ configuration {
 }
 #entry {
     padding: 4px 0px 0px 5px;
-    width: 20em;
+    width: 13em;
     expand: false;
     background-color: @nord3;
 }
 #listview {
     layout: horizontal;
     padding: 0 5px;
-    spacing: 5px;
+    spacing: 7.5px;
 }
 #element {
     padding: 3px 5px;

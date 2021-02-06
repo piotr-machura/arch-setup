@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=Qalculate
+Name=Qalculate!
 GenericName=Calculator
 Comment=Powerful and easy to use calculator
 TryExec=qalculate-gtk

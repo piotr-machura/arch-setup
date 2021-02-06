@@ -45,17 +45,14 @@ keys = [
     Key([win, shift], 'k', lazy.layout.shuffle_up()),
     Key([win, shift], 'l', lazy.layout.swap_right()),
     # Resize and change layouts
-    Key([win], 'p', lazy.next_layout()),
-    Key([win], 'o', lazy.window.toggle_minimize()),
+    Key([win], 'f', lazy.next_layout()),
+    Key([win], 'm', lazy.window.toggle_minimize()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
     Key([win], 'Tab', lazy.screen.toggle_group()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
-    Key([win], 'w', lazy.spawn('firefox')),
-    Key([win], 'f', lazy.spawn('spacefm')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
-    Key([win], 'c', lazy.spawn('qalculate-gtk')),
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
     # System shortcuts

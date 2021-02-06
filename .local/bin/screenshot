@@ -27,5 +27,5 @@ else
 fi
 
 if [ "$action" = "open" ]; then
-    xdg-open $file_path
+    open $file_path
 fi
