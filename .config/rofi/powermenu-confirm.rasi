@@ -7,4 +7,4 @@
 
 @import "./powermenu.rasi"
 
-#window { height: 14%; }
+#listview { lines: 2; }

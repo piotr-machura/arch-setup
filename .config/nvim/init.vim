@@ -102,6 +102,7 @@ noremap = <CMD>call <SID>format_buffer()<CR>
 nnoremap + <CMD>UndotreeToggle<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 nnoremap ZQ <CMD>update<Bar>quit!<CR>
+nnoremap ZG <CMD>Goyo<CR>
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-\> <C-\><C-n>
 nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"

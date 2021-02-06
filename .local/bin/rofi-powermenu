@@ -13,10 +13,14 @@ lock=" "
 logout=" "
 abort=" "
 
+# Choose action
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu.rasi"
 options="$shutdown\n$reboot\n$lock\n$logout"
 chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 0)"
 [[ -z $chosen ]] && exit 1
+
+# Without this double-click is registered by the second rofi instance
+sleep 0.05s
 
 # Confirm the selection
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu-confirm.rasi"
@@ -24,6 +28,7 @@ options="$chosen\n$abort"
 chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 1)"
 [[ -z "$chosen" ]] && exit 1
 
+# Perform action
 case $chosen in
     $shutdown) systemctl poweroff ;;
     $reboot) systemctl reboot ;;

@@ -4,13 +4,7 @@
 
 configuration {
     modi: "drun";
-    width: 100;
-    lines: 1;
-    columns: 9;
     font: "NotoSans Nerd Font 12";
-    location: 2;
-    yoffset: 0;
-    xoffset: 0;
     fixed-num-lines: true;
     show-icons: true;
     terminal: "alacritty";
@@ -32,7 +26,6 @@ configuration {
     sorting-method: "normal";
     case-sensitive: false;
     cycle: true;
-    sidebar-mode: false;
     eh: 1;
     auto-select: false;
     parse-hosts: false;
@@ -41,11 +34,8 @@ configuration {
     matching: "normal";
     tokenize: true;
     m: "-5";
-    line-margin: 10;
-    line-padding: 10;
     separator-style: "dash";
     hide-scrollbar: true;
-    fullscreen: false;
     fake-transparency: false;
     dpi: -1;
     threads: 0;
@@ -163,25 +153,32 @@ configuration {
     spacing: 0px;
     text-color: @nord4;
 }
-#inputbar {
-    padding: 6px;
-    margin: 2px;
-    children: [ entry ];
+#window {
+    anchor: north;
+    location: north;
+    width: 100%;
+    padding: 5px 7.5px;
+    children: [ horibox ];
+}
+#horibox {
+    orientation: horizontal;
+    children: [ entry, listview ];
 }
 #entry {
-    padding: 4px 5px;
+    padding: 4px 0px 0px 5px;
+    width: 20em;
+    expand: false;
     background-color: @nord3;
 }
-#message {
-    padding: 0px 0px 5px 10px;
-}
 #listview {
-    padding: 1px 5px 1px 5px;
-    spacing: 2px;
+    layout: horizontal;
+    padding: 0 5px;
+    spacing: 5px;
 }
 #element {
-    padding: 1px 5px;
-    margin: 0px 3px 3px 3px;
+    padding: 3px 5px;
+    width: 6em;
+    expand: false;
     text-color: @nord4;
 }
 #element.normal.urgent {

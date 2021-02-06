@@ -20,52 +20,29 @@ configuration {
 
 #window {
     width: 4.25%;
-    height: 27.5%;
     anchor: east;
     location: east;
     x-offset: 0px;
     y-offset: 0px;
     border: 0px;
     border-radius: 0px;
-}
-
-#horibox {
-    children: [ listview ];
+    padding: @menu-window-padding;
+    children: [ inputbar, listview ];
 }
 
 #listview {
     layout: vertical;
     columns: 1;
-    lines: 3;
-    padding: 3px 0px 0px 0px;
+    lines: 4;
+    padding: 3px;
     scrollbar: false;
 }
 
 #element {
     border: 0px;
     border-radius: 0px;
-    padding: @option-element-padding;
-}
-
-#window {
-    padding: @menu-window-padding;
-    children: [ inputbar, horibox ];
-}
-
-#inputbar {
-    enabled: false;
-    children: [ textbox-prompt-colon, prompt ];
-    margin: @menu-inputbar-margin;
-}
-
-#listview {
-    spacing: @option-6-listview-spacing;
-    lines: 3;
-}
-
-#element {
+    padding: 10px;
     font: @icon-font;
-    border: @menu-element-border;
     padding: @menu-element-padding;
     border-color: @background-light;
 }
@@ -74,3 +51,8 @@ configuration {
     background-color: @nord11;
     text-color: @nord4;
 }
+
+#inputbar {
+    enabled: false;
+}
+
