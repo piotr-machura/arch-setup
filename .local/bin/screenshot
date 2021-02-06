@@ -16,11 +16,11 @@ if [ -z $1 ]; then
     maim --select --highlight --bordersize=5 --color=0.9215,0.7906,0.5450,0.15 \
         --hidecursor "$file_path" && \
             action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
-                --icon="$icon_path" --action="open,open")
+                --raw_icon="$icon_path" --action="open,open")
 elif [ "$1" = "full" ]; then
     maim $file_path && \
         action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
-            --icon="$icon_path" --action="open,open")
+            --raw_icon="$icon_path" --action="open,open")
 else
     echo "Unknown option: $1"
     exit 1

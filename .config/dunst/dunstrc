@@ -25,10 +25,10 @@ show_indicators = false
 
 # TEXT
 # ----
-font = NotoSans Nerd Font 14
+font = NotoSans Nerd Font 11
 line_height = 0
 markup = full
-format = "<b>%s</b>\n<small>%b</small>"
+format = "<b><big>%s</big></b>\n%b"
 alignment = center
 vertical_alignment = center
 show_age_threshold = 60
@@ -44,7 +44,7 @@ show_indicators = yes
 icon_position = left
 min_icon_size = 0
 max_icon_size = 32
-icon_path = /usr/share/icons/Papirus-Dark/symbolic/status/:/usr/share/icons/Papirus-Dark/symbolic/devices/
+icon_path = /usr/share/icons/Papirus/symbolic/status/:/usr/share/icons/Papirus/symbolic/devices/
 
 # HISTORY
 # -------

@@ -45,8 +45,8 @@ keys = [
     Key([win, shift], 'k', lazy.layout.shuffle_up()),
     Key([win, shift], 'l', lazy.layout.swap_right()),
     # Resize and change layouts
-    Key([win], 'f', lazy.next_layout()),
-    Key([win], 'm', lazy.window.toggle_minimize()),
+    Key([win], 'p', lazy.next_layout()),
+    Key([win], 'o', lazy.window.toggle_minimize()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
     Key([win], 'Tab', lazy.screen.toggle_group()),
