@@ -16,7 +16,7 @@ alias mv='mv --interactive --verbose'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source $PWD/.venv/bin/activate'
-alias pkgclean='paru -Rns --noconfirm $(paru -Qdtq --noconfirm); paru -Scc --noconfirm'
+alias pkgclean='paru -Rns $(paru -Qdtq --noconfirm); paru -Scc'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'

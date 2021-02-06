@@ -12,6 +12,7 @@ endif
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+let g:polyglot_disabled = ['ftdetect']
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
