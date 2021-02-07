@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Syncthing
+Comment=Syncthing is a file sync service with a web GUI
+Exec=xdg-open "localhost:8384"
+Icon=syncthing
+Terminal=false

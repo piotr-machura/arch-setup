@@ -21,6 +21,7 @@ def autostart():
         ['dunst'],
         ['picom', '--daemon'],
         ['spacefm', '--daemon-mode'],
+        ['syncthing', '-no-browser'],
         ['light-locker'],
     ]
     for process in processes:
