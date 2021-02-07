@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=SpaceFM File Search
+Name=SpaceFM Search
 Categories=Utility;GTK;
 Exec=spacefm --find-files %F
-Icon=spacefm-find
+Icon=search
 StartupNotify=true
 Type=Application
 Terminal=false

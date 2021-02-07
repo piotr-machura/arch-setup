@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=Space FM
+Name=SpaceFM
 Categories=System;FileTools;Utility;Core;GTK;FileManager;
 Exec=spacefm %F
 Icon=system-file-manager

@@ -11,3 +11,12 @@ inoreabbrev <buffer> -- ―
 inoreabbrev <buffer> ... …<Left><Left><Del><Right>
 noremap <buffer> j gj
 noremap <buffer> k gk
+
+function! s:fix_docx()
+    %s/’/'/g
+    %s/\n\n\n//g
+    %s/”\|„\|''\|,,/"/g
+    %s/- \|– /― /g
+endfunction
+
+command! FixDocx call <SID>fix_docx()
