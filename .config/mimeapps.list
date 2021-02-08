@@ -49,3 +49,4 @@ application/x-extension-xht=firefox.desktop
 application/x-yaml=nvim.desktop;
 image/png=ristretto.desktop;
 x-scheme-handler/msteams=teams.desktop
+image/heif=ristretto.desktop;

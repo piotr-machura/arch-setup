@@ -4,7 +4,7 @@
 
 configuration {
     modi: "drun";
-    font: "NotoSans Nerd Font 12";
+    font: "NotoSans Nerd Font 11";
     fixed-num-lines: true;
     show-icons: true;
     terminal: "alacritty";
@@ -16,7 +16,7 @@ configuration {
     window-command: "wmctrl -i -R {window}";
     window-match-fields: "all";
     icon-theme: "Papirus-Dark";
-    drun-match-fields: "name,generic,exec,categories,keywords";
+    drun-match-fields: "name,generic,exec";
     drun-show-actions: false;
     drun-display-format: "{icon} {name}";
     drun-url-launcher: "mimeopen";
@@ -27,14 +27,13 @@ configuration {
     case-sensitive: false;
     cycle: true;
     eh: 1;
+    prompt: "OO";
     auto-select: false;
     parse-hosts: false;
     parse-known-hosts: true;
-    combi-modi: "window,run";
     matching: "normal";
     tokenize: true;
     m: "-5";
-    separator-style: "dash";
     hide-scrollbar: true;
     fake-transparency: false;
     dpi: -1;
@@ -42,7 +41,6 @@ configuration {
     scrollbar-width: 3;
     scroll-method: 0;
     fake-background: "";
-    window-format: "{w}    {c}   {t}";
     click-to-exit: true;
     show-match: true;
     max-history-size: 0;
@@ -154,10 +152,10 @@ configuration {
     text-color: @nord4;
 }
 #window {
-    anchor: north;
-    location: north;
+    anchor: south;
+    location: south;
     width: 100%;
-    padding: 5px 7.5px;
+    padding: 4px 5px;
     children: [ horibox ];
 }
 #horibox {
@@ -165,7 +163,7 @@ configuration {
     children: [ entry, listview ];
 }
 #entry {
-    padding: 4px 0px 0px 5px;
+    padding: 4px 0px 0px 7.5px;
     width: 13em;
     expand: false;
     background-color: @nord3;

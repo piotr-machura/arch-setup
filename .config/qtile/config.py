@@ -123,7 +123,7 @@ nord_colors = [
 
 theme_layout = {
     'border_width': 8,
-    'margin': 3,
+    'margin': 5,
     'border_focus': nord_colors[9],
     'border_normal': nord_colors[3],
 }
@@ -255,7 +255,7 @@ screens = [
                     markup_focused='{}',
                     markup_floating='\uf0d8  {}',
                     markup_minimized='\uf0d7  {}',
-                    border=nord_colors[3],
+                    border=nord_colors[2],
                     urgent_border=nord_colors[12],
                     spacing=0,
                     margin_y=-1,
@@ -283,7 +283,7 @@ screens = [
                 ),
                 widget.Spacer(length=8),
             ],
-            34,
+            35,
             background=nord_colors[0]),
     ),
 ]
