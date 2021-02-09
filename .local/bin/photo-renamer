@@ -1,0 +1,69 @@
+#!/usr/bin/bash
+
+# PHOTO RENAMING SCRIPT
+# ---------------------
+
+cat<<EOF
+
+WARNING: This script will create a copy of every file in
+${PWD}
+creating a directory 'YYYY' and renaming the copies to
+'YYYY-MM-DD-NNNN' (ISO 8106 + 4 ordinal numbers) according
+to the last time they were modified.
+
+Type 'yes' to proceed.
+EOF
+read confirm
+[[ "$confirm" = "yes" ]] || exit 1
+current_year=$(date -I)
+current_year="${current_year%%-*}"
+for num in {0..100}; do
+    year=$(($current_year-$num))
+    if [[ -d "$year" ]]; then
+        echo "Aborted: please move directory $year elsewhere."
+        exit 1
+    fi
+done
+for file in ./*; do
+    case $file in
+        *.jpg | *.jpeg)
+            IFS=' '
+            read -ra ex <<< $(exif -t 0x9003 -m $file 2>/dev/null)
+            [[ -z "$ex" ]] && read -ra ex <<< $(exif -t 0x9004 -m $file 2>/dev/null)
+            [[ -z "$ex" ]] && read -ra ex <<< $(exif -t 0x0132 -m $file 2>/dev/null)
+            if [[ ! -z "$ex" ]]; then
+                exifdate="${ex[0]}"
+                exifdate="${exifdate//:/-}"
+                exiftime="${ex[1]}"
+                newname="$exifdate"
+            else
+                last_modified=$(date --iso-8601=seconds -r $file)
+                last_modified="${last_modified%%T*}"
+                newname="$last_modified"
+            fi
+            ;;
+        *.png)
+            last_modified=$(date --iso-8601=seconds -r $file)
+            last_modified="${last_modified%%T*}"
+            newname="$last_modified"
+            ;;
+        *)
+            extension="${filename##*.}"
+            last_modified=$(date --iso-8601=seconds -r $file)
+            last_modified="${last_modified%%T*}"
+            newname="$last_modified"
+
+    esac
+    extension="${file##*.}"
+    [[ "$extension" = "jpeg" ]] && extension="jpg"
+    photoyear="${newname%%-*}"
+    [[ ! -d "$photoyear" ]] && mkdir $photoyear
+    ordinal=0
+    ostr="000"
+    while [[ -n "$(ls -d $photoyear/$newname-$ostr.* 2> /dev/null)" ]]; do
+        ordinal=$(($ordinal+1))
+        ostr=$(printf "%03d" $ordinal)
+    done
+    echo "$file -> $photoyear/$newname-$ostr.$extension"
+    cp $file "$photoyear/$newname-$ostr.$extension"
+done
