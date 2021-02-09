@@ -43,7 +43,9 @@ set title       titlelen=0      titlestring=%{_TitleString()}
 set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
+set spelllang=pl,en_us          spellsuggest+=5
 set clipboard+=unnamedplus
+let &spellfile=stdpath('data').'/spellfiles/utf-8.add'
 
 " Disable netrw
 " Note: comment this if you want to to download spellfiles
@@ -57,7 +59,7 @@ let g:completion_enable_auto_hover = 1
 let g:completion_menu_length = 80
 let g:completion_mennu_abbr = 80
 
-" Undoo tree configuration
+" Undo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 let g:undotree_HelpLine = 0
@@ -65,7 +67,7 @@ let g:undotree_ShortIndicators = 1
 let g:undotree_CursorLine = 1
 let g:undotree_DiffpanelHeight = 6
 
-" Indentline configuration
+" Indent line configuration
 let g:indentLine_color_term = 8
 let g:indentLine_color_gui = '#4C566A'
 let g:indentLine_showFirstIndentLevel = 1
@@ -92,20 +94,20 @@ let g:mapleader = "\<Space>"
 nnoremap Y y$
 nnoremap Q @q
 noremap <Del> "_
-nnoremap <C-h> K
 nnoremap K a<CR><ESC>
 nnoremap [<CR> O<ESC>
 nnoremap ]<CR> o<ESC>
 nnoremap <S-Tab> <C-o>
-nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
-nnoremap _ :find<Space>
 noremap = <CMD>call <SID>format_buffer()<CR>
-nnoremap + <CMD>UndotreeToggle<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
-nnoremap ZQ <CMD>update<Bar>quit!<CR>
+nnoremap <C-h> K
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-\> <C-\><C-n>
-nnoremap <expr> <C-\> &buftype == 'terminal' ? "\<CMD>startinsert\<CR>" : "\<CMD>terminal\<CR>"
+nnoremap <leader>g <CMD>Goyo<CR>
+nnoremap <leader>s <CMD>set spell!<CR>
+nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
+nnoremap <leader>f :find<Space>
+nnoremap <leader>u <CMD>UndotreeToggle<CR>
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
@@ -261,6 +263,7 @@ endfunction
 augroup init_dot_vim
 autocmd!
 autocmd TermOpen * setfiletype terminal | startinsert
+autocmd FileType terminal nnoremap <buffer> <C-\> i
 autocmd CmdWinEnter * setfiletype cmdwin
 autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
