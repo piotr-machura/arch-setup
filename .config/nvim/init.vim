@@ -94,19 +94,22 @@ let g:mapleader = "\<Space>"
 nnoremap Y y$
 nnoremap Q @q
 noremap <Del> "_
-nnoremap K a<CR><ESC>
-nnoremap [<CR> O<ESC>
-nnoremap ]<CR> o<ESC>
+nnoremap <C-j> a<CR><ESC>
+nnoremap [<Space> O<ESC>
+nnoremap ]<Space> o<ESC>
 nnoremap <S-Tab> <C-o>
 noremap = <CMD>call <SID>format_buffer()<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
-nnoremap <C-h> K
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-\> <C-\><C-n>
-nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>s <CMD>set spell!<CR>
+
 nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
+nnoremap <leader>c <CMD>call <SID>toggle_colorcolumn()<CR>
 nnoremap <leader>f :find<Space>
+nnoremap <leader>g <CMD>Goyo<CR>
+nnoremap <leader>l <CMD>IndentLinesToggle<CR>
+nnoremap <leader>n <CMD>call <SID>toggle_number()<CR>
+nnoremap <leader>s <CMD>set spell!<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
 
 " Insert mode completion
@@ -124,8 +127,8 @@ nnoremap ]q <CMD>cnext<CR>
 noremap gq <CMD>copen<CR>
 
 " Replace word under cursor
-nmap <leader>r <leader>R
-nnoremap <leader>R :%s/<C-r>=expand('<cWORD>')<CR>//gc<Left><Left><Left>
+nmap <C-n> <leader>r
+nnoremap <leader>r :%s/<C-r>=expand('<cword>')<CR>//gc<Left><Left><Left>
 
 " Disable middle mouse click
 noremap <MiddleMouse> <Nop>
@@ -257,6 +260,23 @@ function! s:wipe_empty() abort
         execute 'bwipeout ' . join(buffers, ' ')
     endif
 endfunction
+
+function! s:toggle_number()
+    if &number
+        set nonumber norelativenumber signcolumn=yes
+    else
+        set number relativenumber signcolumn=number
+    endif
+endfunction
+
+function! s:toggle_colorcolumn()
+    if &colorcolumn
+        set colorcolumn=
+    else
+        set colorcolumn=81
+    endif
+endfunction
+
 
 " AUTOCMDS
 " --------
