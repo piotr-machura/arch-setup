@@ -3,7 +3,6 @@
 # ----------------------------
 
 export LANG=en_US.UTF-8
-
 export EDITOR='nvim'
 export PAGER='less'
 export TERMINAL='alacritty -e'

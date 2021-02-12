@@ -107,7 +107,7 @@ nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
 nnoremap <leader>c <CMD>call <SID>toggle_colorcolumn()<CR>
 nnoremap <leader>f :find<Space>
 nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>l <CMD>IndentLinesToggle<CR>
+nnoremap <leader>l <CMD>set list!<Bar>IndentLinesToggle<CR>
 nnoremap <leader>n <CMD>call <SID>toggle_number()<CR>
 nnoremap <leader>s <CMD>set spell!<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
