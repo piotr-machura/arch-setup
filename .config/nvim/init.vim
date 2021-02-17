@@ -104,12 +104,18 @@ nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-\> <C-\><C-n>
 
 nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
-nnoremap <leader>c <CMD>call <SID>toggle_colorcolumn()<CR>
 nnoremap <leader>f :find<Space>
-nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>l <CMD>set list!<Bar>IndentLinesToggle<CR>
+nnoremap gb <CMD>bnext<CR>
+nnoremap gB <CMD>bprev<CR>
+
+nnoremap <leader>c <CMD>call <SID>toggle_conceal()<CR>
+nnoremap <leader>i <CMD>call <SID>toggle_indent()<CR>
+nnoremap <leader>l <CMD>call <SID>toggle_colorcolumn()<CR>
 nnoremap <leader>n <CMD>call <SID>toggle_number()<CR>
-nnoremap <leader>s <CMD>set spell!<CR>
+nnoremap <leader>s <CMD>call <SID>toggle_spell()<CR>
+nnoremap <leader>w <CMD>call <SID>toggle_wrap()<CR>
+
+nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
 
 " Insert mode completion
@@ -261,22 +267,71 @@ function! s:wipe_empty() abort
     endif
 endfunction
 
-function! s:toggle_number()
+function! s:toggle_number() abort
     if &number
         set nonumber norelativenumber signcolumn=yes
+        echo 'Number lines disabled'
     else
         set number relativenumber signcolumn=number
+        echo 'Number lines enabled'
     endif
 endfunction
 
-function! s:toggle_colorcolumn()
-    if &colorcolumn
-        set colorcolumn=
+function! s:toggle_conceal() abort
+    if &l:conceallevel != 0
+        setlocal conceallevel=0
+        echo 'Conceal disabled'
     else
-        set colorcolumn=81
+        set conceallevel=2
+        echo 'Conceal enabled'
     endif
 endfunction
 
+function! s:toggle_colorcolumn() abort
+    if &l:colorcolumn != ''
+        set colorcolumn=
+        echo 'Colorcolumn disabled'
+    else
+        if &l:textwidth
+            setlocal colorcolumn=+1
+        else
+            setlocal colorcolumn=81
+        endif
+        echo 'Colorcolumn enabled'
+    endif
+endfunction
+
+function! s:toggle_wrap() abort
+    if &l:wrap
+        setlocal nowrap
+        echo 'Line wrapping disabled'
+    else
+        setlocal wrap
+        echo 'Line wrapping enabled'
+    endif
+endfunction
+
+function! s:toggle_spell() abort
+    if &l:spell
+        setlocal nospell
+        echo 'Spellcheck disabled'
+    else
+        setlocal spell
+        echo 'Spellcheck enabled'
+    endif
+endfunction
+
+function! s:toggle_indent() abort
+    if &list
+        set nolist
+        silent! IndentLinesDisable
+        echo 'Indent guides disabled'
+    else
+        set list
+        silent! IndentLinesEnable
+        echo 'Indent guides enabled'
+    endif
+endfunction
 
 " AUTOCMDS
 " --------

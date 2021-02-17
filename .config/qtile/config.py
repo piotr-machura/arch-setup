@@ -56,6 +56,8 @@ keys = [
     Key([win], 'space', lazy.spawn('rofi -show drun')),
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
+    Key([win], 'grave', lazy.spawn('dunstctl history-pop')),
+    Key([win, ctrl], 'grave', lazy.spawn('dunstctl close-all')),
     # System shortcuts
     Key([win], 'q', lazy.window.kill()),
     Key([win, ctrl], 'r', lazy.restart()),
