@@ -2,31 +2,28 @@
 # QTILE TILING WINDOW MANAGER CONFIG
 # ----------------------------------
 
-import subprocess
-import re
-from libqtile import bar, hook, layout, widget
-from libqtile.config import Drag, Click, Group, Key, Screen
+from libqtile import bar, hook, layout, widget, qtile
+from libqtile.config import Drag, Click, Group, Key, Screen, Match
 from libqtile.lazy import lazy
-# pylint: disable=invalid-name,protected-access,line-too-long,no-member
-
-wmname = 'Qtile'
+# pylint: disable=invalid-name,line-too-long,missing-function-docstring
 
 
 # AUTOSTART
 # ---------
 @hook.subscribe.startup_once
 def autostart():
-    """List of lists with commands to be executed on startup and their args."""
     processes = [
-        ['dunst'],
-        ['picom', '--daemon'],
-        ['spacefm', '--daemon-mode'],
-        ['syncthing', '-no-browser'],
-        ['light-locker'],
+        'dunst',
+        'picom --daemon',
+        'spacefm --daemon-mode',
+        'syncthing -no-browser',
+        'light-locker',
     ]
     for process in processes:
-        subprocess.Popen(process)
+        qtile.cmd_spawn(process)
 
+
+wmname = 'Qtile'
 
 # KEYBINDINGS
 # -----------
@@ -50,7 +47,7 @@ keys = [
     Key([win], 'o', lazy.window.toggle_minimize()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
-    Key([win], 'Tab', lazy.screen.toggle_group()),
+    Key([win], '0', lazy.layout.reset()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
@@ -69,7 +66,8 @@ mouse = [
         [win],
         'Button1',
         lazy.window.set_position_floating(),
-        start=lazy.window.get_position()),
+        start=lazy.window.get_position(),
+    ),
     Drag(
         [win],
         'Button3',
@@ -90,37 +88,41 @@ cursor_warp = False
 # GROUPS
 # ------
 groups = [Group(str(i + 1)) for i in range(5)]
-
-for i in groups:
+for g in groups:
     keys.extend(
         [
-            Key([win], i.name, lazy.group[i.name].toscreen()),
+            Key(
+                [win],
+                g.name,
+                lazy.group[g.name].toscreen(),
+            ),
             Key(
                 [win, shift],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
+                g.name,
+                lazy.window.togroup(g.name, switch_group=True),
             )
         ])
+keys.append(Key([win], 'Tab', lazy.screen.toggle_group()))
 
 # LAYOUTS
 # -------
 nord_colors = [
-    '#2e3440',
-    '#3b4252',
-    '#434c5e',
-    '#4c566a',
-    '#d8dee9',
-    '#e5e9f0',
-    '#eceff4',
-    '#8fbcbb',
-    '#88c0d0',
-    '#81a1c1',
-    '#5e81ac',
-    '#bf616a',
-    '#d08770',
-    '#ebcb8b',
-    '#a3be8c',
-    '#b48ead',
+    '#2e3440',    #0
+    '#3b4252',    #1
+    '#434c5e',    #2
+    '#4c566a',    #3
+    '#d8dee9',    #4
+    '#e5e9f0',    #5
+    '#eceff4',    #6
+    '#8fbcbb',    #7
+    '#88c0d0',    #8
+    '#81a1c1',    #9
+    '#5e81ac',    #10
+    '#bf616a',    #11
+    '#d08770',    #12
+    '#ebcb8b',    #13
+    '#a3be8c',    #14
+    '#b48ead',    #15
 ]
 
 theme_layout = {
@@ -132,7 +134,6 @@ theme_layout = {
 
 layouts = [
     layout.MonadTall(
-        align=layout.MonadTall._left,
         new_at_current=False,
         ratio=0.5,
         max_ratio=0.9,
@@ -141,82 +142,32 @@ layouts = [
         single_border_width=theme_layout['border_width'],
         single_margin=theme_layout['margin'],
         name='\uf0db ',
-        **theme_layout),
-    layout.Max(name='\ue25d ', **theme_layout),
+        **theme_layout,
+    ),
+    layout.Max(
+        name='\ue25d ',
+        **theme_layout,
+    ),
 ]
 
 floating_layout = layout.Floating(
+    # Run `xprop` to add more float rules
     float_rules=[
-        {'wmclass': 'confirm'},
-        {'wmclass': 'dialog'},
-        {'wmclass': 'download'},
-        {'wmclass': 'error'},
-        {'wmclass': 'file_progress'},
-        {'wmclass': 'notification'},
-        {'wmclass': 'splash'},
-        {'wmclass': 'toolbar'},
-        {'wmclass': 'confirmreset'},    # gitk
-        {'wmclass': 'makebranch'},    # gitk
-        {'wmclass': 'maketag'},    # gitk
-        {'wname': 'branchdialog'},    # gitk
-        {'wname': 'pinentry'},    # GPG key password entry
-        {'wmclass': 'pinentry-gtk-2'},    # GPG key password entry
-        {'wmclass': 'ssh-askpass'},    # ssh-askpass
-    # User-created floating window rules
-    # Run `xprop` to see the wm class
-        {'wmclass': 'pavucontrol'},
-        {'wmclass': 'gsimplecal'},
-        {'wmclass': 'qalculate-gtk'},
-        {'wmclass': 'Places'},    # Firefox history/downloads
+        *layout.Floating.default_float_rules,
+        Match(title='pinentry'),    # GPG key password entry
+        Match(wm_class='pavucontrol'),
+        Match(wm_class='gsimplecal'),
+        Match(wm_class='qalculate-gtk'),
+        Match(wm_class='Places'),    # Firefox history/downloads
     ],
-    **theme_layout)
+    **theme_layout,
+)
 
 auto_fullscreen = True
 focus_on_window_activation = 'smart'
 
-
 # SCREENS & WIDGETS
 # -----------------
-class PamixerVolume(widget.textbox.TextBox):
-    """Volume widget using the pamixer tool."""
-    def __init__(self, **config):
-        super().__init__(**config)
-        self.volume = None
-
-    def timer_setup(self):
-        self.update(self.text)
-        self.timeout_add(self.update_interval, self.update)
-
-    def button_press(self, x, y, button):
-        super().button_press(x, y, button)
-        self.update()
-
-    def update(self, text=None):
-        """Update volume information and display"""
-        p_outcome = subprocess.Popen(
-            ['pamixer', '--get-volume'], stdout=subprocess.PIPE)
-        pamixer_volume, _ = p_outcome.communicate()
-        p_outcome = subprocess.Popen(
-            ['pamixer', '--get-mute'], stdout=subprocess.PIPE)
-        muted, _ = p_outcome.communicate()
-        if 'true' in str(muted):
-            vol = -1
-        else:
-            vol = int(re.sub(r"[b'\\n]", '', str(pamixer_volume)))
-        if vol != self.volume:
-            self.volume = vol
-            if 0 < self.volume <= 15:
-                self.text = '\ufa7e'
-            elif 15 < self.volume < 50:
-                self.text = '\ufa7f'
-            elif self.volume >= 50:
-                self.text = '\ufa7d'
-            else:
-                self.text = '\ufc5d'
-            self.bar.draw()
-        self.timeout_add(self.update_interval, self.update)
-
-
 widget_defaults = {
     'font': 'NotoSans Nerd Font',
     'padding': 4,
@@ -230,7 +181,9 @@ screens = [
         wallpaper='~/.local/share/backgrounds/mountains.jpg',
         wallpaper_mode='fill',
         bottom=bar.Bar(
-            [
+            size=35,
+            background=nord_colors[0],
+            widgets=[
                 widget.Spacer(length=8),
                 widget.GroupBox(
                     highlight_method='block',
@@ -266,26 +219,15 @@ screens = [
                     icon_size=0,
                     max_title_width=350,
                 ),
-                PamixerVolume(
-                    fontsize=18,
-                    update_interval=5,
-                    padding=4,
-                    mouse_callbacks={
-                        'Button1':
-                        lambda qtile: qtile.cmd_spawn('pavucontrol'),
-                        'Button3':
-                        lambda qtile: qtile.cmd_spawn('pamixer --toggle-mute'),
-                    },
-                ),
+                widget.Spacer(length=6),
                 widget.Clock(
                     format='%H:%M',
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn('gsimplecal')
+                        'Button1': lambda: qtile.cmd_spawn('gsimplecal')
                     },
                 ),
                 widget.Spacer(length=8),
             ],
-            35,
-            background=nord_colors[0]),
+        ),
     ),
 ]

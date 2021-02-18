@@ -33,7 +33,7 @@ case $chosen in
     $shutdown) systemctl poweroff ;;
     $reboot) systemctl reboot ;;
     $lock) light-locker-command --lock ;;
-    $logout) loginctl terminate-session $XDG_SESSION_ID ;;
+    $logout) loginctl kill-session $XDG_SESSION_ID ;;
     $abort) exit 1 ;;
 esac
 

@@ -22,4 +22,5 @@
 [init]
     defaultBranch = master
 [commit]
+    verbose = 2
     gpgsign = true
