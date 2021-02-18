@@ -13,6 +13,6 @@ Operation = Remove
 Target = *
 
 [Action]
-Description = Updating package database...
+Description = Updating list of installed packages...
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/pacman -Qqe | /bin/grep -v "amd\|mesa\|intel\|nvidia" > $HOME/.local/share/pacman/PKGLIST'
+Exec = /bin/bash -c '/usr/bin/pacman -Qqe | /bin/grep -v "amd\|mesa\|intel\|nvidia" > $HOME/.local/share/pacman/PKGLIST'

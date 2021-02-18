@@ -12,6 +12,6 @@ Operation = Install
 Target = *
 
 [Action]
-Description = Adding local desktop entries... 
+Description = Copying desktop entries... 
 When = PostTransaction
-Exec = /bin/sh -c '/usr/bin/cp -rn /usr/share/applications/*.desktop $HOME/.local/share/applications; /usr/bin/chown -R $(cut -d'/' -f3 <<<$HOME) $HOME/.local/share/applications'
+Exec = /bin/bash -c '/usr/bin/cp -rn /usr/share/applications/*.desktop $HOME/.local/share/applications; /usr/bin/chown -R $(cut -d"/" -f3 <<<$HOME) $HOME/.local/share/applications'
