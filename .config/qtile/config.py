@@ -126,7 +126,7 @@ nord_colors = [
 ]
 
 theme_layout = {
-    'border_width': 8,
+    'border_width': 6,
     'margin': 5,
     'border_focus': nord_colors[9],
     'border_normal': nord_colors[3],
@@ -201,8 +201,6 @@ screens = [
                     padding_x=8,
                 ),
                 widget.Spacer(length=6),
-                widget.Sep(size_percent=65, linewidth=2),
-                widget.Spacer(length=6),
                 widget.TaskList(
                     highlight_method='block',
                     title_width_method='uniform',
@@ -225,6 +223,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn('gsimplecal')
                     },
+                    fmt='<b>{}</b>',
                 ),
                 widget.Spacer(length=8),
             ],

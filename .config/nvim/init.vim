@@ -45,7 +45,12 @@ set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
 set spelllang=pl,en_us          spellsuggest+=5
 set clipboard+=unnamedplus
-let &spellfile=stdpath('data').'/spellfiles/utf-8.add'
+
+" Spellfile
+if !isdirectory(stdpath('data').'/site/spell')
+    exec '!mkdir '.stdpath('data').'/site/spell'
+endif
+let &spellfile = stdpath('data').'/site/spell/utf-8.add'
 
 " Disable netrw
 " Note: comment this if you want to to download spellfiles
