@@ -5,9 +5,8 @@
 	<name>Open Terminal Here</name>
 	<unique-id>1613817232280781-1</unique-id>
 	<command>alacritty --working-directory %f</command>
-	<description>Example for a custom action</description>
+	<description></description>
 	<patterns>*</patterns>
-	<startup-notify/>
 	<directories/>
 </action>
 </actions>
