@@ -42,7 +42,7 @@ set scrolloff=1 sidescrolloff=4 virtualedit=block
 set title       titlelen=0      titlestring=%{_TitleString()}
 set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
-set tabline=%!_Tabline()        statusline=%=%{_StatusLine()}%<
+set tabline=%!_Tabline()        statusline=%!_Statusline()
 set spelllang=pl,en_us          spellsuggest+=5
 set clipboard+=unnamedplus
 
@@ -153,9 +153,7 @@ command! -bar FileTree exec 'terminal tree'<BAR>exec 'stopinsert'
 
 " FUNCTIONS
 " ---------
-function! _StatusLine() abort
-    let statusline = ''
-    " LSP diagnostics
+function! _LSPDiagnostics() abort
     let msgs = ''
     let errors = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Error]])')
     let warnings = luaeval('vim.lsp.diagnostic.get_count(vim.fn.bufnr("%"), [[Warning]])')
@@ -165,12 +163,21 @@ function! _StatusLine() abort
     if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
     if infos > 0 | let msgs .= " \uf059 " . infos | endif
     if hints > 0 | let msgs .=  " \uf055 " . hints | endif
-    if !empty(msgs) && winwidth(0) > 80 | let statusline .= msgs . ' | '| endif
-    " Buffer properties
-    if &readonly && &modifiable | let statusline .= "\uf05e Read-only | " | endif
-    if &modified && &modifiable | let statusline .= "\uf44d " | endif
-    if !empty(expand('%')) | let statusline .= fnamemodify(expand('%'),':~:.') . ' ' | endif
-    let statusline .= "[\ufc92 " . col('.') .  " \uf1dd " . line('.') . '] '
+    if !empty(msgs) && winwidth(0) > 80 | return trim(msgs) . ' ' | endif
+    return ''
+endfunction
+
+function! _Statusline() abort
+    let statusline = '%='
+    let statusline .= '%{_LSPDiagnostics()}'
+    let statusline .= '%{&readonly && &modifiable ? "\uf05e Read-only " : ""}'
+    let statusline .= '%{&modified && &modifiable ? "\uf44d " : ""}'
+    let statusline .= '['
+    let statusline .= '%1*%{g:actual_curwin == win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}%*'
+    let statusline .= '%{g:actual_curwin != win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}'
+    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 " : ""}%*%c '
+    let statusline .= '%3*%{g:actual_curwin == win_getid() ? "\uf1dd " : ""}%*%{g:actual_curwin != win_getid() ? "\uf1dd " : ""}%*%l'
+    let statusline .= '] %<'
     return statusline
 endfunction
 
@@ -355,6 +362,9 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight TabLineFill ctermbg=None guibg=None
     \ | highlight TabLineSel cterm=bold gui=bold ctermfg=7 guifg=#D8DEE9
     \ | highlight StatusLine cterm=bold gui=bold ctermbg=None ctermfg=7 guibg=None guifg=#ECEEF4
+    \ | highlight User1 cterm=bold gui=bold ctermbg=None ctermfg=6 guibg=None guifg=#81A1C1
+    \ | highlight User2 cterm=bold gui=bold ctermbg=None ctermfg=4 guibg=None guifg=#88C0D0
+    \ | highlight User3 cterm=bold gui=bold ctermbg=None ctermfg=2 guibg=None guifg=#A3BE8C
     \ | highlight StatusLineNC cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
     \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning

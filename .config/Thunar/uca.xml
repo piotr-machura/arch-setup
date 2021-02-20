@@ -5,7 +5,7 @@
 	<name>Open Terminal Here</name>
 	<unique-id>1613817232280781-1</unique-id>
 	<command>alacritty --working-directory %f</command>
-	<description></description>
+	<description>Open terminal in sleected folder</description>
 	<patterns>*</patterns>
 	<directories/>
 </action>

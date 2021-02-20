@@ -135,8 +135,8 @@ layouts = [
     layout.MonadTall(
         new_at_current=False,
         ratio=0.5,
-        max_ratio=0.9,
-        min_ratio=0.1,
+        max_ratio=0.85,
+        min_ratio=0.15,
         change_ratio=0.05,
         single_border_width=theme_layout['border_width'],
         single_margin=theme_layout['margin'],
