@@ -29,48 +29,44 @@ done
 for file in ./*; do
     case $file in
         *.jpg | *.jpeg)
-            IFS=' '
             # Check for DateTimeOriginal
-            read -ra ex <<< $(exif -t 0x9003 -m $file 2>/dev/null)
+            ex=$(exif -t 0x9003 -m $file 2>/dev/null)
             # Check for CreteDate
-            [[ -z "$ex" ]] && read -ra ex <<< $(exif -t 0x9004 -m $file 2>/dev/null)
+            [[ -z "$ex" ]] && ex=$(exif -t 0x9004 -m $file 2>/dev/null)
             # Check for ModifyDate
-            [[ -z "$ex" ]] && read -ra ex <<< $(exif -t 0x0132 -m $file 2>/dev/null)
+            [[ -z "$ex" ]] && ex=$(exif -t 0x0132 -m $file 2>/dev/null)
             if [[ ! -z "$ex" ]]; then
                 # If we found something in JPEG metadata
                 # then it becomes the new name
-                exifdate="${ex[0]}"
+                exifdate="${ex%% *}"
                 exifdate="${exifdate//:/-}"
-                exiftime="${ex[1]}"
-                newname="$exifdate"
+                exiftime="${ex##* }"
+                datename="$exifdate"
             else
                 # Use date of last modification as a last resort
-                last_modified=$(date --iso-8601=seconds -r $file)
-                last_modified="${last_modified%%T*}"
-                newname="$last_modified"
+                last_modified=$(date --iso-8601=date --reference=$file)
+                datename="$last_modified"
             fi
             ;;
         *)
             # For non-jpegs use date of last modification
-            last_modified=$(date --iso-8601=seconds -r $file)
-            last_modified="${last_modified%%T*}"
-            newname="$last_modified"
+            last_modified=$(date --iso-8601=date --reference=$file)
+            datename="$last_modified"
     esac
     extension="${file##*.}" # Keep track of the original file extension
     [[ "$extension" = "jpeg" ]] && extension="jpg"
     # Choose the right directory to put the photo in
-    photoyear="${newname%%-*}"
+    photoyear="${datename%%-*}"
     [[ ! -d "$photoyear" ]] && mkdir $photoyear
     # We need to account for photos whith the same date. This
     # is done by attaching an ordinal number
     ordinal=0
-    ostr="000"
+    ordinal_str="000"
     # Check if a file exists. The ls allows for glob expansion
-    while [[ -n "$(ls -d $photoyear/$newname-$ostr.* 2> /dev/null)" ]]; do
+    while [[ -n "$(ls -d $photoyear/$datename-$ordinal_str.* 2> /dev/null)" ]]; do
         ordinal=$(($ordinal+1))
-        ostr=$(printf "%03d" $ordinal)
+        ordinal_str=$(printf "%03d" $ordinal)
     done
     # Perform the actual copying
-    echo "$file -> $photoyear/$newname-$ostr.$extension"
-    cp $file "$photoyear/$newname-$ostr.$extension"
+    cp --verbose $file "$photoyear/$datename-$ordinal_str.$extension"
 done

@@ -18,6 +18,7 @@ noremap <buffer> j gj
 noremap <buffer> k gk
 noremap <buffer> <Down> g<Down>
 noremap <buffer> <Up> g<Up>
+
 let g:indentLine_fileTypeExclude+=['prose']
 
 function! s:fix_formatting()
@@ -25,7 +26,7 @@ function! s:fix_formatting()
     silent! %s/’/'/g
     silent! %s/\n\n\n/\r\r/g
     silent! %s/”\|„\|''\|,,/"/g
-    silent! %s/- \|– /― /g
+    silent! %s/\t- \|\t― /\t– /g
     silent! %s/[\x0]//g
 endfunction
 
