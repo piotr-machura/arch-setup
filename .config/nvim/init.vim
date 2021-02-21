@@ -106,7 +106,7 @@ nnoremap <S-Tab> <C-o>
 noremap = <CMD>call <SID>format_buffer()<CR>
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
-tnoremap <C-\> <C-\><C-n>
+tnoremap <C-w> <C-\><C-n>
 
 nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
 nnoremap <leader>f :find<Space>
@@ -122,6 +122,7 @@ nnoremap <leader>w <CMD>call <SID>toggle_wrap()<CR>
 
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
+nnoremap <leader>t <CMD>sp<CR><CMD>term<CR><C-\><C-n><C-w>10_i
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
@@ -271,6 +272,7 @@ function! s:format_buffer() abort
     call cursor(c_line, c_col)
 endfunction
 
+
 function! s:wipe_empty() abort
     let con =  'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
     let buffers = filter(range(1, bufnr('$')), con)
@@ -350,7 +352,6 @@ endfunction
 augroup init_dot_vim
 autocmd!
 autocmd TermOpen * setfiletype terminal | startinsert
-autocmd FileType terminal nnoremap <buffer> <C-\> i
 autocmd CmdWinEnter * setfiletype cmdwin
 autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=

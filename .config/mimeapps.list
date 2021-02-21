@@ -19,6 +19,7 @@ application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 application/x-yaml=mousepad.desktop;
+image/jpeg=gimp.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop

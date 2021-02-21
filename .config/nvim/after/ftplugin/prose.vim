@@ -22,12 +22,16 @@ noremap <buffer> <Up> g<Up>
 let g:indentLine_fileTypeExclude+=['prose']
 
 function! s:fix_formatting()
-    silent! %s/\.\.\./…/g
-    silent! %s/’/'/g
-    silent! %s/\n\n\n/\r\r/g
-    silent! %s/”\|„\|''\|,,/"/g
-    silent! %s/\t- \|\t― /\t– /g
-    silent! %s/[\x0]//g
+    let c_line = line('.')
+    let c_col = col('.')
+    silent! keepjumps %s/\.\.\./…/g
+    silent! keepjumps %s/’/'/g
+    silent! keepjumps %s/\n\n\n/\r\r/g
+    silent! keepjumps %s/”\|„\|''\|,,/"/g
+    silent! keepjumps %s/\t- \|\t― /\t– /g
+    silent! keepjumps %s/ - \| ― / – /g
+    silent! keepjumps %s/[\x0]//g
+    call cursor(c_line, c_col)
 endfunction
 
 command! FixFormatting call <SID>fix_formatting()

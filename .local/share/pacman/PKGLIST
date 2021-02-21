@@ -4,6 +4,7 @@ arc-gtk-theme
 aspell-pl
 base
 bash-completion
+bitwarden-bin
 bluez
 bluez-utils
 dunst
@@ -59,6 +60,7 @@ rust-analyzer
 signal-desktop
 spotify
 syncthing
+teams
 tectonic-bin
 thunar
 thunar-volman

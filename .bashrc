@@ -25,7 +25,9 @@ alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" -
 # ------
 function _prompt_cmd() {
     # Set window title
-    echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a"
+    case $TERM in
+        xterm*) echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a" ;;
+    esac
     # Contruct the prompt
     prompt=""
     # SSH connection info
