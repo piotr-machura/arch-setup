@@ -164,21 +164,17 @@ function! _LSPDiagnostics() abort
     if warnings > 0 | let msgs .= " \uf06a " . warnings | endif
     if infos > 0 | let msgs .= " \uf059 " . infos | endif
     if hints > 0 | let msgs .=  " \uf055 " . hints | endif
-    if !empty(msgs) && winwidth(0) > 80 | return trim(msgs) . ' ' | endif
+    if !empty(msgs) && winwidth(0) > 80 | return trim(msgs) | endif
     return ''
 endfunction
 
 function! _Statusline() abort
-    let statusline = '%='
-    let statusline .= '%{_LSPDiagnostics()}'
-    let statusline .= '%{&readonly && &modifiable ? "\uf05e Read-only " : ""}'
-    let statusline .= '%{&modified && &modifiable ? "\uf44d " : ""}'
-    let statusline .= '['
-    let statusline .= '%1*%{g:actual_curwin == win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}%*'
+    let statusline = '%=%{_LSPDiagnostics()} '
+    let statusline .= '%{&readonly && &modifiable ? "\uf05e Read-only " : ""}%{&modified && &modifiable ? "\uf44d " : ""}'
+    let statusline .= '[%1*%{g:actual_curwin == win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}%*'
     let statusline .= '%{g:actual_curwin != win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}'
-    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 " : ""}%*%c '
-    let statusline .= '%3*%{g:actual_curwin == win_getid() ? "\uf1dd " : ""}%*%{g:actual_curwin != win_getid() ? "\uf1dd " : ""}%*%l'
-    let statusline .= '] %<'
+    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 ".col(".") : ""}%{col(".")} '
+    let statusline .= '%3*%{g:actual_curwin == win_getid() ? "\uf1dd " : ""}%*%{g:actual_curwin != win_getid() ? "\uf1dd " : ""}%*%l] %<'
     return statusline
 endfunction
 
@@ -237,7 +233,7 @@ function! _TitleString() abort
     if &filetype == 'vim-plug' | return start . 'Plugins'
     elseif &filetype == 'undotree' | return start . 'Undotree'
     elseif &filetype == 'peekaboo' | return start . 'Registers'
-    elseif &filetype == 'man' | return start . "Man - " . expand('%:t')
+    elseif &filetype == 'man' | return start . 'Man - ' . expand('%:t')
     elseif &filetype ==  'diff' | return start . 'Diff panel'
     elseif &filetype == 'qf' | return start . 'Quickfix'
     elseif &filetype == 'help' | return start . "Help - " . expand('%:t')
