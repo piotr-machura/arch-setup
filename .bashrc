@@ -13,6 +13,8 @@ alias ll='ls -l --almost-all --block-size=K --color=auto'
 alias rm='rmtrash --interactive=once --forbid-root=pass'
 alias rmdir='rmdirtrash --forbid-root=pass'
 alias mv='mv --interactive --verbose'
+alias root='root -l'
+alias open='exo-open'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source $PWD/.venv/bin/activate'
@@ -20,6 +22,7 @@ alias pkgclean='paru -Rns $(paru -Qdtq --noconfirm); paru -Scc'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
+alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
 
 # PROMPT
 # ------

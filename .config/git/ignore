@@ -1,7 +1,8 @@
 # ---------------------
-# GLOBAL GITIGONRE FILE
+# GLOBAL GITIGNORE FILE
 # ---------------------
 
 __pycache__
 .venv
 .vim
+tags

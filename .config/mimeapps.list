@@ -20,6 +20,8 @@ application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 application/x-yaml=mousepad.desktop;
 image/jpeg=gimp.desktop;
+application/x-zstd-compressed-tar=xarchiver.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=gnumeric.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
@@ -50,3 +52,4 @@ application/x-yaml=mousepad.desktop;
 image/png=ristretto.desktop;
 x-scheme-handler/msteams=teams.desktop
 image/heif=ristretto.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=gnumeric.desktop

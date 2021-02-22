@@ -35,6 +35,11 @@ require'lspconfig'.pyls.setup {
     };
 }
 
+-- C and C++ language server
+-- require'lspconfig'.clangd.setup{
+--     on_attach = attach;
+-- }
+
 -- Rust language server
 require'lspconfig'.rust_analyzer.setup{
     on_attach = attach;

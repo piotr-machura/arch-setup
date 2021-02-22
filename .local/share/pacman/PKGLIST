@@ -2,10 +2,14 @@ abiword
 alacritty
 arc-gtk-theme
 aspell-pl
+avr-gcc
+avr-libc
 base
 bash-completion
 bluez
 bluez-utils
+clang
+ctags
 dunst
 exif
 firefox
@@ -37,7 +41,6 @@ papirus-icon-theme
 parole
 paru-bin
 pavucontrol
-perl-file-mimeinfo
 picom
 pulseaudio
 pulseaudio-alsa
@@ -54,7 +57,6 @@ ristretto
 rmtrash
 rofi
 root
-rsnapshot
 rust-analyzer
 signal-desktop
 spotify
@@ -79,3 +81,4 @@ xorg-server
 yapf
 zathura
 zathura-pdf-mupdf
+zip

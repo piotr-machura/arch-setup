@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=Thunar FM
-Comment=Browse the filesystem with the file manager
+Name=Thunar
+Comment=Browse the filesystem
 GenericName=File Manager
 Keywords=file manager;explorer;finder;browser;folders;directory;directories;partitions;drives;network;devices;rename;move;copy;delete;permissions;home;trash;
 Exec=thunar %F

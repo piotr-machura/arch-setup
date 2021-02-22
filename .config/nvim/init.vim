@@ -114,9 +114,7 @@ nnoremap gb <CMD>bnext<CR>
 nnoremap gB <CMD>bprev<CR>
 
 nnoremap <leader>c <CMD>call <SID>toggle_conceal()<CR>
-nnoremap <leader>i <CMD>call <SID>toggle_indent()<CR>
 nnoremap <leader>l <CMD>call <SID>toggle_colorcolumn()<CR>
-nnoremap <leader>n <CMD>call <SID>toggle_number()<CR>
 nnoremap <leader>s <CMD>call <SID>toggle_spell()<CR>
 nnoremap <leader>w <CMD>call <SID>toggle_wrap()<CR>
 
@@ -173,7 +171,7 @@ function! _Statusline() abort
     let statusline .= '%{&readonly && &modifiable ? "\uf05e Read-only " : ""}%{&modified && &modifiable ? "\uf44d " : ""}'
     let statusline .= '[%1*%{g:actual_curwin == win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}%*'
     let statusline .= '%{g:actual_curwin != win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}'
-    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 ".col(".") : ""}%{col(".")} '
+    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 " : ""}%{col(".")} '
     let statusline .= '%3*%{g:actual_curwin == win_getid() ? "\uf1dd " : ""}%*%{g:actual_curwin != win_getid() ? "\uf1dd " : ""}%*%l] %<'
     return statusline
 endfunction
@@ -277,70 +275,28 @@ function! s:wipe_empty() abort
     endif
 endfunction
 
-function! s:toggle_number() abort
-    if &number
-        set nonumber norelativenumber signcolumn=yes
-        echo 'Number lines disabled'
-    else
-        set number relativenumber signcolumn=number
-        echo 'Number lines enabled'
-    endif
-endfunction
-
 function! s:toggle_conceal() abort
-    if &l:conceallevel != 0
-        setlocal conceallevel=0
-        echo 'Conceal disabled'
-    else
-        set conceallevel=2
-        echo 'Conceal enabled'
-    endif
+    if &l:conceallevel != 0 | setlocal conceallevel=0 | echo 'Conceal disabled'
+    else | set conceallevel=2 | echo 'Conceal enabled' | endif
 endfunction
 
 function! s:toggle_colorcolumn() abort
-    if &l:colorcolumn != ''
-        set colorcolumn=
-        echo 'Colorcolumn disabled'
+    if &l:colorcolumn != '' | set colorcolumn= | echo 'Colorcolumn disabled'
     else
-        if &l:textwidth
-            setlocal colorcolumn=+1
-        else
-            setlocal colorcolumn=81
-        endif
+        if &l:textwidth | setlocal colorcolumn=+1
+        else | setlocal colorcolumn=81 | endif
         echo 'Colorcolumn enabled'
     endif
 endfunction
 
 function! s:toggle_wrap() abort
-    if &l:wrap
-        setlocal nowrap
-        echo 'Line wrapping disabled'
-    else
-        setlocal wrap
-        echo 'Line wrapping enabled'
-    endif
+    if &l:wrap | setlocal nowrap | echo 'Line wrapping disabled'
+    else | setlocal wrap | echo 'Line wrapping enabled' | endif
 endfunction
 
 function! s:toggle_spell() abort
-    if &l:spell
-        setlocal nospell
-        echo 'Spellcheck disabled'
-    else
-        setlocal spell
-        echo 'Spellcheck enabled'
-    endif
-endfunction
-
-function! s:toggle_indent() abort
-    if &list
-        set nolist
-        silent! IndentLinesDisable
-        echo 'Indent guides disabled'
-    else
-        set list
-        silent! IndentLinesEnable
-        echo 'Indent guides enabled'
-    endif
+    if &l:spell | setlocal nospell | echo 'Spellcheck disabled'
+    else | setlocal spell | echo 'Spellcheck enabled' | endif
 endfunction
 
 " AUTOCMDS
