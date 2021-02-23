@@ -4,6 +4,7 @@ arc-gtk-theme
 aspell-pl
 avr-gcc
 avr-libc
+avrdude
 base
 bash-completion
 bluez
@@ -51,6 +52,7 @@ python-pylint
 python-pyqt5
 python-setproctitle
 qalculate-gtk
+qemu
 qtile
 radeontop
 ristretto
@@ -73,6 +75,7 @@ tumbler
 ufw
 unrar
 unzip
+virt-manager
 xarchiver
 xcb-util-cursor
 xclip

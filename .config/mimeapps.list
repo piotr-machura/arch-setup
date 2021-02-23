@@ -22,6 +22,7 @@ application/x-yaml=mousepad.desktop;
 image/jpeg=gimp.desktop;
 application/x-zstd-compressed-tar=xarchiver.desktop;
 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=gnumeric.desktop;
+application/octet-stream=mousepad.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
