@@ -7,8 +7,10 @@ avr-libc
 avrdude
 base
 bash-completion
+bind
 bluez
 bluez-utils
+bridge-utils
 clang
 ctags
 dunst

@@ -39,12 +39,11 @@ set cursorline  conceallevel=2  concealcursor=
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
 set scrolloff=1 sidescrolloff=4 virtualedit=block
+set sps+=5      spl=pl,en_us    clipboard+=unnamedplus
 set title       titlelen=0      titlestring=%{_TitleString()}
 set ph=20       completeopt=menuone,noinsert,noselect
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%!_Statusline()
-set spelllang=pl,en_us          spellsuggest+=5
-set clipboard+=unnamedplus
 
 " Spellfile
 if !isdirectory(stdpath('data').'/site/spell')
@@ -117,6 +116,7 @@ nnoremap <leader>c <CMD>call <SID>toggle_conceal()<CR>
 nnoremap <leader>l <CMD>call <SID>toggle_colorcolumn()<CR>
 nnoremap <leader>s <CMD>call <SID>toggle_spell()<CR>
 nnoremap <leader>w <CMD>call <SID>toggle_wrap()<CR>
+nnoremap <leader>h <CMD>mode<Bar>exec 'highlight '.synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
 
 nnoremap <leader>g <CMD>Goyo<CR>
 nnoremap <leader>u <CMD>UndotreeToggle<CR>
@@ -144,11 +144,6 @@ nnoremap <leader>r :%s/<C-r>=expand('<cword>')<CR>//gc<Left><Left><Left>
 noremap <MiddleMouse> <Nop>
 inoremap <MiddleMouse> <Nop>
 cnoremap <MiddleMouse> <Nop>
-
-" COMMANDS
-" --------
-command! HighlightUnderCursor exec 'highlight '.synIDattr(synID(line('.'), col('.'), 1), 'name')
-command! -bar FileTree exec 'terminal tree'<BAR>exec 'stopinsert'
 
 " FUNCTIONS
 " ---------
@@ -277,11 +272,11 @@ endfunction
 
 function! s:toggle_conceal() abort
     if &l:conceallevel != 0 | setlocal conceallevel=0 | echo 'Conceal disabled'
-    else | set conceallevel=2 | echo 'Conceal enabled' | endif
+    else | setlocal conceallevel=2 | echo 'Conceal enabled' | endif
 endfunction
 
 function! s:toggle_colorcolumn() abort
-    if &l:colorcolumn != '' | set colorcolumn= | echo 'Colorcolumn disabled'
+    if &l:colorcolumn != '' | setlocal colorcolumn= | echo 'Colorcolumn disabled'
     else
         if &l:textwidth | setlocal colorcolumn=+1
         else | setlocal colorcolumn=81 | endif
