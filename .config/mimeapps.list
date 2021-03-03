@@ -2,7 +2,7 @@
 text/plain=mousepad.desktop;abiword.desktop;
 application/zip=xarchiver.desktop;
 image/svg+xml=ristretto.desktop;
-image/png=ristretto.desktop;pinta.desktop;
+image/png=gimp.desktop;ristretto.desktop;pinta.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
 inode/chardevice=mousepad.desktop;
 application/x-desktop=mousepad.desktop;

@@ -15,6 +15,7 @@ alias rmdir='rmdirtrash --forbid-root=pass'
 alias mv='mv --interactive --verbose'
 alias root='root -l'
 alias open='exo-open'
+alias ping='ping -c 5'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source $PWD/.venv/bin/activate'
@@ -36,6 +37,9 @@ function _prompt_cmd() {
     # SSH connection info
     [[ -z "$SSH_CONNECTION" ]] || ip="${SSH_CLIENT%% *}"
     [[ -z $ip ]] || prompt="$prompt\uf817 $ip "
+    # Running docker containers
+    containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
+    [[ "$containers" -lt 1 ]] || prompt="$prompt\ufc29 $containers "
     # Python virtualenv
     venv=""
     [[ -z "$VIRTUAL_ENV" ]] || venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
@@ -44,7 +48,9 @@ function _prompt_cmd() {
     branch="$(git branch --show-current 2>/dev/null)"
     [[ -z "$branch" ]] || prompt="$prompt\uf418 $branch"
     # User @ hostname, working directory
-    prompt="\[\e[1;37m\][\[\e[1;34m\]\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
+    color="\[\e[1;34m\]"
+    [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"
+    prompt="\[\e[1;37m\][$color\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
     # Jobs
     njobs=$(jobs | wc -l)
     [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs "

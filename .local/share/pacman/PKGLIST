@@ -39,6 +39,7 @@ neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
 networkmanager
+nmap
 noto-fonts-emoji
 papirus-icon-theme
 parole
@@ -61,6 +62,7 @@ ristretto
 rmtrash
 rofi
 root
+rsync
 rust-analyzer
 signal-desktop
 spotify
