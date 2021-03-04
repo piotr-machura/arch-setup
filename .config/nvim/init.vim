@@ -97,30 +97,23 @@ let g:mapleader = "\<Space>"
 
 nnoremap Y y$
 nnoremap Q @q
+nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 noremap <Del> "_
-nnoremap <C-j> a<CR><ESC>
 nnoremap [<Space> O<ESC>
 nnoremap ]<Space> o<ESC>
 nnoremap <S-Tab> <C-o>
-noremap = <CMD>call <SID>format_buffer()<CR>
-nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
+nnoremap <C-j> a<CR><ESC>
+nnoremap <C-p> <CMD>call <SID>format_buffer()<CR>
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-w> <C-\><C-n>
 
-nnoremap <leader>b <CMD>mode<Bar>buffers<CR>:b<Space>
-nnoremap <leader>f :find<Space>
-nnoremap gb <CMD>bnext<CR>
-nnoremap gB <CMD>bprev<CR>
+noremap = <CMD>UndotreeToggle<CR>
+nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
+nnoremap _ :find<Space>
+nnoremap + <CMD>sp<CR><CMD>term<CR><C-\><C-n><C-w>10_i
 
-nnoremap <leader>c <CMD>call <SID>toggle_conceal()<CR>
-nnoremap <leader>l <CMD>call <SID>toggle_colorcolumn()<CR>
-nnoremap <leader>s <CMD>call <SID>toggle_spell()<CR>
-nnoremap <leader>w <CMD>call <SID>toggle_wrap()<CR>
-nnoremap <leader>h <CMD>mode<Bar>exec 'highlight '.synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
-
-nnoremap <leader>g <CMD>Goyo<CR>
-nnoremap <leader>u <CMD>UndotreeToggle<CR>
-nnoremap <leader>t <CMD>sp<CR><CMD>term<CR><C-\><C-n><C-w>10_i
+nnoremap <leader>s <CMD>setlocal spell!<CR>
+nnoremap <leader>w <CMD>setlocal wrap!<CR>
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
@@ -129,6 +122,8 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Location and quickfix lists
+nnoremap gb <CMD>bnext<CR>
+nnoremap gB <CMD>bprev<CR>
 nnoremap [l <CMD>lprev<CR>
 nnoremap ]l <CMD>lnext<CR>
 nnoremap gl <CMD>lopen<CR>
@@ -144,6 +139,10 @@ nnoremap <leader>r :%s/<C-r>=expand('<cword>')<CR>//gc<Left><Left><Left>
 noremap <MiddleMouse> <Nop>
 inoremap <MiddleMouse> <Nop>
 cnoremap <MiddleMouse> <Nop>
+
+" COMMANDS
+" --------
+command! Highlighter exec "mode\<Bar>highlight ".synIDattr(synID(line('.'), col('.'), 1), 'name')
 
 " FUNCTIONS
 " ---------
@@ -263,40 +262,16 @@ endfunction
 
 
 function! s:wipe_empty() abort
-    let con =  'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
+    let con = 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'
     let buffers = filter(range(1, bufnr('$')), con)
     if !empty(buffers)
         execute 'bwipeout ' . join(buffers, ' ')
     endif
 endfunction
 
-function! s:toggle_conceal() abort
-    if &l:conceallevel != 0 | setlocal conceallevel=0 | echo 'Conceal disabled'
-    else | setlocal conceallevel=2 | echo 'Conceal enabled' | endif
-endfunction
-
-function! s:toggle_colorcolumn() abort
-    if &l:colorcolumn != '' | setlocal colorcolumn= | echo 'Colorcolumn disabled'
-    else
-        if &l:textwidth | setlocal colorcolumn=+1
-        else | setlocal colorcolumn=81 | endif
-        echo 'Colorcolumn enabled'
-    endif
-endfunction
-
-function! s:toggle_wrap() abort
-    if &l:wrap | setlocal nowrap | echo 'Line wrapping disabled'
-    else | setlocal wrap | echo 'Line wrapping enabled' | endif
-endfunction
-
-function! s:toggle_spell() abort
-    if &l:spell | setlocal nospell | echo 'Spellcheck disabled'
-    else | setlocal spell | echo 'Spellcheck enabled' | endif
-endfunction
-
 " AUTOCMDS
 " --------
-augroup init_dot_vim
+augroup filetypes
 autocmd!
 autocmd TermOpen * setfiletype terminal | startinsert
 autocmd CmdWinEnter * setfiletype cmdwin
@@ -305,7 +280,10 @@ autocmd FileType * if !empty(&buftype)
     \ | endif
 autocmd FileType qf execute "normal 6\<C-w>_"
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
-autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
+augroup END
+
+augroup colors
+autocmd!
 autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECEEF4
     \ | highlight TabLineFill ctermbg=None guibg=None
     \ | highlight TabLineSel cterm=bold gui=bold ctermfg=7 guifg=#D8DEE9
@@ -318,9 +296,15 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
     \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
+augroup END
+
+augroup plugs
+autocmd!
+autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | endif
 augroup END
+
 
 " COLORSCHEME
 " -----------
