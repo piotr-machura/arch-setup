@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# OPEN SCRIPT
+# -----------
+# Wrap exo-open to get rid of output
+
+for arg in $@; do
+    if [[ -f "$arg" ]] || [[ -d "$arg" ]]; then
+        exo-open $arg > /dev/null &
+        disown
+    else
+        echo "Not a file or directory: $arg"
+    fi
+done

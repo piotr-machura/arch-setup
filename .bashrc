@@ -14,7 +14,6 @@ alias rm='rmtrash --interactive=once --forbid-root=pass'
 alias rmdir='rmdirtrash --forbid-root=pass'
 alias mv='mv --interactive --verbose'
 alias root='root -l'
-alias open='exo-open'
 alias ping='ping -c 5'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
