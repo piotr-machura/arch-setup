@@ -2,6 +2,6 @@
 Type=Application
 Name=Email
 Comment=Shortcut to the Fastmail inbox
-Exec=xdg-open "https://www.fastmail.com/mail/"
+Exec=xdg-open "https://piotr-machura.com/mail"
 Icon=claws-mail
 Terminal=false

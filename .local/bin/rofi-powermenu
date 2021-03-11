@@ -20,7 +20,7 @@ chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 0)"
 [[ -z $chosen ]] && exit 1
 
 # Without this double-click is registered by the second rofi instance
-sleep 0.1s
+sleep 0.05s
 
 # Confirm the selection
 rofi_command="rofi -theme $XDG_CONFIG_HOME/rofi/powermenu-confirm.rasi"
