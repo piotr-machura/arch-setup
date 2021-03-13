@@ -26,6 +26,7 @@ application/octet-stream=mousepad.desktop;
 application/pdf=firefox.desktop;
 application/msword=abiword.desktop;
 application/x-compressed-tar=xarchiver.desktop;
+application/vnd.oasis.opendocument.spreadsheet=gnumeric.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
@@ -57,3 +58,4 @@ image/png=ristretto.desktop;
 x-scheme-handler/msteams=teams.desktop
 image/heif=ristretto.desktop;
 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=gnumeric.desktop
+application/vnd.oasis.opendocument.spreadsheet=gnumeric.desktop
