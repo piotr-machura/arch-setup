@@ -8,14 +8,14 @@
 # -------
 monitor = 0
 follow = mouse
-geometry = "250-25-60"
+geometry = "350-25-60"
 indicate_hidden = true
 shrink = no
 transparency = 0
 notification_height = 0
-separator_height = 4
-padding = 12
-horizontal_padding = 12
+separator_height = 6
+padding = 16
+horizontal_padding = 16
 frame_width = 6
 frame_color = "#88c0d0"
 separator_color = "#4C556A"
@@ -42,8 +42,8 @@ show_indicators = yes
 # ICONS
 # -----
 icon_position = left
-min_icon_size = 0
-max_icon_size = 32
+min_icon_size = 48
+max_icon_size = 48
 icon_path = /usr/share/icons/Papirus/symbolic/status/:/usr/share/icons/Papirus/symbolic/devices/
 
 # HISTORY

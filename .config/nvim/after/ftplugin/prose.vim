@@ -11,7 +11,7 @@ if !filereadable(&l:spellfile . '.spl')
     exec 'silent! mkspell ' . &l:spellfile
 endif
 
-inoreabbrev <buffer> -- ―
+inoreabbrev <buffer> -- –
 inoreabbrev <buffer> ... …<Left><Left><Del><Right>
 
 noremap <buffer> j gj
