@@ -46,6 +46,8 @@ keys = [
     Key([win], 'o', lazy.window.toggle_minimize()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
+    Key([win, shift], 'equal', lazy.layout.grow_main()),
+    Key([win, shift], 'minus', lazy.layout.shrink_main()),
     Key([win], '0', lazy.layout.reset()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
@@ -138,15 +140,9 @@ layouts = [
         max_ratio=0.85,
         min_ratio=0.15,
         change_ratio=0.05,
-        single_border_width=theme_layout['border_width'],
-        single_margin=theme_layout['margin'],
-        name='\uf0db ',
         **theme_layout,
     ),
-    layout.Max(
-        name='\ue25d ',
-        **theme_layout,
-    ),
+    layout.Max(**theme_layout),
 ]
 
 floating_layout = layout.Floating(

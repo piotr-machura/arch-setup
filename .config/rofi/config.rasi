@@ -179,27 +179,9 @@ configuration {
     expand: false;
     text-color: @nord4;
 }
-#element.normal.urgent {
-    text-color: @nord11;
-}
-#element.normal.active {
-    text-color: @nord10;
-}
-#element.alternate.urgent {
-    text-color: @nord11;
-}
-#element.alternate.active {
-    text-color: @nord10;
-}
 #element.selected.normal {
     background-color: @nord8;
     text-color: @nord1;
-}
-#element.selected.urgent {
-    background-color: @nord11;
-}
-#element.selected.active {
-    background-color: @nord10;
 }
 #scrollbar {
     handle-color: @nord3;
@@ -208,5 +190,5 @@ configuration {
     background-color: @nord8;
 }
 #element-icon {
-    size: 1.8ch;
+    size: 2.4ch;
 }
