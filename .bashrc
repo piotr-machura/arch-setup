@@ -72,6 +72,8 @@ bind 'set vi-ins-mode-string "\1\e[6 q\2"'
 # Clear screen with CTRL-L
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
+# Use CTRL-] as alias for ESC
+bind -m vi-insert 'Control-]: vi-movement-mode'
 
 # HISTORY AND COMPLETION
 # ----------------------

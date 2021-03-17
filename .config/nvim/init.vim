@@ -12,7 +12,6 @@ let g:polyglot_disabled = ['ftdetect']
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -41,7 +40,7 @@ set splitbelow  splitright      switchbuf=usetab
 set scrolloff=1 sidescrolloff=4 virtualedit=block
 set sps+=5      spl=pl,en_us    clipboard+=unnamedplus
 set title       titlelen=0      titlestring=%{_TitleString()}
-set ph=20       completeopt=menuone,noinsert,noselect
+set ph=20       completeopt=menuone,longest
 set list        listchars=tab:>-,trail:·,extends:>,precedes:<
 set tabline=%!_Tabline()        statusline=%!_Statusline()
 
@@ -54,14 +53,6 @@ let &spellfile = stdpath('data').'/site/spell/utf-8.add'
 " Disable netrw
 " Note: comment this if you want to to download spellfiles
 let g:loaded_netrwPlugin = 1
-
-" Completion configuration
-let g:completion_matching_smart_case = 1
-let g:completion_matching_strategy_list = ['exact', 'substring']
-let g:completion_timer_cycle = 100
-let g:completion_enable_auto_hover = 1
-let g:completion_menu_length = 80
-let g:completion_mennu_abbr = 80
 
 " Undo tree configuration
 let g:undotree_SetFocusWhenToggle = 1
@@ -117,8 +108,8 @@ nnoremap <leader>w <CMD>setlocal wrap!<CR>
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+imap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : <SID>check_backspace() ? "\<Tab>" : "\<C-Space>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Location and quickfix lists
@@ -260,6 +251,10 @@ function! s:format_buffer() abort
     call cursor(c_line, c_col)
 endfunction
 
+function! s:check_backspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 function! s:wipe_empty() abort
     let con = 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")'

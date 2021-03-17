@@ -44,6 +44,7 @@ keys = [
     # Resize and change layouts
     Key([win], 'p', lazy.next_layout()),
     Key([win], 'o', lazy.window.toggle_minimize()),
+    Key([win, shift], 'o', lazy.group.unminimize_all()),
     Key([win], 'equal', lazy.layout.grow()),
     Key([win], 'minus', lazy.layout.shrink()),
     Key([win, shift], 'equal', lazy.layout.grow_main()),
