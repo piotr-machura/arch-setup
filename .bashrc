@@ -61,6 +61,10 @@ function _prompt_cmd() {
 export PROMPT_COMMAND=_prompt_cmd
 export PROMPT_DIRTRIM=3
 
+# DIRENV
+# ------
+eval "$(direnv hook bash)"
+
 # VI MODE
 # -------
 set -o vi

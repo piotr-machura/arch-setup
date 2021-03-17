@@ -36,11 +36,17 @@ require'lspconfig'.pyls.setup {
 }
 
 -- C and C++ language server
--- require'lspconfig'.clangd.setup{
+-- require'lspconfig'.clangd.setup {
 --     on_attach = attach;
 -- }
 
 -- Rust language server
-require'lspconfig'.rust_analyzer.setup{
+require'lspconfig'.rust_analyzer.setup {
     on_attach = attach;
+}
+
+-- Java language server
+require'lspconfig'.jdtls.setup {
+    on_attach = attach;
+    cmd = {'jdtls'};
 }

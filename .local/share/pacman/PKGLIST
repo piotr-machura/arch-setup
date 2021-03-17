@@ -13,6 +13,7 @@ bluez-utils
 bridge-utils
 clang
 ctags
+direnv-bin
 dunst
 exif
 firefox
@@ -26,12 +27,14 @@ gst-libav
 gst-plugins-ugly
 gvfs
 htop
+jdtls
 light-locker
 lightdm-mini-greeter
 linux
 linux-firmware
 maim
 man-db
+maven
 meta-group-base-devel
 mousepad
 neovim-nightly-bin

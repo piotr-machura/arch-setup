@@ -34,8 +34,6 @@ export MAXIMA_USERDIR="$XDG_DATA_HOME"/maxima
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export HTML_TIDY="$XDG_CONFIG_HOME"/html-tidy.conf
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
-export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 export GOPATH="$XDG_DATA_HOME"/go
 export ANDROID_SDK_HOME="$XDG_CONFIG_HOME"/android
 export ANDROID_AVD_HOME="$XDG_DATA_HOME"/android
@@ -55,6 +53,12 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export BAT_THEME='Nord'
 export ROOT_HIST=0
+
+# Java related environment
+export JAR=/usr/share/java/jdtls/pluginsorg.eclipse.equinox.launcher_1.6.100.v20201223-0822.jar
+export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export JDTLS_CONFIG=/usr/share/java/jdtls/config_linux
 
 # Extend PATH
 export PATH=$CARGO_HOME/bin:$PATH
