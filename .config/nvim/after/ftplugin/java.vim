@@ -11,3 +11,4 @@ highlight mkdListItemLine guibg=None
 
 set makeprg=mvn\ clean\ compile
 set errorformat=\[ERROR]\ %f:%l:\ %m,%-G%.%#
+set wildignore+=*.class,target,bin,classes

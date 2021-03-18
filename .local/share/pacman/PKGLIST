@@ -13,7 +13,6 @@ bluez-utils
 bridge-utils
 clang
 ctags
-direnv-bin
 dunst
 exif
 firefox
