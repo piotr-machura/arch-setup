@@ -18,6 +18,10 @@ export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
 
 export HISTFILE="$XDG_CACHE_HOME"/shell_hist
+export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=1000
+export HISTIGNORE='clear*'
+export INPUTRC="$XDG_CONFIG_HOME"/inputrc
 export LESSHISTFILE="$XDG_CACHE_HOME"/less_hist
 export NVIM_LOG_FILE="$XDG_CACHE_HOME"/nvim/messages_log
 export PULSE_COOKIE="$XDG_CACHE_HOME"/pulse-cookie

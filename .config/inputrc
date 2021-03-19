@@ -1,0 +1,19 @@
+# -------------------
+# GNU READLINE CONFIG
+# -------------------
+
+set editing-mode vi
+set keyseq-timeout 10
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[2 q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
+Control-l: clear-screen
+Control-]: vi-movement-mode
+
+# Completion
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set menu-complete-display-prefix on
+"\e[Z": menu-complete-backward
+TAB: menu-complete
+

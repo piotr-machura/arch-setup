@@ -23,6 +23,7 @@ alias htop='echo -ne "\e]0;htop\a";htop'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules" --prune --filelimit 50'
 alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
+alias mvn='mvn -gs $XDG_CONFIG_HOME/mvn/settings.xml'
 
 # PROMPT
 # ------
@@ -60,28 +61,3 @@ function _prompt_cmd() {
 }
 export PROMPT_COMMAND=_prompt_cmd
 export PROMPT_DIRTRIM=3
-
-# VI MODE
-# -------
-set -o vi
-bind 'set keyseq-timeout 10'
-# Cursor for insert/normal mode
-bind 'set show-mode-in-prompt on'
-bind 'set vi-cmd-mode-string "\1\e[2 q\2"'
-bind 'set vi-ins-mode-string "\1\e[6 q\2"'
-# Clear screen with CTRL-L
-bind -m vi-command 'Control-l: clear-screen'
-bind -m vi-insert 'Control-l: clear-screen'
-# Use CTRL-] as alias for ESC
-bind -m vi-insert 'Control-]: vi-movement-mode'
-
-# HISTORY AND COMPLETION
-# ----------------------
-export HISTCONTROL=ignoreboth:erasedups
-export HISTSIZE=1000
-export HISTIGNORE='clear*'
-bind "TAB:menu-complete"
-bind '"\e[Z":menu-complete-backward' # Shift-tab
-bind "set show-all-if-ambiguous on"
-bind "set completion-ignore-case on"
-bind "set menu-complete-display-prefix on"
