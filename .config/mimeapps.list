@@ -27,6 +27,7 @@ application/pdf=firefox.desktop;
 application/msword=abiword.desktop;
 application/x-compressed-tar=xarchiver.desktop;
 application/vnd.oasis.opendocument.spreadsheet=gnumeric.desktop;
+application/x-java-archive=java-java11-openjdk.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop

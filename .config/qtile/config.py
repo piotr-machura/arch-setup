@@ -22,8 +22,6 @@ def autostart():
         qtile.cmd_spawn(process)
 
 
-wmname = 'Qtile'
-
 # KEYBINDINGS
 # -----------
 win = 'mod4'
@@ -226,3 +224,8 @@ screens = [
         ),
     ),
 ]
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits. We choose LG3D to maximize irony: it is a 3D
+# non-reparenting WM written in java that happens to be on java's whitelist.
+wmname = 'LG3D'
