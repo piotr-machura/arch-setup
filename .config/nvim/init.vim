@@ -97,6 +97,7 @@ nnoremap <C-j> a<CR><ESC>
 nnoremap <C-p> <CMD>call <SID>format_buffer()<CR>
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>
 tnoremap <C-w> <C-\><C-n>
+tnoremap <C-\> <C-\><C-n>
 
 noremap = <CMD>UndotreeToggle<CR>
 nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
@@ -156,7 +157,7 @@ function! _Statusline() abort
     let statusline .= '%{&readonly && &modifiable ? "\uf05e Read-only " : ""}%{&modified && &modifiable ? "\uf44d " : ""}'
     let statusline .= '[%1*%{g:actual_curwin == win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}%*'
     let statusline .= '%{g:actual_curwin != win_getid() && !empty(expand("%")) ? fnamemodify(expand("%"),":~:.") . " " : ""}'
-    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\ufc92 " : ""}%*%{g:actual_curwin != win_getid() ? "\ufc92 " : ""}%{col(".")} '
+    let statusline .= '%2*%{g:actual_curwin == win_getid() ? "\uf061 " : ""}%*%{g:actual_curwin != win_getid() ? "\uf061 " : ""}%{col(".")} '
     let statusline .= '%3*%{g:actual_curwin == win_getid() ? "\uf1dd " : ""}%*%{g:actual_curwin != win_getid() ? "\uf1dd " : ""}%*%l] %<'
     return statusline
 endfunction

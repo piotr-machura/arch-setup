@@ -34,6 +34,7 @@ linux-firmware
 maim
 man-db
 maven
+maven-bash-completion-git
 meta-group-base-devel
 mousepad
 neovim-nightly-bin
