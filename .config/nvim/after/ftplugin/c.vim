@@ -1,3 +1,3 @@
 " C FTPLUGIN
 " ----------
-set formatprg=clang-format
+setlocal formatprg=clang-format
