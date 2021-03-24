@@ -34,26 +34,23 @@ function _prompt_cmd() {
     esac
     # Contruct the prompt
     prompt=""
-    # SSH connection info
-    [[ -z "$SSH_CONNECTION" ]] || ip="${SSH_CLIENT%% *}"
-    [[ -z $ip ]] || prompt="$prompt\uf817 $ip "
     # Running docker containers
     containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
-    [[ "$containers" -lt 1 ]] || prompt="$prompt\ufc29 $containers "
+    [[ 1 -lt "$containers" ]] && prompt="$prompt\ufc29 $containers "
     # Python virtualenv
     venv=""
-    [[ -z "$VIRTUAL_ENV" ]] || venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
-    [[ -z "$venv" ]] || prompt="$prompt\uf81f $venv "
+    [[ ! -z "$VIRTUAL_ENV" ]] && venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
+    [[ ! -z "$venv" ]] && prompt="$prompt\uf81f $venv "
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
-    [[ -z "$branch" ]] || prompt="$prompt\uf418 $branch"
+    [[ ! -z "$branch" ]] && prompt="$prompt\uf418 $branch"
     # User @ hostname, working directory
     color="\[\e[1;34m\]"
     [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"
     prompt="\[\e[1;37m\][$color\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
     # Jobs
     njobs=$(jobs | wc -l)
-    [[ "$njobs" = "0" ]] || prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
+    [[ "$njobs" != "0" ]] && prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
     # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt

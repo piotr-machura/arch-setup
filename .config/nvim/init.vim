@@ -90,7 +90,7 @@ let g:mapleader = "\<Space>"
 nnoremap Y y$
 nnoremap Q @q
 nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
-noremap <Del> "_
+noremap <BS> "_
 nnoremap [<Space> O<ESC>
 nnoremap ]<Space> o<ESC>
 nnoremap <S-Tab> <C-o>

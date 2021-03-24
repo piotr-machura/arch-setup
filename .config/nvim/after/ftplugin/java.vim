@@ -3,6 +3,6 @@
 let java_highlight_functions = 1
 let java_highlight_all = 1
 
-set wildignore+=*.class,target,bin,classes
+setlocal path=src/**
 setlocal makeprg=mvn\ clean\ compile
 setlocal errorformat=\[ERROR]\ %f:%l:\ %m,%-G%.%#

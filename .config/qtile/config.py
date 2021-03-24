@@ -54,11 +54,11 @@ keys = [
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
     Key([win], 'grave', lazy.spawn('dunstctl history-pop')),
-    Key([win, ctrl], 'grave', lazy.spawn('dunstctl close-all')),
+    Key([win, shift], 'grave', lazy.spawn('dunstctl close-all')),
     # System shortcuts
     Key([win], 'q', lazy.window.kill()),
-    Key([win, ctrl], 'r', lazy.restart()),
-    Key([win, ctrl], 'q', lazy.spawn('rofi-powermenu')),
+    Key([win, shift], 'r', lazy.restart()),
+    Key([win, shift], 'q', lazy.spawn('rofi-powermenu')),
 ]
 
 mouse = [
