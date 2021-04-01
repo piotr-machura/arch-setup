@@ -52,6 +52,7 @@ pavucontrol
 picom
 pulseaudio
 pulseaudio-alsa
+putty
 python-language-server
 python-pip
 python-pydocstyle
@@ -82,6 +83,7 @@ tumbler
 ufw
 unrar
 unzip
+vim-spell-pl
 virt-manager
 xarchiver
 xcb-util-cursor
