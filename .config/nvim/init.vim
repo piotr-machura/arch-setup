@@ -52,7 +52,6 @@ endif
 let &spellfile = stdpath('data').'/site/spell/utf-8.add'
 
 " Disable netrw
-" Note: comment this if you want to to download spellfiles
 let g:loaded_netrwPlugin = 1
 
 " Undo tree configuration
@@ -301,7 +300,6 @@ autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | endif
 augroup END
-
 
 " COLORSCHEME
 " -----------

@@ -50,6 +50,7 @@ keys = [
     Key([win], '0', lazy.layout.reset()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
+    Key([win], 'BackSpace', lazy.spawn('thunar')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
