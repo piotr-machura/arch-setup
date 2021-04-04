@@ -28,6 +28,7 @@ application/msword=abiword.desktop;
 application/x-compressed-tar=xarchiver.desktop;
 application/vnd.oasis.opendocument.spreadsheet=gnumeric.desktop;
 application/x-java-archive=java-java11-openjdk.desktop;
+video/mp4=org.xfce.Parole.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop

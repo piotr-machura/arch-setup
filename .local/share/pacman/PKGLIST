@@ -55,7 +55,6 @@ pulseaudio-alsa
 putty
 python-language-server
 python-pip
-python-pydocstyle
 python-pylint
 python-pyqt5
 python-setproctitle
@@ -70,6 +69,7 @@ rsync
 rust-analyzer
 signal-desktop
 spotify
+steam
 syncthing
 teams
 tectonic-bin

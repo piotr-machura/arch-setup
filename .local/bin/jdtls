@@ -1,3 +1,6 @@
 #!/bin/bash
 
+# Wrap jdtls to use the specified workspace
+# -----------------------------------------
+
 /usr/bin/jdtls -data "${WORKSPACE-$XDG_DATA_HOME/jdtls-workspace}" "$@"
