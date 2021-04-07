@@ -18,7 +18,6 @@ alias ping='ping -c 5'
 alias mvn='mvn -gs $XDG_CONFIG_HOME/mvn/settings.xml'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules|target" --prune --filelimit 50'
-alias tags='ctags -R --exclude=.git --exclude=.venv --exclude=__pycache__ *'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias activate='source $PWD/.venv/bin/activate'

@@ -154,6 +154,7 @@ floating_layout = layout.Floating(
         Match(wm_class='gsimplecal'),
         Match(wm_class='qalculate-gtk'),
         Match(wm_class='Places'),    # Firefox history/downloads
+        Match(title="Customize Chart"), # Gnumeric
     ],
     **theme_layout,
 )

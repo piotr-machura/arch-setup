@@ -12,7 +12,8 @@ bluez
 bluez-utils
 bridge-utils
 clang
-ctags
+docker
+docker-compose
 dunst
 exif
 firefox
@@ -52,6 +53,7 @@ pavucontrol
 picom
 pulseaudio
 pulseaudio-alsa
+pulseaudio-bluetooth
 putty
 python-language-server
 python-pip
