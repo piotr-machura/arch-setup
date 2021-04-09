@@ -8,9 +8,6 @@ export PAGER='less'
 export TERMINAL='alacritty -e'
 export BROWSER='firefox'
 
-# Use pip only for virtualenvs
-export PIP_REQUIRE_VIRTUALENV=true
-
 # XDG BASE DIRECTORY SPECIFICATION
 # --------------------------------
 export XDG_CONFIG_HOME="$HOME"/.config
@@ -68,6 +65,12 @@ export PATH=$HOME/.local/bin:$PATH
 # Mitigate hardcoded ligthdm errorfile
 export ERRFILE=/dev/null
 rm --force "$HOME"/.xsession-errors* &> /dev/null
+
+# Use pip only for virtualenvs
+export PIP_REQUIRE_VIRTUALENV=true
+
+# Use GTK theme in Qt programs
+export QT_QPA_PLATFORMTHEME=gtk2
 
 export DOTPROFILE_LOADED=1
 source "$HOME/.bashrc"

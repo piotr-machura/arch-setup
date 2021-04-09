@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Virtmanager
-Comment=Manage virtual machines
-Icon=virt-manager
-Exec=virt-manager
-Type=Application
-Terminal=false
-Categories=System;

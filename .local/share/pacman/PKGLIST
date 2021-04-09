@@ -7,10 +7,8 @@ avr-libc
 avrdude
 base
 bash-completion
-bind
 bluez
 bluez-utils
-bridge-utils
 clang
 docker
 docker-compose
@@ -27,6 +25,7 @@ gst-libav
 gst-plugins-ugly
 gvfs
 htop
+inetutils
 inkscape
 jdtls
 light-locker
@@ -44,7 +43,6 @@ neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
 networkmanager
-nmap
 noto-fonts-emoji
 papirus-icon-theme
 parole
@@ -61,7 +59,7 @@ python-pylint
 python-pyqt5
 python-setproctitle
 qalculate-gtk
-qemu
+qt5-styleplugins
 qtile
 ristretto
 rmtrash
@@ -87,7 +85,6 @@ unrar
 unzip
 vim-spell-en
 vim-spell-pl
-virt-manager
 xarchiver
 xcb-util-cursor
 xclip
