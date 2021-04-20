@@ -23,6 +23,7 @@ gnuplot
 gsimplecal
 gst-libav
 gst-plugins-ugly
+gtk-engines
 gvfs
 htop
 inetutils
@@ -42,8 +43,10 @@ neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
+net-tools
 networkmanager
 noto-fonts-emoji
+obs-studio
 papirus-icon-theme
 parole
 paru-bin
@@ -74,6 +77,7 @@ syncthing
 teams
 tectonic-bin
 thunar
+thunar-media-tags-plugin
 thunar-volman
 tidy
 tk
