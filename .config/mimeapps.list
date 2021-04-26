@@ -1,5 +1,5 @@
 [Added Associations]
-text/plain=abiword.desktop;mousepad.desktop;
+text/plain=abiword.desktop;mousepad.desktop;gnumeric.desktop;
 application/zip=xarchiver.desktop;
 image/svg+xml=ristretto.desktop;
 image/png=gimp.desktop;ristretto.desktop;pinta.desktop;
@@ -30,11 +30,12 @@ application/vnd.oasis.opendocument.spreadsheet=gnumeric.desktop;
 application/x-java-archive=java-java11-openjdk.desktop;
 video/mp4=org.xfce.Parole.desktop;
 video/x-matroska=org.xfce.Parole.desktop;
+text/x-csrc=mousepad.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
 image/svg+xml=ristretto.desktop
-text/plain=mousepad.desktop
+text/plain=gnumeric.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop
 text/html=firefox.desktop
 application/x-ipynb+json=jupyter-notebook.desktop;

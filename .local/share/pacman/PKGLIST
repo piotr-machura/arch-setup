@@ -9,7 +9,6 @@ base
 bash-completion
 bluez
 bluez-utils
-clang
 docker
 docker-compose
 dunst
@@ -26,6 +25,7 @@ gst-plugins-ugly
 gtk-engines
 gvfs
 htop
+indent
 inetutils
 inkscape
 jdtls
@@ -45,6 +45,7 @@ nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
 net-tools
 networkmanager
+nmap
 noto-fonts-emoji
 obs-studio
 papirus-icon-theme
