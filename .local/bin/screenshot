@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 # MAIM SCREENSHOT WRAPPER
 # -----------------------
 # Use maim to take a screenshot and push
 # an interactive notification with dunstify
+
 
 screenshot_id=$(date +%s)
 screenshot_dir="$HOME/Pictures/screenshots"
@@ -12,19 +13,19 @@ file_path="$screenshot_dir/screenshot_$screenshot_id.png"
 
 icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
 
+echo "$file_path"
 if [ -z $1 ]; then
-    maim --select --highlight --bordersize=5 --color=0.9215,0.7906,0.5450,0.15 \
-        --hidecursor "$file_path" && \
-            action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
-                --raw_icon="$icon_path" --action="open,open")
+    maim --format png --select --highlight --bordersize=5 --color=0.9215,0.7906,0.5450,0.15 \
+        --hidecursor "$file_path"
 elif [ "$1" = "full" ]; then
-    maim $file_path && \
-        action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
-            --raw_icon="$icon_path" --action="open,open")
+    maim --format png $file_path
 else
     echo "Unknown option: $1"
     exit 1
 fi
+xclip -selection clipboard -t image/png -i $file_path
+action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
+    --raw_icon="$icon_path" --action="open,open")
 
 if [ "$action" = "open" ]; then
     exo-open $file_path
