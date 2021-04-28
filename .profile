@@ -66,6 +66,9 @@ export PATH=$HOME/.local/bin:$PATH
 export ERRFILE=/dev/null
 rm --force "$HOME"/.xsession-errors* &> /dev/null
 
+# Use custom sudo prompt
+export SUDO_PROMPT="Password: "
+
 # Use pip only for virtualenvs
 export PIP_REQUIRE_VIRTUALENV=true
 
