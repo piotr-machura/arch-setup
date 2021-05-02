@@ -43,5 +43,5 @@ require'lspconfig'.rust_analyzer.setup {
 -- Java language server
 require'lspconfig'.jdtls.setup {
     on_attach = attach;
-    cmd = {'sh', '-c', 'jdtls -data "$XDG_DATA_HOME-$HOME/.local/share"/jdtls-workspace'};
+    cmd = {'sh', '-c', 'jdtls -data "${XDG_DATA_HOME-$HOME/.local/share}"/jdtls-workspace'};
 }
