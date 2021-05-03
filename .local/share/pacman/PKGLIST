@@ -25,9 +25,11 @@ gst-plugins-ugly
 gtk-engines
 gvfs
 htop
+imagej
 indent
 inetutils
 inkscape
+jdk11-openjdk
 jdtls
 light-locker
 lightdm-mini-greeter
