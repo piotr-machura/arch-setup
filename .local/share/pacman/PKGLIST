@@ -32,6 +32,7 @@ inetutils
 inkscape
 jdk11-openjdk
 jdtls
+l3afpad
 light-locker
 lightdm-mini-greeter
 linux
@@ -41,7 +42,6 @@ man-db
 maven
 maven-bash-completion-git
 meta-group-base-devel
-mousepad
 neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
