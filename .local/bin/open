@@ -5,11 +5,11 @@
 # Wrap exo-open to get rid of output
 
 # Open cwd in file manager if no arguments provided
-[[ $# = 0 ]] && exo-open $(pwd) &> /dev/null &
+[[ $# = 0 ]] && exo-open "$(pwd)" &> /dev/null &
 
-for arg in $@; do
+for arg in "$@"; do
     if [[ -f "$arg" ]] || [[ -d "$arg" ]]; then
-        exo-open $arg &> /dev/null &
+        exo-open "$arg" &> /dev/null &
         disown
     else
         echo "Not a file or directory: $arg"

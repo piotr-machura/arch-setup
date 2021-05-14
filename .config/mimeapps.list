@@ -1,5 +1,5 @@
 [Added Associations]
-text/plain=l3afpad.desktop;abiword.desktop;
+text/plain=abiword.desktop;
 application/zip=xarchiver.desktop;
 image/svg+xml=ristretto.desktop;
 image/png=gimp.desktop;ristretto.desktop;pinta.desktop;

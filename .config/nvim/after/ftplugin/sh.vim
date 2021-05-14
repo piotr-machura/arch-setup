@@ -1,0 +1,3 @@
+" BASH FTPLUGIN
+" -------------
+compiler shellcheck

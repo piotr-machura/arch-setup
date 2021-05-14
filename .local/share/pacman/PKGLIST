@@ -37,6 +37,7 @@ light-locker
 lightdm-mini-greeter
 linux
 linux-firmware
+linux-lts
 maim
 man-db
 maven
@@ -74,11 +75,13 @@ rofi
 root
 rsync
 rust-analyzer
+shellcheck-bin
 signal-desktop
 spotify
 sqlitebrowser
 steam
 syncthing
+systemd-boot-pacman-hook
 teams
 tectonic-bin
 thunar
