@@ -37,7 +37,7 @@ application/gzip=xarchiver.desktop;
 application/dicom=imagej.desktop;gimp.desktop;
 text/markdown=l3afpad.desktop;
 audio/x-wav=org.xfce.Parole.desktop;
-application/x-ipynb+json=userapp-ipnb-6NCT30.desktop;
+application/x-ipynb+json=l3afpad.desktop;ipnb.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
