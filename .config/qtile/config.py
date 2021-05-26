@@ -17,6 +17,7 @@ def autostart():
         'picom --daemon',
         'syncthing -no-browser',
         'light-locker',
+        'unclutter --fork -timeout 15',
     ]
     for process in processes:
         qtile.cmd_spawn(process)

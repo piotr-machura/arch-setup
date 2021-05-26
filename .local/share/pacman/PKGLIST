@@ -32,6 +32,7 @@ inetutils
 inkscape
 jdk11-openjdk
 jdtls
+jupyter-notebook
 l3afpad
 light-locker
 lightdm-mini-greeter
@@ -62,6 +63,8 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 putty
 python-language-server
+python-matplotlib
+python-pandas
 python-pip
 python-pylint
 python-pyqt5
@@ -92,6 +95,7 @@ tree
 ttf-ms-fonts
 tumbler
 ufw
+unclutter
 unrar
 unzip
 vim-spell-en

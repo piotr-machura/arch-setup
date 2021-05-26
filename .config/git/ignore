@@ -5,4 +5,5 @@
 __pycache__
 .venv
 .vim
+.ipynb_checkpoints
 tags

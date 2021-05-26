@@ -111,20 +111,16 @@ mouse_bindings:
   - { mouse: Middle, action: None}
 
 key_bindings:
-  - { key: Return,  mods: Control,        action: SpawnNewInstance   }
-  - { key: Equals,  mods: Control|Alt,    action: IncreaseFontSize   }
-  - { key: Minus,   mods: Control|Alt,    action: DecreaseFontSize   }
-  - { key: Key0,    mods: Control|Alt,    action: ResetFontSize      }
-  - { key: U,       mods: Control|Shift,  action: ScrollHalfPageUp   }
-  - { key: D,       mods: Control|Shift,  action: ScrollHalfPageDown }
-  - { key: V,       mods: Control|Shift,  action: Paste              }
-  - { key: C,       mods: Control|Shift,  action: Copy               }
+  - { key: Return,    mods: Control,        action: SpawnNewInstance   }
+  - { key: Equals,    mods: Control,        action: IncreaseFontSize   }
+  - { key: Minus,     mods: Control,        action: DecreaseFontSize   }
+  - { key: Key0,      mods: Control,        action: ResetFontSize      }
+  - { key: U,         mods: Control|Shift,  action: ScrollHalfPageUp   }
+  - { key: D,         mods: Control|Shift,  action: ScrollHalfPageDown }
+  - { key: V,         mods: Control|Shift,  action: Paste              }
+  - { key: C,         mods: Control|Shift,  action: Copy               }
   # Disable default keybindings
   - { key: Space,   mods: Control|Shift,  action: ReceiveChar }
   - { key: F,       mods: Control|Shift,  action: ReceiveChar }
   - { key: B,       mods: Control|Shift,  action: ReceiveChar }
   - { key: Insert,  mods: Shift,          action: ReceiveChar }
-  - { key: Key0,    mods: Control,        action: ReceiveChar }
-  - { key: Equals,  mods: Control,        action: ReceiveChar }
-  - { key: Plus,    mods: Control,        action: ReceiveChar }
-  - { key: Minus,   mods: Control,        action: ReceiveChar }
