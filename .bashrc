@@ -20,7 +20,7 @@ alias htop='echo -ne "\e]0;htop\a";htop'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules|target" --prune --filelimit 50'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
-alias jpkill='killall jupyter-notebook && echo "Shutdown all jupyter kernels"'
+alias nbkill='killall jupyter-notebook && echo "Shutdown all jupyter kernels"'
 alias activate='source $PWD/.venv/bin/activate'
 alias pkgclean='paru -Rns $(paru -Qdtq --noconfirm); paru -Scc'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
@@ -34,6 +34,12 @@ function _prompt_cmd() {
     esac
     # Contruct the prompt
     prompt=""
+    # Running docker containers
+    containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
+    [[ 0 -lt "$containers" ]] && prompt="$prompt\uf308 $containers "
+    # Running jupyter notebooks
+    notebooks=$(("$(ps -C jupyter-notebook 2>/dev/null | wc -l)" - 1))
+    [[ 0 -lt "$notebooks" ]] && prompt="$prompt\uf02d $notebooks "
     # Python virtualenv
     venv=""
     [[ ! -z "$VIRTUAL_ENV" ]] && venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
@@ -41,12 +47,6 @@ function _prompt_cmd() {
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
     [[ ! -z "$branch" ]] && prompt="$prompt\uf418 $branch "
-    # Running docker containers
-    containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
-    [[ 0 -lt "$containers" ]] && prompt="$prompt\uf308 $containers "
-    # Running jupyter notebooks
-    notebooks=$(("$(ps -C jupyter-notebook 2>/dev/null | wc -l)" - 1))
-    [[ 0 -lt "$notebooks" ]] && prompt="$prompt\uf02d $notebooks "
     # User @ hostname, working directory
     color="\[\e[1;34m\]"
     [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"

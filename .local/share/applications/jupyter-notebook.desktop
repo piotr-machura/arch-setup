@@ -2,7 +2,7 @@
 Name=Jupyter Notebook
 Comment=Run Jupyter Notebook
 Exec=jupyter-notebook
-Terminal=true
+Terminal=false
 Type=Application
 Icon=notebook
 StartupNotify=true

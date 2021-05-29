@@ -37,7 +37,7 @@ application/gzip=xarchiver.desktop;
 application/dicom=imagej.desktop;gimp.desktop;
 text/markdown=l3afpad.desktop;
 audio/x-wav=org.xfce.Parole.desktop;
-application/x-ipynb+json=l3afpad.desktop;ipnb.desktop;
+application/x-ipynb+json=l3afpad.desktop;jupyter-notebook.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop
@@ -45,7 +45,7 @@ image/svg+xml=ristretto.desktop
 text/plain=l3afpad.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop
 text/html=firefox.desktop
-application/x-ipynb+json=ipnb.desktop
+application/x-ipynb+json=jupyter-notebook.desktop
 application/xml=l3afpad.desktop;
 inode/directory=thunar.desktop;
 application/x-shellscript=l3afpad.desktop;
