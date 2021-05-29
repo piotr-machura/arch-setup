@@ -27,7 +27,7 @@ alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $X
 
 # PROMPT
 # ------
-function _prompt_cmd() {
+function _prompt_fn() {
     # Set window title
     case $TERM in
         xterm*) echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a" ;;
@@ -42,11 +42,11 @@ function _prompt_cmd() {
     [[ 0 -lt "$notebooks" ]] && prompt="$prompt\uf02d $notebooks "
     # Python virtualenv
     venv=""
-    [[ ! -z "$VIRTUAL_ENV" ]] && venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
-    [[ ! -z "$venv" ]] && prompt="$prompt\uf81f $venv "
+    [[ -n "$VIRTUAL_ENV" ]] && venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
+    [[ -n "$venv" ]] && prompt="$prompt\uf81f $venv "
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
-    [[ ! -z "$branch" ]] && prompt="$prompt\uf418 $branch "
+    [[ -n "$branch" ]] && prompt="$prompt\uf418 $branch "
     # User @ hostname, working directory
     color="\[\e[1;34m\]"
     [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"
@@ -57,7 +57,8 @@ function _prompt_cmd() {
     # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt
-    export PS1="$(echo -e "$prompt")"
+    PS1="$(echo -e "$prompt")"
+    export PS1
 }
-export PROMPT_COMMAND=_prompt_cmd
-export PROMPT_DIRTRIM=3
+export PROMPT_COMMAND=_prompt_fn
+export PROMPT_DIRTRIM=2

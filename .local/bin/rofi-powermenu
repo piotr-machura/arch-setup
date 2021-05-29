@@ -30,10 +30,10 @@ chosen="$(echo -e "$options" | $rofi_command -dmenu -selected-row 1)"
 
 # Perform action
 case $chosen in
-    $shutdown) systemctl poweroff ;;
-    $reboot) systemctl reboot ;;
-    $lock) light-locker-command --lock ;;
-    $logout) loginctl kill-session $XDG_SESSION_ID ;;
-    $abort) exit 1 ;;
+    "$shutdown") systemctl poweroff ;;
+    "$reboot") systemctl reboot ;;
+    "$lock") light-locker-command --lock ;;
+    "$logout") loginctl kill-session "$XDG_SESSION_ID" ;;
+    "$abort") exit 1 ;;
 esac
 
