@@ -109,4 +109,5 @@ xorg-server
 yapf
 zathura
 zathura-pdf-mupdf
+zathura-ps
 zip
