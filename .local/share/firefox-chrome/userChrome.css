@@ -8,7 +8,6 @@
     border-radius: 0px !important;
 }
 
-/* @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); */
 
 /* TABS
    ---- */
@@ -99,6 +98,10 @@ scrollbox[part="scrollbox"][flex="1"][orient="horizontal"] {
 .bookmarks-actions-menuseparator,
 .openintabs-menuitem {
     display: none !important;
+}
+
+#contentAreaContextMenu {
+    margin: 5px !important;
 }
 
 .panel-arrowcontainer .panel-arrowcontent,

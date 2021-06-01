@@ -5,16 +5,19 @@
 
 /* New Tab -- Logo Only */
 @-moz-document url(about:newtab) {
+    html button.personalize-button,
     html div.search-inner-wrapper {
         display: none !important;
     }
 }
 @-moz-document url(about:newpage) {
+    html button.personalize-button,
     html div.search-inner-wrapper {
         display: none !important;
     }
 }
 @-moz-document url(about:home) {
+    html button.personalize-button,
     html div.search-inner-wrapper {
         display: none !important;
     }
@@ -23,6 +26,7 @@
 /* Private Window New Tab -- Logo Only */
 @-moz-document url(about:privatebrowsing) {
     html.private div.showPrivate div.search-inner-wrapper,
+    html button.personalize-button,
     html.private div.showPrivate div.info {
         display: none !important;
     }
