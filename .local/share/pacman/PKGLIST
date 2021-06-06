@@ -10,6 +10,7 @@ bash-completion
 bitwarden-bin
 bluez
 bluez-utils
+ctags
 docker
 docker-compose
 dunst

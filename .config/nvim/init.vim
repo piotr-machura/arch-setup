@@ -92,7 +92,6 @@ nnoremap ZZ <CMD>update<Bar>bdelete!<CR>
 noremap <BS> "_
 nnoremap [<Space> O<ESC>
 nnoremap ]<Space> o<ESC>
-nnoremap <S-Tab> <C-o>
 nnoremap <C-j> a<CR><ESC>
 nnoremap <C-p> <CMD>call <SID>format_buffer()<CR>
 nnoremap <C-l> <CMD>noh<Bar>call <SID>wipe_empty()<CR><C-l>

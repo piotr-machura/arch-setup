@@ -48,7 +48,6 @@ keys = [
     Key([win], 'minus', lazy.layout.shrink()),
     Key([win, shift], 'equal', lazy.layout.grow_main()),
     Key([win, shift], 'minus', lazy.layout.shrink_main()),
-    Key([win], '0', lazy.layout.reset()),
     # Program shortcuts
     Key([win], 'Return', lazy.spawn('alacritty')),
     Key([win], 'BackSpace', lazy.spawn('thunar')),
@@ -137,7 +136,7 @@ theme_layout = {
 layouts = [
     layout.MonadTall(
         new_at_current=False,
-        ratio=0.5,
+        ratio=0.55,
         max_ratio=0.85,
         min_ratio=0.15,
         change_ratio=0.05,
