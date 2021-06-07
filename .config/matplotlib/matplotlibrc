@@ -1,0 +1,4 @@
+# -----------------
+# MATPLOTLIB CONFIG
+# -----------------
+backend: Gtk3Cairo

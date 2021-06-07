@@ -152,7 +152,6 @@ floating_layout = layout.Floating(
         Match(title='pinentry'),    # GPG key password entry
         Match(wm_class='pavucontrol'),
         Match(wm_class='gsimplecal'),
-        Match(wm_class='qalculate-gtk'),
         Match(wm_class='Places'),    # Firefox history/downloads
         Match(title="Customize Chart"), # Gnumeric
     ],

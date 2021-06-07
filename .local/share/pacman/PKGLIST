@@ -20,7 +20,6 @@ gimp
 git
 github-cli
 gnumeric
-gnuplot
 gsimplecal
 gst-libav
 gst-plugins-bad
@@ -63,7 +62,7 @@ pkgstats
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
-putty
+python-cairo
 python-language-server
 python-matplotlib
 python-pandas
@@ -71,13 +70,11 @@ python-pip
 python-pylint
 python-pyqt5
 python-setproctitle
-qalculate-gtk
 qt5-styleplugins
 qtile
 ristretto
 rmtrash
 rofi
-root
 rsync
 rust-analyzer
 shellcheck-bin
@@ -101,6 +98,7 @@ unrar
 unzip
 vim-spell-en
 vim-spell-pl
+vulkan-radeon
 xarchiver
 xcb-util-cursor
 xclip
