@@ -28,7 +28,6 @@ gtk-engines
 gvfs
 htop
 indent
-inetutils
 inkscape
 jdk11-openjdk
 jdtls
@@ -48,9 +47,7 @@ neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
 nerd-fonts-noto-sans-regular-complete
-net-tools
 networkmanager
-nmap
 noto-fonts-emoji
 obs-studio
 papirus-icon-theme

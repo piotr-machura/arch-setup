@@ -23,6 +23,7 @@ scrollbox[part="scrollbox"][flex="1"][orient="horizontal"] {
 #tabs-newtab-button {
     padding: -5px !important;
 }
+
 .tab-background,
 .tab-loading-burst {
     margin: -1px !important;
