@@ -54,7 +54,7 @@ require'lspconfig'.texlab.setup {
             build = {
                 args = { "%f" },
                 executable = "tectonic",
-                isContinuous = false,
+                onSave = true,
             },
             formatterLineLength = 120,
             latexFormatter = "texlab",

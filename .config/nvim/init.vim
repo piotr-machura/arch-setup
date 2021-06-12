@@ -6,7 +6,7 @@ if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-p
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-let g:polyglot_disabled = ['ftdetect', 'texinfo']
+let g:polyglot_disabled = ['ftdetect']
 
 " PLUGINS
 " -------
