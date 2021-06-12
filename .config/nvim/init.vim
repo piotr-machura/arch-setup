@@ -6,7 +6,7 @@ if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-p
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-let g:polyglot_disabled = ['ftdetect']
+let g:polyglot_disabled = ['ftdetect', 'texinfo']
 
 " PLUGINS
 " -------
@@ -53,6 +53,7 @@ let &spellfile = stdpath('data').'/site/spell/utf-8.add'
 
 " Disable netrw
 let g:loaded_netrwPlugin = 1
+let g:tex_conceal = ""
 
 " Undo tree configuration
 let g:undotree_SetFocusWhenToggle = 1

@@ -173,7 +173,7 @@ widget_defaults = {
 
 screens = [
     Screen(
-        wallpaper='~/.local/share/backgrounds/mountains.jpg',
+        wallpaper='~/.local/share/backgrounds/forest.jpg',
         wallpaper_mode='fill',
         bottom=bar.Bar(
             size=35,
@@ -203,7 +203,7 @@ screens = [
                     markup_focused='{}',
                     markup_floating='\uf0d8  {}',
                     markup_minimized='\uf0d7  {}',
-                    border=nord_colors[2],
+                    border=nord_colors[3],
                     urgent_border=nord_colors[12],
                     spacing=0,
                     margin_y=-1,

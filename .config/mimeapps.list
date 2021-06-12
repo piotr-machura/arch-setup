@@ -1,8 +1,8 @@
 [Added Associations]
-text/plain=abiword.desktop;
+text/plain=gimp.desktop;abiword.desktop;
 application/zip=xarchiver.desktop;
 image/svg+xml=ristretto.desktop;
-image/png=ristretto.desktop;gimp.desktop;pinta.desktop;
+image/png=gimp.desktop;ristretto.desktop;pinta.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
 inode/chardevice=l3afpad.desktop;
 application/x-desktop=l3afpad.desktop;

@@ -45,3 +45,19 @@ require'lspconfig'.jdtls.setup {
     on_attach = attach;
     cmd = {'sh', '-c', 'jdtls -data "${XDG_DATA_HOME-$HOME/.local/share}"/jdtls-workspace'};
 }
+
+-- LaTeX language server
+require'lspconfig'.texlab.setup {
+    on_attach = attach;
+    settings = {
+        texlab = {
+            build = {
+                args = { "%f" },
+                executable = "tectonic",
+                isContinuous = false,
+            },
+            formatterLineLength = 120,
+            latexFormatter = "texlab",
+        }
+    }
+}
