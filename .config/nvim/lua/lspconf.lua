@@ -30,8 +30,8 @@ require'lspconfig'.pyls.setup {
                 pylint = { enabled = true },
                 pydocstyle = { enabled = false, convention = 'google' },
                 mccabe = { enabled = false },
-            }
-        }
+            };
+        };
     };
 }
 
@@ -59,5 +59,5 @@ require'lspconfig'.texlab.setup {
             formatterLineLength = 120,
             latexFormatter = "texlab",
         }
-    }
+    };
 }

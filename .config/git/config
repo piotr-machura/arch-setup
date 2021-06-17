@@ -24,3 +24,6 @@
 [commit]
     verbose = 2
     gpgsign = true
+[sendemail]
+    smtpencryption = tls
+    smtpserverport = 587

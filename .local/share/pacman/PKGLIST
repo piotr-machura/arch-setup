@@ -54,6 +54,9 @@ papirus-icon-theme
 parole
 paru-bin
 pavucontrol
+perl-authen-sasl
+perl-mime-tools
+perl-net-smtp-ssl
 picom
 pkgstats
 pulseaudio
