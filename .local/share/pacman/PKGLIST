@@ -18,7 +18,6 @@ exif
 firefox
 gimp
 git
-github-cli
 gnumeric
 go
 gopls
@@ -91,7 +90,6 @@ thunar
 thunar-media-tags-plugin
 thunar-volman
 tidy
-tk
 tree
 ttf-ms-fonts
 tumbler
