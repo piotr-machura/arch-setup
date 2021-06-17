@@ -6,22 +6,23 @@ if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-p
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-let g:polyglot_disabled = ['ftdetect']
 
 " PLUGINS
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
-Plug 'neovim/nvim-lspconfig'
+let g:polyglot_disabled = ['ftdetect']
 Plug 'sheerun/vim-polyglot'
+Plug 'neovim/nvim-lspconfig'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'mbbill/undotree'
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'junegunn/vim-peekaboo'
-Plug 'ap/vim-css-color'
 Plug 'arcticicestudio/nord-vim'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
+Plug 'dstein64/nvim-scrollview', { 'branch': 'main' }
 call plug#end()
 
 " LUA
@@ -72,7 +73,7 @@ let g:indentLine_first_char = "\u00a6"
 let g:indentLine_setConceal = 0
 let g:indentLine_bufTypeExclude = ['help', 'terminal', 'nofile', 'nowrite']
 
-"Theme configuration
+" Theme configuration
 let g:nord_uniform_diff_background = 1
 let g:nord_bold = 1
 let g:nord_italic = 1
@@ -82,6 +83,15 @@ call sign_define('LspDiagnosticsSignError', {'text':"\uf057", 'texthl':'LspDiagn
 call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDiagnosticsDefaultWarning'})
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsDefaultInformation'})
 call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
+
+" Scrollbar configuration
+let g:scrollview_auto_mouse = 0
+let g:scrollview_auto_workarounds = 1
+let g:scrollview_nvim_14040_workaround = 1
+let g:scrollview_current_only = 1
+let g:scrollview_winblend = 30
+let g:scrollview_column = 1
+let g:scrollview_hide_on_intersect = 1
 
 " MAPS
 " ----

@@ -1,5 +1,7 @@
--- LSP CONFIGURATION
--- -----------------
+-- NEOVIM LSP CONFIGURATION
+-- ------------------------
+
+-- Diagnostics
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         update_in_insert = false,
@@ -60,4 +62,9 @@ require'lspconfig'.texlab.setup {
             latexFormatter = "texlab",
         }
     };
+}
+
+-- Go language server
+require'lspconfig'.gopls.setup {
+    on_attach = attach;
 }

@@ -20,6 +20,8 @@ gimp
 git
 github-cli
 gnumeric
+go
+gopls
 gsimplecal
 gst-libav
 gst-plugins-bad
