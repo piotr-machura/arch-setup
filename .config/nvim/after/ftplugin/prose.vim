@@ -12,7 +12,6 @@ if !filereadable(&l:spellfile . '.spl')
 endif
 
 inoreabbrev <buffer> -- –
-inoreabbrev <buffer> ... …<Left><Left><Del><Right>
 
 noremap <buffer> j gj
 noremap <buffer> k gk
@@ -29,7 +28,7 @@ function! s:fix_formatting()
     silent! keepjumps %s/\n\n\n/\r\r/g
     silent! keepjumps %s/”\|„\|''\|,,/"/g
     silent! keepjumps %s/\t- \|\t― /\t– /g
-    silent! keepjumps %s/ - \| ― / – /g
+    silent! keepjumps %s/ - \| ― \| -- / – /g
     silent! keepjumps %s/[\x0]//g
     call cursor(c_line, c_col)
 endfunction

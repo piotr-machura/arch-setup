@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Icon=libreoffice-base
+Type=Application
+Categories=Office;Database;X-Red-Hat-Base;X-MandrivaLinux-MoreApplications-Databases;
+Exec=libreoffice --base %U
+MimeType=application/vnd.oasis.opendocument.database;application/vnd.sun.xml.base;
+Name=Base
+GenericName=Database Development
+Comment=Manage databases, create queries and reports to track and manage your information by using Base.
+StartupNotify=true
+Keywords=Data;SQL;
+StartupWMClass=libreoffice-base
+Hidden=true
