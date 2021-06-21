@@ -310,6 +310,7 @@ autocmd!
 autocmd VimResized * if exists('#goyo') | execute "normal \<C-W>=" | endif
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{on_visual=false, higroup="MatchParen", timeout=350}
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | endif
+autocmd BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
 augroup END
 
 " COLORSCHEME

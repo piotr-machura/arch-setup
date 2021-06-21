@@ -1,7 +1,7 @@
 [Added Associations]
 text/plain=libreoffice-writer.desktop;
 application/zip=xarchiver.desktop;
-image/svg+xml=ristretto.desktop;
+image/svg+xml=org.inkscape.Inkscape.desktop;ristretto.desktop;
 image/png=gimp.desktop;ristretto.desktop;pinta.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
 inode/chardevice=l3afpad.desktop;
@@ -41,6 +41,7 @@ application/x-ipynb+json=l3afpad.desktop;jupyter-notebook.desktop;
 application/postscript=org.pwmt.zathura-pdf-mupdf.desktop;
 image/vnd.microsoft.icon=gimp.desktop;org.inkscape.Inkscape.desktop;
 text/html=l3afpad.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop;
 
 [Default Applications]
 application/zip=xarchiver.desktop

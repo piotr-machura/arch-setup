@@ -1,9 +1,5 @@
 alacritty
 arc-gtk-theme
-aspell-pl
-avr-gcc
-avr-libc
-avrdude
 base
 bash-completion
 bitwarden-bin
@@ -26,11 +22,14 @@ gst-plugins-ugly
 gtk-engines
 gvfs
 htop
+hunspell-en_us
+hunspell-pl
 indent
 inkscape
 jdk11-openjdk
 jdtls
 jupyter-notebook
+kdenlive
 l3afpad
 libreoffice-fresh
 light-locker
