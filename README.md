@@ -6,7 +6,7 @@ This section descibes a full "dotfile installation", which should (ideally) come
 booting properly for the first time.
 
 1. Create an alias `alias dots="/usr/bin/git --git-dir=$HOME/.conifg/dots --work-tree=$HOME"`
-2. Clone the repo `git clone --single-branch --bare https://github.com/piotr-machura/arch-setup.git $HOME/.config/dots`
+2. Clone the repo `git clone --single-branch --branch dots --bare https://github.com/piotr-machura/arch-setup.git $HOME/.config/dots`
 3. Disable the showing of untracked files `dots config --local status.showUntrackedFiles no`
 4. Apply the configs `dots reset --hard`
 
