@@ -14,7 +14,7 @@ booting properly for the first time.
 configs repo directly. Feel free to `unalias dots` now.
 
 **Note 2:** the `--single-branch` option only clones the master branch, which is desireable since an accidental `git
-checkout` to the docs branch would temporarily remove all of the installed dotfiles.
+checkout` to the master branch would temporarily remove all of the installed dotfiles.
 
 ### Package installation
 I use the [paru](https://github.com/Morganamilo/paru) AUR helper to install packages from official repos and from the
