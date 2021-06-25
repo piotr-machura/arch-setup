@@ -13,7 +13,7 @@ booting properly for the first time.
 **Note:** the cloned `~/.config/git/config` contains a handy git alias, so that `git dots` will always access the
 configs repo directly. Feel free to `unalias dots` now.
 
-**Note 2:** the `--single-branch` option only clones the master branch, which is desireable since an accidental `git
+**Note 2:** the `--single-branch` option only clones the dots branch, which is desireable since an accidental `git
 checkout` to the master branch would temporarily remove all of the installed dotfiles.
 
 ### Package installation
