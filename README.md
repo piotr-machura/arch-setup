@@ -59,6 +59,7 @@ just that.
 - `bluetooth.service`
 - `ufw.service`
 - `docker.service`
+- `paccache.timer`
 
 **User** services enabled with `systemctl enable --user <service name here>` :
 
@@ -77,7 +78,8 @@ The last step is optional, but without it ufw does clutter the systemd logs quit
 The config is present in `~/.config/lightdm/lightdm-mini-greeter.conf`. We will link it to the system-wide
 location shortly, but first:
 
-**Warning:** the greeter we use is the [LightDM mini greeter](https://github.com/prikhi/lightdm-mini-greeter). It
+### Warning!
+The greeter in use is the [LightDM mini greeter](https://github.com/prikhi/lightdm-mini-greeter). It
 requires specifying the user in config file. You **have** to change the `user` field in the cloned
 `lightdm-mini-greeter.conf` or **you won't be able to log in**.
 
