@@ -52,11 +52,15 @@ keys = [
     Key([win], 'Return', lazy.spawn('alacritty')),
     Key([win], 'BackSpace', lazy.spawn('thunar')),
     Key([win], 'space', lazy.spawn('rofi -show drun')),
+    Key([win], 'w', lazy.spawn('firefox')),
+    Key([win], 's', lazy.spawn('signal-desktop')),
+    Key([win], 'm', lazy.spawn('spotify')),
+    Key([win], 'b', lazy.spawn('bitwarden')),
+    # System shortcuts
     Key([], 'Print', lazy.spawn('screenshot')),
     Key([shift], 'Print', lazy.spawn('screenshot full')),
     Key([win], 'grave', lazy.spawn('dunstctl history-pop')),
     Key([win, shift], 'grave', lazy.spawn('dunstctl close-all')),
-    # System shortcuts
     Key([win], 'q', lazy.window.kill()),
     Key([win, shift], 'r', lazy.restart()),
     Key([win, shift], 'q', lazy.spawn('rofi-powermenu')),

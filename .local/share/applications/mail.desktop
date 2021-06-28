@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Email
-Comment=Shortcut to the Fastmail inbox
-Exec=xdg-open "https://piotr-machura.com/mail"
+Comment=Shortcut to the email inbox
+Exec=xdg-open "https://mail.piotr-machura.com/"
 Icon=claws-mail
 Terminal=false

@@ -2,7 +2,8 @@
 " NEOVIM EDITOR CONFIG
 " --------------------
 
-if !filereadable(stdpath('data').'/site/autoload/plug.vim') " Auto-install vim-plug
+" Auto-install vim-plug
+if !filereadable(stdpath('data').'/site/autoload/plug.vim')
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif

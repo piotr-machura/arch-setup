@@ -31,6 +31,7 @@ jdtls
 jupyter-notebook
 kdenlive
 l3afpad
+libbsd
 libreoffice-fresh
 light-locker
 lightdm-mini-greeter
@@ -42,6 +43,7 @@ man-db
 maven
 maven-bash-completion-git
 meta-group-base-devel
+neomutt
 neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
@@ -49,6 +51,7 @@ nerd-fonts-noto-sans-regular-complete
 networkmanager
 noto-fonts-emoji
 obs-studio
+pacman-contrib
 papirus-icon-theme
 parole
 paru-bin
@@ -80,6 +83,7 @@ shellcheck-bin
 signal-desktop
 spotify
 sqlitebrowser
+steam
 syncthing
 teams
 tectonic-bin
