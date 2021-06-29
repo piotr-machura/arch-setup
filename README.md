@@ -64,12 +64,13 @@ just that.
 **User** services enabled with `systemctl enable --user <service name here>` :
 
 - `neovim-undo-cleanup.service`
+- `deluged.service`
 
 **Firewall:**
 
 1. Enable the firewall `ufw enable`.
 2. Disallow any incoming traffic `ufw default deny`.
-3. Allow for file sync `ufw allow syncthing`.
+3. Allow for file sync and torrents `ufw allow syncthing`, `ufw allow Deluge`.
 4. Disable logging `ufw logging off`.
 
 The last step is optional, but without it ufw does clutter the systemd logs quite a bit.
@@ -78,7 +79,7 @@ The last step is optional, but without it ufw does clutter the systemd logs quit
 The config is present in `~/.config/lightdm/lightdm-mini-greeter.conf`. We will link it to the system-wide
 location shortly, but first:
 
-### Warning!
+### :warning: Warning :warning:
 The greeter in use is the [LightDM mini greeter](https://github.com/prikhi/lightdm-mini-greeter). It
 requires specifying the user in config file. You **have** to change the `user` field in the cloned
 `lightdm-mini-greeter.conf` or **you won't be able to log in**.
