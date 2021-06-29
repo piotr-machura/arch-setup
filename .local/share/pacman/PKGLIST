@@ -6,6 +6,7 @@ bitwarden-bin
 bluez
 bluez-utils
 ctags
+deluge-gtk
 docker
 docker-compose
 dunst
@@ -43,7 +44,6 @@ man-db
 maven
 maven-bash-completion-git
 meta-group-base-devel
-neomutt
 neovim-nightly-bin
 neovim-symlinks
 nerd-fonts-fira-mono
