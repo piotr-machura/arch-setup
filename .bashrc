@@ -38,7 +38,7 @@ function _prompt_fn() {
     containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
     [[ 0 -lt "$containers" ]] && prompt="$prompt\ufc29 $containers "
     # Running jupyter notebooks
-    notebooks=$(("$(ps -C jupyter-notebook 2>/dev/null | wc -l)" - 1))
+    notebooks="$(pgrep jupyter | wc -l)"
     [[ 0 -lt "$notebooks" ]] && prompt="$prompt\uf02d $notebooks "
     # Python virtualenv
     venv=""

@@ -19,6 +19,7 @@ noremap <buffer> <Down> g<Down>
 noremap <buffer> <Up> g<Up>
 
 let g:indentLine_fileTypeExclude+=['prose']
+let g:Hexokinase_ftDisabled+=['prose']
 
 function! s:fix_formatting()
     let c_line = line('.')

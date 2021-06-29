@@ -85,6 +85,11 @@ call sign_define('LspDiagnosticsSignWarning', {'text':"\uf06a", 'texthl':'LspDia
 call sign_define('LspDiagnosticsSignInformation', {'text':"\uf059", 'texthl':'LspDiagnosticsDefaultInformation'})
 call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiagnosticsDefaultHint'})
 
+" Hexokinase configuration
+let g:Hexokinase_optOutPatterns = ['colour_names']
+let g:Hexokinase_termDisabled = 1
+let g:Hexokinase_ftDisabled = ['undotree', 'qf', 'man', 'cmdwin', 'peekaboo', 'diff', 'help', 'vim-plug']
+
 " Scrollbar configuration
 let g:scrollview_auto_mouse = 0
 let g:scrollview_auto_workarounds = 1
