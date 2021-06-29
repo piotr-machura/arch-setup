@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# FETCH SCRIPT
+# ------------
+# Print system info. Based on a script by @jschx
+
+host="$(cat /etc/hostname)"
+os='Arch Linux'
+kernel="$(uname -sr)"
+packages="$(pacman -Q | wc -l)"
+shell="$(basename "${SHELL}")"
+editor="$EDITOR"
+ui="$(basename "$DESKTOP_SESSION")"
+current_date="$(date --iso-8601)"
+
+if [ -x "$(command -v tput)" ]; then
+    bold="$(tput bold)"
+    black="$(tput setaf 0)"
+    red="$(tput setaf 1)"
+    green="$(tput setaf 2)"
+    yellow="$(tput setaf 3)"
+    blue="$(tput setaf 4)"
+    magenta="$(tput setaf 5)"
+    cyan="$(tput setaf 6)"
+    white="$(tput setaf 7)"
+    reset="$(tput sgr0)"
+fi
+
+lc="${reset}${bold}${white}"    # labels
+nc="${reset}${bold}${blue}"     # user and hostname
+ic="${reset}"                   # info
+
+cat <<EOF
+
+    ${nc}${USER}@${host}${reset}
+    ${lc}os:        ${ic}${os}${reset}
+    ${lc}kernel:    ${ic}${kernel}${reset}
+    ${lc}packages:  ${ic}${packages}${reset}
+    ${lc}shell:     ${ic}${shell}${reset}
+    ${lc}wm:        ${ic}${ui}${reset}
+    ${lc}editor:    ${ic}${editor}${reset}
+    ${lc}date:      ${ic}${current_date}${reset}
+
+EOF
+echo -n "    "
+for BG in 40m 41m 42m 43m 44m 45m 46m 47m; do
+    echo -en "\033[$BG    \033[0m"
+done
+echo -e "\n"
