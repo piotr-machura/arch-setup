@@ -60,11 +60,11 @@ just that.
 - `ufw.service`
 - `docker.service`
 - `paccache.timer`
+- `deluged.service`
 
 **User** services enabled with `systemctl enable --user <service name here>` :
 
 - `neovim-undo-cleanup.service`
-- `deluged.service`
 
 **Firewall:**
 
