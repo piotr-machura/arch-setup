@@ -4,7 +4,8 @@ are directly tracked on the "dots" branch, master is for documentation and licen
 
 ## Cloning the repository
 This section descibes a full "dotfile installation", which should (ideally) come right after installing Arch and
-booting properly for the first time. Feel free to skip it and 
+booting properly for the first time. Feel free to skip it and clone the repo normally if you just want some of the
+configuration.
 
 1. Create an alias `alias dots="/usr/bin/git --git-dir=$HOME/.conifg/dots --work-tree=$HOME"`
 2. Clone the repo `git clone --single-branch --branch dots --bare https://github.com/piotr-machura/arch-setup.git $HOME/.config/dots`
