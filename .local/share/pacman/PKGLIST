@@ -22,14 +22,13 @@ gst-plugins-bad
 gst-plugins-ugly
 gtk-engines
 gvfs
-htop
+htim
 hunspell-en_us
 hunspell-pl
 indent
 inkscape
 jdk11-openjdk
 jdtls
-jupyter-notebook
 kdenlive
 l3afpad
 libbsd
@@ -65,6 +64,7 @@ pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
 python-cairo
+python-jupytext
 python-language-server
 python-matplotlib
 python-pandas
@@ -86,7 +86,6 @@ sqlitebrowser
 steam
 syncthing
 systemd-boot-pacman-hook
-teams
 tectonic-bin
 texlab
 thunar

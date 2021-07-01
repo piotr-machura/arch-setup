@@ -15,6 +15,7 @@
     dots = !git --git-dir=$XDG_CONFIG_HOME/dots --work-tree=$HOME
     unstage = reset HEAD --
     list = ls-tree -r --name-only
+    pushall = !git remote | xargs -L1 git push --all
 [diff]
     tool = vimdiff
 [merge]

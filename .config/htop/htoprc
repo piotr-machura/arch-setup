@@ -4,7 +4,7 @@
 
 fields=0 48 2 46 39 1
 sort_key=39
-sort_direction=1
+sort_direction=-1
 tree_sort_key=0
 tree_sort_direction=1
 hide_kernel_threads=1

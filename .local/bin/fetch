@@ -27,8 +27,15 @@ if [ -x "$(command -v tput)" ]; then
 fi
 
 lc="${reset}${bold}${white}"    # labels
-nc="${reset}${bold}${blue}"     # user and hostname
 ic="${reset}"                   # info
+
+# User and hostname
+if [[ "$UID" = "0" ]]; then
+    nc="${reset}${bold}${yellow}"
+else
+    nc="${reset}${bold}${blue}"
+fi
+
 
 cat <<EOF
 
