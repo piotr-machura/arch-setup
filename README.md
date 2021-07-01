@@ -1,9 +1,10 @@
 # Arch setup
-This is a repository containing the configuration of my personal Arch Linux system.
+This is a repository containing the configuration of my personal Arch Linux system. The changes to  my home directory
+are directly tracked on the "dots" branch, master is for documentation and license only.
 
 ## Cloning the repository
 This section descibes a full "dotfile installation", which should (ideally) come right after installing Arch and
-booting properly for the first time.
+booting properly for the first time. Feel free to skip it and 
 
 1. Create an alias `alias dots="/usr/bin/git --git-dir=$HOME/.conifg/dots --work-tree=$HOME"`
 2. Clone the repo `git clone --single-branch --branch dots --bare https://github.com/piotr-machura/arch-setup.git $HOME/.config/dots`
@@ -17,33 +18,26 @@ configs repo directly. Feel free to `unalias dots` now.
 checkout` to the master branch would temporarily remove all of the installed dotfiles.
 
 ### Package installation
-I use the [paru](https://github.com/Morganamilo/paru) AUR helper to install packages from official repos and from the
-AUR. It needs to be first installed the "traditional", `makepkg` way.
-
-1. Clone the PKGBUILD `git clone https://aur.archlinux.org/paru-bin.git`.
-2. cd into the `paru-bin` and run `makepkg -si`.
-3. Verify installation `paru -Syyyy`.
-
 The cloned repo contains a list of packages located in `~/.local/share/pacman/PKGLIST` and we will use it to download
-them all at once.
+them all at once. Make sure the "multilib" repository and paralel downloads are enabled in `/etc/pacman.conf`.
 
 1. Obtain the gpg key needed for Spotify `curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -`.
 2. Install the packages `paru -S --needed - < ~/.local/share/pacman/PKGLIST`.
 
-### Pacman hooks
-Link the included pacman hooks to the system-wide location by creating an appropriate directory`sudo mkdir
+### Pacman
+Link the included pacman hooks to the system-wide location by creating an appropriate directory `sudo mkdir
 /etc/pacman.d/hooks/` and linking the hooks `sudo ln -f ~/.local/share/pacman/hooks/* /etc/pacman.d/hooks`. The hooks
-also require that `sudo` knows where the user's `$HOME` is. This can be enabled in the sudoers file.
+also require that user's `$HOME` is kept when executing commands as root. This can be enabled in the sudoers file.
 ```none
 visudo
 ------
 
 Defaults env_keep += "HOME"
 ```
-**or, alternatively** change the root's home directory to your user's in the `/etc/passwd` with `vipw`.
+**or**, alternatively the root's home directory can be changed to your user's in the `/etc/passwd` using `vipw`.
 
 **Important note:** hard links do not work well across partitions, so if your `/home` is on a different drive just copy the hooks
-instead. Also, **do not** change root's home to anything that is on a **different partition** than the root (`/`)partition.
+instead. Also, **do not** change root's home to anything that is on a **different partition** than the root (`/`) partition.
 
 **Note:** the `package-list.hook` contains some exceptions to the packages being tracked (microcode, video drivers
 etc.). Examine it and you'll quickly figure out how to exclude additional ones.
