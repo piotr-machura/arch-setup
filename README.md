@@ -40,8 +40,12 @@ visudo
 
 Defaults env_keep += "HOME"
 ```
-**Note:** hard links do not work well across partitions, so if your `/home` is on a different drive just copy the hooks
-instead. Also, the `package-list.hook` contains some exceptions to the packages being tracked (microcode, video drivers
+**or, alternatively** change the root's home directory to your user's in the `/etc/passwd` with `vipw`.
+
+**Important note:** hard links do not work well across partitions, so if your `/home` is on a different drive just copy the hooks
+instead. Also, **do not** change root's home to anything that is on a **different partition** than the root (`/`)partition.
+
+**Note:** the `package-list.hook` contains some exceptions to the packages being tracked (microcode, video drivers
 etc.). Examine it and you'll quickly figure out how to exclude additional ones.
 
 The list contains a nice meta-package which groups all of the base-devel utilities as its dependency after doing
