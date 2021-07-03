@@ -23,6 +23,7 @@ alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment a
 alias nbkill='killall jupyter-notebook && echo "Shutdown all jupyter kernels"'
 alias activate='source $PWD/.venv/bin/activate'
 alias pkgclean='paru -Rns $(paru -Qdtq --noconfirm); paru -Scc'
+alias pyhttp='python3 -m http.server --directory'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
 
 # PROMPT
