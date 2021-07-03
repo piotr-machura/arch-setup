@@ -15,18 +15,21 @@ configuration.
 **Note:** the cloned `~/.config/git/config` contains a handy git alias, so that `git dots` will always access the
 configs repo directly. Feel free to `unalias dots` now.
 
-**Note 2:** the `--single-branch` option only clones the dots branch, which is desireable since an accidental `git
+**Note 2:** the `--single-branch` option only clones the "dots" branch, which is desireable since an accidental `git
 checkout` to the master branch would temporarily remove all of the installed dotfiles.
 
 ### Package installation
-The cloned repo contains a list of packages located in `~/.local/share/pacman/PKGLIST` and we will use it to download
-them all at once. Make sure the "multilib" repository and paralel downloads are enabled in `/etc/pacman.conf`.
+Make sure the "multilib" repository and paralel downloads are enabled in `/etc/pacman.conf`.
 
+The cloned repo contains a list of official packages located in `~/.local/share/pacman/pkg.txt` and a list of AUR
+packages in `~/.local/share/pacman/aur.txt`. 
+
+1. Install official packages  `pacman -S --needed - < ~/.local/share/pacman/pkg.txt`
 1. Obtain the gpg key needed for Spotify `curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -`.
-2. Install the packages `paru -S --needed - < ~/.local/share/pacman/PKGLIST`.
+2. Install AUR packages usign your favourite AUR helper `paru -S --needed - < ~/.local/share/pacman/aur.txt`.
 
 ### Pacman
-Link the included pacman hooks to the system-wide location by creating an appropriate directory `sudo mkdir
+Enable the included pacman hooks to the system-wide location by creating an appropriate directory `sudo mkdir
 /etc/pacman.d/hooks/` and linking the hooks `sudo ln -f ~/.local/share/pacman/hooks/* /etc/pacman.d/hooks`. The hooks
 also require that user's `$HOME` is kept when executing commands as root. This can be enabled in the sudoers file.
 ```none
@@ -78,7 +81,7 @@ The last step is optional, but without it ufw does clutter the systemd logs quit
 The config is present in `~/.config/lightdm/lightdm-mini-greeter.conf`. We will link it to the system-wide
 location shortly, but first:
 
-### :warning: Warning :warning:
+### ⚠️  Warning ⚠️
 The greeter in use is the [LightDM mini greeter](https://github.com/prikhi/lightdm-mini-greeter). It
 requires specifying the user in config file. You **have** to change the `user` field in the cloned
 `lightdm-mini-greeter.conf` or **you won't be able to log in**.
@@ -123,9 +126,9 @@ EndSection
 ```
 
 ### Git
-We have cloned a git config under `~/.config/git/config`. It is set up to include an **identity** file, which contains our
-personal info. This way the config can be distributed without distributing all the personal info with it. Provide said
-identity file by creating
+The git config under `~/.config/git/config` is set up to include an **identity** file, which contains user's
+personal info. This way the config can be distributed without distributing sensitive data like the email address and GPG
+key ID. Provide said identity file by creating
 ```none
 ~/.config/git/id
 ----------------
@@ -202,9 +205,9 @@ The only thing to do here is to set the font to *"Fira Mono Nerd Font 11"* under
 that is note very feature rich, as there are literally 3 entries under *"Options"*. Don't get overwhelmed.
 
 ## Desktop files
-The `~/.local/share/applications` directory contains a local database of desktop entries for the program launcher and
-mime-type associations. They will be added automatically via the linked `dekstop-files.hook` pacman hook. Feel free to
-edit them or remove (effectively) by appending
+The `~/.local/share/applications` directory contains a local database of desktop entries for rofi and mime-type
+associations. They will be added automatically via the linked `dekstop-files.hook` pacman hook. Feel free to edit them
+or remove (effectively) by appending
 ```none
 ~/.local/share/applications/<entry name here>.desktop
 -----------------------------------------------------
