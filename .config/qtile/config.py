@@ -63,6 +63,7 @@ keys = [
     Key([win, shift], 'grave', lazy.spawn('dunstctl close-all')),
     Key([win], 'q', lazy.window.kill()),
     Key([win, shift], 'r', lazy.restart()),
+    Key([win, shift], 'b', lazy.hide_show_bar('bottom')),
     Key([win, shift], 'q', lazy.spawn('rofi-powermenu')),
 ]
 

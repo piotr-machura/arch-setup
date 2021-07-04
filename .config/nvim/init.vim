@@ -5,7 +5,7 @@
 " Auto-install vim-plug
 if !filereadable(stdpath('data').'/site/autoload/plug.vim')
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 " PLUGINS
@@ -36,6 +36,7 @@ set expandtab   softtabstop=4   shiftwidth=4    shiftround
 set noruler     nowrap          updatetime=500  shortmess+=cI
 set path=.,**   ignorecase      smartcase       mouse+=ar
 set hidden      undofile        undolevels=500  autowrite
+set fcs=fold:\  fdm=syntax      foldtext=_FoldText() 
 set cursorline  conceallevel=2  concealcursor=
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
@@ -243,6 +244,12 @@ function! _TitleString() abort
     else | return start . fnamemodify(expand('%'),':~:.') | endif
 endfunction
 
+function! _FoldText()
+    let line = getline(v:foldstart)
+    let foldedlinecount = v:foldend - v:foldstart + 1
+    return "\uf07d " . line . "  \uf07d (". foldedlinecount . " lines)"
+endfunction
+
 function! s:format_buffer() abort
     let c_line = line('.')
     let c_col = col('.')
@@ -292,7 +299,7 @@ autocmd FileType * if !empty(&buftype)
     \ | setlocal statusline=%=%{_SpecialStatusline()}%=
     \ | endif
 autocmd FileType qf execute "normal 6\<C-w>_"
-autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o nofoldenable
 augroup END
 
 augroup colors
@@ -305,6 +312,7 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight User2 cterm=bold gui=bold ctermbg=None ctermfg=4 guibg=None guifg=#88C0D0
     \ | highlight User3 cterm=bold gui=bold ctermbg=None ctermfg=2 guibg=None guifg=#A3BE8C
     \ | highlight StatusLineNC cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
+    \ | highlight Folded cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
     \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
     \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
     \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation

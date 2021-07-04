@@ -20,10 +20,11 @@ alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules|ta
 alias ctags='ctags --recurse'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
-alias nbkill='killall jupyter-notebook && echo "Shutdown all jupyter kernels"'
+alias http='python3 -m http.server --directory'
+alias jpnb='(jupyter notebook &>/dev/null & disown) && echo "Opened new jupyter instance in $PWD"'
+alias jpkill='killall -w jupyter-notebook && echo "Shutdown all jupyter kernels"'
 alias activate='source $PWD/.venv/bin/activate'
 alias pkgclean='paru -Rns $(paru -Qdtq --noconfirm); paru -Scc'
-alias pyhttp='python3 -m http.server --directory'
 alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $XDG_DATA_HOME/applications | grep ".desktop")'
 
 # PROMPT
@@ -37,10 +38,10 @@ function _prompt_fn() {
     prompt=""
     # Running docker containers
     containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
-    [[ 0 -lt "$containers" ]] && prompt="$prompt\ufc29 $containers "
+    [[ "$containers" -gt 0 ]] && prompt="$prompt\ufc29 $containers "
     # Running jupyter notebooks
     notebooks="$(pgrep jupyter | wc -l)"
-    [[ 0 -lt "$notebooks" ]] && prompt="$prompt\uf02d $notebooks "
+    [[ "$notebooks" -gt 0 ]] && prompt="$prompt\uf02d $notebooks "
     # Python virtualenv
     venv=""
     [[ -n "$VIRTUAL_ENV" ]] && venv="$(basename "$(dirname "$VIRTUAL_ENV")")"
@@ -54,7 +55,7 @@ function _prompt_fn() {
     prompt="\[\e[1;37m\][$color\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
     # Jobs
     njobs=$(jobs | wc -l)
-    [[ "$njobs" != "0" ]] && prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
+    [[ "$njobs" -gt 0 ]] && prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
     # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt

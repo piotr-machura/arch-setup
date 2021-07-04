@@ -20,6 +20,7 @@ gst-plugins-bad
 gst-plugins-ugly
 gtk-engines
 gvfs
+htop
 hunspell-en_us
 hunspell-pl
 indent
@@ -59,6 +60,7 @@ python-pandas
 python-pip
 python-pylint
 python-pyqt5
+python-scipy
 python-setproctitle
 qtile
 ristretto

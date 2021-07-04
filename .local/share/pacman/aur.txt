@@ -1,6 +1,5 @@
 bitwarden-bin
 exif
-htim
 jdtls
 lightdm-mini-greeter
 maven-bash-completion-git
