@@ -183,6 +183,7 @@ configuration {
 }
 #element-text {
     padding: 5px 5px 4px 0px;
+    highlight: bold;
 }
 #element.selected.normal {
     background-color: @nord8;

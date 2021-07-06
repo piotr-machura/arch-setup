@@ -23,7 +23,7 @@ else
     exit 1
 fi
 xclip -selection clipboard -t image/png -i "$file_path"
-action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
+action=$(dunstify "Screenshot saved" "ID: ${screenshot_id}" \
     --raw_icon="$icon_path" --action="open,open")
 
 if [ "$action" = "open" ]; then
