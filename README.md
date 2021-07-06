@@ -138,7 +138,7 @@ key ID. Provide said identity file by creating
     email = <your email here>
     signingKey = <your GPG keyid here>
 [sendemail]
-    smtpserver = <your smtp server domain here?
+    smtpserver = <your smtp server address here>
     smtpuser = <your email here>
 ```
 While you're at it, move the current gpg directory to the desired location `mv ~/.gnupg $GNUPGHOME`.
@@ -150,9 +150,9 @@ position, geometry etc. Also I am pretty sure that (in the case of Thunar at lea
 their graphical interfaces.
 
 ### Themes and fonts
-The  UI font is Noto Sans and the mono space font is Fira Mono, both of which are [Nerd
-Fonts](https://www.nerdfonts.com/). GTK+ theme is [Arc Darker](https://github.com/horst3180/arc-theme) and icon theme is
-[Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme). The cursor theme is [Breeze
+The  UI font is Rubik and the mono space font is JetBrains Mono, both of which are supplemented with [Nerd
+Font](https://www.nerdfonts.com/) glyphs. GTK+ theme is [Arc Darker](https://github.com/horst3180/arc-theme) and icon
+theme is [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme). The cursor theme is [Breeze
 Snow](https://www.gnome-look.org/p/999927/). Set it as system-wide default by editing
 ```none
 /usr/share/icons/default/index.theme
@@ -201,7 +201,7 @@ a cursor on them and hit "Enter".  Change *"Streaming quality"* to *"Very high"*
 *"Autoplay"* and *"Show desktop notifications when song changes"*.
 
 ### Leafpad
-The only thing to do here is to set the font to *"Fira Mono Nerd Font 11"* under *"Options"*. Leafpad is a Notepad clone
+The only thing to do here is to set the font to *"JetBrains Mono Medium 11"* under *"Options"*. Leafpad is a Notepad clone
 that is note very feature rich, as there are literally 3 entries under *"Options"*. Don't get overwhelmed.
 
 ## Desktop files
