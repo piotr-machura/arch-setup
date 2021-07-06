@@ -31,7 +31,7 @@ alias menu-diff='vimdiff <(ls /usr/share/applications | grep ".desktop") <(ls $X
 # ------
 function _prompt_fn() {
     # Set window title
-    case $TERM in
+    case "$TERM" in
         xterm*) echo -ne "\e]0;\uf155 ${PWD/$HOME/'~'}\a" ;;
     esac
     # Contruct the prompt
@@ -54,8 +54,7 @@ function _prompt_fn() {
     [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"
     prompt="\[\e[1;37m\][$color\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
     # Jobs
-    njobs=$(jobs | wc -l)
-    [[ "$njobs" -gt 0 ]] && prompt="$prompt\[\e[1;33m\]\uf12a$njobs "
+    [[ "$(jobs | wc -l)" -gt 0 ]] && prompt="$prompt\[\e[1;33m\]\uf12a "
     # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
     # Set prompt
@@ -73,3 +72,7 @@ LS_COLORS="$LS_COLORS:tw=30;42:ow=34;42:st=37;44:ex=01;32"
 export LS_COLORS
 
 fetch
+
+# Load .profile
+export BASHRC_LOADED=1
+[[ -z "$DOTPROFILE_LOADED" ]] && source ~/.profile

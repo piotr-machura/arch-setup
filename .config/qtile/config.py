@@ -169,7 +169,7 @@ focus_on_window_activation = 'smart'
 # SCREENS & WIDGETS
 # -----------------
 widget_defaults = {
-    'font': 'NotoSans Nerd Font',
+    'font': 'Rubik',
     'padding': 4,
     'foreground': nord_colors[6],
     'markup': True,

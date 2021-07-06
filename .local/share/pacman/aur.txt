@@ -5,8 +5,6 @@ lightdm-mini-greeter
 maven-bash-completion-git
 meta-group-base-devel
 neovim-symlinks
-nerd-fonts-fira-mono
-nerd-fonts-noto-sans-regular-complete
 paru-bin
 python-jupytext
 qt5-styleplugins
@@ -16,4 +14,5 @@ spotify
 systemd-boot-pacman-hook
 tectonic-bin
 ttf-ms-fonts
+ttf-rubik
 xcursor-breeze

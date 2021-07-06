@@ -13,7 +13,6 @@ file_path="$screenshot_dir/screenshot_$screenshot_id.png"
 
 icon_path=/usr/share/icons/Papirus/128x128/apps/screengrab.svg
 
-echo "$file_path"
 if [ -z "$1" ]; then
     maim --format png --select --highlight --bordersize=5 --color=0.9215,0.7906,0.5450,0.15 \
         --hidecursor "$file_path"
@@ -28,5 +27,5 @@ action=$(dunstify "Screenshot saved" "ID: ${screenshot_id: -4}" \
     --raw_icon="$icon_path" --action="open,open")
 
 if [ "$action" = "open" ]; then
-    exo-open "$file_path"
+    exo-open "$(dirname $file_path)"
 fi

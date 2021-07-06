@@ -77,6 +77,8 @@ thunar-media-tags-plugin
 thunar-volman
 tidy
 tree
+ttf-jetbrains-mono
+ttf-nerd-fonts-symbols-mono
 tumbler
 ufw
 unclutter

@@ -4,9 +4,10 @@
 	<icon>utilities-terminal</icon>
 	<name>Open Terminal Here</name>
 	<unique-id>1613817232280781-1</unique-id>
-	<command>alacritty --working-directory %f</command>
-	<description>Open terminal in sleected folder</description>
+	<command>alacritty --working-directory %f -e bash -i</command>
+	<description>Open terminal in selected folder</description>
 	<patterns>*</patterns>
+	<startup-notify/>
 	<directories/>
 </action>
 </actions>

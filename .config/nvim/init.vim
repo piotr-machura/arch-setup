@@ -12,8 +12,8 @@ endif
 " -------
 call plug#begin(stdpath('data').'/vim-plug')
 let g:polyglot_disabled = ['ftdetect']
-Plug 'sheerun/vim-polyglot'
 Plug 'neovim/nvim-lspconfig'
+Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -23,7 +23,6 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'arcticicestudio/nord-vim'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
-Plug 'dstein64/nvim-scrollview', { 'branch': 'main' }
 call plug#end()
 
 " LUA
@@ -90,15 +89,6 @@ call sign_define('LspDiagnosticsSignHint', {'text' : "\uf055", 'texthl':'LspDiag
 let g:Hexokinase_optOutPatterns = ['colour_names']
 let g:Hexokinase_termDisabled = 1
 let g:Hexokinase_ftDisabled = ['undotree', 'qf', 'man', 'cmdwin', 'peekaboo', 'diff', 'help', 'vim-plug']
-
-" Scrollbar configuration
-let g:scrollview_auto_mouse = 0
-let g:scrollview_auto_workarounds = 1
-let g:scrollview_nvim_14040_workaround = 1
-let g:scrollview_current_only = 1
-let g:scrollview_winblend = 30
-let g:scrollview_column = 1
-let g:scrollview_hide_on_intersect = 1
 
 " MAPS
 " ----
@@ -330,4 +320,6 @@ augroup END
 " COLORSCHEME
 " -----------
 colorscheme nord
-set termguicolors
+if $COLORTERM == "truecolor"
+    set termguicolors
+endif

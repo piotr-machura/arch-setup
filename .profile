@@ -75,5 +75,6 @@ export PIP_REQUIRE_VIRTUALENV=true
 # Use GTK theme in Qt programs
 export QT_QPA_PLATFORMTHEME=gtk2
 
+# Load .bashrc
 export DOTPROFILE_LOADED=1
-source "$HOME/.bashrc"
+[[ -z "$BASHRC_LOADED" ]] && source "$HOME/.bashrc"

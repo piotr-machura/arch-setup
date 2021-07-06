@@ -25,17 +25,17 @@ scrolling:
 
 font:
   normal:
-    family: FiraMono Nerd Font
+    family: JetBrains Mono
     style: Medium
   bold:
-    family: FiraMono Nerd Font
-    style: Bold
+    family: JetBrains Mono
+    style: ExtraBold
   italic:
-    family: FiraMono Nerd Font Mono
-    style: Regular
+    family: JetBrains Mono
+    style: Medium Italic
   bold_italic:
-    family: FiraMono Nerd Font
-    style: Bold
+    family: JetBrains Mono
+    style: ExtraBold Italic
   size: 11.5
 
 # Nord Theme
