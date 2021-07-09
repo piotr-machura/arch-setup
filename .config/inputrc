@@ -9,6 +9,7 @@ set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 Control-l: clear-screen
 Control-[: vi-movement-mode
+Control-E: edit-and-execute-command
 
 # Completion
 set show-all-if-ambiguous on
@@ -17,4 +18,3 @@ set menu-complete-display-prefix on
 set colored-completion-prefix on
 "\e[Z": menu-complete-backward
 TAB: menu-complete
-

@@ -27,7 +27,6 @@ configuration {
     case-sensitive: false;
     cycle: true;
     eh: 1;
-    prompt: "OO";
     auto-select: false;
     parse-hosts: false;
     parse-known-hosts: true;
@@ -85,7 +84,7 @@ configuration {
     kb-ellipsize: "";
     kb-toggle-case-sensitivity: "";
     kb-toggle-sort: "";
-    kb-cancel: "Escape,Super+space,Super+q,Super+c,Super+Control+q,Super+e";
+    kb-cancel: "Escape,Super+space,Super+q,Super+c,Super+Shift+q,Super+e";
     kb-custom-1: "";
     kb-custom-2: "";
     kb-custom-3: "";
