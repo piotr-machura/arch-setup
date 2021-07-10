@@ -50,6 +50,7 @@ perl-mime-tools
 perl-net-smtp-ssl
 picom
 pkgstats
+plocate
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
@@ -67,6 +68,7 @@ ristretto
 rofi
 rsync
 rust-analyzer
+rustup
 signal-desktop
 sqlitebrowser
 steam

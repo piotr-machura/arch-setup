@@ -173,7 +173,7 @@ configuration {
     spacing: 7.5px;
 }
 #element {
-    width: 8em;
+    width: 8.1em;
     expand: false;
     text-color: @nord4;
 }

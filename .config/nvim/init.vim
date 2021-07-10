@@ -13,6 +13,7 @@ endif
 call plug#begin(stdpath('data').'/vim-plug')
 let g:polyglot_disabled = ['ftdetect']
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -28,6 +29,7 @@ call plug#end()
 " LUA
 " ---
 lua require('lspconf')
+lua require('tsconf')
 
 " SETTINGS
 " --------
@@ -303,10 +305,6 @@ autocmd ColorScheme * highlight ModeMsg cterm=bold gui=bold ctermfg=7 guifg=#ECE
     \ | highlight User3 cterm=bold gui=bold ctermbg=None ctermfg=2 guibg=None guifg=#A3BE8C
     \ | highlight StatusLineNC cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
     \ | highlight Folded cterm=bold gui=bold ctermbg=None guibg=None ctermfg=8 guifg=#4C566A
-    \ | highlight link LspDiagnosticsDefaultError LSPDiagnosticsError
-    \ | highlight link LspDiagnosticsDefaultWarning LSPDiagnosticsWarning
-    \ | highlight link LspDiagnosticsDefaultInformation LSPDiagnosticsInformation
-    \ | highlight link LspDiagnosticsDefaultHint LSPDiagnosticsHint
 augroup END
 
 augroup plugs

@@ -14,14 +14,14 @@ to the time they were taken (if availible) or last modified.
 Type 'yes' to proceed.
 EOF
 read -r confirm
-[[ "$confirm" = "yes" ]] || exit 1
+[ "$confirm" = "yes" ] || exit 1
 # We want to make sure this script is not
 # run twice to avoid creating unnecessary copies
 current_year=$(date -I)
 current_year="${current_year%%-*}"
 for num in {0..100}; do
     year=$((current_year-num))
-    if [[ -d "$year" ]]; then
+    if [ -d "$year" ]; then
         echo "Aborted: please move directory $year elsewhere."
         exit 1
     fi
@@ -32,10 +32,10 @@ for file in ./*; do
             # Check for DateTimeOriginal
             ex=$(exif -t 0x9003 -m "$file" 2>/dev/null)
             # Check for CreteDate
-            [[ -z "$ex" ]] && ex=$(exif -t 0x9004 -m "$file" 2>/dev/null)
+            [ -z "$ex" ] && ex=$(exif -t 0x9004 -m "$file" 2>/dev/null)
             # Check for ModifyDate
-            [[ -z "$ex" ]] && ex=$(exif -t 0x0132 -m "$file" 2>/dev/null)
-            if [[ -n "$ex" ]]; then
+            [ -z "$ex" ] && ex=$(exif -t 0x0132 -m "$file" 2>/dev/null)
+            if [ -n "$ex" ]; then
                 # If we found something in JPEG metadata
                 # then it becomes the new name
                 exifdate="${ex%% *}"
@@ -53,16 +53,16 @@ for file in ./*; do
             datename="$last_modified"
     esac
     extension="${file##*.}" # Keep track of the original file extension
-    [[ "$extension" = "jpeg" ]] && extension="jpg"
+    [ "$extension" = "jpeg" ] && extension="jpg"
     # Choose the right directory to put the photo in
     photoyear="${datename%%-*}"
-    [[ ! -d "$photoyear" ]] && mkdir "$photoyear"
+    [ ! -d "$photoyear" ] && mkdir "$photoyear"
     # We need to account for photos whith the same date. This
     # is done by attaching an ordinal number
     ordinal=0
     ordinal_str="000"
     # Check if a file exists. The ls allows for glob expansion
-    while [[ -n "$(ls -d "$photoyear/$datename-$ordinal_str".* 2> /dev/null)" ]]; do
+    while [ -n "$(ls -d "$photoyear/$datename-$ordinal_str".* 2> /dev/null)" ]; do
         ordinal=$((ordinal+1))
         ordinal_str=$(printf "%03d" "$ordinal")
     done

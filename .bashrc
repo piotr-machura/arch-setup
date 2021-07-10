@@ -37,21 +37,21 @@ function _prompt_fn() {
     prompt=""
     # Running docker containers
     containers=$(("$(docker container ls 2>/dev/null | wc -l)" - 1))
-    [[ "$containers" -gt 0 ]] && prompt="$prompt\ufc29 $containers "
+    [ "$containers" -gt 0 ] && prompt="$prompt\ufc29 $containers "
     # Running jupyter notebooks
     notebooks="$(pgrep jupyter | wc -l)"
-    [[ "$notebooks" -gt 0 ]] && prompt="$prompt\uf02d $notebooks "
+    [ "$notebooks" -gt 0 ] && prompt="$prompt\uf02d $notebooks "
     # Python virtualenv
-    [[ -n "$VIRTUAL_ENV" ]] &&  prompt="$prompt\uf81f $(basename "$(dirname "$VIRTUAL_ENV")") "
+    [ -n "$VIRTUAL_ENV" ] &&  prompt="$prompt\uf81f $(basename "$(dirname "$VIRTUAL_ENV")") "
     # Current git branch
     branch="$(git branch --show-current 2>/dev/null)"
-    [[ -n "$branch" ]] && prompt="$prompt\uf418 $branch "
+    [ -n "$branch" ] && prompt="$prompt\uf418 $branch "
     # Jobs
     njobs=$(jobs | wc -l)
-    [[ "$njobs" -gt 0 ]] && prompt="$prompt\[\e[1;33m\]\uf952$njobs "
+    [ "$njobs" -gt 0 ] && prompt="$prompt\[\e[1;33m\]\uf952$njobs "
     # User @ hostname, working directory
     color="\[\e[1;34m\]"
-    [[ "$UID" = "0" ]] && color="\[\e[1;33m\]"
+    [ "$UID" = "0" ] && color="\[\e[1;33m\]"
     prompt="\[\e[1;37m\][$color\u@\h \[\e[1;36m\]\w\[\e[1;37m\]] $prompt\n"
     # Dollar sign
     prompt="$prompt\[\e[32m\]\uf155\[\e[m\] "
@@ -71,6 +71,6 @@ export LS_COLORS
 
 # Load .profile
 export BASHRC_LOADED=1
-[[ -z "$DOTPROFILE_LOADED" ]] && source ~/.profile
+[ -z "$DOTPROFILE_LOADED" ] && source ~/.profile
 
 fetch
