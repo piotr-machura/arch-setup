@@ -68,7 +68,6 @@ ristretto
 rofi
 rsync
 rust-analyzer
-rustup
 signal-desktop
 sqlitebrowser
 steam
@@ -81,6 +80,7 @@ tidy
 tree
 ttf-jetbrains-mono
 ttf-nerd-fonts-symbols-mono
+ttf-roboto
 tumbler
 ufw
 unclutter

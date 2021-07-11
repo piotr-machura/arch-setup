@@ -3,9 +3,15 @@
    -------------------------- */
 /* Note: Quitefox by https://github.com/coekuss/quietfox */
 /* Note: enable toolkit.legacyUserProfileCustomizations.stylesheets in about:config */
-
+@font-face {
+    font-family: 'Rubik';
+    src: local('Rubik Regular');
+    font-weight: regular;
+    font-style: normal;
+}
 * {
     border-radius: 0px !important;
+    font-family: 'Rubik' !important;
 }
 
 
