@@ -37,7 +37,7 @@ set expandtab   softtabstop=4   shiftwidth=4    shiftround
 set noruler     nowrap          updatetime=500  shortmess+=cI
 set path=.,**   ignorecase      smartcase       mouse+=ar
 set hidden      undofile        undolevels=500  autowrite
-set fcs=fold:\  fdm=syntax      foldtext=_FoldText() 
+set fcs=fold:\  fdm=syntax      foldtext=_FoldText()
 set cursorline  conceallevel=2  concealcursor=
 set nonumber    signcolumn=yes  norelativenumber
 set splitbelow  splitright      switchbuf=usetab
@@ -112,9 +112,6 @@ noremap = <CMD>UndotreeToggle<CR>
 nnoremap - <CMD>mode<Bar>buffers<CR>:b<Space>
 nnoremap _ :find<Space>
 nnoremap + <CMD>sp<CR><CMD>term<CR><C-\><C-n><C-w>10_i
-
-nnoremap <leader>s <CMD>setlocal spell!<CR>
-nnoremap <leader>w <CMD>setlocal wrap!<CR>
 
 " Insert mode completion
 inoremap <expr> <C-Space> pumvisible() ? "\<C-e>" : "\<C-n>"

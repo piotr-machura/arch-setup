@@ -21,7 +21,7 @@ configuration {
 }
 
 #window {
-    width: 4.25%;
+    width: 78px;
     anchor: east;
     location: east;
     x-offset: 0px;

@@ -18,6 +18,8 @@ alias ping='ping -c 5'
 alias htop='echo -ne "\e]0;htop\a";htop'
 alias tree='tree --dirsfirst -aCI ".git|.cache|__pycache__|.venv|node_modules|target" --prune --filelimit 50'
 alias ctags='ctags --recurse'
+alias gdb='gdb -q'
+alias rust-gdb='rust-gdb -q'
 
 alias mkvenv='python3 -m venv .venv && echo "Created a new virtual environment at $PWD/.venv"'
 alias jpnb='(jupyter notebook &>/dev/null & disown) && echo "Opened new jupyter instance in $PWD"'

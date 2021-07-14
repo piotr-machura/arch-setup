@@ -10,6 +10,7 @@ docker
 docker-compose
 dunst
 firefox
+gdb
 gimp
 git
 go
@@ -26,7 +27,6 @@ hunspell-pl
 indent
 inkscape
 jdk11-openjdk
-kdenlive
 l3afpad
 libbsd
 libreoffice-fresh
