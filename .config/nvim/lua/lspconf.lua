@@ -23,11 +23,11 @@ local function attach(client)
 end
 
 -- Python language server
-require'lspconfig'.pyls.setup {
+require'lspconfig'.pylsp.setup {
     on_attach = attach;
-    cmd = { 'pyls' };
+    cmd = { 'pylsp' };
     settings = {
-        pyls = {
+        pylsp = {
             plugins = {
                 pylint = { enabled = true },
                 pydocstyle = { enabled = false, convention = 'google' },

@@ -15,4 +15,4 @@ Target = *
 [Action]
 Description = Updating list of installed packages...
 When = PostTransaction
-Exec = /bin/bash -c 'pacman -Qqen | grep -v "amd\|mesa\|intel\|nvidia\|radeon" > $HOME/.local/share/pacman/pkg.txt; pacman -Qqm > $HOME/.local/share/pacman/aur.txt'
+Exec = /bin/bash -c 'pacman -Qqen | grep -v "amd\|mesa\|intel\|nvidia\|radeon" > $HOME/.local/share/pacman/pkg.txt; pacman -Qqem > $HOME/.local/share/pacman/aur.txt'

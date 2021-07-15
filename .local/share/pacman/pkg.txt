@@ -55,7 +55,6 @@ pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
 python-cairo
-python-language-server
 python-matplotlib
 python-pandas
 python-pip
